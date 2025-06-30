@@ -4,7 +4,7 @@ meta_title: Branching in Git | CS Primer
 description: Learn how to create, manage, and merge branches in Git to work on features without affecting the main codebase. Essential for modern development teams in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

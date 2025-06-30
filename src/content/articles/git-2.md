@@ -4,7 +4,7 @@ meta_title: Git Basic Workflow | CS Primer
 description: Learn the fundamental Git workflow, including creating repositories, staging changes, committing, and managing branches. A must-read guide for developers in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

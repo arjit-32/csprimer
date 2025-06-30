@@ -24,7 +24,7 @@ This isn’t a *total* order, not everything has to be comparable.
 
 ## Visualizing with a Hasse Diagram
 
-A POSET is often visualized with a Hasse diagram**,** a graph where nodes (items) and edges(direct relationships without showing every indirect link) exists.
+A POSET is often visualized with a Hasse diagram, a graph where nodes (items) and edges(direct relationships without showing every indirect link) exists.
 
 Example: A set *{1,2,4,8}* , where aRb means *“a divides b”*
 

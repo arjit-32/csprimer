@@ -4,7 +4,7 @@ meta_title: Going serverless with lambda | CSPrimer
 description: Learn about serverless computing with AWS Lambda. Complete guide to microservices, event-driven applications using AWS Lambda.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

@@ -4,7 +4,7 @@ meta_title: Messaging Service using AWS SQS | CSPrimer
 description: Build your own distributed and scalable application using SQS and Lambda.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

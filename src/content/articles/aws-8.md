@@ -4,7 +4,7 @@ meta_title: Hosting a website using S3 | CS Primer
 description: Learn how to host static websites on Amazon S3, from basic setup to production-ready improvements with CloudFront and custom domains. Includes step-by-step configuration and best practices.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

@@ -4,7 +4,7 @@ meta_title: Design Philosophy & Laws | CS Primer
 description: Dive into the essential design philosophies and laws that shape user interfaces and user experiences. Learn how these principles guide product design decisions in 2025.
 author: Arjit Sharma
 series: ["ui"]
-categories: ["Product"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

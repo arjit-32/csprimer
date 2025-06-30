@@ -46,9 +46,10 @@ h6,
 }
 .active-link {
     background-color: #fb7299; 
-    color: white !important; /* White text for contrast */
-    font-weight: 500; /* Slightly bolder text */
-
+    span{
+    color: white !important; 
+    font-weight: 500; 
+    }
     svg{
       color: white !important;
     }

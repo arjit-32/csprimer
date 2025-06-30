@@ -4,7 +4,7 @@ meta_title: AWS Elastic Load Balancer for Developers | CSPrimer
 description: Build resillient applications using load balancer by AWS called Elastic load balancer. Create your own scalable application.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

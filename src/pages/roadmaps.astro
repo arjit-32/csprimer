@@ -1,0 +1,162 @@
+---
+import Shape from "@/components/Shape.astro";
+import Base from "@/layouts/Base.astro";
+import Cta from "@/partials/Cta.astro";
+
+const categories = [
+  { category: "Core-CS", label: "Core Computer Science", color: "blue" },
+  { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
+  { category: "Development", label: "Development", color: "purple" },
+  { category: "Advanced-Development", label: "Advanced Development", color: "purple" },
+  { category: "System-Design", label: "System Design", color: "red" },
+  { category: "AI-Engineering", label: "AI Engineering", color: "yellow" }
+];
+
+// Roadmap image mapping for each category
+const roadmapImages = {
+  'Core-CS': "/images/categories/1.png",
+  DSA: "/images/categories/2.png",
+  Development: "/images/categories/3.png",
+  'Advanced-Development': "/images/categories/4.png",
+  'System-Design': "/images/categories/5.png",
+  'AI-Engineering': "/images/categories/6.png",
+  all: "/images/categories/1.png" // Default for "all"
+};
+---
+
+<Base title="Roadmaps">
+  <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Roadmaps</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div class="md:col-span-4 space-y-6">
+          <div id="categoryButtons" class="space-y-3">
+            {categories.map(({ category, label, color }) => {
+              const bgColor = {
+                gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
+                purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
+                orange: "bg-orange-50 hover:bg-orange-100 text-orange-500",
+                red: "bg-red-50 hover:bg-red-100 text-red-500",
+                green: "bg-green-50 hover:bg-green-100 text-green-500",
+                yellow: "bg-yellow-50 hover:bg-yellow-100 text-yellow-500",
+                blue: "bg-blue-50 hover:bg-blue-100 text-blue-500"
+              }[color];
+            
+              return (
+                <button
+                  data-category={category}
+                  class={`category-btn w-full flex items-center rounded-lg p-3 text-left transition border ${bgColor}`}
+                >
+                  <span class="mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                  </span>
+                  <span class="font-medium text-gray-700">{label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div class="md:col-span-8">
+          <div id="roadmapGrid" class="grid grid-cols-1 gap-8">
+            <div id="roadmapContent">
+              <img
+                id="roadmapImage"
+                src="/images/categories/1.png"
+                alt="Roadmap"
+                class="max-w-full h-auto rounded-lg shadow-md object-contain"
+              />
+            </div>
+            <div id="no-results" class="hidden text-center py-10">
+              <p class="text-lg text-gray-600">No roadmap found for this category.</p>
+              <button id="showAllBtn" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
+                Show All Roadmaps
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<!-- JavaScript for Category Filtering and Roadmap Image Change -->
+<script is:inline>
+  function initCategoryButtons() {
+    const categoryButtons = document.getElementById("categoryButtons");
+    const roadmapGrid = document.getElementById("roadmapGrid");
+    const roadmapContent = document.getElementById("roadmapContent");
+    const roadmapImage = document.getElementById("roadmapImage");
+    const noResults = document.getElementById("no-results");
+
+    if (!categoryButtons || !roadmapGrid || !roadmapContent || !roadmapImage || !noResults) return;
+
+    function updateRoadmap(category) {
+      const roadmapImages = {
+        'Core-CS': "/images/categories/1.png",
+        'DSA': "/images/categories/2.png",
+        'Development': "/images/categories/3.png",
+        'Advanced-Development': "/images/categories/4.png",
+        'System-Design': "/images/categories/5.png",
+        'AI-Engineering': "/images/categories/6.png",
+        'all': "/images/categories/1.png"
+      };
+
+      roadmapContent.classList.add("opacity-0", "scale-95");
+      roadmapContent.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+
+      setTimeout(() => {
+        const imageSrc = roadmapImages[category] || "/images/categories/1.png";
+        if (imageSrc) {
+          roadmapImage.src = imageSrc;
+          roadmapImage.alt = `${category} Roadmap`;
+          roadmapContent.classList.remove("hidden");
+          noResults.classList.add("hidden");
+        } else {
+          roadmapContent.classList.add("hidden");
+          noResults.classList.remove("hidden");
+        }
+
+        roadmapContent.classList.remove("opacity-0", "scale-95");
+      }, 300);
+    }
+
+    categoryButtons.addEventListener("click", (event) => {
+      const button = event.target.closest(".category-btn");
+      if (!button) return;
+
+      document.querySelectorAll(".category-btn").forEach(btn => {
+        btn.classList.remove("border-2", "border-blue-500");
+      });
+
+      button.classList.add("border-2", "border-blue-500");
+
+      const category = button.dataset.category;
+      updateRoadmap(category);
+    });
+
+    const defaultButton = document.querySelector('[data-category="all"]');
+    if (defaultButton) defaultButton.click();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get("category");
+    if (categoryParam) {
+      const categoryButton = document.querySelector(`[data-category="${categoryParam}"]`);
+      if (categoryButton) categoryButton.click();
+    }
+
+    document.getElementById("showAllBtn").addEventListener("click", () => {
+      const allButton = document.querySelector('[data-category="all"]');
+      if (allButton) allButton.click();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initCategoryButtons);
+  document.addEventListener("astro:after-swap", initCategoryButtons);
+  window.addEventListener("load", initCategoryButtons);
+</script>

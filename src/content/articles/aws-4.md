@@ -4,7 +4,7 @@ meta_title: Access Management Made Simple | CS Primer
 description: Learn what AWS IAM (Identity and Access Management) is, how it works, and how to use it effectively as a developer. Includes real-world examples, policies, and best practices to secure your cloud resources.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---

@@ -6,7 +6,7 @@
     "subtitle": "UI/UX principles and design tools to create user-centered products.",
     "description": "This series is short, sweet and enough to bridge the gap between development and design (for developers). Together, we'll cover core UI/UX principles and apply them to real project, like a phone specification website.",
     "time": "8 articless",
-    "category": "Product",
+    "category": "Advanced-Development",
     "navbar": [
       {
         "subheading": "Foundations of UI/UX Design",
@@ -89,7 +89,7 @@
     "subtitle": "Manage multiple versions of your codebase and collaborate with others.",
     "description": "This series covers Git fundamentals, branching, merging, rebasing, conflict resolution, and collaboration using GitHub. Master workflows, best practices, and advanced techniques to streamline development and team collaboration.",
     "time": "14 articless",
-    "category": "Development-Plus",
+    "category": "Advanced-Development",
     "navbar": [
       {
         "subheading": "Introduction to Git",
@@ -167,7 +167,7 @@
     "subtitle": "Cloud fundamentals and AWS tools for building scalable apps.",
     "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using AWS services. We'll cover security, serverless, and databases with hands-on examples.",
     "time": "13 articles",
-    "category": "Development-Plus",
+    "category": "Advanced-Development",
     "navbar": [
       {
         "subheading": "Cloud Foundations",
@@ -295,6 +295,78 @@
   ]
   }
   ]
+  },  
+  "dsa": {
+    "ongoing": "On-going",
+    "title": "Data Structures and Algorithms",
+    "image": "/images/thumbnails/dsa.png",
+    "subtitle": "Build a strong foundation in algorithms and problem-solving techniques.",
+    "description": "This comprehensive series covers essential data structures and algorithmic techniques, from fundamental concepts like arrays and linked lists to advanced topics like dynamic programming and graphs. Learn how to analyze algorithms, optimize performance, and apply problem-solving.",
+    "time": "NaN",
+    "category": "DSA",
+    "navbar": [
+      {
+        "subheading": "0 to 1 (with Grokking Algorithms)",
+        "link": [
+          { "type": "articles", "url": "dsa-1", "title": "Introduction to Algorithms" },
+          { "type": "articles", "url": "dsa-2", "title": "Selection Sort" },
+          { "type": "articles", "url": "dsa-3", "title": "Recursion" },
+          { "type": "articles", "url": "dsa-4", "title": "Quicksort" },
+          { "type": "articles", "url": "dsa-5", "title": "HashTables" },
+          { "type": "articles", "url": "dsa-6", "title": "Breadth-First Search" },
+          { "type": "articles", "url": "dsa-7", "title": "Dijkstra's Algorithm" },
+          { "type": "articles", "url": "dsa-8", "title": "Greedy Algorithms" },
+          { "type": "articles", "url": "dsa-9", "title": "Dynamic Programming" }
+        ]
+      },
+      {
+        "subheading": "Foundations of Algorithm (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Analysis of Algorithms" },
+          { "type": "articles", "url": "dsa-x", "title": "Mathematics for DSA" },
+          { "type": "articles", "url": "dsa-x", "title": "Bit Manipulation" }
+        ]
+      },
+      {
+        "subheading": "Fundamental Data Structures (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Arrays" },
+          { "type": "articles", "url": "dsa-x", "title": "Hashing" },
+          { "type": "articles", "url": "dsa-x", "title": "Strings" },
+          { "type": "articles", "url": "dsa-x", "title": "Searching and Sorting" }
+        ]
+      },
+      {
+        "subheading": "Linked Data Structures (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Linked Lists" },
+          { "type": "articles", "url": "dsa-x", "title": "Stacks" },
+          { "type": "articles", "url": "dsa-x", "title": "Queues" }
+        ]
+      },
+      {
+        "subheading": "Recursion & Trees (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Recursion and Backtracking" },
+          { "type": "articles", "url": "dsa-x", "title": "Trees" },
+          { "type": "articles", "url": "dsa-x", "title": "Heaps" }
+        ]
+      },
+      {
+        "subheading": "Graph Algorithms (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Graphs" },
+          { "type": "articles", "url": "dsa-x", "title": "Greedy Algorithms" }
+        ]
+      },
+      {
+        "subheading": "Dynamic Programming & Advanced Topics (Coming Soon)",
+        "link": [
+          { "type": "articles", "url": "dsa-x", "title": "Dynamic Programming" },
+          { "type": "articles", "url": "dsa-x", "title": "Advanced Topics (Tries, Segment Trees)" }
+        ]
+      }
+    ]
   },  
   "distributed": {
     "ongoing": "false",
@@ -564,6 +636,61 @@
     }
   ]
   },
+    "os": {
+    "ongoing": "false",
+    "title": "Operating Systems",
+    "image": "/images/thumbnails/OS.png",
+    "subtitle": "Learn the interface handling your web servers",
+    "description": "We will go through all important concepts of operating systems",
+    "time": "1 day",
+    "category": "Core-CS",
+    "navbar": [
+      {
+        "subheading": "Fundamentals",
+        "link": [
+        { "type": "articles", "url": "os-1", "title": "Introduction to OS" },
+        { "type": "articles", "url": "os-2", "title": "Structure of OS"}       
+      ]
+    },
+    {
+        "subheading": "Process and Thread Managment",
+        "link": [
+        { "type": "articles", "url": "os-3", "title": "Process Management"},
+        { "type": "articles", "url": "os-9", "title": "Thread and Forks"}   
+      ]
+    },
+    {
+        "subheading": "CPU Scheduling & Synchronization",
+        "link": [
+        { "type": "articles", "url": "os-4", "title": "CPU Scheduling Algorithms"},
+        { "type": "articles", "url": "os-5", "title": "Process Synchronization"},
+        { "type": "articles", "url": "os-6", "title": "Synchronization Solutions"},
+        { "type": "articles", "url": "os-7", "title": "Classical Problems"}      
+      ]
+    },
+    {
+        "subheading": "Deadlock Handling",
+        "link": [
+        { "type": "articles", "url": "os-8", "title": "Deadlocks"}
+      ]
+    },
+    {
+        "subheading": "Memory & Disk Management",
+        "link": [
+        { "type": "articles", "url": "os-10", "title": "Memory Management"},
+        { "type": "articles", "url": "os-11", "title": "Memory Allocation Strategies"},
+        { "type": "articles", "url": "os-12", "title": "Advanced Memory Management"},
+        { "type": "articles", "url": "os-13", "title": "Disk Management"}        
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+      { "type": "articles", "url": "os-14", "title": "OS Handwritten Notes" }
+      ]
+    }
+  ]
+  }, 
   "springboot": {
     "ongoing": "false",
     "title": "Spring Boot (Archived)",

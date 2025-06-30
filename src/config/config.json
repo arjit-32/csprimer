@@ -18,12 +18,12 @@
   },
 
   "call_to_action": {
-  "title": "Let’s Create Something Cool!",
-  "description": "Got an idea? Let’s bring it to life. Whether it’s tech, design, or just a good chat - I’m always open.",
+  "title": "Need help ? Lets Chat !",
+  "description": "Whether it’s tech, design, or just a problem you're stuck on, I’m here to help !",
   "button": {  
-    "label1": "Connect on LinkedIn",  
+    "label1": "Reach Out on LinkedIn",  
     "link1": "https://www.linkedin.com/in/arjit32/",  
-    "label2": "Connect on Twitter",  
+    "label2": "DM me on Twitter",  
     "link2": "https://x.com/arjit32"  
   }
   },
@@ -37,7 +37,7 @@
       },
       {
         "name": "Advanced Web Development",
-        "url": "/series?category=Development-Plus"
+        "url": "/series?category=Advanced-Development"
       },
       {
         "name": "Data Structures & Algorithms",

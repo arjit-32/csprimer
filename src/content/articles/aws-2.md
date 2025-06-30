@@ -4,14 +4,14 @@ meta_title: AWS Services Cheat Sheet | CS Primer
 description: Comprehensive guide to AWS services covering security, compute, storage, databases, networking, DevOps, AI/ML, and media services. Essential reference for cloud developers with detailed service descriptions and practical use cases.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---
 
 ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746114385/aws-cheatsheet_ftria9.png)
 
-## **Security, Identity & Compliance**
+## Security, Identity & Compliance
 
 Secure access and protection for your AWS environment and data.
 
@@ -31,7 +31,7 @@ Most used service is **IAM.** Used in every AWS project for user/role management
 
 ---
 
-## **Compute Services**
+## Compute Services
 
 Run applications on virtual servers, containers, or serverless environments.
 
@@ -48,7 +48,7 @@ Most used is EC2 which is backbone for traditional applications - *e.g., hosting
 
 ---
 
-## **Storage Services**
+## Storage Services
 
 Store and retrieve data reliably and at scale.
 
@@ -70,7 +70,7 @@ Store and retrieve data reliably and at scale.
 
 ---
 
-## **Databases**
+## Databases
 
 Managed services for structured, unstructured, and analytical workloads.
 
@@ -90,7 +90,7 @@ Managed services for structured, unstructured, and analytical workloads.
 
 ---
 
-## **Networking & Routing**
+## Networking & Routing
 
 Connect your services securely and reliably across the cloud.
 
@@ -116,7 +116,7 @@ VPC is most commonly used service. It is foundation of AWS network architecture 
 
 ---
 
-## **Developer Tools & DevOps**
+## Developer Tools & DevOps
 
 Tools for building, testing, and deploying applications.
 
@@ -131,7 +131,7 @@ CodePipeline is commonly used in CI/CD workflows  *e.g., automating deployment f
 
 ---
 
-## **Application Integration**
+## Application Integration
 
 Decouple application components using messaging and orchestration.
 
@@ -147,7 +147,7 @@ Many a times, SNS, SQS and Lambda are used together to create decoupled apps. Of
 
 ---
 
-## **Management & Monitoring**
+## Management & Monitoring
 
 Monitor and automate your AWS environment.
 
@@ -161,7 +161,7 @@ Cloudwatch is essential for monitoring, can also set up alerts in it.
 
 ---
 
-## **AI/ML & Analytics Services**
+## AI/ML & Analytics Services
 
 Build intelligent applications and analyze data at scale.
 
@@ -180,7 +180,7 @@ As developers, cant see using Sagemaker but Athena is quite interesting, can be 
 
 ---
 
-## **Media Services**
+## Media Services
 
 Tools to process, stream, and manage video content.
 

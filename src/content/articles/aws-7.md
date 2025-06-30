@@ -4,7 +4,7 @@ meta_title: Complete Guide to Object Storage | CS Primer
 description: Master Amazon S3 cloud storage with this comprehensive guide covering storage classes, access control, lifecycle management, and practical Node.js implementation examples for modern cloud applications.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---
@@ -41,7 +41,7 @@ Amazon S3 (Simple Storage Service) is an object storage service that provides hi
 
 ## Access Control & Security
 
-### **Bucket Policies**
+### Bucket Policies
 
 S3 allows you to define who can access your data using bucket policies or **Access Control Lists (ACLs)**. Policies are written in JSON and can specify permissions based on user, group, or even IP address.
 

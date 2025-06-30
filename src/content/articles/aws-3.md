@@ -4,7 +4,7 @@ meta_title: Learn complete AWS in 1 article | CS Primer
 description: Learn AWS fundamentals by building a practical serverless image upload application. Step-by-step guide covering IAM, S3, Lambda, API Gateway, and CloudFront with working code examples.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Development-Plus"]
+categories: ["Advanced-Development"]
 draft: false
 year: 2025
 ---
