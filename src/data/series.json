@@ -8,79 +8,82 @@
     "time": "8 articless",
     "category": "Advanced-Development",
     "navbar": [
+  {
+    "subheading": "Foundations of UI/UX Design",
+    "link": [
       {
-        "subheading": "Foundations of UI/UX Design",
-        "link": [
-          {
-            "type": "articles",
-            "url": "ui-1",
-            "title": "Introduction to UI/UX Design"
-          },
-          {
-            "type": "articles",
-            "url": "ui-2",
-            "title": "Design Philosopgy & Laws"
-          }
-        ]
+        "type": "articles",
+        "url": "ui-introduction-design",
+        "title": "Introduction to UI/UX Design"
       },
       {
-        "subheading": "Design Tools & Techniques",
-        "link": [
-          {
-            "type": "articles",
-            "url": "ui-3",
-            "title": "Mastering Core Design Principles"
-          },
-          {
-            "type": "articles",
-            "url": "ui-4",
-            "title": "Introduction to Figma"
-          }
-        ]
-      },
-      {
-        "subheading": "UI/UX Workflow for Developers",
-        "link": [
-          {
-            "type": "articles",
-            "url": "ui-5",
-            "title": "Sketching"
-          },
-          {
-            "type": "articles",
-            "url": "ui-6",
-            "title": "Userflows and Sitemaps"
-          },
-          {
-            "type": "articles",
-            "url": "ui-7",
-            "title": "Wireframes"
-          },
-          {
-            "type": "articles",
-            "url": "ui-8",
-            "title": "Final UI Design"
-          }
-        ]
-      },{
-        "subheading": "Further Learning & Challenges",
-        "link": [
-          {
-            "type": "external",
-            "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/",
-            "title": "Udemy Course"
-          },{
-            "type": "assignment",
-            "url": "https://www.dailyui.co/",
-            "title": "100 Daily UI challlenges"
-          },{
-            "type": "book",
-            "url": "https://www.practical-ui.com/",
-            "title": "Practical-UI book"
-          }
-        ]
+        "type": "articles",
+        "url": "ui-design-philosophy-laws",
+        "title": "Design Philosophy & Laws"
       }
     ]
+  },
+  {
+    "subheading": "Design Tools & Techniques",
+    "link": [
+      {
+        "type": "articles",
+        "url": "ui-core-principles",
+        "title": "Mastering Core Design Principles"
+      },
+      {
+        "type": "articles",
+        "url": "ui-figma-intro",
+        "title": "Introduction to Figma"
+      }
+    ]
+  },
+  {
+    "subheading": "UI/UX Workflow for Developers",
+    "link": [
+      {
+        "type": "articles",
+        "url": "ui-sketching",
+        "title": "Sketching"
+      },
+      {
+        "type": "articles",
+        "url": "ui-userflows-sitemaps",
+        "title": "Userflows and Sitemaps"
+      },
+      {
+        "type": "articles",
+        "url": "ui-wireframes",
+        "title": "Wireframes"
+      },
+      {
+        "type": "articles",
+        "url": "ui-final-design",
+        "title": "Final UI Design"
+      }
+    ]
+  },
+  {
+    "subheading": "Further Learning & Challenges",
+    "link": [
+      {
+        "type": "external",
+        "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/",
+        "title": "Udemy Course"
+      },
+      {
+        "type": "assignment",
+        "url": "https://www.dailyui.co/",
+        "title": "100 Daily UI challenges"
+      },
+      {
+        "type": "book",
+        "url": "https://www.practical-ui.com/",
+        "title": "Practical-UI book"
+      }
+    ]
+  }
+]
   },
   "git": {
     "ongoing": "false",
@@ -90,75 +93,77 @@
     "description": "This series covers Git fundamentals, branching, merging, rebasing, conflict resolution, and collaboration using GitHub. Master workflows, best practices, and advanced techniques to streamline development and team collaboration.",
     "time": "14 articless",
     "category": "Advanced-Development",
-    "navbar": [
+  "navbar": [
+  {
+    "subheading": "Introduction to Git",
+    "link": [
+      { "type": "articles", "url": "git-introduction", "title": "Introduction to Git" }
+    ]
+  },
+  {
+    "subheading": "Git Essentials",
+    "link": [
+      { "type": "articles", "url": "git-basic-workflow", "title": "Git Basic Workflow" },
+      { "type": "articles", "url": "git-cloning", "title": "Cloning" }
+    ]
+  },
+  {
+    "subheading": "Branching & Merging",
+    "link": [
+      { "type": "articles", "url": "git-branching", "title": "Branching" },
+      { "type": "articles", "url": "git-merging", "title": "Merging" },
+      { "type": "articles", "url": "git-stashing", "title": "Stashing" }
+    ]
+  },
+  {
+    "subheading": "Undoing Changes & History Management",
+    "link": [
+      { "type": "articles", "url": "git-reset", "title": "Reset" },
+      { "type": "articles", "url": "git-reflog", "title": "Reflog" }
+    ]
+  },
+  {
+    "subheading": "Advanced Git Techniques",
+    "link": [
+      { "type": "articles", "url": "git-rebase", "title": "Rebase" },
+      { "type": "articles", "url": "git-squash-commits", "title": "Squashing Commits" },
+      { "type": "articles", "url": "git-bisect", "title": "Bisect" }
+    ]
+  },
+  {
+    "subheading": "Remote Collaboration & GitHub",
+    "link": [
+      { "type": "articles", "url": "git-fetch-pull-push", "title": "Fetch, Pull & Push in Git" },
+      { "type": "articles", "url": "git-pull-requests", "title": "Pull Requests" }
+    ]
+  },
+  {
+    "subheading": "Git Submodules",
+    "link": [
+      { "type": "articles", "url": "git-submodules", "title": "Submodules" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
       {
-        "subheading": "Introduction to Git",
-        "link": [
-          { "type": "articles", "url": "git-1", "title": "Introduction to Git" }
-        ]
+        "type": "book",
+        "url": "https://leanpub.com/learngitthehardway",
+        "title": "Learn Git the Hard Way"
       },
       {
-        "subheading": "Git Essentials",
-        "link": [
-          { "type": "articles", "url": "git-2", "title": "Git Basic Workflow" },
-          { "type": "articles", "url": "git-3", "title": "Cloning" }
-        ]
+        "type": "external",
+        "url": "https://git-school.github.io/visualizing-git/#free",
+        "title": "Git Visualization"
       },
       {
-        "subheading": "Branching & Merging",
-        "link": [
-          { "type": "articles", "url": "git-4", "title": "Branching" },
-          { "type": "articles", "url": "git-5", "title": "Merging" },
-          { "type": "articles", "url": "git-6", "title": "Stashing" }
-        ]
-      },
-      {
-        "subheading": "Undoing Changes & History Management",
-        "link": [
-          { "type": "articles", "url": "git-7", "title": "Reset" },
-          { "type": "articles", "url": "git-8", "title": "Reflog" }
-        ]
-      },
-      {
-        "subheading": "Advanced Git Techniques",
-        "link": [
-          { "type": "articles", "url": "git-9", "title": "Rebase" },
-          { "type": "articles", "url": "git-10", "title": "Squashing Commits" },
-          { "type": "articles", "url": "git-11", "title": "Bisect" }
-        ]
-      },
-      {
-        "subheading": "Remote Collaboration & GitHub",
-        "link": [
-          { "type": "articles", "url": "git-12", "title": "Fetch, Pull & Push in Git" },
-          { "type": "articles", "url": "git-13", "title": "Pull Requests" }
-        ]
-      },
-      {
-        "subheading": "Git Submodules",
-        "link": [
-          { "type": "articles", "url": "git-14", "title": "Submodules" }
-        ]
-      },
-      {
-        "subheading": "Further Learnings",
-        "link": [
-          {
-            "type": "book",
-            "url": "https://leanpub.com/learngitthehardway",
-            "title": "Learn Git the Hard Way"
-          },{
-            "type": "external",
-            "url": "https://git-school.github.io/visualizing-git/#free",
-            "title": "Git Visualization"
-          },{
-            "type": "",
-            "url": "https://ohshitgit.com/",
-            "title": "Oh Shit, Git"
-          }
-        ]
+        "type": "external",
+        "url": "https://ohshitgit.com/",
+        "title": "Oh Shit, Git"
       }
     ]
+  }
+]
   },
   "aws": {
     "ongoing": "false",
@@ -168,64 +173,63 @@
     "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using AWS services. We'll cover security, serverless, and databases with hands-on examples.",
     "time": "13 articles",
     "category": "Advanced-Development",
-    "navbar": [
+   "navbar": [
+  {
+    "subheading": "Cloud Foundations",
+    "link": [
+      { "type": "articles", "url": "aws-cloud-fundamentals", "title": "Fundamentals of Cloud" },
+      { "type": "articles", "url": "aws-iam-secure-access", "title": "IAM - Secure Access" }
+    ]
+  },
+  {
+    "subheading": "Zero to AWS: Quick Win",
+    "link": [
+      { "type": "articles", "url": "aws-cheatsheet", "title": "AWS Cheatsheet" },
+      { "type": "articles", "url": "aws-cut-through-clutter", "title": "Cut through the Clutter" }
+    ]
+  },
+  {
+    "subheading": "Compute Services",
+    "link": [
+      { "type": "articles", "url": "aws-ec2-virtual-servers", "title": "EC2- Virtual Servers" },
+      { "type": "articles", "url": "aws-deploy-nodejs-ec2", "title": "Deploy a Node.js App on EC2" },
+      { "type": "articles", "url": "aws-elb-traffic-distribution", "title": "ELB- Distribute Traffic" },
+      { "type": "articles", "url": "aws-lambda-serverless", "title": "Lambda- Serverless" },
+      { "type": "articles", "url": "aws-api-lambda-gateway", "title": "API with Lambda & API Gateway" }
+    ]
+  },
+  {
+    "subheading": "Storage & Database",
+    "link": [
+      { "type": "articles", "url": "aws-s3-object-storage", "title": "S3- Object Storage" },
+      { "type": "articles", "url": "aws-s3-website-hosting", "title": "Website Hosting using S3" },
+      { "type": "articles", "url": "aws-dynamodb-nosql", "title": "DynamoDB- NoSQL database" }
+    ]
+  },
+  {
+    "subheading": "Application Integration",
+    "link": [
+      { "type": "articles", "url": "aws-sqs-decoupled-apps", "title": "SQS- Decoupled Apps" },
+      { "type": "articles", "url": "aws-sns-notifications", "title": "SNS- Send Notifications" },
+      { "type": "articles", "url": "aws-api-gateway", "title": "API Gateway" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
       {
-        "subheading": "Cloud Foundations",
-        "link": [
-          { "type": "articles", "url": "aws-1", "title": "Fundamentals of Cloud" },
-          { "type": "articles", "url": "aws-4", "title": "IAM - Secure Access" }
-        ]
+        "type": "external",
+        "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/",
+        "title": "AWS Solutions Architect(Udemy)"
       },
       {
-        "subheading": "Zero to AWS: Quick Win",
-        "link": [
-          { "type": "articles", "url": "aws-2", "title": "AWS Cheatsheet" },
-          { "type": "articles", "url": "aws-3", "title": "Cut through the Clutter" }
-        ]
-      },
-      {
-        "subheading": "Compute Services",
-        "link": [
-
-          { "type": "articles", "url": "aws-5", "title": "EC2- Virtual Servers" },
-          { "type": "articles", "url": "aws-6", "title": "Deploy a Node.js App on EC2" },
-          { "type": "articles", "url": "aws-12", "title": "ELB- Distribute Traffic" },
-          { "type": "articles", "url": "aws-9", "title": "Lambda- Serverless" },
-          { "type": "articles", "url": "aws-10", "title": "API with Lambda & API Gateway" }
-        ]
-      },
-      {
-        "subheading": "Storage & Database",
-        "link": [
-          { "type": "articles", "url": "aws-7", "title": "S3- Object Storage" },
-          { "type": "articles", "url": "aws-8", "title": "Website Hosting using S3" },
-          { "type": "articles", "url": "aws-11", "title": "DynamoDB- NoSQL database" }
-        ]
-      },
-      {
-        "subheading": "Application Integration",
-        "link": [
-          { "type": "articles", "url": "aws-15", "title": "SQS- Decoupled Apps" },
-          { "type": "articles", "url": "aws-14", "title": "SNS- Send Notifications" },
-          { "type": "articles", "url": "aws-13", "title": "API Gateway" }
-        ]
-      },
-      {
-        "subheading": "Further Learnings",
-        "link": [
-          {
-            "type": "external",
-            "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/",
-            "title": "AWS Solutions Architect(Udemy)"
-          },
-          {
-            "type": "external",
-            "url": "https://www.ducktyped.org/",
-            "title": "Aditya Bhargava's Networking Series"
-          }
-        ]
+        "type": "external",
+        "url": "https://www.ducktyped.org/",
+        "title": "Aditya Bhargava's Networking Series"
       }
     ]
+  }
+]
   },  
   "java": {
     "ongoing": "false",
@@ -235,66 +239,67 @@
     "description": "A complete beginner-to-intermediate series that builds your Java fundamentals and dives deep into object-oriented programming and the Collections Framework - tailored specifically for mastering DSA in Java.",
     "time": "24 articles",
     "category": "DSA",
-    "navbar": [
+   "navbar": [
   {
     "subheading": "Getting Started with Java",
     "link": [
-      { "type": "articles", "url": "java-1", "title": "Introduction to Java" },
-      { "type": "articles", "url": "java-2", "title": "The Java Platform Explained" }
+      { "type": "articles", "url": "java-introduction", "title": "Introduction to Java" },
+      { "type": "articles", "url": "java-platform-explained", "title": "The Java Platform Explained" }
     ]
   },
   {
     "subheading": "Java Foundations",
     "link": [
-      { "type": "articles", "url": "java-3", "title": "Basic of Java" },
-      { "type": "articles", "url": "java-4", "title": "Control Flow and Logic" },
-      { "type": "articles", "url": "java-5", "title": "Working with Arrays" },
-      { "type": "articles", "url": "java-6", "title": "Working with Strings" },
-      { "type": "articles", "url": "java-7", "title": "Methods and Functions" },
-      { "type": "articles", "url": "java-8", "title": "Exceptions Handling" },
-      { "type": "articles", "url": "java-9", "title": "Other Utility Classes" }
+      { "type": "articles", "url": "java-basics", "title": "Basic of Java" },
+      { "type": "articles", "url": "java-control-flow-logic", "title": "Control Flow and Logic" },
+      { "type": "articles", "url": "java-arrays", "title": "Working with Arrays" },
+      { "type": "articles", "url": "java-strings", "title": "Working with Strings" },
+      { "type": "articles", "url": "java-methods-functions", "title": "Methods and Functions" },
+      { "type": "articles", "url": "java-exceptions-handling", "title": "Exceptions Handling" },
+      { "type": "articles", "url": "java-utility-classes", "title": "Other Utility Classes" }
     ]
   },
   {
-    "subheading": "Object-Oriented Programming ",
+    "subheading": "Object-Oriented Programming",
     "link": [
-      { "type": "articles", "url": "java-10", "title": "Introduction to OOPs" },
-      { "type": "articles", "url": "java-11", "title": "Inheritance, this and super" },
-      { "type": "articles", "url": "java-12", "title": "Abstract Classes & Interfaces" },
-      { "type": "articles", "url": "java-13", "title": "Polymorphism & Dynamic Binding" },
-      { "type": "articles", "url": "java-14", "title": "Static Keyword" },
-      { "type": "articles", "url": "java-15", "title": "Nested, Local and Anonymous Classes" },
-      { "type": "articles", "url": "java-16", "title": "Final, Finalize and Wrapper Class" }
+      { "type": "articles", "url": "java-oops-intro", "title": "Introduction to OOPs" },
+      { "type": "articles", "url": "java-inheritance-this-super", "title": "Inheritance, this and super" },
+      { "type": "articles", "url": "java-abstract-interfaces", "title": "Abstract Classes & Interfaces" },
+      { "type": "articles", "url": "java-polymorphism-binding", "title": "Polymorphism & Dynamic Binding" },
+      { "type": "articles", "url": "java-static-keyword", "title": "Static Keyword" },
+      { "type": "articles", "url": "java-nested-local-anonymous", "title": "Nested, Local and Anonymous Classes" },
+      { "type": "articles", "url": "java-final-finalize-wrapper", "title": "Final, Finalize and Wrapper Class" }
     ]
   },
   {
     "subheading": "Collection Framework",
     "link": [
-      { "type": "articles", "url": "java-17", "title": "Generics" },
-      { "type": "articles", "url": "java-18", "title": "Iterable and Iterator Interface" },
-      { "type": "articles", "url": "java-19", "title": "Collections Interface" },
-      { "type": "articles", "url": "java-20", "title": "List Interface" },
-      { "type": "articles", "url": "java-21", "title": "Queue Interface" },
-      { "type": "articles", "url": "java-22", "title": "Comparable & Comparators"},
-      { "type": "articles", "url": "java-23", "title": "Set Interface"},
-      { "type": "articles", "url": "java-24", "title": "Map Interface"}
+      { "type": "articles", "url": "java-generics", "title": "Generics" },
+      { "type": "articles", "url": "java-iterable-iterator", "title": "Iterable and Iterator Interface" },
+      { "type": "articles", "url": "java-collections-interface", "title": "Collections Interface" },
+      { "type": "articles", "url": "java-list-interface", "title": "List Interface" },
+      { "type": "articles", "url": "java-queue-interface", "title": "Queue Interface" },
+      { "type": "articles", "url": "java-comparable-comparator", "title": "Comparable & Comparators" },
+      { "type": "articles", "url": "java-set-interface", "title": "Set Interface" },
+      { "type": "articles", "url": "java-map-interface", "title": "Map Interface" }
     ]
-  },{
-  "subheading": "Further Learnings",
-  "link": [
-    {
-      "type": "youtube",
-      "url": "https://youtu.be/VE_AAUxTUCY?si=FVl5nu3KqGxHwrJB",
-      "title": "Collection Framework (Riddhi Dutta)"
-    },
-    {
-      "type": "external",
-      "url": "https://www.tpointtech.com/java-tutorial",
-      "title": "JavaTPoint Series"
-    }
-  ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/VE_AAUxTUCY?si=FVl5nu3KqGxHwrJB",
+        "title": "Collection Framework (Riddhi Dutta)"
+      },
+      {
+        "type": "external",
+        "url": "https://www.tpointtech.com/java-tutorial",
+        "title": "JavaTPoint Series"
+      }
+    ]
   }
-  ]
+]
   },  
   "dsa": {
     "ongoing": "On-going",
@@ -306,68 +311,45 @@
     "category": "DSA",
     "navbar": [
       {
-        "subheading": "0 to 1 (with Grokking Algorithms)",
+        "subheading": "The Complete Picture",
         "link": [
-          { "type": "articles", "url": "dsa-1", "title": "Introduction to Algorithms" },
-          { "type": "articles", "url": "dsa-2", "title": "Selection Sort" },
-          { "type": "articles", "url": "dsa-3", "title": "Recursion" },
-          { "type": "articles", "url": "dsa-4", "title": "Quicksort" },
-          { "type": "articles", "url": "dsa-5", "title": "HashTables" },
-          { "type": "articles", "url": "dsa-6", "title": "Breadth-First Search" },
-          { "type": "articles", "url": "dsa-7", "title": "Dijkstra's Algorithm" },
-          { "type": "articles", "url": "dsa-8", "title": "Greedy Algorithms" },
-          { "type": "articles", "url": "dsa-9", "title": "Dynamic Programming" }
+          { "type": "articles", "url": "dsa-introduction", "title": "Introduction to Algorithms" },
+          { "type": "articles", "url": "dsa-selection-sort", "title": "Selection Sort" },
+          { "type": "articles", "url": "dsa-recursion", "title": "Recursion" },
+          { "type": "articles", "url": "dsa-quicksort", "title": "Quicksort" },
+          { "type": "articles", "url": "dsa-hashtable", "title": "HashTables" },
+          { "type": "articles", "url": "dsa-bfs", "title": "Breadth-First Search" },
+          { "type": "articles", "url": "dsa-dijkstra", "title": "Dijkstra's Algorithm" },
+          { "type": "articles", "url": "dsa-greedy", "title": "Greedy Algorithms" },
+          { "type": "articles", "url": "dsa-dynamic-programming", "title": "Dynamic Programming" }
         ]
       },
       {
-        "subheading": "Foundations of Algorithm (Coming Soon)",
+        "subheading": "Foundations",
         "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Analysis of Algorithms" },
-          { "type": "articles", "url": "dsa-x", "title": "Mathematics for DSA" },
-          { "type": "articles", "url": "dsa-x", "title": "Bit Manipulation" }
-        ]
-      },
-      {
-        "subheading": "Fundamental Data Structures (Coming Soon)",
-        "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Arrays" },
-          { "type": "articles", "url": "dsa-x", "title": "Hashing" },
-          { "type": "articles", "url": "dsa-x", "title": "Strings" },
-          { "type": "articles", "url": "dsa-x", "title": "Searching and Sorting" }
-        ]
-      },
-      {
-        "subheading": "Linked Data Structures (Coming Soon)",
-        "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Linked Lists" },
-          { "type": "articles", "url": "dsa-x", "title": "Stacks" },
-          { "type": "articles", "url": "dsa-x", "title": "Queues" }
-        ]
-      },
-      {
-        "subheading": "Recursion & Trees (Coming Soon)",
-        "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Recursion and Backtracking" },
-          { "type": "articles", "url": "dsa-x", "title": "Trees" },
-          { "type": "articles", "url": "dsa-x", "title": "Heaps" }
-        ]
-      },
-      {
-        "subheading": "Graph Algorithms (Coming Soon)",
-        "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Graphs" },
-          { "type": "articles", "url": "dsa-x", "title": "Greedy Algorithms" }
-        ]
-      },
-      {
-        "subheading": "Dynamic Programming & Advanced Topics (Coming Soon)",
-        "link": [
-          { "type": "articles", "url": "dsa-x", "title": "Dynamic Programming" },
-          { "type": "articles", "url": "dsa-x", "title": "Advanced Topics (Tries, Segment Trees)" }
+          { "type": "articles", "url": "dsa-analysis-of-algorithms", "title": "Analysis of Algorithms" },
+          { "type": "articles", "url": "dsa-count-digits", "title": "Count of digits" }
         ]
       }
     ]
-  },  
+  },
+  "fullstack": {
+  "ongoing": "On-going",
+  "title": "Fullstack Web Development",
+  "image": "/images/thumbnails/fullstack-dev.png",
+  "subtitle": "Master both frontend and backend development skills for real-world applications.",
+  "description": "This series guides learners through every layer of fullstack development—from HTML, CSS, and JavaScript to backend frameworks, databases, and deployment strategies. You'll build hands-on projects, write scalable code, and deploy your own applications with confidence.",
+  "time": "NaN",
+  "category": "Development",
+ "navbar": [
+    {
+      "subheading": "Web Basics",
+      "link": [
+        { "type": "articles", "url": "fullstack-1", "title": "The History of the Web" }
+      ]
+    }
+  ]
+},
   "distributed": {
     "ongoing": "false",
     "title": "Distributed Systems",
@@ -380,42 +362,43 @@
   {
     "subheading": "Foundations",
     "link": [
-      { "type": "articles", "url": "distributed-1", "title": "Introduction" },
-      { "type": "articles", "url": "distributed-2", "title": "Data Management" }
+      { "type": "articles", "url": "distributed-introduction", "title": "Introduction" },
+      { "type": "articles", "url": "distributed-data-management", "title": "Data Management" }
     ]
   },
   {
     "subheading": "Coordination & Consistency",
     "link": [
-      { "type": "articles", "url": "distributed-3", "title": "Consistency & Concurrency Control" },
-      { "type": "articles", "url": "distributed-6", "title": "Consensus" },
-      { "type": "articles", "url": "distributed-7", "title": "Ordering and Time" }
+      { "type": "articles", "url": "distributed-consistency-concurrency", "title": "Consistency & Concurrency Control" },
+      { "type": "articles", "url": "distributed-consensus", "title": "Consensus" },
+      { "type": "articles", "url": "distributed-ordering-time", "title": "Ordering and Time" }
     ]
   },
   {
     "subheading": "System Design & Operations",
     "link": [
-      { "type": "articles", "url": "distributed-4", "title": "Transactions" },
-      { "type": "articles", "url": "distributed-5", "title": "Trade-offs (CAP & Beyond)" },
-      { "type": "articles", "url": "distributed-8", "title": "Communication Patterns" }
+      { "type": "articles", "url": "distributed-transactions", "title": "Transactions" },
+      { "type": "articles", "url": "distributed-cap-tradeoffs", "title": "Trade-offs (CAP & Beyond)" },
+      { "type": "articles", "url": "distributed-communication-patterns", "title": "Communication Patterns" }
     ]
   },
   {
     "subheading": "Real-World Applications",
     "link": [
-      { "type": "articles", "url": "distributed-9", "title": "Real-World Applications" }
+      { "type": "articles", "url": "distributed-real-world-applications", "title": "Real-World Applications" }
     ]
-  },{
-  "subheading": "Further Learnings",
-  "link": [
-    {
-      "type": "youtube",
-      "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A",
-      "title": "Distributed Systems Playlist" 
-    }
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A",
+        "title": "Distributed Systems Playlist"
+      }
     ]
-    }
-  ]
+  }
+]
   },
   "api": {
     "ongoing": "false",
@@ -426,57 +409,104 @@
     "time": "15 articles",
     "category": "System-Design",
     "navbar": [
-      {
-        "subheading": "Network Foundations",
-        "link": [
-          { "type": "articles", "url": "api-1", "title": "Crash course on Internet Basics" },
-          { "type": "articles", "url": "api-2", "title": "Understanding Network Performance - A Simple Guide" }
-        ]
-      },
-      {
-        "subheading": "API Fundamentals",
-        "link": [
-          { "type": "articles", "url": "api-3", "title": "Introduction to APIs" },
-          { "type": "articles", "url": "api-4", "title": "What Happens During an API Call?" }
-        ]
-      },
-      {
-        "subheading": "Communication Protocols",
-        "link": [
-          { "type": "articles", "url": "api-5", "title": "Client-Server Communication in APIs" },
-          { "type": "articles", "url": "api-6", "title": "HTTP - The Backbone of API Communication" },
-          { "type": "articles", "url": "api-7", "title": "WebSockets - For Real-Time APIs" },
-          { "type": "articles", "url": "api-8", "title": "Event-Driven Protocols for Asynchronous Updates" },
-          { "type": "articles", "url": "api-9", "title": "Common Data Formats for Web APIs" }
-        ]
-      },
-      {
-        "subheading": "API Architectures",
-        "link": [
-          { "type": "articles", "url": "api-10", "title": "REST - Representational State Transfer" },
-          { "type": "articles", "url": "api-11", "title": "GraphQL - Flexible APIs for Modern Apps" },
-          { "type": "articles", "url": "api-12", "title": "RPC and gRPC - Function Oriented APIs" }
-        ]
-      },
-      {
-        "subheading": "API Design & Implementation",
-        "link": [
-          { "type": "articles", "url": "api-13", "title": "Complete Guide to API Design" },
-          { "type": "articles", "url": "api-14", "title": "Designing the Coffee Shop API - A Practical Blueprint" },
-          { "type": "articles", "url": "api-15", "title": "API Optimization & Performance Patterns" }
-        ]
-      },{
-  "subheading": "Further Learnings",
-  "link": [
-    {
-      "type": "external",
-      "url": "https://www.educative.io/courses/grokking-the-product-architecture-interview/unpacking-api-design?utm_campaign=brand_educative&utm_source=google&utm_medium=ppc&utm_content=performance_max_india&utm_term=&aff=K3Zq&utm_term=&utm_campaign=%5BNew%5D+Performance+Max&utm_source=adwords&utm_medium=ppc&hsa_acc=5451446008&hsa_cam=18931439518&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=18924941403&gbraid=0AAAAADfWLuTtU0q8sM1D2kPeDG8uu1_LT&gclid=Cj0KCQjw0erBBhDTARIsAKO8iqQdMp-lQ0uxxyWl5yhr0KR7sYuPHAbo8GBvOJ70C33c1yZIJShhFcAaAp10EALw_wcB",
-      "title": "Educative's Course"
-    }
-  ]
-}
+  {
+    "subheading": "Network Foundations",
+    "link": [
+      { "type": "articles", "url": "api-internet-basics", "title": "Crash course on Internet Basics" },
+      { "type": "articles", "url": "api-network-performance-guide", "title": "Understanding Network Performance - A Simple Guide" }
     ]
   },
+  {
+    "subheading": "API Fundamentals",
+    "link": [
+      { "type": "articles", "url": "api-introduction", "title": "Introduction to APIs" },
+      { "type": "articles", "url": "api-call-process", "title": "What Happens During an API Call?" }
+    ]
+  },
+  {
+    "subheading": "Communication Protocols",
+    "link": [
+      { "type": "articles", "url": "api-client-server-communication", "title": "Client-Server Communication in APIs" },
+      { "type": "articles", "url": "api-http-backbone", "title": "HTTP - The Backbone of API Communication" },
+      { "type": "articles", "url": "api-websockets-realtime", "title": "WebSockets - For Real-Time APIs" },
+      { "type": "articles", "url": "api-event-driven-updates", "title": "Event-Driven Protocols for Asynchronous Updates" },
+      { "type": "articles", "url": "api-data-formats", "title": "Common Data Formats for Web APIs" }
+    ]
+  },
+  {
+    "subheading": "API Architectures",
+    "link": [
+      { "type": "articles", "url": "api-rest-architecture", "title": "REST - Representational State Transfer" },
+      { "type": "articles", "url": "api-graphql-modern-apps", "title": "GraphQL - Flexible APIs for Modern Apps" },
+      { "type": "articles", "url": "api-rpc-grpc", "title": "RPC and gRPC - Function Oriented APIs" }
+    ]
+  },
+  {
+    "subheading": "API Design & Implementation",
+    "link": [
+      { "type": "articles", "url": "api-design-guide", "title": "Complete Guide to API Design" },
+      { "type": "articles", "url": "api-coffee-shop-blueprint", "title": "Designing the Coffee Shop API - A Practical Blueprint" },
+      { "type": "articles", "url": "api-performance-patterns", "title": "API Optimization & Performance Patterns" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      {
+        "type": "external",
+        "url": "https://www.educative.io/courses/grokking-the-product-architecture-interview/unpacking-api-design?utm_campaign=brand_educative&utm_source=google&utm_medium=ppc&utm_content=performance_max_india&utm_term=&aff=K3Zq&utm_term=&utm_campaign=%5BNew%5D+Performance+Max&utm_source=adwords&utm_medium=ppc&hsa_acc=5451446008&hsa_cam=18931439518&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=18924941403&gbraid=0AAAAADfWLuTtU0q8sM1D2kPeDG8uu1_LT&gclid=Cj0KCQjw0erBBhDTARIsAKO8iqQdMp-lQ0uxxyWl5yhr0KR7sYuPHAbo8GBvOJ70C33c1yZIJShhFcAaAp10EALw_wcB",
+        "title": "Educative's Course"
+      }
+    ]
+  }
+]
+  },
+  
+ "system-design-foundation": {
+  "ongoing": "false",
+  "title": "HLD Foundations",
+  "image": "/images/thumbnails/system-design-foundations.png",
+  "subtitle": "How Modern Systems Scale, Communicate, and Survive",
+  "description": "An end-to-end guide for building scalable and resilient systems — from principles and components to full-fledged architectures that power today's software.",
+  "time": "14 articles",
+  "category": "System-Design",
+  "navbar": [
+  {
+    "subheading": "The Big Picture",
+    "link": [
+      { "type": "articles", "url": "systemdesign-introduction", "title": "Introduction" },
+      { "type": "articles", "url": "systemdesign-non-functional-requirements", "title": "Non-Functional Requirements" },
+      { "type": "articles", "url": "systemdesign-architecture-patterns", "title": "Architecture Patterns" },
+      { "type": "articles", "url": "systemdesign-scaling-strategies", "title": "Vertical and Horizontal Scaling" }
+    ]
+  },
+  {
+    "subheading": "Building Blocks",
+    "link": [
+      { "type": "articles", "url": "systemdesign-load-balancing", "title": "Load Balancing" },
+      { "type": "articles", "url": "systemdesign-databases", "title": "Databases" },
+      { "type": "articles", "url": "systemdesign-caching", "title": "Caching" },
+      { "type": "articles", "url": "systemdesign-cdn", "title": "Content Delivery Network" },
+      { "type": "articles", "url": "systemdesign-messaging-queues", "title": "Messaging Queues" },
+      { "type": "articles", "url": "systemdesign-key-building-blocks", "title": "Other Key Building Blocks" }
+    ]
+  },
+  {
+    "subheading": "Designing the Machinery",
+    "link": [
+      { "type": "articles", "url": "systemdesign-microservices-architecture", "title": "Microservices Architecture" },
+      { "type": "articles", "url": "systemdesign-pub-sub-model", "title": "Publisher Subscriber Model" },
+      { "type": "articles", "url": "systemdesign-capacity-estimation", "title": "Capacity Estimation" }
+    ]
+  },
+  {
+    "subheading": "Real-World Architecture",
+    "link": [
+      { "type": "articles", "url": "systemdesign-edtech-platform", "title": "System Design of an Ed-Tech Platform" }
+    ]
+  }
+]
+},
   "dm": {
     "ongoing": "false",
     "title": "Discrete Mathematics",
@@ -485,30 +515,42 @@
     "description": "This series explores logic, set theory, combinatorics, graph theory, and proofs, building critical reasoning skills for algorithms, cryptography, and theoretical computing.",
     "time": "1 day",
     "category": "Core-CS",
-    "navbar": [
+   "navbar": [
+  {
+    "subheading": "Chapters",
+    "link": [
+      { "type": "articles", "url": "dm-set-theory", "title": "Set Theory" },
+      { "type": "articles", "url": "dm-relations", "title": "Relations" },
+      { "type": "articles", "url": "dm-poset-lattices", "title": "POSET & Lattices" },
+      { "type": "articles", "url": "dm-functions", "title": "Functions" },
+      { "type": "articles", "url": "dm-logic-theory", "title": "Theory of Logic" },
+      { "type": "articles", "url": "dm-group-theory", "title": "Group Theory" },
+      { "type": "articles", "url": "dm-graph-theory", "title": "Graph Theory" },
+      { "type": "articles", "url": "dm-combinatorics", "title": "Combinatorics" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "dm-handwritten-notes", "title": "DM Handwritten Notes" },
       {
-        "subheading": "Chapters",
-        "link": [
-        { "type": "articles", "url": "dm-1", "title": "Set Theory" },
-        { "type": "articles", "url": "dm-2", "title": "Relations"},
-        { "type": "articles", "url": "dm-3", "title": "POSET & Lattices"},
-        { "type": "articles", "url": "dm-4", "title": "Functions"},
-        { "type": "articles", "url": "dm-5", "title": "Theory of Logic"},
-        { "type": "articles", "url": "dm-6", "title": "Group Theory"},
-        { "type": "articles", "url": "dm-7", "title": "Graph Theory"},
-        { "type": "articles", "url": "dm-8", "title": "Combinatorics"}
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "dm-9", "title": "DM Handwritten Notes" },
-      { "type": "external", "url": "https://www.coursera.org/specializations/discrete-mathematics", "title": "Coursera Specialization" },
-      { "type": "youtube", "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS", "title": "Trefor Bazett's Playlist" },
-      { "type": "youtube", "url": "https://youtu.be/3zOtLEeHygg?si=a64Wturp6O_c8qO4", "title": "DM in 1 video(KnowledgeGate)" }      
-      ]
-    }
-  ]
+        "type": "external",
+        "url": "https://www.coursera.org/specializations/discrete-mathematics",
+        "title": "Coursera Specialization"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS",
+        "title": "Trefor Bazett's Playlist"
+      },
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/3zOtLEeHygg?si=a64Wturp6O_c8qO4",
+        "title": "DM in 1 video(KnowledgeGate)"
+      }
+    ]
+  }
+]
   },
   "dl": {
     "ongoing": "false",
@@ -518,28 +560,40 @@
     "description": "Learn Boolean algebra, logic gates, combinational and sequential circuits, and flip-flops. This series lays the groundwork for understanding computer hardware and microprocessor design.",
     "time": "1 day",
     "category": "Core-CS",
-    "navbar": [
+   "navbar": [
+  {
+    "subheading": "Chapters",
+    "link": [
+      { "type": "articles", "url": "dl-introduction-digital-logic", "title": "Introduction to Digital Logic" },
+      { "type": "articles", "url": "dl-boolean-algebra", "title": "Boolean Algebra" },
+      { "type": "articles", "url": "dl-boolean-expressions", "title": "Boolean Expressions" },
+      { "type": "articles", "url": "dl-combinational-circuits", "title": "Combinational Circuits" },
+      { "type": "articles", "url": "dl-sequential-circuits", "title": "Sequential Circuits" },
+      { "type": "articles", "url": "dl-number-system", "title": "Number System" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "dl-handwritten-notes", "title": "DL Handwritten Notes" },
       {
-        "subheading": "Chapters",
-        "link": [
-        { "type": "articles", "url": "dl-1", "title": "Introduction to Digital Logic" },
-        { "type": "articles", "url": "dl-2", "title": "Boolean Algebra"},
-        { "type": "articles", "url": "dl-3", "title": "Boolean Expressions"},
-        { "type": "articles", "url": "dl-4", "title": "Combinational Circuits"},
-        { "type": "articles", "url": "dl-5", "title": "Sequential Circuits"},
-        { "type": "articles", "url": "dl-6", "title": "Number System"}
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "dl-7", "title": "DL Handwritten Notes" },
-      { "type": "external", "url": "https://www.cburch.com/logisim/", "title": "A cool tool" },
-      { "type": "youtube", "url": "https://www.youtube.com/watch?v=nB6724G3b3E", "title": "Build Logic Gates" },
-      { "type": "youtube", "url": "https://youtu.be/pHNbm-4reIc?si=WdV8OboMJm9fHlvJ", "title": "DL in 1 video(KnowledgeGate)" }      
+        "type": "external",
+        "url": "https://www.cburch.com/logisim/",
+        "title": "A cool tool"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/watch?v=nB6724G3b3E",
+        "title": "Build Logic Gates"
+      },
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/pHNbm-4reIc?si=WdV8OboMJm9fHlvJ",
+        "title": "DL in 1 video(KnowledgeGate)"
+      }
     ]
-    }
-    ]
+  }
+]
   },
   "coa": {
     "ongoing": "false",
@@ -550,27 +604,39 @@
     "time": "1 day",
     "category": "Core-CS",
     "navbar": [
+  {
+    "subheading": "Chapters",
+    "link": [
+      { "type": "articles", "url": "coa-introduction", "title": "Introduction to COA" },
+      { "type": "articles", "url": "coa-processor-organization", "title": "Processor Organization" },
+      { "type": "articles", "url": "coa-instruction-cycle", "title": "Instruction Cycle" },
+      { "type": "articles", "url": "coa-control-unit", "title": "Control Unit" },
+      { "type": "articles", "url": "coa-addressing-modes", "title": "Addressing Modes" },
+      { "type": "articles", "url": "coa-isa", "title": "ISA" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "coa-handwritten-notes", "title": "COA Handwritten Notes" },
       {
-        "subheading": "Chapters",
-        "link": [
-        { "type": "articles", "url": "coa-1", "title": "Introduction to COA" },
-        { "type": "articles", "url": "coa-2", "title": "Processor Organization"},
-        { "type": "articles", "url": "coa-3", "title": "Instruction Cycle"},
-        { "type": "articles", "url": "coa-4", "title": "Control Unit"},
-        { "type": "articles", "url": "coa-5", "title": "Addressing Modes"},
-        { "type": "articles", "url": "coa-6", "title": "ISA"}
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "coa-7", "title": "COA Handwritten Notes" },
-      { "type": "external", "url": "https://www.coursera.org/learn/comparch", "title": "Princeton Course" },
-      { "type": "youtube", "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR", "title": "Make your own CPU" },
-      { "type": "youtube", "url": "https://youtu.be/DsK35f8wyUw?si=ItJBTTvVc19aZKA7", "title": "COA in 1 video(KnowledgeGate)" }
-      ]
-    }
-  ]
+        "type": "external",
+        "url": "https://www.coursera.org/learn/comparch",
+        "title": "Princeton Course"
+      },
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR",
+        "title": "Make your own CPU"
+      },
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/DsK35f8wyUw?si=ItJBTTvVc19aZKA7",
+        "title": "COA in 1 video(KnowledgeGate)"
+      }
+    ]
+  }
+]
   },
   "toc": {
     "ongoing": "false",
@@ -581,27 +647,35 @@
     "time": "1 day",
     "category": "Core-CS",
     "navbar": [
+  {
+    "subheading": "Chapters",
+    "link": [
+      { "type": "articles", "url": "toc-introduction-automata", "title": "Introduction to Automata Theory" },
+      { "type": "articles", "url": "toc-finite-automata", "title": "Finite Automata" },
+      { "type": "articles", "url": "toc-regex-regular-languages", "title": "Regex & Regular Languages" },
+      { "type": "articles", "url": "toc-formal-grammars-chomsky", "title": "Formal Grammars & Chomsky Hierarchy" },
+      { "type": "articles", "url": "toc-pushdown-automata", "title": "Pushdown Automata (PDA)" },
+      { "type": "articles", "url": "toc-turing-machines-context-sensitive", "title": "Context-Sensitive & Turing Machines" },
+      { "type": "articles", "url": "toc-decidability-computability", "title": "Decidability & Computability" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "toc-handwritten-notes", "title": "TOC Handwritten Notes" },
       {
-        "subheading": "Chapters",
-        "link": [
-        { "type": "articles", "url": "toc-1", "title": "Introduction to Automata Theory" },
-        { "type": "articles", "url": "toc-2", "title": "Finite Automata"},
-        { "type": "articles", "url": "toc-3", "title": "Regex & Regular Languages"},
-        { "type": "articles", "url": "toc-4", "title": "Formal Grammars & Chomsky Hierarchy"},
-        { "type": "articles", "url": "toc-5", "title": "Pushdown Automata (PDA)"},
-        { "type": "articles", "url": "toc-6", "title": "Context-Sensitive & Turing Machines"},
-        { "type": "articles", "url": "toc-7", "title": "Decidability & Computability"}
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "toc-8", "title": "TOC Handwritten Notes" },
-       { "type": "youtube", "url": "https://youtu.be/9kuynHcM3UA?si=Kb0pXxCwJMg8vSDm", "title": "TOC in 1 video(KnowledgeGate)" },
-      { "type": "youtube", "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta", "title": "Jeff Ullman - Stanford lectures" }      
-      ]
-    }
-  ]
+        "type": "youtube",
+        "url": "https://youtu.be/9kuynHcM3UA?si=Kb0pXxCwJMg8vSDm",
+        "title": "TOC in 1 video(KnowledgeGate)"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta",
+        "title": "Jeff Ullman - Stanford lectures"
+      }
+    ]
+  }
+]
   },
   "compiler": {
     "ongoing": "false",
@@ -612,31 +686,39 @@
     "time": "1 day",
     "category": "Core-CS",
     "navbar": [
-      {
-        "subheading": "Chapters",
-        "link": [
-        { "type": "articles", "url": "compiler-1", "title": "Introduction to Compilers" },
-        { "type": "articles", "url": "compiler-2", "title": "Lexical Analysis"},
-        { "type": "articles", "url": "compiler-3", "title": "Syntax Analysis (Parsing)"},
-        { "type": "articles", "url": "compiler-4", "title": "Semantic Analysis"},
-        { "type": "articles", "url": "compiler-5", "title": "Intermediate Code Generation"},
-        { "type": "articles", "url": "compiler-6", "title": "Code Optimization"},
-        { "type": "articles", "url": "compiler-7", "title": "Target Code Generation"},
-        { "type": "articles", "url": "compiler-8", "title": "Linking & Execution"}
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "compiler-9", "title": "Compiler Handwritten Notes" },
-      { "type": "articles", "url": "built-a-compiler", "title": "Building a Programming Language (arjit)" },
-      { "type": "youtube", "url": "https://youtu.be/OQCjakjCJu4?si=1CK846RLkOPztvPz", "title": "Compilers in 1 video(KnowledgeGate)" },
-      { "type": "youtube", "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkRebOYdw4uqSN0ugRShSmHrzH", "title": "Alex Aiken - Stanford lectures" }      
-      ]
-    }
-  ]
+  {
+    "subheading": "Chapters",
+    "link": [
+      { "type": "articles", "url": "compiler-introduction", "title": "Introduction to Compilers" },
+      { "type": "articles", "url": "compiler-lexical-analysis", "title": "Lexical Analysis" },
+      { "type": "articles", "url": "compiler-syntax-analysis", "title": "Syntax Analysis (Parsing)" },
+      { "type": "articles", "url": "compiler-semantic-analysis", "title": "Semantic Analysis" },
+      { "type": "articles", "url": "compiler-intermediate-code", "title": "Intermediate Code Generation" },
+      { "type": "articles", "url": "compiler-code-optimization", "title": "Code Optimization" },
+      { "type": "articles", "url": "compiler-target-code", "title": "Target Code Generation" },
+      { "type": "articles", "url": "compiler-linking-execution", "title": "Linking & Execution" }
+    ]
   },
-    "os": {
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "compiler-handwritten-notes", "title": "Compiler Handwritten Notes" },
+      { "type": "articles", "url": "built-a-compiler", "title": "Building a Programming Language (arjit)" },
+      {
+        "type": "youtube",
+        "url": "https://youtu.be/OQCjakjCJu4?si=1CK846RLkOPztvPz",
+        "title": "Compilers in 1 video(KnowledgeGate)"
+      },
+      {
+        "type": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkRebOYdw4uqSN0ugRShSmHrzH",
+        "title": "Alex Aiken - Stanford lectures"
+      }
+    ]
+  }
+]
+  },
+  "os": {
     "ongoing": "false",
     "title": "Operating Systems",
     "image": "/images/thumbnails/OS.png",
@@ -645,52 +727,104 @@
     "time": "1 day",
     "category": "Core-CS",
     "navbar": [
-      {
-        "subheading": "Fundamentals",
-        "link": [
-        { "type": "articles", "url": "os-1", "title": "Introduction to OS" },
-        { "type": "articles", "url": "os-2", "title": "Structure of OS"}       
-      ]
-    },
-    {
-        "subheading": "Process and Thread Managment",
-        "link": [
-        { "type": "articles", "url": "os-3", "title": "Process Management"},
-        { "type": "articles", "url": "os-9", "title": "Thread and Forks"}   
-      ]
-    },
-    {
-        "subheading": "CPU Scheduling & Synchronization",
-        "link": [
-        { "type": "articles", "url": "os-4", "title": "CPU Scheduling Algorithms"},
-        { "type": "articles", "url": "os-5", "title": "Process Synchronization"},
-        { "type": "articles", "url": "os-6", "title": "Synchronization Solutions"},
-        { "type": "articles", "url": "os-7", "title": "Classical Problems"}      
-      ]
-    },
-    {
-        "subheading": "Deadlock Handling",
-        "link": [
-        { "type": "articles", "url": "os-8", "title": "Deadlocks"}
-      ]
-    },
-    {
-        "subheading": "Memory & Disk Management",
-        "link": [
-        { "type": "articles", "url": "os-10", "title": "Memory Management"},
-        { "type": "articles", "url": "os-11", "title": "Memory Allocation Strategies"},
-        { "type": "articles", "url": "os-12", "title": "Advanced Memory Management"},
-        { "type": "articles", "url": "os-13", "title": "Disk Management"}        
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-      { "type": "articles", "url": "os-14", "title": "OS Handwritten Notes" }
-      ]
-    }
-  ]
+  {
+    "subheading": "Fundamentals",
+    "link": [
+      { "type": "articles", "url": "os-introduction", "title": "Introduction to OS" },
+      { "type": "articles", "url": "os-structure", "title": "Structure of OS" }
+    ]
+  },
+  {
+    "subheading": "Process and Thread Management",
+    "link": [
+      { "type": "articles", "url": "os-process-management", "title": "Process Management" },
+      { "type": "articles", "url": "os-thread-forks", "title": "Thread and Forks" }
+    ]
+  },
+  {
+    "subheading": "CPU Scheduling & Synchronization",
+    "link": [
+      { "type": "articles", "url": "os-cpu-scheduling", "title": "CPU Scheduling Algorithms" },
+      { "type": "articles", "url": "os-process-synchronization", "title": "Process Synchronization" },
+      { "type": "articles", "url": "os-synchronization-solutions", "title": "Synchronization Solutions" },
+      { "type": "articles", "url": "os-classical-problems", "title": "Classical Problems" }
+    ]
+  },
+  {
+    "subheading": "Deadlock Handling",
+    "link": [
+      { "type": "articles", "url": "os-deadlocks", "title": "Deadlocks" }
+    ]
+  },
+  {
+    "subheading": "Memory & Disk Management",
+    "link": [
+      { "type": "articles", "url": "os-memory-management", "title": "Memory Management" },
+      { "type": "articles", "url": "os-memory-allocation", "title": "Memory Allocation Strategies" },
+      { "type": "articles", "url": "os-advanced-memory", "title": "Advanced Memory Management" },
+      { "type": "articles", "url": "os-disk-management", "title": "Disk Management" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "articles", "url": "os-handwritten-notes", "title": "OS Handwritten Notes" }
+    ]
+  }
+]
   }, 
+ "cn": {
+  "ongoing": "false",
+  "title": "Computer Networks",
+  "image": "/images/thumbnails/CN.png",
+  "subtitle": "Unravel the backbone of digital communication",
+  "description": "Explore the architecture, protocols, and layers that make modern networking possible—from applications to routers, and everything in between.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+  {
+    "subheading": "Fundamentals",
+    "link": [
+      { "type": "articles", "url": "cn-brief-overview", "title": "Brief Overview" },
+      { "type": "articles", "url": "cn-complete-picture", "title": "A Complete Picture" },
+      { "type": "articles", "url": "cn-internet-demystified", "title": "Internet Demystified" },
+      { "type": "articles", "url": "cn-network-speed-structure", "title": "Network Speed and Structure" }
+    ]
+  },
+  {
+    "subheading": "Application Layer",
+    "link": [
+      { "type": "articles", "url": "cn-application-layer-intro", "title": "Application Layer Introduction" },
+      { "type": "articles", "url": "cn-http", "title": "HTTP" },
+      { "type": "articles", "url": "cn-ftp", "title": "FTP" },
+      { "type": "articles", "url": "cn-dns", "title": "DNS" }
+    ]
+  },
+  {
+    "subheading": "Transport Layer",
+    "link": [
+      { "type": "articles", "url": "cn-transport-layer-intro", "title": "Transport Layer Introduction" },
+      { "type": "articles", "url": "cn-udp", "title": "UDP" },
+      { "type": "articles", "url": "cn-tcp", "title": "TCP" },
+      { "type": "articles", "url": "cn-quic", "title": "QUIC" }
+    ]
+  },
+  {
+    "subheading": "Network Layer",
+    "link": [
+      { "type": "articles", "url": "cn-network-layer-intro", "title": "Network Layer Introduction" },
+      { "type": "articles", "url": "cn-inside-router", "title": "Inside a Router" },
+      { "type": "articles", "url": "cn-ip-subnetting", "title": "IP and Subnetting" }
+    ]
+  },
+  {
+    "subheading": "Link Layer",
+    "link": [
+      { "type": "articles", "url": "cn-link-layer-overview", "title": "Link Layer Overview" }
+    ]
+  }
+]
+},
   "springboot": {
     "ongoing": "false",
     "title": "Spring Boot (Archived)",

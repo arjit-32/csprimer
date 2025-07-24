@@ -32,14 +32,6 @@
     "copyright": "© 2025 All Rights Reserved.",
     "quick_links": [
       {
-        "name": "Core CS",
-        "url": "/series?category=Core-CS"
-      },
-      {
-        "name": "Advanced Web Development",
-        "url": "/series?category=Advanced-Development"
-      },
-      {
         "name": "Data Structures & Algorithms",
         "url": "/series?category=DSA"
       },
@@ -48,12 +40,20 @@
         "url": "/series?category=Development"
       },
       {
+        "name": "Advanced Web Development",
+        "url": "/series?category=Advanced-Development"
+      },
+      {
         "name": "System Design",
         "url": "/series?category=System-Design"
       },
       {
-        "name": "Product Development",
-        "url": "/series?category=Product"
+        "name": "AI Engineering",
+        "url": "/series?category=AI-Engineering"
+      },
+      {
+        "name": "Core CS",
+        "url": "/series?category=Core-CS"
       }
     ],
     "latest_blogs":[

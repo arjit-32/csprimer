@@ -12,10 +12,10 @@ categories:
   title: "One Place for It All"
   category_list:
     - title: Data Structures & Algorithms
-      content: I'm revisiting DSA to get better at logic building eventually used everywhere.
+      content: Learn DSA from basics instead of jumping right to leetcode and get better at logic building.
       link: /series?category=DSA
     - title: Fullstack Web Development
-      content: Go from absolute basic of the web to applications in MERN stack
+      content: Go from absolute basics of the web to building highly scalable web applications.
       link: /series?category=Development
     - title: Git Basics to Advance
       content: Exploring Git, AWS, Distributed Systems and more to level up.
