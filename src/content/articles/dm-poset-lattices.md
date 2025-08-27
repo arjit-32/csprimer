@@ -60,15 +60,7 @@ A lattice is a partially ordered set where every pair of elements has both a uni
 
 Example - Consider the set of all divisors of 12: *{1, 2, 3, 4, 6, 12}*
 
-```jsx
-           12
-         /  |  \
-        6   4   3
-        |   |   |
-        2   2   3
-         \  |  /
-           1
-```
+![lattice-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/lattice_zsty3k.webp)
 
 In above Hasse diagram you can check for every pair their exists a Join and a Meet. In this case representing LCM if a Join and GCD if a Meet.
 

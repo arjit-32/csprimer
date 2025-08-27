@@ -17,11 +17,13 @@ Combinational circuits are *circuits without memory*. Their output depends only
 - Outputs change instantly with input changes
 - Defined by Boolean expressions or truth tables
 
+These circuits are the foundation of everything from calculators to CPUs. Let’s explore the most common types:
+
 ## Types of Combinational Circuits
 
-### 1. Adder
+### 1. Adders
 
-Add binary numbers.
+Adders perform binary addition, crucial for arithmetic operations in processors
 
 - **Half Adder**: Adds two 1-bit inputs (A, B)
     - Outputs: ***Sum = A ⊕ B, Carry = A·B***
@@ -34,7 +36,7 @@ Add binary numbers.
 
 ### 2. Subtractor
 
-Subtract binary numbers.
+Subtractors handle binary subtraction, often used in control logic and arithmetic units.
 
 - **Half Subtractor**: Subtracts B from A (A-B)
     - Outputs: ***Diff = A ⊕ B, Borrow = ¬A · B***
@@ -46,10 +48,10 @@ Subtract binary numbers.
 
 ### 3. Multiplexer (MUX)
 
-Acts like a switch to pick one input to send to the output.
+A multiplexer selects one input from many and forwards it to the output - like a digital switch. Used in data routing, decision-making, and signal control.
 
 - **2-to-1 MUX**:
-    - Inputs: A, B; Select: S
+    - Inputs: A, B; Select line: S
     - Output: ***Y = A·¬S + B·S***
  ![Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747985754/multiplexer_e57yjd.png)
 
@@ -57,7 +59,7 @@ Acts like a switch to pick one input to send to the output.
 
 ### 4. Demultiplexer (DEMUX)
 
-Routes one input to one of many outputs based on selector bits. Its like a reverse MUX, directing data to a chosen path.
+Routes one input to one of many outputs based on selector bits. Its like a reverse MUX, directing data to a chosen path. Ideal for distributing data to multiple destinations
 
  ![De-Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747985754/demultiplexer_z5ku8b.png)
 
@@ -65,7 +67,7 @@ Routes one input to one of many outputs based on selector bits. Its like a rever
 
 ### 5. Decoder
 
-Translates n input bits into one of 2ⁿ output lines.
+Translates n input bits into one of 2ⁿ output lines. They convert binary input into a one-hot output—only one output line is active at a time.
 
 - **2-to-4 decoder**: Inputs: 2 bits → Outputs: 4 lines, with only one active at a time
 
@@ -73,10 +75,10 @@ Translates n input bits into one of 2ⁿ output lines.
 
 ### 6. Encoder
 
-Converts one of 2ⁿ active inputs into an n-bit binary code. Opposite of a decoder; only one input should be active at a time.
+Converts one of 2ⁿ active inputs into an n-bit binary code. They take multiple inputs and compress them into a binary code. Opposite of a decoder; only one input should be active at a time. 
 
 ---
 
 ## Conclusion
 
-These components are the building blocks of more advanced hardware systems like ALUs, control units, and memory addressing circuits.
+Mastering combinational circuits is the first step toward understanding how modern hardware. These components are the building blocks of more advanced hardware systems like ALUs, control units, and memory addressing circuits. 

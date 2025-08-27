@@ -17,6 +17,8 @@ A graph is combination of
 - Nodes (vertices) - Represents entities or objects.
 - Edges - Represents relationships between nodes.
 
+![graph-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/graphs_dqfxut.webp)
+
 ---
 
 ## Types of Graphs

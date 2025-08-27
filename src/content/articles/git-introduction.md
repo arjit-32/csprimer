@@ -13,9 +13,9 @@ year: 2025
 
 Source control, helps track and coordinate changes in a codebase, especially when multiple developers are working on the same project.
 
-Traditional source code management was done on CVS and SVN which had centralized architecture.
+Earlier systems like CVS and SVN used a centralized architecture, where a single central repository held the complete history of the code.
 
-Git is fundamentally different because of its distributed architecture (No central repo). Every developer maintains their own local repository, they can pull changes from, or push changes to other repositories.
+Git is fundamentally different because of its distributed architecture (No central repo). Every developer maintains their own local repository, they can pull changes from, or push changes to other repositories. Note that teams often use a shared remote repository to coordinate changes.
 
 
 ## Phases of Git Content
@@ -33,7 +33,7 @@ Git organizes files into three main phases:
 
 ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741776562/image_1_zzoyef.png)
 
-Git tracks changes as a series of commits, forming a history of modifications. Each new commit builds upon the previous one.
+Git records changes through commits, each representing a snapshot of the codebase. This creates a clear and traceable history
 
 For example, in the diagram above:
 
@@ -52,7 +52,7 @@ A branch allows developers to work on different versions of the project simultan
 In the diagram:
 
 - The **main branch** contains commits A → B → C → D → E.
-- The **experimental branch** diverges at commit C (it does not contain D and E’s changes, similarly master branch is not ruined by F’s changes)
+- The **experimental branch** diverges at commit C (it does not contain D and E’s changes, similarly master branch remains unaffected by F’s changes)
 
 
 ## What is Github ?
@@ -62,5 +62,5 @@ It is a remote hosting service which is generally being used by people as a **ce
 ## How is Git different to other Version Control Systems ?
 
 - Branching takes O(1) time while in CVS and SVN it takes O(n).
-- Changes are made across whole project and not a particular file.
+- Git stores changes as snapshots of the entire project, rather than tracking file-by-file diffs like some older systems.
 - Changes are marked with Hash numbers( Ex- `a1b2c3d4`) instead of version number thus ensuring security.

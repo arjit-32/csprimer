@@ -13,6 +13,8 @@ Scaling is how businesses handle increased demand on their systems. Whether you'
 
 ## Vertical Scaling (Scaling Up)
 
+![vertical-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/vertical-scaling_t5yu1y.webp)
+
 Vertical scaling means making a single machine more powerful, adding more RAM, faster procesor, bigger hard-drive.
 
 Advantage - 
@@ -28,6 +30,8 @@ Disadvantage -
 ---
 
 ## Horizontal Scaling (Scaling Out)
+
+![horizontal-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/horizontal-scaling_xbj7tu.webp)
 
 Horizontal scaling means adding more machines to share the workload. Instead of upgrading one server, you add more servers and distribute the traffic between them.
 

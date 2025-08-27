@@ -19,6 +19,8 @@ An architecture pattern is a reusable solution to a commonly occurring problem i
 
 ## Centralized and Decentralized
 
+![centralized-vs-decentralized](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/centralized-decentral_ejunwl.webp)
+
 A **centralized system** is one where all processing, data storage, and decision-making are handled by a *single central server* or a tightly controlled group of servers. All clients (users or devices) depend on this central authority to function.
 
 A **decentralized system** distributes control and processing across *multiple independent nodes.* Each node can make decisions and operate without relying on a central authority. Paul Baran, a researcher at RAND corp. came up with idea of distributed communication to survive a attack (remember it was cold war) in 1964 which was seen with skepticism by telecom operators but later influenced of ARPANET(1969) and later with birth of Internet.
@@ -27,6 +29,8 @@ A **decentralized system** distributes control and processing across *multiple i
 
 ## Layered Architecture
 
+![layered-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/layered-architecture_xoxmj2.webp)
+
 Divides a system into logical units or layers(e.g., presentation, business, data) each handling a specific task. Request flows through layers and can be open (allowing bypass) or closed (sequential)
 
 *layer = Logical seperation*
@@ -34,6 +38,8 @@ Divides a system into logical units or layers(e.g., presentation, business, data
 ---
 
 ## N-Tier Architecture
+
+![n-tier-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/n-tier_zzdbgq.webp)
 
 N-Tier Architecture (also called Multitier Architecture) is a software architecture pattern that divides an application into multiple physical tiers, where each tier is responsible for a specific concern and runs on a separate server or process.
 
@@ -44,6 +50,8 @@ These tiers communicate with each other using APIs.
 ---
 
 ## Model-View-Controller (MVC)
+
+![MVC-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/mvc-architecture_dk6xne.webp)
 
 This architecture divides application into 3 primary components - 
 
@@ -57,11 +65,15 @@ Controller - Responsible for handling user input/interactions and communication 
 
 ## Model-View-ViewModel (MVVM)
 
+![mvvm-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/mvvm-architecture_vqvw76.webp)
+
 The concept of the *Model* and *View* in MVVM is similar to MVC. The key difference is that instead of a *Controller* directing the View, a *ViewModel* acts as the intermediary. The View binds directly to properties and commands exposed by the ViewModel. This binding enables automatic UI updates whenever the underlying data changes - without the ViewModel needing to explicitly instruct the View.
 
 ---
 
 ## Client Server
+
+![client-server-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/client-server_fhqziu.webp)
 
 It is a two-layered and typically two-tiered, architecture. The flow is quite simple, clients *(e.g., web browsers, mobile apps)* send requests to a server, which processes them and returns responses. The server typically handles the business logic and data processing, while the client focuses on the user interface and lightweight logic *(e.g., input validation)*.
 
@@ -69,11 +81,15 @@ It is a two-layered and typically two-tiered, architecture. The flow is quite s
 
 ## Peer to Peer (P2P)
 
+![peer-to-peer-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/peer-to-peer_ttlzri.webp)
+
 Peer-to-Peer (P2P) architecture is a decentralized network model where each node (or peer) can act as both a client and a server, sharing resources directly with other nodes without relying on a central authority. *Example - File sharing (BitTorrent), blockchain, decentralized messaging.*
 
 ---
 
 ## Broker Pattern
+
+![broker-pattern](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/broker-pattern_deadhd.webp)
 
 A messaging architecture where a central **broker** acts as an intermediary between clients and services. It decouples senders and receivers, managing requests and responses, often using a message queue.
 
@@ -81,11 +97,15 @@ A messaging architecture where a central **broker** acts as an intermediary betw
 
 ## Pipe and Filter
 
+![pipe-and-filter-pattern](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/pipe-and-filter_crwelv.webp)
+
 Pipe and Filter pattern is a typical technique used in data processing where there are a series of steps(filters) connected by pipes that pass output of one filter to input of next. *Example*  - *Text processing in editors(grammar check etc), Data Analytics, Streaming data*
 
 ---
 
 ## Event Driven Architecture
+
+![event-driven-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/event-driver-architecture_ofgll6.webp)
 
 A design where components **react to events** (e.g., “user registered”, “payment failed”) instead of directly calling one another. Often times Pub-Sub is used to facilitate event-driven architecture. *Example - Webhooks, IoT, real-time analytics.*
 

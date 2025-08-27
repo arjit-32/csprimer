@@ -13,6 +13,8 @@ Load balancing is a critical technique used to distribute workloads evenly acros
 
 ## Hash-Based Load Balancing
 
+![hash-based-load-balancing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/hash-based-load-balancing_pw3vpp.webp)
+
 Requests are mapped to servers using a hash function.
 
 ```jsx
@@ -36,6 +38,8 @@ Problem with this is that when we add or remove a server, value of *N* changes w
 ---
 
 ## Consistent Hashing
+
+![consistent-hashing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/consistent-hashing_y1usg4.webp)
 
 Both servers and keys are mapped to a hash ring. Requests are routed clockwise to the nearest server. Adding or removing a server only affects a small portion of keys.
 

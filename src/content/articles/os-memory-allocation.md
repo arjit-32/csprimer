@@ -7,8 +7,6 @@ series: ["os"]
 categories: ["Core-CS"]
 ---
 
-# Memory Allocation Strategies & Challenges
-
 Memory allocation is essential for managing process execution efficiently. Improper allocation can lead to *fragmentation* and wasted resources, affecting performance.
 
 

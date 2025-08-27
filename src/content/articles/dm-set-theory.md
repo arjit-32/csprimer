@@ -8,7 +8,6 @@ categories: ["Core-CS"]
 draft: false
 ---
 
-
 Set Theory might sound academic, but it’s everywhere in development - from deduplicating data to writing cleaner algorithms or SQL queries.
 
 ## What is a Set?

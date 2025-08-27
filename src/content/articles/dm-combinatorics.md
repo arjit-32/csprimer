@@ -10,7 +10,7 @@ draft: false
 
 Combinatorics is the branch of discrete mathematics focused on counting, arranging, and choosing objects.
 
-If you’ve ever asked - *“How many ways can I…?”* or *“What are all the combinations of…?” ,*you’re already thinking like a combinatorist (is that even a word)
+If you’ve ever asked - *“How many ways can I…?”* or *“What are all the combinations of…?”* ,you’re already thinking like a combinatorist (is that even a word)
 
 ## Core Counting Principles
 

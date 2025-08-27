@@ -47,21 +47,36 @@ cleanEmail("  arjit@Gmail.COM   ")
 
 Each input maps to a unique output. *No two users share the same email.*
 
+![injective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/injective_hcqltd.webp)
+
 ### 2. Surjective (Onto)
 
 Every output is used at least once. *Every department in a company must have atleast one employee.*
+
+![surjective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/surjective_g06jnt.webp)
+
 
 ### 3. Bijective (One-to-One & Onto)
 
 Perfect pairing where each input has exactly one output and vice versa. *Each country has only 1 currency associated to it.*
 
+![bijective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/bijective_kh0osj.webp)
+
 ---
 
 ## Inverse of a Function
 
-Just reverse the function. If *f(x) = y,* then *f⁻¹(y)=x*. As you can imagine, it has loads of application indirectly from encryption to computer graphics.
+To find the inverse of a function, you essentially "undo" its operation. That means if a function maps *f(x) = y*, the inverse function will reverse this mapping and is represented as *f⁻¹(x)*. 
+Inverses have powerful applications in fields like encryption, computer graphics, data modeling, and more.
 
-Example - Let f(x)=5x-7 then *f⁻¹(y)=(y+7)/5*
+Example - Let f(x)=5x-7, to find the inverse ->
+```html
+Set y = 5x-7 and solve for x; 
+5x-7 = y 
+5x = y+7 
+x = (y+7)/5 
+```
+ *f⁻¹(x)=(x+7)/5*
 
 ---
 

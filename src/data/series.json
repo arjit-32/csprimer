@@ -327,8 +327,7 @@
       {
         "subheading": "Foundations",
         "link": [
-          { "type": "articles", "url": "dsa-analysis-of-algorithms", "title": "Analysis of Algorithms" },
-          { "type": "articles", "url": "dsa-count-digits", "title": "Count of digits" }
+          { "type": "articles", "url": "dsa-analysis-of-algorithms", "title": "Analysis of Algorithms" }
         ]
       }
     ]
@@ -545,8 +544,8 @@
       },
       {
         "type": "youtube",
-        "url": "https://youtu.be/3zOtLEeHygg?si=a64Wturp6O_c8qO4",
-        "title": "DM in 1 video(KnowledgeGate)"
+        "url": "https://youtube.com/playlist?list=PLNpQfWftj0-dSswJudP0Qvsrb8zi_3LH_&si=0rqxRyuAkgH0Npm1",
+        "title": "Arjit's Crash Course"
       }
     ]
   }
@@ -588,8 +587,8 @@
       },
       {
         "type": "youtube",
-        "url": "https://youtu.be/pHNbm-4reIc?si=WdV8OboMJm9fHlvJ",
-        "title": "DL in 1 video(KnowledgeGate)"
+        "url": "https://youtube.com/playlist?list=PLNpQfWftj0-f0K1GLAGNnlhCGNFy4MM8F&si=Bg04i30yjKnq-JG5",
+        "title": "Arjit's Crash Course"
       }
     ]
   }
@@ -628,11 +627,6 @@
         "type": "youtube",
         "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR",
         "title": "Make your own CPU"
-      },
-      {
-        "type": "youtube",
-        "url": "https://youtu.be/DsK35f8wyUw?si=ItJBTTvVc19aZKA7",
-        "title": "COA in 1 video(KnowledgeGate)"
       }
     ]
   }
@@ -663,11 +657,6 @@
     "subheading": "Further Learnings",
     "link": [
       { "type": "articles", "url": "toc-handwritten-notes", "title": "TOC Handwritten Notes" },
-      {
-        "type": "youtube",
-        "url": "https://youtu.be/9kuynHcM3UA?si=Kb0pXxCwJMg8vSDm",
-        "title": "TOC in 1 video(KnowledgeGate)"
-      },
       {
         "type": "youtube",
         "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta",
@@ -704,11 +693,6 @@
     "link": [
       { "type": "articles", "url": "compiler-handwritten-notes", "title": "Compiler Handwritten Notes" },
       { "type": "articles", "url": "built-a-compiler", "title": "Building a Programming Language (arjit)" },
-      {
-        "type": "youtube",
-        "url": "https://youtu.be/OQCjakjCJu4?si=1CK846RLkOPztvPz",
-        "title": "Compilers in 1 video(KnowledgeGate)"
-      },
       {
         "type": "youtube",
         "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkRebOYdw4uqSN0ugRShSmHrzH",
@@ -768,7 +752,8 @@
   {
     "subheading": "Further Learnings",
     "link": [
-      { "type": "articles", "url": "os-handwritten-notes", "title": "OS Handwritten Notes" }
+      { "type": "articles", "url": "os-handwritten-notes", "title": "OS Handwritten Notes" },
+      { "type": "youtube", "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkReZHXWY9yJvTwLJWYYPcKEqK", "title": "MIT course" }
     ]
   }
 ]
@@ -821,6 +806,12 @@
     "subheading": "Link Layer",
     "link": [
       { "type": "articles", "url": "cn-link-layer-overview", "title": "Link Layer Overview" }
+    ]
+  },
+  {
+    "subheading": "Further Learnings",
+    "link": [
+      { "type": "youtube", "url": "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O", "title": "Jim Kurose Playlist" }
     ]
   }
 ]
