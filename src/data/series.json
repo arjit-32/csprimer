@@ -169,8 +169,8 @@
     "ongoing": "false",
     "title": "AWS for Developers",
     "image": "/images/thumbnails/aws.png",
-    "subtitle": "Cloud fundamentals and AWS tools for building scalable apps.",
-    "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using AWS services. We'll cover security, serverless, and databases with hands-on examples.",
+    "subtitle": "AWS fundamentals required for building scalable apps.",
+    "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using cloud services. We'll cover security, serverless, and databases with hands-on examples.",
     "time": "13 articles",
     "category": "Advanced-Development",
    "navbar": [
@@ -327,7 +327,10 @@
       {
         "subheading": "Foundations",
         "link": [
-          { "type": "articles", "url": "dsa-analysis-of-algorithms", "title": "Analysis of Algorithms" }
+          { "type": "articles", "url": "dsa-analysis-of-algorithms", "title": "Analysis of Algorithms" },
+          { "type": "articles", "url": "dsa-array-1", "title": "Array Questions" }
+          
+
         ]
       }
     ]
@@ -815,6 +818,29 @@
     ]
   }
 ]
+},
+
+"project-analytics":{
+    "ongoing": "false",
+    "title": "Analytics",
+    "image": "/images/thumbnails/group-of-devs.jpg",
+    "subtitle": "xxsub",
+    "description": "xxdesc",
+    "time": "12",
+    "category": "Project",
+    "navbar": [
+      {
+        "subheading": "Spring Boot (Archived)",
+        "link": [
+          { "type": "articles", "url": "spring-1", "title": "Overview of Spring" },
+          { "type": "articles", "url": "spring-2", "title": "IoC, DI, and Autowiring" },
+          { "type": "articles", "url": "spring-3", "title": "Scope and Lifecycle of a Bean" },
+          { "type": "articles", "url": "spring-4", "title": "JUnit and Mockito" },
+          { "type": "articles", "url": "spring-5", "title": "Working with Databases" },
+          { "type": "articles", "url": "spring-6", "title": "Creating RESTful API" }
+        ]
+      }
+    ]
 },
   "springboot": {
     "ongoing": "false",

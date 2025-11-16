@@ -18,7 +18,18 @@ const blogCollection = defineCollection({
   }),
 });
 
+// Pages collection schema
+const pagesCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+});
+
+
+
 // Export collections
 export const collections = {
-  articles: blogCollection
+  articles: blogCollection,
+  pages: pagesCollection,
 };

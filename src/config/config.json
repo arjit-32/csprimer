@@ -18,13 +18,13 @@
   },
 
   "call_to_action": {
-  "title": "Need help ? Lets Chat !",
-  "description": "Whether it’s tech, design, or just a problem you're stuck on, I’m here to help !",
+  "title": "Important Announcement",
+  "description": "I’m committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
   "button": {  
-    "label1": "Reach Out on LinkedIn",  
-    "link1": "https://www.linkedin.com/in/arjit32/",  
-    "label2": "DM me on Twitter",  
-    "link2": "https://x.com/arjit32"  
+    "label1": "Connect on LinkedIn",  
+    "link1": "https://www.linkedin.com/in/arjit32/",
+    "label2": "Report Issues/Contribute",  
+    "link2": "https://github.com/arjit-32/csprimer"
   }
   },
   "params": {
@@ -56,18 +56,10 @@
         "url": "/series?category=Core-CS"
       }
     ],
-    "latest_blogs":[
+    "youtube_series":[
       {
-        "name": "Deadlocks slow down your webapps",
-        "url": "/articles/deadlock-the-invisible-trap"
-      },
-      {
-        "name": "Why VoIP beats regular phone calls ",
-        "url": "/articles/voip-random"
-      },
-      {
-        "name": "How web analytics work",
-        "url": "/articles/analytics-random"
+        "name": "Oracle Cloud Shorts Series",
+        "url": "https://youtube.com/playlist?list=PLNpQfWftj0-cQpKnc9077q0vTydClTUep&si=1DMlSytg14OZBqr8"
       }
     ]
   },

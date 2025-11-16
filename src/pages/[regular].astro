@@ -1,0 +1,39 @@
+---
+import Shape from "@/components/Shape.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const pages = await getSinglePage("pages");
+
+  const paths = pages.map((page) => ({
+    params: {
+      regular: page.slug,
+    },
+    props: { page },
+  }));
+  return paths;
+}
+
+const { page } = Astro.props;
+const { title, meta_title, description, image } = page.data;
+const { Content } = await render(page);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <Shape />
+
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <Content />
+      </div>
+    </div>
+  </section>
+</Base>
