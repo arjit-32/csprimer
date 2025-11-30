@@ -1,15 +1,51 @@
 ---
 import { Image } from "astro:assets";
-const {
-  categories: { title, category_list },
-} = Astro.props;
+
+const category_list = [
+  {
+    title: "Data Structures & Algorithms",
+    content:
+      "Learn DSA from basics instead of jumping right to leetcode and get better at logic building.",
+    link: "/series?category=DSA",
+  },
+  {
+    title: "Fullstack Web Development",
+    content:
+      "Go from absolute basics of the web to building highly scalable web applications.",
+    link: "/series?category=Development",
+  },
+  {
+    title: "Git Basics to Advance",
+    content:
+      "Exploring Git, AWS, Distributed Systems and more to level up.",
+    link: "/series/git",
+  },
+  {
+    title: "System Design",
+    content:
+      "Deconstructing architectures, trade-offs, and design principles behind scalable systems.",
+    link: "/series?category=System-Design",
+  },
+  {
+    title: "Core Computer Science",
+    content:
+      "Getting a deep understanding of essential CS subjects like Networks, Databases.",
+    link: "/series?category=Core-CS",
+  },
+  {
+    title: "UI/UX for Developers",
+    content:
+      "Bridge the gap between development and design by learning core principles.",
+    link: "/series/ui",
+  },
+];
 ---
 
 <section class="section services">
   <div class="container">
     <div class="row items-center justify-between">
       <div class="md:col-5">
-        <h2 class="text-center md:text-left" set:html={title} />
+        <h2 class="text-center md:text-left">One Place for It All</h2>
       </div>
     </div>
 

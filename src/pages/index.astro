@@ -4,15 +4,11 @@ import Banner from "@/layouts/components/Banner.astro";
 import VideoFeatureBanner from "@/components/VideoFeatureBanner.astro";
 import Categories from "@/components/Categories.astro";
 import Cta from "@/layouts/partials/Cta.astro";
-import { getEntry } from "astro:content";
-
-const homepage = await getEntry("homepage", "index");
-const { banner, videoBanner, categories } = homepage.data;
 ---
 
 <Base>
-  <Banner banner={banner} />
+  <Banner />
   <!-- <VideoFeatureBanner videoFeature={videoBanner} />   -->
-  <Categories categories={categories} />
+  <Categories />
   <Cta />
 </Base>
