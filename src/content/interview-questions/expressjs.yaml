@@ -1,0 +1,122 @@
+questions:
+  - id: 15
+    tags: [expressjs]
+    question: "🚀 What is Express.js and why is it required?"
+    answer:
+      - "Its a minimal, flexible web framework for Node.js. It simplifies tasks like routing, handling requests/responses, and managing middleware."
+      - "It -> Reduces boilerplate code, Makes server-side dev fast & clean, Supports middleware, Simplifies Routing, Handles HTTP Methods, Serves Static Files, Supports Templating Engines and has Good Error Handling"
+      - "Alternatives to Express - Koa.js, Fastify.js ( flexible & modern) , Hapi.js ( More config )"
+    code: |
+      const express = require('express');
+      const app = express();
+
+      app.get('/', (req, res) => res.send('Hello, Express!'));
+
+      app.listen(3000, () => console.log('Server running on port 3000'));
+  - id: 16
+    tags: [expressjs]
+    question: "🙋 What is middleware in Express.js?"
+    answer:
+      - "It is a function that executes during request-response cycle in express"
+      - "Can use built-in, 3rd party or custom middlewares."
+      - "Used for tasks like logging, authentication, and parsing data."
+    code: |
+      app.use((req, res, next) => {
+        console.log('Request Type:', req.method);
+        next(); // Move to the next middleware or route handler
+      });
+  - id: 17
+    tags: [expressjs]
+    question: "🧭 What is routing in Express.js?"
+    answer:
+      - "It defines how an app responds to client requests at specific URL paths and HTTP methods (GET, POST, etc.). Its how you handle different actions (e.g. displaying data, creating resources) based on the URL."
+      - "How routing works in Express - "
+      - "- Express supports all HTTP methods."
+      - "- Dynamic routes with parameters (e.g., /user/:id)."
+      - "- Multiple handlers per route!"
+    code: |
+      app.get('/users', (req, res) => {
+        res.send('User list');
+      });
+
+      app.post('/users', (req, res) => {
+        res.send('Create new user');
+      });
+  - id: 18
+    tags: [expressjs]
+    question: "🧭 What are route parameters in Express.js?"
+    answer:
+      - "Route parameters allow you to capture values from the URL. They are placeholders in the route definition (e.g., /user/:id)."
+      - "Useful when u want to create dynamic routes that respond differently based on values in URL."
+      - "How route parameters work:"
+      - "- Parameters are prefixed with : in the route path."
+      - "- You can access them using req.params inside your route handler."
+    code: |
+      app.get('/user/:id', (req, res) => {
+        const userId = req.params.id;
+        res.send(`User ID is ${userId}`);
+      });
+  - id: 19
+    tags: [expressjs]
+    question: "❓What are query parameters in Express.js?"
+    answer:
+      - "Query parameters are part of the URL that come after the question mark (?) and are used to send data as key-value pairs."
+      - "Can be accessed using req.query."
+      - "Example - /search?name=phone&category=electronics"
+    code: |
+      const express = require('express');
+      const app = express();
+
+      app.get('/search', (req, res) => {
+        const name = req.query.name;
+        const category = req.query.category;
+        res.send(`Searching for ${name} in the ${category} category`);
+      });
+
+      app.listen(3000, () => {
+        console.log('Server is running on port 3000');
+      });
+  - id: 20
+    tags: [expressjs]
+    question: "📋 Difference between res.send(), res.json(), and res.end() in Express.js?"
+    answer:
+      - "- res.send(): It sends various types. Automatically detects and sets Content-Type header. It auto-ends response."
+      - "- res.json(): Sends JSON response with correct headers. It also sets Content-Type to application/json."
+      - "res.end(): Ends response without sending data (unless specified)."
+  - id: 21
+    tags: [expressjs]
+    question: "☠️ Handling errors in Express.js ?"
+    answer:
+      - "- Define error-handling middleware with 4 args: (err, req, res, next)"
+      - "- Use next(err) to pass errors to the handler."
+      - "- For async errors, use try/catch and pass errors to next()."
+    code: |
+      app.get('/', (req, res, next) => {
+        try {
+          throw new Error('Something went wrong!');
+        } catch (err) {
+          next(err); // Pass error to error-handling middleware
+        }
+      });
+
+      app.use((err, req, res, next) => {
+        console.error(err.message);
+        res.status(500).send('Internal Server Error');
+      });
+  - id: 22
+    tags: [expressjs]
+    question: "📁How to serve static files in Express.js ?  "
+    answer:
+      - "- Use express.static('folder') to serve HTML, CSS, images, etc."
+      - "- For multiple directories, use express.static() multiple times. "
+      - "- Can also add a virtual path prefix for custom routes."
+    code: |
+      // Serves from the 'public' folder
+      app.use(express.static('public'));
+
+      // Can serve static files from multiple folders
+      app.use(express.static('public'));
+      app.use(express.static('assets'));
+
+      // Access via website.com/static/file.css, instead of website.com/file.css
+      app.use('/static', express.static('public'));

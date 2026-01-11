@@ -50,12 +50,17 @@ const seriesCollection = defineCollection({
 
 // Interview Questions collection schema
 const interviewQuestionsCollection = defineCollection({
-  type: 'content', // Markdown/MDX based
+  type: 'data', // YAML based
   schema: z.object({
-    question: z.string(),
-    tags: z.array(z.string()),
-    date: z.date().default(() => new Date()), // Useful for ordering
-    related_images: z.array(z.string()).optional(),
+    questions: z.array(z.object({
+      id: z.union([z.string(), z.number()]),
+      question: z.string(),
+      answer: z.array(z.string()), // Array of strings (paragraphs/bullets)
+      code: z.string().optional(),
+      tags: z.array(z.string()).default([]),
+      date: z.date().optional(),
+      related_images: z.array(z.string()).optional(),
+    }))
   }),
 });
 
