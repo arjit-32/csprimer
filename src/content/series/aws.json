@@ -1,0 +1,126 @@
+{
+  "ongoing": "false",
+  "title": "AWS for Developers",
+  "image": "/images/thumbnails/aws.png",
+  "subtitle": "AWS fundamentals required for building scalable apps.",
+  "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using cloud services. We'll cover security, serverless, and databases with hands-on examples.",
+  "time": "13 articles",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "Cloud Foundations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "aws-cloud-fundamentals",
+          "title": "Fundamentals of Cloud"
+        },
+        {
+          "type": "articles",
+          "url": "aws-iam-secure-access",
+          "title": "IAM - Secure Access"
+        }
+      ]
+    },
+    {
+      "subheading": "Zero to AWS: Quick Win",
+      "link": [
+        {
+          "type": "articles",
+          "url": "aws-cheatsheet",
+          "title": "AWS Cheatsheet"
+        },
+        {
+          "type": "articles",
+          "url": "aws-cut-through-clutter",
+          "title": "Cut through the Clutter"
+        }
+      ]
+    },
+    {
+      "subheading": "Compute Services",
+      "link": [
+        {
+          "type": "articles",
+          "url": "aws-ec2-virtual-servers",
+          "title": "EC2- Virtual Servers"
+        },
+        {
+          "type": "articles",
+          "url": "aws-deploy-nodejs-ec2",
+          "title": "Deploy a Node.js App on EC2"
+        },
+        {
+          "type": "articles",
+          "url": "aws-elb-traffic-distribution",
+          "title": "ELB- Distribute Traffic"
+        },
+        {
+          "type": "articles",
+          "url": "aws-lambda-serverless",
+          "title": "Lambda- Serverless"
+        },
+        {
+          "type": "articles",
+          "url": "aws-api-lambda-gateway",
+          "title": "API with Lambda & API Gateway"
+        }
+      ]
+    },
+    {
+      "subheading": "Storage & Database",
+      "link": [
+        {
+          "type": "articles",
+          "url": "aws-s3-object-storage",
+          "title": "S3- Object Storage"
+        },
+        {
+          "type": "articles",
+          "url": "aws-s3-website-hosting",
+          "title": "Website Hosting using S3"
+        },
+        {
+          "type": "articles",
+          "url": "aws-dynamodb-nosql",
+          "title": "DynamoDB- NoSQL database"
+        }
+      ]
+    },
+    {
+      "subheading": "Application Integration",
+      "link": [
+        {
+          "type": "articles",
+          "url": "aws-sqs-decoupled-apps",
+          "title": "SQS- Decoupled Apps"
+        },
+        {
+          "type": "articles",
+          "url": "aws-sns-notifications",
+          "title": "SNS- Send Notifications"
+        },
+        {
+          "type": "articles",
+          "url": "aws-api-gateway",
+          "title": "API Gateway"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "external",
+          "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/",
+          "title": "AWS Solutions Architect(Udemy)"
+        },
+        {
+          "type": "external",
+          "url": "https://www.ducktyped.org/",
+          "title": "Aditya Bhargava's Networking Series"
+        }
+      ]
+    }
+  ]
+}

@@ -31,11 +31,11 @@ const currentPosts = recentPost.slice(0, config.settings.pagination);
 >
   <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
     <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Projects</h2>
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Articles</h2>
      
     <div class="container">
       <FeaturedBlog posts={featuredPost} />
-      <!-- <h2 class="h4 mb-4">Recent Projects</h2> -->
+      <h2 class="h4 mb-4">Recent Articles</h2>
       <Blogs posts={currentPosts} />
       <Pagination
         section={blog_folder}

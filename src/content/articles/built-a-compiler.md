@@ -5,7 +5,7 @@ meta_title: Building a Programming Language | CS Primer
 description: Dive into how compilers work by building your own programming language from scratch. A hands-on guide for software engineers exploring language design and systems programming in 2025.
 author: Arjit Sharma
 series: []
-categories: ["Core-CS"]
+categories: ["Project"]
 image: /images/thumbnails/hindilang.png
 featured: true
 year: 2025

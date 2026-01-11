@@ -3,7 +3,7 @@ title: HashTables
 meta_title: Hash Tables & Hash Functions Demystified  DSA Essentials
 description: Dive into the world of Hash Functions and Hash Tables with simple analogies and Java examples. Learn how collisions and load factors impact performance—perfect for DSA beginners.
 author: Arjit Sharma
-series: ["dsa"]
+series: ["dsa-complete-picture"]
 categories: ["DSA"]
 featured: false
 draft: false

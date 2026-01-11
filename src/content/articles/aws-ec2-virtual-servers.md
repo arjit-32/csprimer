@@ -4,7 +4,7 @@ meta_title: EC2 Essentials | CS Primer
 description: Learn when to choose EC2 over serverless, understand core concepts, instance types, and practical setup guide. Complete walkthrough from launching to connecting to your first AWS virtual machine.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

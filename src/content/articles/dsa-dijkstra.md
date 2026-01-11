@@ -3,7 +3,7 @@ title: Dijkstra's Algorithm
 meta_title: Dijkstra’s Algorithm Explained  Weighted Graphs, Shortest Paths & Code
 description: Explore Dijkstra’s Algorithm for finding the shortest paths in weighted graphs. Learn how it works with intuitive examples, tables, and Python code—perfect for mastering DSA concepts.
 author: Arjit Sharma
-series: ["dsa"]
+series: ["dsa-complete-picture"]
 categories: ["DSA"]
 featured: false
 draft: false

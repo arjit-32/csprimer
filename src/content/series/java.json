@@ -1,0 +1,166 @@
+{
+  "ongoing": "false",
+  "title": "Java for DSA",
+  "image": "/images/thumbnails/java.png",
+  "subtitle": "Master the essentials of Java to ace Data Structures & Algorithms",
+  "description": "A complete beginner-to-intermediate series that builds your Java fundamentals and dives deep into object-oriented programming and the Collections Framework - tailored specifically for mastering DSA in Java.",
+  "time": "24 articles",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Getting Started with Java",
+      "link": [
+        {
+          "type": "articles",
+          "url": "java-introduction",
+          "title": "Introduction to Java"
+        },
+        {
+          "type": "articles",
+          "url": "java-platform-explained",
+          "title": "The Java Platform Explained"
+        }
+      ]
+    },
+    {
+      "subheading": "Java Foundations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "java-basics",
+          "title": "Basic of Java"
+        },
+        {
+          "type": "articles",
+          "url": "java-control-flow-logic",
+          "title": "Control Flow and Logic"
+        },
+        {
+          "type": "articles",
+          "url": "java-arrays",
+          "title": "Working with Arrays"
+        },
+        {
+          "type": "articles",
+          "url": "java-strings",
+          "title": "Working with Strings"
+        },
+        {
+          "type": "articles",
+          "url": "java-methods-functions",
+          "title": "Methods and Functions"
+        },
+        {
+          "type": "articles",
+          "url": "java-exceptions-handling",
+          "title": "Exceptions Handling"
+        },
+        {
+          "type": "articles",
+          "url": "java-utility-classes",
+          "title": "Other Utility Classes"
+        }
+      ]
+    },
+    {
+      "subheading": "Object-Oriented Programming",
+      "link": [
+        {
+          "type": "articles",
+          "url": "java-oops-intro",
+          "title": "Introduction to OOPs"
+        },
+        {
+          "type": "articles",
+          "url": "java-inheritance-this-super",
+          "title": "Inheritance, this and super"
+        },
+        {
+          "type": "articles",
+          "url": "java-abstract-interfaces",
+          "title": "Abstract Classes & Interfaces"
+        },
+        {
+          "type": "articles",
+          "url": "java-polymorphism-binding",
+          "title": "Polymorphism & Dynamic Binding"
+        },
+        {
+          "type": "articles",
+          "url": "java-static-keyword",
+          "title": "Static Keyword"
+        },
+        {
+          "type": "articles",
+          "url": "java-nested-local-anonymous",
+          "title": "Nested, Local and Anonymous Classes"
+        },
+        {
+          "type": "articles",
+          "url": "java-final-finalize-wrapper",
+          "title": "Final, Finalize and Wrapper Class"
+        }
+      ]
+    },
+    {
+      "subheading": "Collection Framework",
+      "link": [
+        {
+          "type": "articles",
+          "url": "java-generics",
+          "title": "Generics"
+        },
+        {
+          "type": "articles",
+          "url": "java-iterable-iterator",
+          "title": "Iterable and Iterator Interface"
+        },
+        {
+          "type": "articles",
+          "url": "java-collections-interface",
+          "title": "Collections Interface"
+        },
+        {
+          "type": "articles",
+          "url": "java-list-interface",
+          "title": "List Interface"
+        },
+        {
+          "type": "articles",
+          "url": "java-queue-interface",
+          "title": "Queue Interface"
+        },
+        {
+          "type": "articles",
+          "url": "java-comparable-comparator",
+          "title": "Comparable & Comparators"
+        },
+        {
+          "type": "articles",
+          "url": "java-set-interface",
+          "title": "Set Interface"
+        },
+        {
+          "type": "articles",
+          "url": "java-map-interface",
+          "title": "Map Interface"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "youtube",
+          "url": "https://youtu.be/VE_AAUxTUCY?si=FVl5nu3KqGxHwrJB",
+          "title": "Collection Framework (Riddhi Dutta)"
+        },
+        {
+          "type": "external",
+          "url": "https://www.tpointtech.com/java-tutorial",
+          "title": "JavaTPoint Series"
+        }
+      ]
+    }
+  ]
+}

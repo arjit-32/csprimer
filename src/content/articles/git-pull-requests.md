@@ -4,7 +4,7 @@ meta_title: Understanding Pull Requests and GitHub Workflow | CS Primer
 description: Learn how to create, review, and manage pull requests on GitHub. Master the GitHub workflow to collaborate effectively with other developers in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

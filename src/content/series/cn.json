@@ -1,0 +1,126 @@
+{
+  "ongoing": "false",
+  "title": "Computer Networks",
+  "image": "/images/thumbnails/CN.png",
+  "subtitle": "Unravel the backbone of digital communication",
+  "description": "Explore the architecture, protocols, and layers that make modern networking possible—from applications to routers, and everything in between.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "cn-brief-overview",
+          "title": "Brief Overview"
+        },
+        {
+          "type": "articles",
+          "url": "cn-complete-picture",
+          "title": "A Complete Picture"
+        },
+        {
+          "type": "articles",
+          "url": "cn-internet-demystified",
+          "title": "Internet Demystified"
+        },
+        {
+          "type": "articles",
+          "url": "cn-network-speed-structure",
+          "title": "Network Speed and Structure"
+        }
+      ]
+    },
+    {
+      "subheading": "Application Layer",
+      "link": [
+        {
+          "type": "articles",
+          "url": "cn-application-layer-intro",
+          "title": "Application Layer Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "cn-http",
+          "title": "HTTP"
+        },
+        {
+          "type": "articles",
+          "url": "cn-ftp",
+          "title": "FTP"
+        },
+        {
+          "type": "articles",
+          "url": "cn-dns",
+          "title": "DNS"
+        }
+      ]
+    },
+    {
+      "subheading": "Transport Layer",
+      "link": [
+        {
+          "type": "articles",
+          "url": "cn-transport-layer-intro",
+          "title": "Transport Layer Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "cn-udp",
+          "title": "UDP"
+        },
+        {
+          "type": "articles",
+          "url": "cn-tcp",
+          "title": "TCP"
+        },
+        {
+          "type": "articles",
+          "url": "cn-quic",
+          "title": "QUIC"
+        }
+      ]
+    },
+    {
+      "subheading": "Network Layer",
+      "link": [
+        {
+          "type": "articles",
+          "url": "cn-network-layer-intro",
+          "title": "Network Layer Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "cn-inside-router",
+          "title": "Inside a Router"
+        },
+        {
+          "type": "articles",
+          "url": "cn-ip-subnetting",
+          "title": "IP and Subnetting"
+        }
+      ]
+    },
+    {
+      "subheading": "Link Layer",
+      "link": [
+        {
+          "type": "articles",
+          "url": "cn-link-layer-overview",
+          "title": "Link Layer Overview"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
+          "title": "Jim Kurose Playlist"
+        }
+      ]
+    }
+  ]
+}

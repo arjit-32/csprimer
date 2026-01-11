@@ -1,0 +1,136 @@
+{
+  "ongoing": "false",
+  "title": "Git Basics to Advanced",
+  "image": "/images/thumbnails/git.png",
+  "subtitle": "Manage multiple versions of your codebase and collaborate with others.",
+  "description": "This series covers Git fundamentals, branching, merging, rebasing, conflict resolution, and collaboration using GitHub. Master workflows, best practices, and advanced techniques to streamline development and team collaboration.",
+  "time": "14 articless",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "Introduction to Git",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-introduction",
+          "title": "Introduction to Git"
+        }
+      ]
+    },
+    {
+      "subheading": "Git Essentials",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-basic-workflow",
+          "title": "Git Basic Workflow"
+        },
+        {
+          "type": "articles",
+          "url": "git-cloning",
+          "title": "Cloning"
+        }
+      ]
+    },
+    {
+      "subheading": "Branching & Merging",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-branching",
+          "title": "Branching"
+        },
+        {
+          "type": "articles",
+          "url": "git-merging",
+          "title": "Merging"
+        },
+        {
+          "type": "articles",
+          "url": "git-stashing",
+          "title": "Stashing"
+        }
+      ]
+    },
+    {
+      "subheading": "Undoing Changes & History Management",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-reset",
+          "title": "Reset"
+        },
+        {
+          "type": "articles",
+          "url": "git-reflog",
+          "title": "Reflog"
+        }
+      ]
+    },
+    {
+      "subheading": "Advanced Git Techniques",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-rebase",
+          "title": "Rebase"
+        },
+        {
+          "type": "articles",
+          "url": "git-squash-commits",
+          "title": "Squashing Commits"
+        },
+        {
+          "type": "articles",
+          "url": "git-bisect",
+          "title": "Bisect"
+        }
+      ]
+    },
+    {
+      "subheading": "Remote Collaboration & GitHub",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-fetch-pull-push",
+          "title": "Fetch, Pull & Push in Git"
+        },
+        {
+          "type": "articles",
+          "url": "git-pull-requests",
+          "title": "Pull Requests"
+        }
+      ]
+    },
+    {
+      "subheading": "Git Submodules",
+      "link": [
+        {
+          "type": "articles",
+          "url": "git-submodules",
+          "title": "Submodules"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "book",
+          "url": "https://leanpub.com/learngitthehardway",
+          "title": "Learn Git the Hard Way"
+        },
+        {
+          "type": "external",
+          "url": "https://git-school.github.io/visualizing-git/#free",
+          "title": "Git Visualization"
+        },
+        {
+          "type": "external",
+          "url": "https://ohshitgit.com/",
+          "title": "Oh Shit, Git"
+        }
+      ]
+    }
+  ]
+}

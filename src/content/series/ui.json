@@ -1,0 +1,86 @@
+{
+  "ongoing": "false",
+  "title": "UI/UX for Developers",
+  "image": "/images/thumbnails/designer.jpeg",
+  "subtitle": "UI/UX principles and design tools to create user-centered products.",
+  "description": "This series is short, sweet and enough to bridge the gap between development and design (for developers). Together, we'll cover core UI/UX principles and apply them to real project, like a phone specification website.",
+  "time": "8 articless",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "Foundations of UI/UX Design",
+      "link": [
+        {
+          "type": "articles",
+          "url": "ui-introduction-design",
+          "title": "Introduction to UI/UX Design"
+        },
+        {
+          "type": "articles",
+          "url": "ui-design-philosophy-laws",
+          "title": "Design Philosophy & Laws"
+        }
+      ]
+    },
+    {
+      "subheading": "Design Tools & Techniques",
+      "link": [
+        {
+          "type": "articles",
+          "url": "ui-core-principles",
+          "title": "Mastering Core Design Principles"
+        },
+        {
+          "type": "articles",
+          "url": "ui-figma-intro",
+          "title": "Introduction to Figma"
+        }
+      ]
+    },
+    {
+      "subheading": "UI/UX Workflow for Developers",
+      "link": [
+        {
+          "type": "articles",
+          "url": "ui-sketching",
+          "title": "Sketching"
+        },
+        {
+          "type": "articles",
+          "url": "ui-userflows-sitemaps",
+          "title": "Userflows and Sitemaps"
+        },
+        {
+          "type": "articles",
+          "url": "ui-wireframes",
+          "title": "Wireframes"
+        },
+        {
+          "type": "articles",
+          "url": "ui-final-design",
+          "title": "Final UI Design"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learning & Challenges",
+      "link": [
+        {
+          "type": "external",
+          "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/",
+          "title": "Udemy Course"
+        },
+        {
+          "type": "assignment",
+          "url": "https://www.dailyui.co/",
+          "title": "100 Daily UI challenges"
+        },
+        {
+          "type": "book",
+          "url": "https://www.practical-ui.com/",
+          "title": "Practical-UI book"
+        }
+      ]
+    }
+  ]
+}

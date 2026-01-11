@@ -4,7 +4,7 @@ meta_title: AWS DynamoDb | CSPrimer
 description: Learn about NoSQL database offered by AWS called DynamoDB, how it works and set up your own DynamoDB database.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

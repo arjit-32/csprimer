@@ -1,0 +1,66 @@
+{
+  "ongoing": "false",
+  "title": "Automata Theory",
+  "image": "/images/thumbnails/toc.png",
+  "subtitle": "Explore the theoretical limits of computation and automata theory.",
+  "description": "Dive into formal languages, finite automata, regular expressions, context-free grammars, Turing machines, and computational complexity to understand what problems computers can and cannot solve.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Chapters",
+      "link": [
+        {
+          "type": "articles",
+          "url": "toc-introduction-automata",
+          "title": "Introduction to Automata Theory"
+        },
+        {
+          "type": "articles",
+          "url": "toc-finite-automata",
+          "title": "Finite Automata"
+        },
+        {
+          "type": "articles",
+          "url": "toc-regex-regular-languages",
+          "title": "Regex & Regular Languages"
+        },
+        {
+          "type": "articles",
+          "url": "toc-formal-grammars-chomsky",
+          "title": "Formal Grammars & Chomsky Hierarchy"
+        },
+        {
+          "type": "articles",
+          "url": "toc-pushdown-automata",
+          "title": "Pushdown Automata (PDA)"
+        },
+        {
+          "type": "articles",
+          "url": "toc-turing-machines-context-sensitive",
+          "title": "Context-Sensitive & Turing Machines"
+        },
+        {
+          "type": "articles",
+          "url": "toc-decidability-computability",
+          "title": "Decidability & Computability"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "toc-handwritten-notes",
+          "title": "TOC Handwritten Notes"
+        },
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta",
+          "title": "Jeff Ullman - Stanford lectures"
+        }
+      ]
+    }
+  ]
+}

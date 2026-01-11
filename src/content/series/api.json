@@ -1,0 +1,121 @@
+{
+  "ongoing": "false",
+  "title": "API Design",
+  "image": "/images/thumbnails/api-design.png",
+  "subtitle": "From Network Basics to Advanced API Design",
+  "description": "A comprehensive guide covering network fundamentals, API concepts, protocols, architectures, and practical implementation",
+  "time": "15 articles",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "Network Foundations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "api-internet-basics",
+          "title": "Crash course on Internet Basics"
+        },
+        {
+          "type": "articles",
+          "url": "api-network-performance-guide",
+          "title": "Understanding Network Performance - A Simple Guide"
+        }
+      ]
+    },
+    {
+      "subheading": "API Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "api-introduction",
+          "title": "Introduction to APIs"
+        },
+        {
+          "type": "articles",
+          "url": "api-call-process",
+          "title": "What Happens During an API Call?"
+        }
+      ]
+    },
+    {
+      "subheading": "Communication Protocols",
+      "link": [
+        {
+          "type": "articles",
+          "url": "api-client-server-communication",
+          "title": "Client-Server Communication in APIs"
+        },
+        {
+          "type": "articles",
+          "url": "api-http-backbone",
+          "title": "HTTP - The Backbone of API Communication"
+        },
+        {
+          "type": "articles",
+          "url": "api-websockets-realtime",
+          "title": "WebSockets - For Real-Time APIs"
+        },
+        {
+          "type": "articles",
+          "url": "api-event-driven-updates",
+          "title": "Event-Driven Protocols for Asynchronous Updates"
+        },
+        {
+          "type": "articles",
+          "url": "api-data-formats",
+          "title": "Common Data Formats for Web APIs"
+        }
+      ]
+    },
+    {
+      "subheading": "API Architectures",
+      "link": [
+        {
+          "type": "articles",
+          "url": "api-rest-architecture",
+          "title": "REST - Representational State Transfer"
+        },
+        {
+          "type": "articles",
+          "url": "api-graphql-modern-apps",
+          "title": "GraphQL - Flexible APIs for Modern Apps"
+        },
+        {
+          "type": "articles",
+          "url": "api-rpc-grpc",
+          "title": "RPC and gRPC - Function Oriented APIs"
+        }
+      ]
+    },
+    {
+      "subheading": "API Design & Implementation",
+      "link": [
+        {
+          "type": "articles",
+          "url": "api-design-guide",
+          "title": "Complete Guide to API Design"
+        },
+        {
+          "type": "articles",
+          "url": "api-coffee-shop-blueprint",
+          "title": "Designing the Coffee Shop API - A Practical Blueprint"
+        },
+        {
+          "type": "articles",
+          "url": "api-performance-patterns",
+          "title": "API Optimization & Performance Patterns"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "external",
+          "url": "https://www.educative.io/courses/grokking-the-product-architecture-interview/unpacking-api-design?utm_campaign=brand_educative&utm_source=google&utm_medium=ppc&utm_content=performance_max_india&utm_term=&aff=K3Zq&utm_term=&utm_campaign=%5BNew%5D+Performance+Max&utm_source=adwords&utm_medium=ppc&hsa_acc=5451446008&hsa_cam=18931439518&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=18924941403&gbraid=0AAAAADfWLuTtU0q8sM1D2kPeDG8uu1_LT&gclid=Cj0KCQjw0erBBhDTARIsAKO8iqQdMp-lQ0uxxyWl5yhr0KR7sYuPHAbo8GBvOJ70C33c1yZIJShhFcAaAp10EALw_wcB",
+          "title": "Educative's Course"
+        }
+      ]
+    }
+  ]
+}

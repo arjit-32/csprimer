@@ -1,6 +1,15 @@
 ---
+import { getCollection } from 'astro:content';
+
 // Import questions data at the Astro component level
-import questions from '../../data/questions.json'; 
+const allQuestions = await getCollection('interview-questions');
+const questions = allQuestions.map(q => ({
+    question: q.data.question,
+    tags: q.data.tags,
+    answer: q.body.split('\n\n'), // Split by double newline to simulate paragraphs
+    code: null, // Code is embedded in body now, might need extraction if we want to show it separately, but simple view for now.
+    images: q.data.related_images
+}));
 const totalQuestions = questions.length;
 ---
 

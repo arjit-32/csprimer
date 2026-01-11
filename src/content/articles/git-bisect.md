@@ -4,7 +4,7 @@ meta_title: Using Git Bisect to Find Bugs | CS Primer
 description: Learn how to use Git bisect to identify problematic commits quickly, speeding up the bug-fixing process in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

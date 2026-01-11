@@ -1,8 +1,9 @@
 ---
 import Shape from "@/components/Shape.astro";
 import Base from "@/layouts/Base.astro";
-import seriesInfo from "@/data/series.json";
 import Cta from "@/partials/Cta.astro";
+import { getCollection } from "astro:content";
+const seriesCollection = await getCollection("series");
 ---
 <Base title="Series">
   <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
@@ -14,21 +15,17 @@ import Cta from "@/partials/Cta.astro";
           <div id="categoryButtons" class="space-y-3">
             {[
               { category: "all", label: "Show All Series", color: "gray" },
-              { category: "Core-CS", label: "Core Computer Science", color: "blue" },
+              { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
               { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
               { category: "Development", label: "Development", color: "purple" },
-              { category: "Advanced-Development", label: "Advanced Development", color: "purple" },
-              { category: "System-Design", label: "System Design", color: "red" },
-              { category: "AI-Engineering", label: "AI Engineering", color: "yellow" }
+              { category: "System-Design", label: "System Design & More", color: "red" }
             ].map(({ category, label, color }) => {
               const bgColor = {
                 gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
                 purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
-                orange: "bg-orange-50 hover:bg-orange-100 text-orange-500",
                 red: "bg-red-50 hover:bg-red-100 text-red-500",
                 green: "bg-green-50 hover:bg-green-100 text-green-500",
-                yellow: "bg-yellow-50 hover:bg-yellow-100 text-yellow-500",
-                blue: "bg-blue-50 hover:bg-blue-100 text-blue-500"
+                yellow: "bg-yellow-50 hover:bg-yellow-100 text-yellow-500"
               }[color];
             
               return (
@@ -64,15 +61,15 @@ import Cta from "@/partials/Cta.astro";
   
       <div class="md:col-span-8">
         <div id="courseGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(seriesInfo).map(([slug, series]) => {
+          {seriesCollection.map((entry) => {
+            const series = entry.data;
+            const slug = entry.id;
             const categoryColorMap = {
               all: "bg-gray-50 text-gray-50 text-gray-500",
               DSA: "bg-green-100 text-gray-600",
               Development: "bg-purple-100 text-gray-600",
-              'Advanced-Development': "bg-purple-100 text-gray-600",
               'Core-CS': "bg-blue-50 text-blue-500",
               'System-Design': "bg-red-50 text-red-500",
-              'AI-Engineering': "bg-yellow-100 text-yellow-500"
             };
             const categoryColor = categoryColorMap[series.category] || "bg-gray-50 text-gray-500"; 
 
@@ -82,8 +79,8 @@ import Cta from "@/partials/Cta.astro";
                 class="course-card group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
                 data-category={series.category}
               >
-                {series.ongoing !== "false" && (
-                  <p class="py-1 bg-slate-200 text-zinc-900 text-center text-xs">{series.ongoing}</p>
+                {series.ongoing && (
+                  <p class="py-1 bg-slate-200 text-zinc-900 text-center text-xs">On-going</p>
                 )}
                 <div class="p-4">
                   <img
@@ -179,14 +176,8 @@ import Cta from "@/partials/Cta.astro";
       roadmapImage.src = "/images/categories/2.png"; 
     } else if (category === "Development") {
       roadmapImage.src = "/images/categories/3.png"; 
-    } else if (category === "Advanced-Development") {
-      roadmapImage.src = "/images/categories/4.png"; 
-    } else if (category === "Core-CS") {
-      roadmapImage.src = "/images/categories/1.png"; 
     } else if (category === "System-Design") {
-      roadmapImage.src = "/images/categories/5.png"; 
-    } else if (category === "AI-Engineering") {
-      roadmapImage.src = "/images/categories/6.png";
+      roadmapImage.src = "/images/categories/4.png"; 
     } else {
       roadmapImage.src = "/images/categories/1.png"; 
     }

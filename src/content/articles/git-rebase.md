@@ -4,7 +4,7 @@ meta_title: Git Rebase to Keep Your History Clean | CS Primer
 description: Learn how to use Git rebase to keep your commit history linear and clean, making collaboration easier in 2025. Essential for team-based development.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

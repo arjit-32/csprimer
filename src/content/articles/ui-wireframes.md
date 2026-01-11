@@ -4,7 +4,7 @@ meta_title: Wireframes for UI/UX Design | CS Primer
 description: Learn how to create effective wireframes for UI/UX design. Understand the importance of wireframes in the design process and how they help visualize layout and functionality. A guide for designers in 2025.
 author: Arjit Sharma
 series: ["ui"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

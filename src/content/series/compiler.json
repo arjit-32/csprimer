@@ -1,0 +1,76 @@
+{
+  "ongoing": "false",
+  "title": "Compiler Design",
+  "image": "/images/thumbnails/compiler.png",
+  "subtitle": "Learn how programming languages are translated into machine code.",
+  "description": "Understand the phases of compilation, from lexical and syntax analysis to optimization and code generation. This series provides insight into how compilers and interpreters work behind the scenes.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Chapters",
+      "link": [
+        {
+          "type": "articles",
+          "url": "compiler-introduction",
+          "title": "Introduction to Compilers"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-lexical-analysis",
+          "title": "Lexical Analysis"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-syntax-analysis",
+          "title": "Syntax Analysis (Parsing)"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-semantic-analysis",
+          "title": "Semantic Analysis"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-intermediate-code",
+          "title": "Intermediate Code Generation"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-code-optimization",
+          "title": "Code Optimization"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-target-code",
+          "title": "Target Code Generation"
+        },
+        {
+          "type": "articles",
+          "url": "compiler-linking-execution",
+          "title": "Linking & Execution"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "compiler-handwritten-notes",
+          "title": "Compiler Handwritten Notes"
+        },
+        {
+          "type": "articles",
+          "url": "built-a-compiler",
+          "title": "Building a Programming Language (arjit)"
+        },
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkRebOYdw4uqSN0ugRShSmHrzH",
+          "title": "Alex Aiken - Stanford lectures"
+        }
+      ]
+    }
+  ]
+}

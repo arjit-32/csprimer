@@ -1,0 +1,101 @@
+{
+  "ongoing": "false",
+  "title": "HLD Foundations",
+  "image": "/images/thumbnails/system-design-foundations.png",
+  "subtitle": "How Modern Systems Scale, Communicate, and Survive",
+  "description": "An end-to-end guide for building scalable and resilient systems — from principles and components to full-fledged architectures that power today's software.",
+  "time": "14 articles",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "The Big Picture",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-introduction",
+          "title": "Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-non-functional-requirements",
+          "title": "Non-Functional Requirements"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-architecture-patterns",
+          "title": "Architecture Patterns"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-scaling-strategies",
+          "title": "Vertical and Horizontal Scaling"
+        }
+      ]
+    },
+    {
+      "subheading": "Building Blocks",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-load-balancing",
+          "title": "Load Balancing"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-databases",
+          "title": "Databases"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-caching",
+          "title": "Caching"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-cdn",
+          "title": "Content Delivery Network"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-messaging-queues",
+          "title": "Messaging Queues"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-key-building-blocks",
+          "title": "Other Key Building Blocks"
+        }
+      ]
+    },
+    {
+      "subheading": "Designing the Machinery",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-microservices-architecture",
+          "title": "Microservices Architecture"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-pub-sub-model",
+          "title": "Publisher Subscriber Model"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-capacity-estimation",
+          "title": "Capacity Estimation"
+        }
+      ]
+    },
+    {
+      "subheading": "Real-World Architecture",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-edtech-platform",
+          "title": "System Design of an Ed-Tech Platform"
+        }
+      ]
+    }
+  ]
+}

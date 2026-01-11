@@ -1,27 +1,20 @@
 ---
-import config from "@/config/config.json";
+import { getCollection } from 'astro:content';
 import Base from "@/layouts/Base.astro";
-import { getTaxonomy } from "@/lib/taxonomyParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
-import seriesInfo from "@/data/series.json";
 
 export async function getStaticPaths() {
-  const series = await getTaxonomy(config.settings.blog_folder, "series");
-  return series.map((item) => {
-    const series = slugify(item);
-    return {
-      params: { series },
-      props: { item },
-    };
-  });
+  const seriesEntries = await getCollection("series");
+  return seriesEntries.map((entry) => ({
+    params: { series: entry.id },
+    props: { seriesData: entry.data },
+  }));
 }
 
 const { series } = Astro.params;
-const seriesData = seriesInfo[series as keyof typeof seriesInfo] || {};
+const { seriesData } = Astro.props;
 ---
 
 <Base title={seriesData.title || (series as string)}>
-
   
   <!-- Hero Section with Gradient Overlay -->
   <section class="relative min-h-[500px] flex items-center py-20">

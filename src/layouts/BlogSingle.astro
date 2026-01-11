@@ -1,6 +1,6 @@
 ---
 import readingTime from "@/lib/utils/readingTime";
-import seriesInfo from "@/data/series.json";
+import { getEntry } from "astro:content";
 import { humanize, slugify } from "@/lib/utils/textConverter";
 import {
   FaRegClock,
@@ -12,7 +12,9 @@ import { Image } from "astro:assets";
 const { post, series } = Astro.props;
 const { Content } = await post.render();
 
-const courseData = seriesInfo[series];
+const seriesEntry = series ? await getEntry("series", series) : null;
+const courseData = seriesEntry ? seriesEntry.data : null;
+
 ---
 
 

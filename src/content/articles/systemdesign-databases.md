@@ -64,7 +64,7 @@ CREATE INDEX idx_employee_lastname ON employees (lastname);
 
 Method of splitting/dividing a large database into smaller pieces distributed across several database servers.
 
-- Horizontal Partitioning**(Sharding)**: Divides rows across multiple databases.
+- Horizontal Partitioning **(Sharding)**: Divides rows across multiple databases.
 - Vertical partitioning: Divides column into seprate tables.
 
 **Why do we need to Shard ?** 

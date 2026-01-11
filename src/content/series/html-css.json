@@ -1,0 +1,36 @@
+{
+  "ongoing": "false",
+  "title": "HTML & CSS",
+  "image": "/images/thumbnails/html-css.png",
+  "subtitle": "Build and style the web",
+  "description": "This series introduces the fundamentals of HTML and CSS, covering structure, styling, layouts, and responsive design. Learn how to craft clean, accessible, and visually appealing web pages with practical examples.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "The Internet",
+      "link": [
+        {
+          "type": "articles",
+          "url": "fullstack-1",
+          "title": "The History of the Web"
+        },
+        {
+          "type": "articles",
+          "url": "fullstack-2",
+          "title": "How Websites are Served"
+        }
+      ]
+    },
+    {
+      "subheading": "HTML",
+      "link": [
+        {
+          "type": "articles",
+          "url": "fullstack-3",
+          "title": "HTML Cheatsheet"
+        }
+      ]
+    }
+  ]
+}

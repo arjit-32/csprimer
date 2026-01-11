@@ -9,7 +9,7 @@ categories: ["Development"]
 image: /images/thumbnails/group-of-devs.jpg
 featured: false
 year: 2021
-draft: false
+draft: true
 ---
 
 In this post, we will be working on an in-memory database(H2). Alternatively any other database can be used, with only few changes to _application[dot]properties_ and _pom[dot]xml_ file.

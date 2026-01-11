@@ -4,7 +4,7 @@ meta_title: Merging Changes in Git | CS Primer
 description: Understand how to merge branches in Git, resolve conflicts, and integrate changes from different development streams effectively in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

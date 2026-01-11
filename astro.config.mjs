@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import AutoImport from "astro-auto-import";
-import { defineConfig, squooshImageService } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
@@ -15,7 +15,7 @@ export default defineConfig({
   outDir: 'dist',
   trailingSlash: config.site.trailing_slash ? "always" : "never",
   image: {
-    service: squooshImageService(),
+    service: passthroughImageService(),
   },
   integrations: [
     react(),

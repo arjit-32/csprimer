@@ -1,0 +1,61 @@
+{
+  "ongoing": "false",
+  "title": "DSA - The Complete Picture",
+  "image": "/images/thumbnails/dsa.png",
+  "subtitle": "A clear overview of Data Structures and Algorithms",
+  "description": "Inspired by Grokking Algorithms, this series provides a friendly introduction to core data structures and algorithms. Covering essentials like arrays, recursion, sorting, and graphs, it offers intuitive explanations and practical examples to strengthen problem‑solving and coding skills.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Topics",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-introduction",
+          "title": "Introduction to Algorithms"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-selection-sort",
+          "title": "Selection Sort"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-recursion",
+          "title": "Recursion"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-quicksort",
+          "title": "Quicksort"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-hashtables",
+          "title": "HashTables"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-bfs",
+          "title": "Breadth-First Search"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-dijkstra",
+          "title": "Dijkstra's Algorithm"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-greedy",
+          "title": "Greedy Algorithms"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-dynamic-programming",
+          "title": "Dynamic Programming"
+        }
+      ]
+    }
+  ]
+}

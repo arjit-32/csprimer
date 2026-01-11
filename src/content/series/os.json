@@ -1,0 +1,116 @@
+{
+  "ongoing": "false",
+  "title": "Operating Systems",
+  "image": "/images/thumbnails/OS.png",
+  "subtitle": "Learn the interface handling your web servers",
+  "description": "We will go through all important concepts of operating systems",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-introduction",
+          "title": "Introduction to OS"
+        },
+        {
+          "type": "articles",
+          "url": "os-structure",
+          "title": "Structure of OS"
+        }
+      ]
+    },
+    {
+      "subheading": "Process and Thread Management",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-process-management",
+          "title": "Process Management"
+        },
+        {
+          "type": "articles",
+          "url": "os-thread-forks",
+          "title": "Thread and Forks"
+        }
+      ]
+    },
+    {
+      "subheading": "CPU Scheduling & Synchronization",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-cpu-scheduling",
+          "title": "CPU Scheduling Algorithms"
+        },
+        {
+          "type": "articles",
+          "url": "os-process-synchronization",
+          "title": "Process Synchronization"
+        },
+        {
+          "type": "articles",
+          "url": "os-synchronization-solutions",
+          "title": "Synchronization Solutions"
+        },
+        {
+          "type": "articles",
+          "url": "os-classical-problems",
+          "title": "Classical Problems"
+        }
+      ]
+    },
+    {
+      "subheading": "Deadlock Handling",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-deadlocks",
+          "title": "Deadlocks"
+        }
+      ]
+    },
+    {
+      "subheading": "Memory & Disk Management",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-memory-management",
+          "title": "Memory Management"
+        },
+        {
+          "type": "articles",
+          "url": "os-memory-allocation",
+          "title": "Memory Allocation Strategies"
+        },
+        {
+          "type": "articles",
+          "url": "os-advanced-memory",
+          "title": "Advanced Memory Management"
+        },
+        {
+          "type": "articles",
+          "url": "os-disk-management",
+          "title": "Disk Management"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "os-handwritten-notes",
+          "title": "OS Handwritten Notes"
+        },
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkReZHXWY9yJvTwLJWYYPcKEqK",
+          "title": "MIT course"
+        }
+      ]
+    }
+  ]
+}

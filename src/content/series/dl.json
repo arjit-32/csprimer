@@ -1,0 +1,71 @@
+{
+  "ongoing": "false",
+  "title": "Digital Electronics",
+  "image": "/images/thumbnails/digital-logic.png",
+  "subtitle": "Understand how computers process binary data through logic circuits.",
+  "description": "Learn Boolean algebra, logic gates, combinational and sequential circuits, and flip-flops. This series lays the groundwork for understanding computer hardware and microprocessor design.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Chapters",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dl-introduction-digital-logic",
+          "title": "Introduction to Digital Logic"
+        },
+        {
+          "type": "articles",
+          "url": "dl-boolean-algebra",
+          "title": "Boolean Algebra"
+        },
+        {
+          "type": "articles",
+          "url": "dl-boolean-expressions",
+          "title": "Boolean Expressions"
+        },
+        {
+          "type": "articles",
+          "url": "dl-combinational-circuits",
+          "title": "Combinational Circuits"
+        },
+        {
+          "type": "articles",
+          "url": "dl-sequential-circuits",
+          "title": "Sequential Circuits"
+        },
+        {
+          "type": "articles",
+          "url": "dl-number-system",
+          "title": "Number System"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dl-handwritten-notes",
+          "title": "DL Handwritten Notes"
+        },
+        {
+          "type": "external",
+          "url": "https://www.cburch.com/logisim/",
+          "title": "A cool tool"
+        },
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=nB6724G3b3E",
+          "title": "Build Logic Gates"
+        },
+        {
+          "type": "youtube",
+          "url": "https://youtube.com/playlist?list=PLNpQfWftj0-f0K1GLAGNnlhCGNFy4MM8F&si=Bg04i30yjKnq-JG5",
+          "title": "Arjit's Crash Course"
+        }
+      ]
+    }
+  ]
+}

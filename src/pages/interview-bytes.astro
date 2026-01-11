@@ -1,11 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import Code from 'astro/components/Code.astro';
-import questions from '../data/questions.json';
 import type { BundledLanguage } from "shiki";
 import Base from '@/layouts/Base.astro';
+import { markdownify } from "@/lib/utils/textConverter";
+
+// Fetch questions from Content Collection
+const allQuestions = await getCollection('interview-questions');
+
+// Sort by ID (assuming ID is the filename '1', '2', etc.)
+const questions = allQuestions.sort((a, b) => {
+  return parseInt(a.id) - parseInt(b.id);
+});
 
 const allQuestionTags = questions.reduce((tags, question) => {
-  question.tags.forEach(tag => tags.add(tag));
+  question.data.tags.forEach(tag => tags.add(tag));
   return tags;
 }, new Set());
 
@@ -38,8 +47,6 @@ const uniqueQuestionTags = ['all', ...Array.from(allQuestionTags)];
         class="px-4 py-2 bg-blue-100 rounded-full text-sm font-medium text-gray-700 hover:bg-blue-200 transition">
         Oracle Cloud Shorts
       </a>
-
-      
     </div>
 
       <!-- Content Area -->
@@ -49,7 +56,7 @@ const uniqueQuestionTags = ['all', ...Array.from(allQuestionTags)];
           <div 
             class="question-card bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 transform hover:-translate-y-1"
             data-type="question"
-            data-tags={question.tags.join(',')}>
+            data-tags={question.data.tags.join(',')}>
             <div class="p-6 sm:p-6">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#fa729a] to-[#fddc43] rounded-full flex items-center justify-center text-white font-semibold">
@@ -57,22 +64,18 @@ const uniqueQuestionTags = ['all', ...Array.from(allQuestionTags)];
                 </div>
                 <div class="flex-1">
                   <h2 class="text-lg font-semibold text-gray-900 mb-3 hover:text-[#fa729a] transition-colors duration-300">
-                    {question.question}
+                    {question.data.question}
                   </h2>
 
-                  <div class="prose prose-sm max-w-none text-gray-600 mb-4">
-                    {question.answer.map((line) => (
-                      <p class="mb-2">{line}</p>
-                    ))}
-                  </div>
+                  <div class="prose prose-sm max-w-none text-gray-600 mb-4" set:html={markdownify(question.body)} />
 
-                  {question.code && (
-                    <Code code={question.code} lang={question.language as BundledLanguage || 'javascript'} />
-                  )}
+                  {/* Code is now part of the markdown body mostly, but if we had a specific field, we'd use it. 
+                      The migration script integrated code into the body.
+                  */}
 
-                  {(question.images ?? []).length > 0 && (
+                  {(question.data.related_images ?? []).length > 0 && (
                     <div class="mt-4 space-y-3">
-                      {question.images.map((img) => (
+                      {question.data.related_images.map((img: string) => (
                         <img 
                           src={img} 
                           alt="Question illustration" 
@@ -83,7 +86,7 @@ const uniqueQuestionTags = ['all', ...Array.from(allQuestionTags)];
                   )}
 
                   <div class="mt-4 flex flex-wrap gap-2">
-                    {question.tags.map((tag) => (
+                    {question.data.tags.map((tag: string) => (
                       <span class="px-3 py-1 bg-gradient-to-r from-[#fddc43] to-yellow-200 text-black text-xs rounded-full capitalize font-medium">
                         {tag}
                       </span>

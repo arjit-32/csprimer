@@ -4,7 +4,7 @@ meta_title: Complete Guide to Object Storage | CS Primer
 description: Master Amazon S3 cloud storage with this comprehensive guide covering storage classes, access control, lifecycle management, and practical Node.js implementation examples for modern cloud applications.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

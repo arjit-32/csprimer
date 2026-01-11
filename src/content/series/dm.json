@@ -1,0 +1,81 @@
+{
+  "ongoing": "false",
+  "title": "Discrete Mathematics",
+  "image": "/images/thumbnails/discrete-math.png",
+  "subtitle": "Master the mathematical foundations essential for computer science.",
+  "description": "This series explores logic, set theory, combinatorics, graph theory, and proofs, building critical reasoning skills for algorithms, cryptography, and theoretical computing.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Chapters",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dm-set-theory",
+          "title": "Set Theory"
+        },
+        {
+          "type": "articles",
+          "url": "dm-relations",
+          "title": "Relations"
+        },
+        {
+          "type": "articles",
+          "url": "dm-poset-lattices",
+          "title": "POSET & Lattices"
+        },
+        {
+          "type": "articles",
+          "url": "dm-functions",
+          "title": "Functions"
+        },
+        {
+          "type": "articles",
+          "url": "dm-logic-theory",
+          "title": "Theory of Logic"
+        },
+        {
+          "type": "articles",
+          "url": "dm-group-theory",
+          "title": "Group Theory"
+        },
+        {
+          "type": "articles",
+          "url": "dm-graph-theory",
+          "title": "Graph Theory"
+        },
+        {
+          "type": "articles",
+          "url": "dm-combinatorics",
+          "title": "Combinatorics"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dm-handwritten-notes",
+          "title": "DM Handwritten Notes"
+        },
+        {
+          "type": "external",
+          "url": "https://www.coursera.org/specializations/discrete-mathematics",
+          "title": "Coursera Specialization"
+        },
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS",
+          "title": "Trefor Bazett's Playlist"
+        },
+        {
+          "type": "youtube",
+          "url": "https://youtube.com/playlist?list=PLNpQfWftj0-dSswJudP0Qvsrb8zi_3LH_&si=0rqxRyuAkgH0Npm1",
+          "title": "Arjit's Crash Course"
+        }
+      ]
+    }
+  ]
+}

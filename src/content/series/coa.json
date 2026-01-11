@@ -1,0 +1,66 @@
+{
+  "ongoing": "false",
+  "title": "Computer Architecture",
+  "image": "/images/thumbnails/COA.png",
+  "subtitle": "Understand how computer hardware and software interact to execute programs.",
+  "description": "This series covers instruction sets, memory hierarchy, pipelining, and processor design, helping you grasp the fundamental working of modern computer systems.",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Chapters",
+      "link": [
+        {
+          "type": "articles",
+          "url": "coa-introduction",
+          "title": "Introduction to COA"
+        },
+        {
+          "type": "articles",
+          "url": "coa-processor-organization",
+          "title": "Processor Organization"
+        },
+        {
+          "type": "articles",
+          "url": "coa-instruction-cycle",
+          "title": "Instruction Cycle"
+        },
+        {
+          "type": "articles",
+          "url": "coa-control-unit",
+          "title": "Control Unit"
+        },
+        {
+          "type": "articles",
+          "url": "coa-addressing-modes",
+          "title": "Addressing Modes"
+        },
+        {
+          "type": "articles",
+          "url": "coa-isa",
+          "title": "ISA"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "articles",
+          "url": "coa-handwritten-notes",
+          "title": "COA Handwritten Notes"
+        },
+        {
+          "type": "external",
+          "url": "https://www.coursera.org/learn/comparch",
+          "title": "Princeton Course"
+        },
+        {
+          "type": "youtube",
+          "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR",
+          "title": "Make your own CPU"
+        }
+      ]
+    }
+  ]
+}

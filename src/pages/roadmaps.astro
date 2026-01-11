@@ -4,12 +4,10 @@ import Base from "@/layouts/Base.astro";
 import Cta from "@/partials/Cta.astro";
 
 const categories = [
-  { category: "Core-CS", label: "Core Computer Science", color: "blue" },
+  { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
   { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
   { category: "Development", label: "Development", color: "purple" },
-  { category: "Advanced-Development", label: "Advanced Development", color: "purple" },
-  { category: "System-Design", label: "System Design", color: "red" },
-  { category: "AI-Engineering", label: "AI Engineering", color: "yellow" }
+  { category: "System-Design", label: "System Design & More", color: "red" }
 ];
 
 // Roadmap image mapping for each category
@@ -17,7 +15,7 @@ const roadmapImages = {
   'Core-CS': "/images/categories/1.png",
   DSA: "/images/categories/2.png",
   Development: "/images/categories/3.png",
-  'Advanced-Development': "/images/categories/4.png",
+  'System-Design': "/images/categories/4.png",
   'System-Design': "/images/categories/5.png",
   'AI-Engineering': "/images/categories/6.png",
   all: "/images/categories/1.png" // Default for "all"
@@ -101,7 +99,7 @@ const roadmapImages = {
         'Core-CS': "/images/categories/1.png",
         'DSA': "/images/categories/2.png",
         'Development': "/images/categories/3.png",
-        'Advanced-Development': "/images/categories/4.png",
+        'System-Design': "/images/categories/4.png",
         'System-Design': "/images/categories/5.png",
         'AI-Engineering': "/images/categories/6.png",
         'all': "/images/categories/1.png"

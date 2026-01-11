@@ -29,7 +29,7 @@
   },
   "params": {
     "footer_description": "From fundamentals to full-stack development — A journey through computer science.",
-    "copyright": "© 2025 All Rights Reserved.",
+    "copyright": "© 2026 All Rights Reserved.",
     "quick_links": [
       {
         "name": "Data Structures & Algorithms",
@@ -40,16 +40,8 @@
         "url": "/series?category=Development"
       },
       {
-        "name": "Advanced Web Development",
-        "url": "/series?category=Advanced-Development"
-      },
-      {
-        "name": "System Design",
+        "name": "System Design & More",
         "url": "/series?category=System-Design"
-      },
-      {
-        "name": "AI Engineering",
-        "url": "/series?category=AI-Engineering"
       },
       {
         "name": "Core CS",

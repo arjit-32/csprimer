@@ -4,7 +4,7 @@ meta_title: API Gateway for Developers | CSPrimer
 description: Learn about building APIs using a fully managed service provided by AWS called API Gateway, also create your own API.
 author: Arjit Sharma
 series: ["aws"]
-categories: ["Advanced-Development"]
+categories: ["System-Design"]
 draft: false
 year: 2025
 ---

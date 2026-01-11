@@ -1,0 +1,86 @@
+{
+  "ongoing": "false",
+  "title": "Distributed Systems",
+  "image": "/images/thumbnails/distributed-systems.png",
+  "subtitle": "Explore application design in multi-node systems.",
+  "description": "Learn distributed systems through this series, tackling key concepts like consistency and consensus, trade-offs like CAP, and real-world applications.",
+  "time": "9 articless",
+  "category": "System-Design",
+  "navbar": [
+    {
+      "subheading": "Foundations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "distributed-introduction",
+          "title": "Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-data-management",
+          "title": "Data Management"
+        }
+      ]
+    },
+    {
+      "subheading": "Coordination & Consistency",
+      "link": [
+        {
+          "type": "articles",
+          "url": "distributed-consistency-concurrency",
+          "title": "Consistency & Concurrency Control"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-consensus",
+          "title": "Consensus"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-ordering-time",
+          "title": "Ordering and Time"
+        }
+      ]
+    },
+    {
+      "subheading": "System Design & Operations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "distributed-transactions",
+          "title": "Transactions"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-cap-tradeoffs",
+          "title": "Trade-offs (CAP & Beyond)"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-communication-patterns",
+          "title": "Communication Patterns"
+        }
+      ]
+    },
+    {
+      "subheading": "Real-World Applications",
+      "link": [
+        {
+          "type": "articles",
+          "url": "distributed-real-world-applications",
+          "title": "Real-World Applications"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "youtube",
+          "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A",
+          "title": "Distributed Systems Playlist"
+        }
+      ]
+    }
+  ]
+}

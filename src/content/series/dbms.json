@@ -1,0 +1,21 @@
+{
+  "ongoing": "false",
+  "title": "DBMS",
+  "image": "/images/thumbnails/DBMS.png",
+  "subtitle": "Learn the fundamentals of DBMS",
+  "description": "Everything about DBMS....",
+  "time": "1 day",
+  "category": "Core-CS",
+  "navbar": [
+    {
+      "subheading": "Dbms",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dbms-1",
+          "title": "Introduction to DBMS"
+        }
+      ]
+    }
+  ]
+}
