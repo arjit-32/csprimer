@@ -1,19 +1,59 @@
 {
   "ongoing": "false",
-  "title": "DBMS",
+  "title": "Database Management Systems",
   "image": "/images/thumbnails/DBMS.png",
-  "subtitle": "Learn the fundamentals of DBMS",
-  "description": "Everything about DBMS....",
+  "subtitle": "Learn how data is stored, organized, and managed efficiently.",
+  "description": "Understand the fundamentals of database systems, including data models, relational algebra, SQL, normalization, and transaction management. This series provides insight into how modern databases ensure consistency, efficiency, and reliability.",
   "time": "1 day",
   "category": "Core-CS",
   "navbar": [
     {
-      "subheading": "Dbms",
+      "subheading": "Chapters",
       "link": [
         {
           "type": "articles",
-          "url": "dbms-1",
+          "url": "dbms-introduction",
           "title": "Introduction to DBMS"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-er-diagrams",
+          "title": "ER Diagrams"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-relational-model",
+          "title": "Relational Model"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-normalization",
+          "title": "Normalization"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-relational-algebra",
+          "title": "Relational Algebra"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-sql",
+          "title": "Structured Query Language (SQL)"
+        },
+        {
+          "type": "articles",
+          "url": "dbms-transactions",
+          "title": "Transactions & Concurrency Control"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "youtube",
+          "url": "https://youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0&si=42VBm36ZqOD5y5_P",
+          "title": "CS50's DBMS course"
         }
       ]
     }

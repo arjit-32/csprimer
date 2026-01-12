@@ -1,5 +1,5 @@
 ---
-title: DBMS Introduction
+title: Introduction to DBMS
 author: Arjit Sharma
 meta_title: ss
 description: ss
@@ -9,11 +9,12 @@ categories: ["Core-CS"]
 
 Databases are the silent engines powering nearly every digital interaction, from booking a flight to streaming your favorite show. But how are these vast stores of information managed and kept efficient? That’s where Database Management Systems (DBMS) step in.
 
+
 ## What is a DBMS?
 
 A Database Management System (DBMS) is software that enables users to create, manage, and interact with databases. It provides a structured way to store, retrieve, and manipulate data while ensuring security, consistency, and efficiency. 
 
-You describe *what* the data looks like and *what* you want to retrieve, while the DBMS decides *how* to store and access it safely and efficiently.
+You describe *what the data looks like and what you want to retrieve*, while the DBMS decides *how* to store and access it safely and efficiently.
 
 Key Features:
 
@@ -23,6 +24,7 @@ Key Features:
 - Backup and recovery mechanisms
 - Security and authorization layers
 
+---
 
 ## A Brief History
 
@@ -31,9 +33,11 @@ Key Features:
 - 1970s–80s: IBM’s *System R* project and UC Berkeley’s *Ingres* research initiative transformed theory into practice. Their innovations directly influenced the creation of commercial systems such as *Oracle*, *PostgreSQL*, and other relational database platforms.
 - Modern Era: NoSQL, cloud-native, and distributed databases emerged to handle big data and unstructured formats.
 
+---
+
 ## From Files to Structured Data
 
-Before the advent of DBMS, information was managed using **flat file systems**. Imagine storing customer details in multiple text files - simple at first, but quickly problematic:
+Before the advent of DBMS, information was managed using *flat file systems*. Imagine storing customer details in multiple text files - simple at first, but quickly problematic:
 
 ❌ **Redundant Data**: The same information duplicated across multiple files
 
@@ -45,7 +49,9 @@ Before the advent of DBMS, information was managed using **flat file systems**. 
 
 ❌ **Inflexible Design**: Difficult to adapt or scale as requirements grew
 
-DBMS solved these by introducing **centralized control**, **data abstraction**, and **transaction management**.
+DBMS solved these by introducing *centralized control*, *data abstraction*, and *transaction management*.
+
+---
 
 ## DBMS Three Level Architecture
 
@@ -53,12 +59,15 @@ DBMS solved these by introducing **centralized control**, **data abstraction**, 
 2. **Conceptual Level**: Logical structure (tables, relationships)
 3. **External Level**: User-specific views
 
-**Data Independence**
+
+### Data Independence
 
 This layered design ensures flexibility and data independence.
 
-- **Physical Independence:** Storage methods can change (e.g., moving from magnetic disks to SSDs) without altering the logical design.
-- **Logical Independence:** The database structure (tables, fields, relationships) can evolve without breaking applications that rely on it.
+- *Physical Independence:* Storage methods can change (e.g., moving from magnetic disks to SSDs) without altering the logical design.
+- *Logical Independence:* The database structure (tables, fields, relationships) can evolve without breaking applications that rely on it.
+
+---
 
 ## Instance vs. Schema
 
@@ -66,6 +75,8 @@ This layered design ensures flexibility and data independence.
 - **Instance**: The actual data at a given moment (e.g., a row: `101, Alice, A+`)
 
 Think of schema as the mold, and instance as the clay poured into it.
+
+---
 
 ## OLTP vs. OLAP
 
@@ -75,6 +86,8 @@ Think of schema as the mold, and instance as the clay poured into it.
 | Users | End-users (e.g., ATM, e-commerce) | Analysts, decision-makers |
 | Data | Current, operational | Historical, aggregated |
 | Examples | Banking systems, POS | Sales forecasting, dashboards |
+
+---
 
 ## Types of Databases
 
@@ -87,6 +100,8 @@ Think of schema as the mold, and instance as the clay poured into it.
 | **Network** | Graph-like relationships | IDS |
 | **Cloud** | Hosted on cloud platforms | Amazon RDS, Firebase |
 | **Time-Series / Vector** | Specialized for IoT or AI | InfluxDB, Pinecone |
+
+---
 
 ## Conclusion
 
