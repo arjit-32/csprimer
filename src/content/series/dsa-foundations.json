@@ -1,9 +1,9 @@
 {
-  "ongoing": "On-going",
+  "ongoing": "false",
   "title": "#1 DSA Foundations",
   "image": "/images/thumbnails/dsa-foundations.png",
-  "subtitle": "Starting strong with Algorithmic analysis, math concepts & bit manipulation",
-  "description": "This series builds a strong foundation in DSA by focusing on algorithm analysis, essential math concepts, and bit manipulation techniques. With clear explanations and practical examples, it equips developers to reason about efficiency, optimize solutions, and tackle complex coding challenges with confidence.",
+  "subtitle": "Starting strong with Algorithmic analysis and math concepts",
+  "description": "This series builds a strong foundation in DSA by focusing on algorithm analysis and essential math concepts.",
   "time": "NaN",
   "category": "DSA",
   "navbar": [

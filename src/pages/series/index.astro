@@ -172,16 +172,24 @@ const seriesCollection = await getCollection("series");
             if (allButton) allButton.click();
           });
         }
-    if (category === "DSA") {
-      roadmapImage.src = "/images/categories/2.png"; 
-    } else if (category === "Development") {
-      roadmapImage.src = "/images/categories/3.png"; 
-    } else if (category === "System-Design") {
-      roadmapImage.src = "/images/categories/4.png"; 
+        if (category === "DSA") {
+          roadmapImage.src = "/images/categories/2.png"; 
+        } else if (category === "Development") {
+          roadmapImage.src = "/images/categories/3.png"; 
+        } else if (category === "System-Design") {
+          roadmapImage.src = "/images/categories/4.png"; 
+        } else {
+          roadmapImage.src = "/images/categories/1.png"; 
+        }
+        // Update the URL with the selected category
+    const url = new URL(window.location);
+    if (category === "all") {
+      url.searchParams.delete("category");
     } else {
-      roadmapImage.src = "/images/categories/1.png"; 
+      url.searchParams.set("category", category);
     }
-      }, 300);
+    window.history.replaceState({}, "", url);
+          }, 300);
     }
 
     categoryButtons.addEventListener("click", (event) => {

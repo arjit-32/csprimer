@@ -22,6 +22,7 @@ Attributes - Provide additional information about tags.
 ## Basic Structure
 
 ```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +36,8 @@ Attributes - Provide additional information about tags.
 </body>
 </html>
 ```
+
+---
 
 ## Basic Tags
 
@@ -63,10 +66,12 @@ Attributes - Provide additional information about tags.
 <span class="highlight">Inline Element</span>
 ```
 
+---
+
 ## Lists
 
 ```html
-**<ul>
+<ul>
     <li>Item 1</li>
     <li>Item 2</li>
 </ul>
@@ -76,6 +81,8 @@ Attributes - Provide additional information about tags.
     <li>Second</li>
 </ol>**
 ```
+
+---
 
 ## Tables
 
@@ -96,6 +103,8 @@ Attributes - Provide additional information about tags.
 </table>
 ```
 
+---
+
 ## Media
 
 ```html
@@ -104,17 +113,19 @@ Attributes - Provide additional information about tags.
 
 <!-- Videos -->
 <video controls>
-<source src="location" type="video/mp4">
+	<source src="location" type="video/mp4">
 </video>
 
 <!-- Audios -->
 <audio controls>
-<source src="location" type="audio/mp3">
+	<source src="location" type="audio/mp3">
 </audio>
 
 <!-- Iframes - displaying webpage within another webpage -->
 <iframe src="url" title="description for screen readers"></iframe>
 ```
+
+---
 
 ## Forms
 
@@ -159,6 +170,8 @@ Attributes - Provide additional information about tags.
 </form>
 ```
 
+---
+
 ## Semantic HTML
 
 Semantic HTML uses tags that convey meaning, improving accessibility and SEO:
@@ -173,7 +186,74 @@ Semantic HTML uses tags that convey meaning, improving accessibility and SEO:
 <details></details> & <summary></summary>
 ```
 
-## Symbols & Emojis
+---
+
+## Accessibility & ARIA
+
+ARIA (Accessible Rich Internet Applications) attributes improve screen reader support.
+
+```html
+<!-- ARIA roles and labels -->
+<button aria-label="Close dialog" role="button">X</button>
+
+<!-- Landmark roles -->
+<nav role="navigation" aria-label="Main menu">
+  <ul>
+    <li><a href="#home">Home</a></li>
+  </ul>
+</nav>
+
+<!-- Hiding content from screen readers -->
+<p aria-hidden="true">Decorative text</p>
+```
+
+---
+
+## Custom Data Attributes
+data-* lets you store extra info on elements. Its accessible via `element.dataset` in JavaScript.
+
+
+```html
+<div id="product" data-id="12345" data-category="books">
+  Book Title
+</div>
+
+<script>
+  const product = document.getElementById("product");
+  console.log(product.dataset.id);       // "12345"
+  console.log(product.dataset.category); // "books"
+</script>
+```
+
+
+---
+
+## Additional Concepts
+
+### Collapsible Content
+
+```html
+<details>
+  <summary>More Information</summary>
+  <p>This text is hidden until you expand the summary.</p>
+</details>
+```
+
+### Progress Indicators
+
+```html
+<!-- Progress: shows completion -->
+<label for="file">File upload:</label>
+<progress id="file" value="70" max="100">70%</progress>
+
+<!-- Meter: shows a measurement within a range -->
+<label for="fuel">Fuel level:</label>
+<meter id="fuel" value="0.6" min="0" max="1" low="0.2" high="0.8" optimum="0.9">
+  60%
+</meter>
+```
+
+### Symbols & Emojis
 
 HTML supports special characters and emojis using HTML entities or Unicode:
 

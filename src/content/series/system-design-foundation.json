@@ -1,6 +1,6 @@
 {
   "ongoing": "false",
-  "title": "HLD Foundations",
+  "title": "System Design", 
   "image": "/images/thumbnails/system-design-foundations.png",
   "subtitle": "How Modern Systems Scale, Communicate, and Survive",
   "description": "An end-to-end guide for building scalable and resilient systems — from principles and components to full-fledged architectures that power today's software.",
