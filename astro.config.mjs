@@ -12,15 +12,12 @@ import config from "./src/config/config.json";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.csprimer.in",
-  base: "/",
-  outDir: 'dist',
-  trailingSlash: "ignore",
+  trailingSlash: "never",
   image: {
     // Rely on Astro's default image service (sharp) instead of passthrough
   },
   integrations: [
     react(),
-    sitemap(),
     tailwind({
       config: {
         applyBaseStyles: false,
@@ -42,6 +39,7 @@ export default defineConfig({
       ],
     }),
     mdx(),
+    sitemap(),
   ],
   markdown: {
     remarkPlugins: [
