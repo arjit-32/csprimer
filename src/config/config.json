@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Master Full-Stack Development",
-    "base_url": "",
+    "base_url": "https://csprimer.in",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/src/assets/images/logo.png",
@@ -10,22 +10,20 @@
     "logo_height": "80",
     "logo_text": "CSPrimer"
   },
-
   "settings": {
     "pagination": 6,
     "summary_length": 100,
     "blog_folder": "articles"
   },
-
   "call_to_action": {
-  "title": "Important Announcement",
-  "description": "I’m committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
-  "button": {  
-    "label1": "Connect on LinkedIn",  
-    "link1": "https://www.linkedin.com/in/arjit32/",
-    "label2": "Report Issues/Contribute",  
-    "link2": "https://github.com/arjit-32/csprimer"
-  }
+    "title": "Important Announcement",
+    "description": "I’m committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
+    "button": {
+      "label1": "Connect on LinkedIn",
+      "link1": "https://www.linkedin.com/in/arjit32/",
+      "label2": "Report Issues/Contribute",
+      "link2": "https://github.com/arjit-32/csprimer"
+    }
   },
   "params": {
     "footer_description": "From fundamentals to full-stack development — A journey through computer science.",
@@ -48,7 +46,7 @@
         "url": "/series?category=Core-CS"
       }
     ],
-    "youtube_series":[
+    "youtube_series": [
       {
         "name": "Oracle Cloud Shorts Series",
         "url": "https://youtube.com/playlist?list=PLNpQfWftj0-cQpKnc9077q0vTydClTUep&si=1DMlSytg14OZBqr8"
