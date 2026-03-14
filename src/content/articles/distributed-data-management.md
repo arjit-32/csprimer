@@ -19,7 +19,7 @@ Process of dividing a dataset into smaller parts and distributing them across mu
 
 ### Types of Partitioning
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840302/image_2_jjq08j.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840302/image_2_jjq08j.png)
 
 - Vertical Partitioning : Split a table into multiple tables with fewer columns (Normalization is a way to vertically partition, but can go beyond that too)
 - Horizontal Partitioning : Split a table into multiple smaller tables with same columns but rows are split.
@@ -39,13 +39,13 @@ Process of dividing a dataset into smaller parts and distributing them across mu
     
     Apply hash function to a attribute of each row and based on that store it in the resultant node. On failure of a node, re-hash takes place which results in significant data movement.
     
-    ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840302/image_3_oj5vec.png)
+    ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840302/image_3_oj5vec.png)
     
 3. Consistent Hashing 
     
     Solves the increased data movement problem on re-hashing. 
     
-    ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840303/image_4_bqnovu.png)
+    ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840303/image_4_bqnovu.png)
     
     On Failure of Node D, Only data of Node D will move to Node A (clockwise)
 
@@ -60,7 +60,7 @@ Storing the same piece of data in multiple nodes (called replicas) so even if on
 
 ### Primary Backup Replication (Single Master Replication)
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840302/image_5_kyz6uo.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840302/image_5_kyz6uo.png)
 
 Designate a single node amongst the replicas as the **leader**, that receives all the updates, while Followers replicate data and serve read requests.
 
@@ -71,7 +71,7 @@ Techniques for Propagating updates -
 
 ### Multi Primary Replication (Multi Master Replication)
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840303/image_6_mfo7fm.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840303/image_6_mfo7fm.png)
 
 All replicas are equal and can accept write requests, this results in higher availability and performance over consistency.
 
@@ -86,7 +86,7 @@ Approaches -
 
 ## Quorums in Distributed Systems
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840303/image_7_rbcu4m.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840303/image_7_rbcu4m.png)
 
 Quorums help balance the Consistency-Availability trade-off by ensuring that reads and writes involve a **minimum number of nodes**.
 
@@ -102,3 +102,4 @@ Example - Imagine a distributed database with **5 replicas** that store the same
 | Strong Consistency  | 3               | 3                 | 3+3≥5 <br> 3>5/2 | Ensures latest data is always read but may slow writes. |
 | Balanced Approach   | 2               | 3                 | 5≥5 <br> 3>5/2 | Optimizes both consistency and availability. |
 | High Availability   | 1               | 5                 | 6≥5 <br> 5>5/2 | Very fast reads, but risk of stale data. |
+

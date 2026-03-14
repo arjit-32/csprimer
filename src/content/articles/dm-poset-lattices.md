@@ -30,7 +30,7 @@ Example: A set *{1,2,4,8}* , where aRb means *“a divides b”*
 
 Its POSET will be *{(1,1), (1,2), (1,4), (1,8), (2,2), (2,4), (2,8), (4,4), (4,8), (8,8)}*
 
-![Hasse-Diagram](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727755/hasse-diagram_coxpsh.png)
+![Hasse-Diagram](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/hasse-diagram_coxpsh.png)
 
 Hasse Diagram will be →
 
@@ -60,7 +60,7 @@ A lattice is a partially ordered set where every pair of elements has both a uni
 
 Example - Consider the set of all divisors of 12: *{1, 2, 3, 4, 6, 12}*
 
-![lattice-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/lattice_zsty3k.webp)
+![lattice-example](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696244/lattice_zsty3k.webp)
 
 In above Hasse diagram you can check for every pair their exists a Join and a Meet. In this case representing LCM if a Join and GCD if a Meet.
 
@@ -73,3 +73,4 @@ This is basically structured merging and comparison and it's everywhere in syste
 POSETs help you reason about “what needs to happen before what” without forcing strict order where it’s unnecessary. They keep systems flexible, efficient, and accurate.
 
 Lattices bring structure to chaos. When your system needs to merge, compare, or combine things predictably, lattices are likely hiding underneath.
+

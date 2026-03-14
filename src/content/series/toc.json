@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Automata Theory",
-  "image": "/images/thumbnails/toc.png",
+  "image": "../../assets/images/thumbnails/toc.png",
   "subtitle": "Explore the theoretical limits of computation and automata theory.",
   "description": "Dive into formal languages, finite automata, regular expressions, context-free grammars, Turing machines, and computational complexity to understand what problems computers can and cannot solve.",
   "time": "1 day",

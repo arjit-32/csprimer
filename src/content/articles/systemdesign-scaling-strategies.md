@@ -13,7 +13,7 @@ Scaling is how businesses handle increased demand on their systems. Whether you'
 
 ## Vertical Scaling (Scaling Up)
 
-![vertical-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/vertical-scaling_t5yu1y.webp)
+![vertical-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696243/vertical-scaling_t5yu1y.webp)
 
 Vertical scaling means making a single machine more powerful, adding more RAM, faster procesor, bigger hard-drive.
 
@@ -31,7 +31,7 @@ Disadvantage -
 
 ## Horizontal Scaling (Scaling Out)
 
-![horizontal-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/horizontal-scaling_xbj7tu.webp)
+![horizontal-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696243/horizontal-scaling_xbj7tu.webp)
 
 Horizontal scaling means adding more machines to share the workload. Instead of upgrading one server, you add more servers and distribute the traffic between them.
 
@@ -52,3 +52,4 @@ Disadvantage -
 Initially, Netflix relied on vertical scaling by upgrading its on-premises servers to handle growing traffic. However, this approach proved costly and limited, especially during a major database failure in 2008. To overcome these challenges, Netflix transitioned to horizontal scaling by migrating to AWS.
 
  Over time, they further optimized their system with a microservices architecture and their own CDN, Open Connect, showcasing how horizontal scaling can support massive global growth compared to the constraints of vertical scaling.
+

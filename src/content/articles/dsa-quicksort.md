@@ -15,7 +15,7 @@ Divide and Conquer is a fundamental algorithmic technique that breaks a problem 
 
 ### Example: Sum of Array using Divide and Conquer
 
-![Quiksort](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162834/quiksort_raf4mq.png)
+![Quiksort](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162834/quiksort_raf4mq.png)
 
 ```java
 public static int arrsum(int[] arr){
@@ -52,3 +52,4 @@ public static ArrayList<Integer> quickSort(ArrayList<Integer> list){
     return sortedList;
 }
 ```
+

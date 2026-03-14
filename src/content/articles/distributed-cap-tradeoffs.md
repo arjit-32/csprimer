@@ -11,7 +11,7 @@ year: 2025
 
 ## CAP Theorem
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742841485/image_iveq67.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742841485/image_iveq67.png)
 
 It is impossible for a distributed data store to guarantee all three of the following properties - 
 
@@ -35,3 +35,4 @@ The **PACELC theorem** extends CAP by addressing what happens when there is **no
 - Else (E), when there is no partition, the system must choose between Latency (L) and Consistency (C).
 
 Example - Amazon DynamoDB is PA/EL (chooses availability during partitions but optimizes for low latency when there are no partitions. Google Spanner is PC/EC (chooses Consistency in all cases)
+

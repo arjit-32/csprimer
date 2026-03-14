@@ -18,11 +18,11 @@ Generally when we have a feature branch and we merge it with our master, but it 
 - history gets more complicated
 - There is an extra change when 2 branches are merged
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781865/image_4_it86mf.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781865/image_4_it86mf.png)
 
 What we really want our history to look is like this 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781866/image_5_dgoquk.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781866/image_5_dgoquk.png)
 
 Thats where rebase comes in. 
 
@@ -47,7 +47,7 @@ git rebase --continue
 
 After our rebase this is how our codebase looks - 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781866/image_6_o34pmp.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781866/image_6_o34pmp.png)
 
 Now changes are in one line and we can merge feature1 branch into master branch ( as master is still behind ) 
 
@@ -58,3 +58,4 @@ git log --all --graph --oneline
 ```
 
 `Note` - You can see Fast-Forward in terminal, that means there arent any new changes that need to be made so master branch pointer moves to HEAD.
+

@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "HTML & CSS",
-  "image": "/images/thumbnails/html-css.png",
+  "image": "../../assets/images/thumbnails/html-css.png",
   "subtitle": "Build and style the web",
   "description": "This series introduces the fundamentals of HTML and CSS, covering structure, styling, layouts, and responsive design. Learn how to craft clean, accessible, and visually appealing web pages with practical examples.",
   "time": "NaN",

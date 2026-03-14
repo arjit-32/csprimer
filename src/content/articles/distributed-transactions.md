@@ -18,7 +18,7 @@ Variations of Distributed Transactions:
 
 ## ACID Properties
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742841305/image_1_tnhlrt.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742841305/image_1_tnhlrt.png)
 
 ACID is a set of properties traditionally used in databases. It ensures correctness within a single database but does not address distributed system-wide guarantees.
 
@@ -115,3 +115,4 @@ Durability ensures that once a transaction is committed, its changes persist per
 - Write-Ahead Logging (WAL) – Logs changes before applying them to prevent data loss.
 - Replication (Leader-Follower, Quorum-based, etc.) – Copies data across multiple nodes for fault tolerance.
 - Checkpointing – Periodically saves consistent database states to speed up recovery.
+

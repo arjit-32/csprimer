@@ -15,7 +15,7 @@ year: 2025
 
 **User Experience (UX):** The process of designing the overall experience of using a product. UX emphasizes usability, efficiency, and user satisfaction, ensuring the product solves user problems seamlessly.
 
-![ui-vs-ux](https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869227/gnfghtiuwsczucqtigk9.png)
+![ui-vs-ux](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869227/gnfghtiuwsczucqtigk9.png)
 
 
 
@@ -34,5 +34,6 @@ year: 2025
 - Collaborating Effectively with Designers.
 - Acting as Designers when needed. Knowing UI/UX principles ensures consistent, user-friendly designs, even when using component libraries or building your own components.
 - Since you will be working on functionality as developers, knowing intent behind designer’s UX can help your project succeed.
+
 
 

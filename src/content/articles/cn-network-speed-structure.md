@@ -27,7 +27,7 @@ Throughput - The rate at which data is successfully transferred between sender a
 
 The Internet organizes its protocols into a stack of layers, each providing specific functions and services to the layer above it.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1752678947/image_swy32i.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1752678947/image_swy32i.png)
 
 ---
 
@@ -41,3 +41,4 @@ Types of Attacks:
 - Denial-of-Service (DoS): Attackers flood a server, router, or network with traffic to overwhelm it, preventing legitimate users from accessing services.
 - Packet Sniffing: Attackers intercept and read packets traveling over unencrypted networks (e.g., public Wi-Fi), capturing sensitive data like passwords.
 - Spoofing: Attackers impersonate a trusted system by forging packet headers (e.g., fake IP addresses) to trick devices into accepting malicious data.
+

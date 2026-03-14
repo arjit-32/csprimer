@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from "@/layouts/Base.astro";
+import { Image } from "astro:assets";
+
+// Dynamically import all images from the assets folder
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 
 export async function getStaticPaths() {
   const seriesEntries = await getCollection("series");
@@ -12,6 +16,18 @@ export async function getStaticPaths() {
 
 const { series } = Astro.params;
 const { seriesData } = Astro.props;
+
+// Reconstruct the full path
+let imagePath = seriesData.image || "../../assets/images/collaboration.png";
+if (imagePath.startsWith("../../assets")) {
+  imagePath = imagePath.replace("../../assets", "/src/assets");
+} else if (imagePath.startsWith("/images/")) {
+  imagePath = `/src/assets${imagePath}`;
+}
+
+if (!images[imagePath]) {
+  throw new Error(`"${imagePath}" does not exist in glob: "src/assets/images/**"`);
+}
 ---
 
 <Base title={seriesData.title || (series as string)}>
@@ -19,10 +35,14 @@ const { seriesData } = Astro.props;
   <!-- Hero Section with Gradient Overlay -->
   <section class="relative min-h-[500px] flex items-center py-20">
     <div class="absolute inset-0 overflow-hidden">
-      <img 
-        src={seriesData.image || "/images/collaboration.png"} 
+      <Image 
+        src={images[imagePath]()} 
         alt={seriesData.title} 
         class="w-full h-full object-cover"
+        width={1200}
+        height={600}
+        loading="eager"
+        fetchpriority="high"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40"></div>
     </div>

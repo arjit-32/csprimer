@@ -14,7 +14,7 @@ The **Collections Framework** in Java provides a unified architecture to represe
 It’s the **base interface** for all types of **collections** (List, Set, Queue...).
 Key Methods in `Collection<E>`
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745530784/image_yipjxr.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745530784/image_yipjxr.png)
 
 
 ```java
@@ -36,3 +36,4 @@ Collections.sort(al);
 Collections.sort(al,Collections.reverseOrder());  
 Collections.reverse(al);
 ```
+

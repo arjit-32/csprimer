@@ -14,7 +14,7 @@ A *relation* connects elements of one set to another. As a dev, you see this e
 
 It is denoted by AXB and forms foundation for relations. A set of all ordered pairs *(a,b)* where a is from Set A and b is from Set B. 
 
-![cartesian-product](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727755/cartesian_dula4c.png)
+![cartesian-product](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/cartesian_dula4c.png)
 
 
 ```json
@@ -55,22 +55,22 @@ Useful when you want to go “backwards” in your mapping.
 ### Reflexive
 
 Everything maps to itself. *e.g - every service has permission to view its own logs*
-![reflexive](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727755/relation_kcrozf.png)
+![reflexive](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/relation_kcrozf.png)
 
 ### Symmetric
 
 If A follows B, then B follows A . *e.g - maybe in mutual friendships*
-![symmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727754/symmetric_ilhcu7.png)
+![symmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727754/symmetric_ilhcu7.png)
 
 ### Transitive
 
 If A depends on B, and B depends on C, then A depends on C. *e.g - used in build systems*
-![transitive](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727754/transitive_f4i2sk.png)
+![transitive](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727754/transitive_f4i2sk.png)
 
 ### Antisymmetric
 
 If A ≤ B and B ≤ A → then A = B. *e.g. - important in orderings like file structures or task flows*
-![antisymmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727755/antisymmetric_u2qzlm.png)
+![antisymmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/antisymmetric_u2qzlm.png)
 
 
 ### Equivalence
@@ -126,3 +126,4 @@ task_dependencies = {
 ## Conclusion
 
 Relations are the glue between things. They help model real-world connections in a way that’s structured. It is exactly what you need when dealing with data modeling.
+

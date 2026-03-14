@@ -21,7 +21,7 @@ To recognize such patterns, the machine needs memory to keep track of context, a
 
 ## What Is a Pushdown Automaton?
 
-![pda](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157123/pda_ym407y.png)
+![pda](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157123/pda_ym407y.png)
 
 A Pushdown Automaton (PDA) is like a DFA but with an extra component: a **stack**.
 
@@ -47,4 +47,5 @@ This memory (the stack) is what makes the PDA capable of recognizing context-fre
 
 ## Example 
 
-![push-down-automata](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157124/push-down-automata_kpc5ci.png)
+![push-down-automata](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/push-down-automata_kpc5ci.png)
+

@@ -5,6 +5,7 @@ import readingTime from "@/lib/utils/readingTime";
 import { humanize, plainify, slugify } from "@/lib/utils/textConverter";
 const { summary_length } = config.settings;
 const { posts } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 ---
 
 <h2 class="h4 mb-4">Featured Articles</h2>
@@ -13,13 +14,25 @@ const { posts } = Astro.props;
     posts.map((post: any) => (
       <div class="mb-8 md:col-6">
         <div class="card">
-          <Image
-            class="card-img"
-            width={235}
-            height={304}
-            src={post.data.image}
-            alt={post.data.title}
-          />
+          {(() => {
+            if (!post.data.image) return null;
+            let imagePath = post.data.image;
+            if (imagePath.startsWith("../../assets")) {
+              imagePath = imagePath.replace("../../assets", "/src/assets");
+            } else if (imagePath.startsWith("/images/")) {
+              imagePath = `/src/assets${imagePath}`;
+            }
+            
+            return images[imagePath] ? (
+              <Image
+                class="card-img"
+                width={235}
+                height={304}
+                src={images[imagePath]()}
+                alt={post.data.title}
+              />
+            ) : null;
+          })()}
           <div class="card-content">
             <div class="card-tags space-x-1">
               <span class="card-tags space-x-1" style="">

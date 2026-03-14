@@ -50,7 +50,7 @@ Boolean operations come to life as logic gates in electronic circuits. These gat
 | A + B | OR | 1 if A or B is 1 |
 | ¬A | NOT | Inverts A (0 → 1, 1 → 0) |
 
-![basic-logic-gates](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728161/basic-logic-gates_gler4s.png)
+![basic-logic-gates](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728161/basic-logic-gates_gler4s.png)
 
 ### Derived Gates
 
@@ -59,10 +59,11 @@ Boolean operations come to life as logic gates in electronic circuits. These gat
 - **XOR:** A ⊕ B - Outputs 1 if inputs differ (A or B, but not both).
 - **XNOR:** ¬(A ⊕ B) - Outputs 1 if inputs are the same.
 
-![derived-logic-gates](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728164/logic-gates_fh6j4f.png)
+![derived-logic-gates](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728164/logic-gates_fh6j4f.png)
 
 
 ---
 
 ## Conclusion
 Boolean algebra lets engineers create simple rules that machines can follow. By breaking down decisions into yes/no logic, we make systems more reliable and predictable.
+

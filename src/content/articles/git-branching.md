@@ -52,9 +52,9 @@ Normally, `HEAD` points to a branch but it can also point to a **specific commit
 
 Lets take a example - 
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778037/Untitled_2_ble9ha.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778037/Untitled_2_ble9ha.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778036/Untitled_1_eqbxou.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_1_eqbxou.png)
 
 ```bash
 git checkout d6afca4 # HEAD being detached
@@ -73,9 +73,9 @@ Check the Changes
 git log --graph --oneline --all
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778036/Untitled_4_v2i2jm.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_4_v2i2jm.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778036/Untitled_3_ikyjza.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_3_ikyjza.png)
 
 We can go back to master leaving this commits not connected to a branch behind and they may get deleted
 
@@ -99,3 +99,4 @@ They point to particular commits and just used as fixed labels on commits.
 ```bash
 git tag v1 # Tags current commit as v1
 ```
+

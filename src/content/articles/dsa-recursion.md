@@ -83,7 +83,7 @@ def bye():
 
 *Idea is simple - When you call a function from another function, the calling function is paused in a partially completed state. All its values of variables are still stored in memory.*
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162682/recursion_dp3bkv.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162682/recursion_dp3bkv.png)
 
 ---
 
@@ -97,6 +97,7 @@ else:
 return x * fact(x - 1)  # Recursive case
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162682/call-stack_jqsgye.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162682/call-stack_jqsgye.png)
 
 Notice that each call to fact has its own copy of x. You can’t access a different function’s copy of x
+

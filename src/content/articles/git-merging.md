@@ -9,7 +9,7 @@ draft: false
 year: 2025
 ---
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778645/image_3_fdtyo7.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778645/image_3_fdtyo7.png)
 
 Merging combines changes from one branch into another. Typically, we merge feature branches into the **main** branch.
 
@@ -52,8 +52,9 @@ git reset --hard HEAD~1 # If merge is already committed
 
 Cherry-picking allows you to **pick a specific commit** from one branch and apply it to another, without merging everything.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741778645/Untitled_5_brqziz.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778645/Untitled_5_brqziz.png)
 
 ```bash
 git cherry-pick 5892e85
 ```
+

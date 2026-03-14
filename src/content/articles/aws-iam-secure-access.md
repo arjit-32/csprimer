@@ -24,7 +24,7 @@ Every action on AWS goes through an **API**. Whether you're uploading a file to 
 
 ## How IAM works ?
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746115508/how-iam-works_zhmwcg.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746115508/how-iam-works_zhmwcg.png)
 
 A Entity(user, service etc) tries to access a resource, IAM checks credentials and verifies authentication, then it evaluates attached policies to determine if they permission of requested action. If allowed then authorization is granted.
 
@@ -32,7 +32,7 @@ A Entity(user, service etc) tries to access a resource, IAM checks credentials a
 
 ## Key Concepts in IAM (Quick Reference)
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746115509/aws-iam_tdpl8f.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746115509/aws-iam_tdpl8f.png)
 
 IAM deals with 3 entities - 
 
@@ -150,3 +150,4 @@ Thats it! Now your Lambda can upload photos - and nothing more.
 - Use AWS managed policies wherever possible.
 
 IAM in itself is free, you only pay for other services. In conclusion, this is a must know service.
+

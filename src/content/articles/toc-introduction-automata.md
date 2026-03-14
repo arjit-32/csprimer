@@ -30,7 +30,7 @@ These ideas formed the mathematical foundation of compilers, interpreters, and a
 
 ## The Building Blocks of Automata Theory
 
-![building-blocks-of-toc](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728724/building-block-toc_nefsfi.png)
+![building-blocks-of-toc](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728724/building-block-toc_nefsfi.png)
 
 To model how machines understand patterns, lets first start with some basic concepts:
 
@@ -59,3 +59,4 @@ Every compiler’s or interpreter’s initial 2 steps are -
 2. Syntax analysis - Checks if those tokens follow the grammar
 
 These first two stages are automata in action. *Lexical analyzers use finite automata and regular expressions* while *Syntax analyzers use context-free grammars.* So, before we can write or understand a compiler, we need to know how machines process structured input which is exactly what automata theory teaches us
+

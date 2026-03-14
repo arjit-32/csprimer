@@ -13,7 +13,7 @@ draft: false
 
 A **hash function** maps a string (or any input) to a numerical value. It is important for hash functions to consistently return the same output for the same input.
 
-![hashfunction](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162956/hash_jkzpzh.png)
+![hashfunction](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162956/hash_jkzpzh.png)
 
 ## What is a Hash Table ?
 
@@ -41,7 +41,7 @@ Example- Phone book, DNS resolution, Voting booth check, caching
 
 Sometimes, a **hash function** maps multiple keys to the same index this is called a **collision.** It can be handled in various ways, one common way is to use a Linkedlist to store multiple values at same index.
 
-![collision](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162955/collision-in-hashmap_mknlfy.png)
+![collision](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162955/collision-in-hashmap_mknlfy.png)
 
 A good hash function minimizes the number of collisions.
 
@@ -59,6 +59,7 @@ For good performance we need -
 
 `Load Factor = (Number of Items in Table) / (Total Number of Slots)`
 
-![load-factor](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162955/loadfactor_yglfx8.png)
+![load-factor](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162955/loadfactor_yglfx8.png)
 
 If the **load factor reaches 1** (meaning the table is full), the hash table **resizes** by creating a larger array and rehashing existing elements.
+

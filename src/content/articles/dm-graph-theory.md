@@ -17,7 +17,7 @@ A graph is combination of
 - Nodes (vertices) - Represents entities or objects.
 - Edges - Represents relationships between nodes.
 
-![graph-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/graphs_dqfxut.webp)
+![graph-example](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696243/graphs_dqfxut.webp)
 
 ---
 
@@ -33,11 +33,11 @@ A graph is combination of
 
 1. Adjacency Matrix 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747115601/adjacency-matrix_yvedsj.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747115601/adjacency-matrix_yvedsj.png)
 
 1. Adjacency List 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747115601/adjacency-list_jc9sef.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747115601/adjacency-list_jc9sef.png)
 
 ---
 
@@ -60,3 +60,4 @@ Often used to model our problems into a graph data structures help in easy think
 ## Conclusion
 
 Graphs are probably the most key takeaway from discrete math that you will encounter in your day to day life as a software developer. Mastering them will not only help you in software engineering, but also emerging trends in machine learning and distributed systems.
+

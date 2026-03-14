@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Computer Networks",
-  "image": "/images/thumbnails/CN.png",
+  "image": "../../assets/images/thumbnails/CN.png",
   "subtitle": "Unravel the backbone of digital communication",
   "description": "Explore the architecture, protocols, and layers that make modern networking possible—from applications to routers, and everything in between.",
   "time": "1 day",

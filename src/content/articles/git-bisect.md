@@ -50,7 +50,7 @@ public class sum {
 
 I have 4 commits, out of which any one of the commit broke my code at some point.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782043/Untitled_13_lh4cbi.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782043/Untitled_13_lh4cbi.png)
 
 ### Step-2: Start Git Bisect
 
@@ -62,7 +62,7 @@ git bisect bad 8c76244 # Mention a bad commit where code wasnt working as expect
 git bisect good 11d3ee4 # Mention a good commit
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782043/Untitled_14_g809l3.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782043/Untitled_14_g809l3.png)
 
 ### Step-3: Test the checked out commit
 
@@ -76,7 +76,7 @@ git bisect bad
 
 On recursively doing *Step-3*, we will land on a code which is good. In our case in this very step.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782044/Untitled_15_qngb4x.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782044/Untitled_15_qngb4x.png)
 
 Hence we come to know problem occurred When we made sum function and obviously on looking at it we notice it doesn’t have a return statement. Thank you git bisect.
 
@@ -87,3 +87,4 @@ Now that we know about the buggy commit, we exit bisect and this will return us 
 ```bash
 git bisect reset
 ```
+

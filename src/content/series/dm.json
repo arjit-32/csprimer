@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Discrete Mathematics",
-  "image": "/images/thumbnails/discrete-math.png",
+  "image": "../../assets/images/thumbnails/discrete-math.png",
   "subtitle": "Master the mathematical foundations essential for computer science.",
   "description": "This series explores logic, set theory, combinatorics, graph theory, and proofs, building critical reasoning skills for algorithms, cryptography, and theoretical computing.",
   "time": "1 day",

@@ -11,7 +11,7 @@ draft: false
 
 ## Java is Platform Independent
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745314405/java-platform-independece_hcvxmt.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745314405/java-platform-independece_hcvxmt.png)
 
 Java works on the principle of **WORA** *(Write Once, Run Anywhere)*. A Java program is **compiled into bytecode**, which can run on any system that has a Java Virtual Machine (JVM), regardless of the underlying operating system or hardware.
 
@@ -22,7 +22,7 @@ Since bytecode is converted to machine code at runtime, execution can be slightl
 ---
 ## Difference between JDK, JRE and JVM ?
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745314406/jdk-jre-jvm_usirg8.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745314406/jdk-jre-jvm_usirg8.png)
 
 **JVM (Java Virtual Machine):** The heart of the Java platform. It executes Java bytecode and provides platform independence. 
 
@@ -35,7 +35,7 @@ Since bytecode is converted to machine code at runtime, execution can be slightl
 
 Its a virtual machine/abstract computer that simulates a real computer. It is used to execute java byte code file. 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745314406/jvm_ciocmj.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745314406/jvm_ciocmj.png)
 
 ### Key components of JVM
 
@@ -70,3 +70,4 @@ Its hybrid. First compiled to byte code, then interpreted by JVM.
 *Note: It is different from Spring Framework in way that it is a specification with multiple vendors (WebSphere, GlassFish) while Spring is a open-source framework developed by VMware.*
 - Java ME ( Micro Edition )  - Designed for embedded systems, mobile devices(feature phones) and IOT devices.
 - Java FX - For building rich desktop GUI applications.
+

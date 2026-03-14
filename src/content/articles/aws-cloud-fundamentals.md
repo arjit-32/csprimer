@@ -9,7 +9,7 @@ draft: false
 year: 2025
 ---
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746107663/cloud_dwom8y.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746107663/cloud_dwom8y.png)
 
 ## What is Cloud Computing?
 
@@ -26,7 +26,7 @@ Cloud computing is the on-demand delivery of IT resources - like servers, storag
 
 ## Cloud Service Models
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746107663/iaas-paas_qquz9g.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746107663/iaas-paas_qquz9g.png)
 
 ### 1. IaaS (Infrastructure as a Service)
 
@@ -96,3 +96,4 @@ Its a set of **guiding principles and best practices** AWS recommends. 6 Pillars
 6. **Sustainability -** Minimize environmental impact of your workloads
 
 Checkout more on [AWS website](https://aws.amazon.com/architecture/well-architected/?wa-lens-whitepapers.sort-by=item.additionalFields.sortDate&wa-lens-whitepapers.sort-order=desc&wa-guidance-whitepapers.sort-by=item.additionalFields.sortDate&wa-guidance-whitepapers.sort-order=desc)
+

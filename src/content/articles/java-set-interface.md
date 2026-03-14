@@ -10,7 +10,7 @@ draft: false
 ---
 The Set<E> interface represents a collection that cannot contain duplicate elements.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745530784/image_yipjxr.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745530784/image_yipjxr.png)
 
 ## Hashset
 
@@ -84,3 +84,4 @@ t.size();
 t.lower(3); // returns greatest element in set which is less than 3
 t.higher(3); // returns smallest element in set which is greater than 3
 ```
+

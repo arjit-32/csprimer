@@ -13,7 +13,7 @@ A greedy algorithm is simple: at each step, pick the most optimal move without c
 
 ## Example 1: Scheduling Classes
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163723/greedy_l4arxl.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163723/greedy_l4arxl.png)
 
 Problem asks us to hold as many classes as possible in this classroom.
 
@@ -46,9 +46,9 @@ Note - Check how here Greedy approach fails. If we pick 30KG, we only get $3000,
 
 ## Example 3: The Set Covering Problem
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163722/set-covering-2_z5heex.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163722/set-covering-2_z5heex.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163722/set-covering_rkwhj4.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163722/set-covering_rkwhj4.png)
 
 Each station covers a region, and there’s overlap. How do you figure out the smallest set of stations you can play on to cover all 50 states ?
 
@@ -105,3 +105,4 @@ public class StationSelection {
     }
 }
 ```
+

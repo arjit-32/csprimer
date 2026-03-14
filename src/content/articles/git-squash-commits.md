@@ -27,7 +27,7 @@ On using this command, we will get an editable file of all the commits where we 
 - **squash (s)** → Merge commit with the previous one.
 - **drop (d)** → Remove commit from history.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781865/Untitled_12_yqrqgf.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781865/Untitled_12_yqrqgf.png)
 
 After editing the file and saving it, Git will prompt you to rewrite the commit message for the squashed commits. Modify the message as needed, then continue:
 
@@ -44,3 +44,4 @@ Some points to note -
 git branch -f master
 git checkout master
 ```
+

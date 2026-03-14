@@ -44,7 +44,7 @@ cat project/.git/config
 
 Cloned repo has remote called origin
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782659/Untitled_16_fgffmz.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782659/Untitled_16_fgffmz.png)
 
 ## **Checking Remote Repositories**
 
@@ -55,7 +55,7 @@ cd cloned_project
 git remote -v
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782661/Untitled_17_hdojya.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782661/Untitled_17_hdojya.png)
 
 This shows `origin`, which points to the original repository.
 
@@ -88,7 +88,7 @@ git log --oneline --graph # See for yourself that no change is applied
 git branch --all 
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741782660/Untitled_18_kzee2f.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782660/Untitled_18_kzee2f.png)
 
 Applying remote changes to local
 
@@ -124,3 +124,4 @@ git push origin feature
 ```
 
 Now, the `feature` branch is available in the remote repository for others to access.
+

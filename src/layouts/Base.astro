@@ -42,10 +42,12 @@ const { title, meta_title, description, image, noindex, canonical } =
 
 const GA_TRACKING_ID = 'G-6M575HQ2TZ';
 const scriptContent = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${GA_TRACKING_ID}');
+  window.addEventListener('load', function() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_TRACKING_ID}');
+  });
 `;
 ---
 
@@ -54,8 +56,17 @@ const scriptContent = `
   <head>
     <!-- favicon -->
     <link rel="shortcut icon" href={config.site.favicon} />
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-<script set:html={scriptContent}></script>
+    
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Analytics (Deferred) -->
+    <script defer src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+    <script set:html={scriptContent}></script>
 
     <meta
       name="theme-color"

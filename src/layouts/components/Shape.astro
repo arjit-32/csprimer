@@ -1,24 +1,27 @@
 ---
 import { Image } from "astro:assets";
+import bubble1 from "@/assets/images/floating-bubble-1.png";
+import bubble2 from "@/assets/images/floating-bubble-2.png";
+import bubble3 from "@/assets/images/floating-bubble-3.png";
 ---
 
 <Image
   class="floating-bubble-1 absolute right-0 top-0"
-  src="/images/floating-bubble-1.png"
+  src={bubble1}
   alt=""
   height={98}
   width={103}
 />
 <Image
   class="floating-bubble-2 absolute left-0 top-[387px] -z-[1]"
-  src="/images/floating-bubble-2.png"
+  src={bubble2}
   alt=""
   height={66}
   width={33}
 />
 <Image
   class="floating-bubble-3 absolute right-0 top-[605px] -z-[1]"
-  src="/images/floating-bubble-3.png"
+  src={bubble3}
   alt=""
   height={99}
   width={50}

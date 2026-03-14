@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import AutoImport from "astro-auto-import";
-import { defineConfig, passthroughImageService } from "astro/config";
+import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
@@ -17,7 +17,7 @@ export default defineConfig({
   outDir: 'dist',
   trailingSlash: "ignore",
   image: {
-    service: passthroughImageService(),
+    // Rely on Astro's default image service (sharp) instead of passthrough
   },
   integrations: [
     react(),

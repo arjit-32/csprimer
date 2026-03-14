@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Database Management Systems",
-  "image": "/images/thumbnails/DBMS.png",
+  "image": "../../assets/images/thumbnails/DBMS.png",
   "subtitle": "Learn how data is stored, organized, and managed efficiently.",
   "description": "Understand the fundamentals of database systems, including data models, relational algebra, SQL, normalization, and transaction management. This series provides insight into how modern databases ensure consistency, efficiency, and reliability.",
   "time": "1 day",

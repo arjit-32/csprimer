@@ -11,7 +11,7 @@ draft: false
 
 It's based on FIFO (First-In-First-Out), though some implementations like PriorityQueue alter the order.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745530784/image_yipjxr.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745530784/image_yipjxr.png)
 
 **Common Methods in Queue Interface**
 
@@ -109,3 +109,4 @@ while (iterator.hasNext()) {
     System.out.print(iterator.next() + " "); 
 }
 ```
+

@@ -11,6 +11,7 @@ import { Image } from "astro:assets";
 
 const { post, series } = Astro.props;
 const { Content } = await post.render();
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 
 const seriesEntry = series ? await getEntry("series", series) : null;
 const courseData = seriesEntry ? seriesEntry.data : null;
@@ -126,18 +127,28 @@ const courseData = seriesEntry ? seriesEntry.data : null;
       <div class="flex-1">
         <div class={`${courseData ? '' : 'flex justify-center'}`}>
           <div class={`${courseData ? 'w-full' : 'max-w-[720px]'}`}>
-            {post.data.image && (
-              <div class="mb-6 overflow-hidden rounded-lg">
-                <Image
-                  class="w-full h-full"
-                  src={post.data.image}
-                  alt={post.data.title || "Blog post image"}
-                  width={800}
-                  height={450}
-                  loading="eager"
-                />
-              </div>
-            )}
+            {(() => {
+              if(!post.data.image) return null;
+              let imagePath = post.data.image;
+              if (imagePath.startsWith("../../assets")) {
+                imagePath = imagePath.replace("../../assets", "/src/assets");
+              } else if (imagePath.startsWith("/images/")) {
+                imagePath = `/src/assets${imagePath}`;
+              }
+
+              return images[imagePath] ? (
+                <div class="mb-6 overflow-hidden rounded-lg">
+                  <Image
+                    class="w-full h-full"
+                    src={images[imagePath]()}
+                    alt={post.data.title || "Blog post image"}
+                    width={800}
+                    height={450}
+                    loading="eager"
+                  />
+                </div>
+              ) : null;
+            })()}
 
             <h1 class="text-3xl font-bold leading-tight mb-4">{post.data.title}</h1>
             

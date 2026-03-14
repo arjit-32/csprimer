@@ -28,7 +28,7 @@ Breadth-First Search (BFS) finds the path with the fewest segments, but it does 
 
 ### Example 1
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163469/dijkstra_tun4p6.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163469/dijkstra_tun4p6.png)
 
 | Node | Cost | Parent |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ Final Shortest Path: Start → B → A → Finish
 
 ### Example 2
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163469/dijkstra-2_bhb2c2.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163469/dijkstra-2_bhb2c2.png)
 
 | City | Cost | Parent |
 | --- | --- | --- |
@@ -170,3 +170,4 @@ The algorithm processes **each node once** and updates neighbors, making its tim
 
 - **O(V²) using a simple array**
 - **O((V + E) log V) using a priority queue (Heap)**
+

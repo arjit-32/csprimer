@@ -37,7 +37,7 @@ A *distributed system* is a system whose components are located on different n
 
 Lots of challenges arise due to absence of global state and unreliable communication.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742834505/image_ru1aeg.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742834505/image_ru1aeg.png)
 
 
 - **Network Asynchrony -**  No guarantee that messages will be delivered in order or within a fixed time.
@@ -77,7 +77,7 @@ Failures in distributed systems are **inevitable**, and systems must be designed
 
 Assume a Banking application where user is charged, but due to failed response, charges him again.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742834504/image_1_vkjbvh.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742834504/image_1_vkjbvh.png)
 
 
 To deal with situations like these, we can use couple of strategies:
@@ -89,3 +89,4 @@ To deal with situations like these, we can use couple of strategies:
 - De-Duplication Approach : Give a unique identifier to each message, so even if it delivered multiple times the recipient knows to discard the duplicates
 
 *Note -  It is possible to have exactly-once processing in a distributed system, but not exactly-once delivery.*
+

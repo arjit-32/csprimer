@@ -123,7 +123,7 @@ If you were unable to follow, thats completely fine. To sum it up, we make a men
 
 ## How it works ? (The Broader Picture) 
 
-![compiler](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745825452/hindiland_cigvqt.png)
+![compiler](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745825452/hindiland_cigvqt.png)
 
 - Lexer → Tokenizes your code
 - Parser → Matches grammar rules, decides meaning
@@ -237,3 +237,4 @@ Now, every time I write code, I ask myself:
 ---
 
 Thanks to [Austin Henley](https://austinhenley.com/) for making this a possibility ! 
+

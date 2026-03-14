@@ -18,7 +18,7 @@ Let's skip the jargon and jump straight into action! In this guide, you'll build
 - Connect everything with **API Gateway**
 - Deploy your frontend using S3 and **CloudFront**
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746167824/aws-img-upload-serverless_qsg2ac.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746167824/aws-img-upload-serverless_qsg2ac.png)
 
 ---
 
@@ -195,7 +195,7 @@ Create a CloudFront distribution with following -
 
 This is what you frontend would look like -
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746167824/aws-image-upload-app_cw75py.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746167824/aws-image-upload-app_cw75py.png)
 
 Copy this code in index.html in your local -
 
@@ -276,3 +276,4 @@ Now that our app is ready, let’s deploy the frontend to AWS:
 ## Yayy, You did it !
 
 You've now built a **fully serverless image upload and viewing app** using AWS services. With this guide, you've learned how to use AWS services to build a complete app. You can take this foundation and expand it to create more complex applications by using more of such AWS offerings.
+

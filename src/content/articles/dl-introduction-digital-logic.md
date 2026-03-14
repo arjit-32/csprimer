@@ -13,7 +13,7 @@ Computers started as bulky machines with vacuum tubes and punch cards. They used
 
 ## Early Computation: A World of Switches and Cards
 
-![digital-electronics-history](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753391560/digital-electronics_gzemgy.webp)
+![digital-electronics-history](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753391560/digital-electronics_gzemgy.webp)
 
 In the 1930s and 40s, machines like the *ENIAC* (Electronic Numerical Integrator and Computer) performed basic arithmetic using **vacuum tubes**, which acted like **electrical switches**. A switch is a electrical component where *1=ON* and *0=OFF.* These ON/OFF states became the earliest form of binary data.
 
@@ -34,7 +34,7 @@ It was brilliant for its time but incredibly rigid. Without a formal system, eng
 
 ## Claude Shannon’s Breakthrough: Turning Logic into Math
 
-![claude-shannon](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753391561/claude-shannon_wsazz8.webp)
+![claude-shannon](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753391561/claude-shannon_wsazz8.webp)
 
 In 1937, a 21-year-old graduate student at MIT named **Claude Shannon** changed everything. In his master’s thesis, he made a simple yet revolutionary claim
 
@@ -52,7 +52,7 @@ In 1947, a transistor was developed which was a small semiconductor device that 
 
 ## Analog vs. Digital: Why Binary Won
 
-![analog-and-digital](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728161/analog-digital_l73qpz.png)
+![analog-and-digital](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728161/analog-digital_l73qpz.png)
 
 Before digital electronics, many systems were analog working with smooth, continuous values but analog systems were sensitive to noise.
 
@@ -63,4 +63,5 @@ Digital electronics, using just two states (0 and 1), were:
 - Perfect for logic: Ideal for computation, storage, and data processing.
 
 Shannon’s math-based design approach perfectly matched the binary nature of switches (relays, vaccum tubes and later transistors), enabling precise, mathematical circuit design.
+
 

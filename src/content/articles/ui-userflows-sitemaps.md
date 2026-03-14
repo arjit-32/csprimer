@@ -22,12 +22,13 @@ Some points to keep in mind -
 2. Flow should only be in 1 direction to avoid confusion
 3. Create distinct flows
 
-![Userflows-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869231/iqeyigictmg81zxpqgwm.png)
+![Userflows-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869231/iqeyigictmg81zxpqgwm.png)
 
-![Userflows-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/ficziacik1fb5m9irez7.png)
+![Userflows-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/ficziacik1fb5m9irez7.png)
 
 ## SiteMaps
 
 Ensures that all pages are organized logically and that navigation is intuitive for users. A well-structured sitemap will help clarify the information architecture, ensuring users can easily find what they need.
 
-![Sitemaps-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869231/fnn69tomtjzcigfuywcg.png)
+![Sitemaps-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869231/fnn69tomtjzcigfuywcg.png)
+

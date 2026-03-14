@@ -27,7 +27,7 @@ Adders perform binary addition, crucial for arithmetic operations in processors
 
 - **Half Adder**: Adds two 1-bit inputs (A, B)
     - Outputs: ***Sum = A ⊕ B, Carry = A·B***
-    ![half-adder](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728162/half-adder_fix6vo.png)
+    ![half-adder](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728162/half-adder_fix6vo.png)
 - **Full Adder**: Adds three 1-bit inputs (A, B, Carry-in)
     - Outputs: ***Sum and Carry-out***
     - Built using two half adders and an OR gate
@@ -40,7 +40,7 @@ Subtractors handle binary subtraction, often used in control logic and arithmeti
 
 - **Half Subtractor**: Subtracts B from A (A-B)
     - Outputs: ***Diff = A ⊕ B, Borrow = ¬A · B***
-    ![half-subtractor](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728162/half-subtractor_vkgxo5.png)
+    ![half-subtractor](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728162/half-subtractor_vkgxo5.png)
 - **Full Subtractor**: Subtracts with a borrow (A – B – Borrow-in)
     - Outputs: ***Difference and Borrow-out***
 
@@ -53,7 +53,7 @@ A multiplexer selects one input from many and forwards it to the output - like a
 - **2-to-1 MUX**:
     - Inputs: A, B; Select line: S
     - Output: ***Y = A·¬S + B·S***
- ![Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747985754/multiplexer_e57yjd.png)
+ ![Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747985754/multiplexer_e57yjd.png)
 
 ---
 
@@ -61,7 +61,7 @@ A multiplexer selects one input from many and forwards it to the output - like a
 
 Routes one input to one of many outputs based on selector bits. Its like a reverse MUX, directing data to a chosen path. Ideal for distributing data to multiple destinations
 
- ![De-Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747985754/demultiplexer_z5ku8b.png)
+ ![De-Multiplexer](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747985754/demultiplexer_z5ku8b.png)
 
 ---
 
@@ -82,3 +82,4 @@ Converts one of 2ⁿ active inputs into an n-bit binary code. They take multiple
 ## Conclusion
 
 Mastering combinational circuits is the first step toward understanding how modern hardware. These components are the building blocks of more advanced hardware systems like ALUs, control units, and memory addressing circuits. 
+

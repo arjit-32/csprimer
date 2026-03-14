@@ -32,16 +32,17 @@ Sketching is a quick, low-fidelity way to visualize ideas and map out user flows
 Note - Keep sketches rough and fluid; the goal is to outline ideas, not perfect designs. This phase is about shaping functionality and flow before diving into Figma or high-fidelity designs.
 
 
-![Sketching-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/pdafjzbuakhmq8pckgdt.png)
+![Sketching-UI](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/pdafjzbuakhmq8pckgdt.png)
 <p class="flex">
-  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/shixtvdob0jgxiiw1sae.png" alt="Sketching-UI" width="45%" />
-  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/skdwwbruuonr9ydhbvkv.png" alt="Sketching-UI" width="45%" />
+  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/shixtvdob0jgxiiw1sae.png" alt="Sketching-UI" width="45%" />
+  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/skdwwbruuonr9ydhbvkv.png" alt="Sketching-UI" width="45%" />
 </p>
 
 <p class="flex">
-  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/gmsroboktyzjmwgvv5sf.png" alt="Sketching-UI" width="45%" />
-  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/v1738869230/x3ek0pkrsawjgtwc3zv1.png" alt="Sketching-UI" width="45%" />
+  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/gmsroboktyzjmwgvv5sf.png" alt="Sketching-UI" width="45%" />
+  <img src="https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869230/x3ek0pkrsawjgtwc3zv1.png" alt="Sketching-UI" width="45%" />
 </p>
+
 
 
 

@@ -18,7 +18,7 @@ git checkout master // Switch working directly to newly created master branch
 git log
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781683/Untitled_11_iqzpnv.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781683/Untitled_11_iqzpnv.png)
 
 Reflog records all movements of branches in the repository. It is a history of changes made to the HEAD. It contains reference to the state of repo at various points, even if those points are no longer reachable within the repo.
 
@@ -26,3 +26,4 @@ Reflog records all movements of branches in the repository. It is a history of c
 git reflog
 git reset --hard 9223a7a # Check the commit you want to restore
 ```
+

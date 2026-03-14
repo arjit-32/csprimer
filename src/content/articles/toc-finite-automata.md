@@ -25,7 +25,7 @@ DFA is perfect for simple rule-based pattern checking, like recognizing whether 
 
 A DFA that accepts strings starting in abb over the alphabet {a, b}
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747371667/dfa_fqadse.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747371667/dfa_fqadse.png)
 
 - It starts at a base state*(q0)*
 - Moves to a second state*(q1)* when it reads *a*
@@ -45,7 +45,7 @@ An NFA accepts a string if **at least one path** through its states leads to an 
 
 A NFA that accepts strings starting in abb over the alphabet {a, b}
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747371667/nfa_zccn4n.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747371667/nfa_zccn4n.png)
 
 - It starts at a base state*(q0)*
 - Moves to a second state*(q1)* when it reads *a*
@@ -63,3 +63,4 @@ So far DFA and NFA only say *“yes”* or *“no”,* but what if you want a ma
 
 - **Moore Machine**: The output depends **only on the current state**
 - **Mealy Machine**: The output depends on **both the current state and input symbol**
+

@@ -24,9 +24,9 @@ Example - Maps and Navigation ( Cities as nodes, Roads as edges )
     Imagine you are looking for a **mango seller** in your social network. BFS starts with your immediate friends and checks if any of them are mango sellers. If not, it adds their friends to the search list and continues.
     
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163257/graph_w7k7wi.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163257/graph_w7k7wi.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163255/bfs_jc6eyq.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163255/bfs_jc6eyq.png)
 
 2.  **What is the shortest path from Node A to Node B?**
     
@@ -39,7 +39,7 @@ Example - Maps and Navigation ( Cities as nodes, Roads as edges )
 
 A queue is like a line at a store. People (or items) join at the back and leave from the front.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163255/queue_d08tqi.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163255/queue_d08tqi.png)
 
 
 ---
@@ -48,9 +48,9 @@ A queue is like a line at a store. People (or items) join at the back and leave 
 
 A **hash table (map)** can be used to represent a graph, where each node maps to a list of its neighbors.
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163256/graph-implement_uyrbnn.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/graph-implement_uyrbnn.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163256/graph-implement-2_slv2xu.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/graph-implement-2_slv2xu.png)
 
 ```java
 Map<String, List<String>> graph = new HashMap<>();
@@ -61,11 +61,11 @@ graph.put("you", Arrays.asList("alice", "bob", "claire"));
 
 ## BFS Algorithm Implementation
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163256/bfs-algo_uf1mox.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/bfs-algo_uf1mox.png)
 
 ---
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163257/bfs-implement_m8om0s.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163257/bfs-implement_m8om0s.png)
 
 ```java
 public static boolean isMangoSeller(Map<String, List<String>> graph, String startPerson) {
@@ -108,3 +108,4 @@ The running time of BFS depends on:
 Time Complexity: **O(V + E)**
 
 BFS is efficient for finding shortest paths and ensuring all nodes are visited in the least number of steps.
+

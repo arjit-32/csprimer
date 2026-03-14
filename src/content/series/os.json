@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Operating Systems",
-  "image": "/images/thumbnails/OS.png",
+  "image": "../../assets/images/thumbnails/OS.png",
   "subtitle": "Learn the interface handling your web servers",
   "description": "We will go through all important concepts of operating systems",
   "time": "1 day",

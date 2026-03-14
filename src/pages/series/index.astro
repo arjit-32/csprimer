@@ -3,7 +3,18 @@ import Shape from "@/components/Shape.astro";
 import Base from "@/layouts/Base.astro";
 import Cta from "@/partials/Cta.astro";
 import { getCollection } from "astro:content";
+import { Image, getImage } from "astro:assets";
+
 const seriesCollection = await getCollection("series");
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+
+// Pre-resolve roadmap images for the client-side switcher
+const roadmaps = {
+  all: await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 800 }),
+  DSA: await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 800 }),
+  Development: await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 800 }),
+  'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
+};
 ---
 <Base title="Series">
   <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
@@ -50,7 +61,13 @@ const seriesCollection = await getCollection("series");
             
             <img
               id="roadmapImage"
-              src="/images/categories/1.png"
+              src={roadmaps.all.src}
+              data-roadmaps={JSON.stringify({
+                all: roadmaps.all.src,
+                DSA: roadmaps.DSA.src,
+                Development: roadmaps.Development.src,
+                'System-Design': roadmaps['System-Design'].src
+              })}
               alt="Roadmap"
               class="max-w-full h-auto rounded-lg shadow-md object-contain"
             />
@@ -83,11 +100,24 @@ const seriesCollection = await getCollection("series");
                   <p class="py-1 bg-slate-200 text-zinc-900 text-center text-xs">On-going</p>
                 )}
                 <div class="p-4">
-                  <img
-                    src={series.image || "/images/collaboration.png"}
-                    alt={series.title}
-                    class="w-full h-48 object-cover rounded-lg mb-4 group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {(() => {
+                    let imagePath = series.image || "../../assets/images/collaboration.png";
+                    if (imagePath.startsWith("../../assets")) {
+                      imagePath = imagePath.replace("../../assets", "/src/assets");
+                    } else if (imagePath.startsWith("/images/")) {
+                      imagePath = `/src/assets${imagePath}`;
+                    }
+
+                    return images[imagePath] ? (
+                      <Image
+                        src={images[imagePath]()}
+                        alt={series.title}
+                        width={400}
+                        height={200}
+                        class="w-full h-48 object-cover rounded-lg mb-4 group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : null;
+                  })()}
                   <div class="space-x-2 mb-3">
                     <span class={`inline-block ${categoryColor} text-xs font-semibold py-1 px-3 rounded-full`}>
                       {series.category}
@@ -172,14 +202,15 @@ const seriesCollection = await getCollection("series");
             if (allButton) allButton.click();
           });
         }
+        const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
         if (category === "DSA") {
-          roadmapImage.src = "/images/categories/2.png"; 
+          roadmapImage.src = imagesMap.DSA; 
         } else if (category === "Development") {
-          roadmapImage.src = "/images/categories/3.png"; 
+          roadmapImage.src = imagesMap.Development; 
         } else if (category === "System-Design") {
-          roadmapImage.src = "/images/categories/4.png"; 
+          roadmapImage.src = imagesMap["System-Design"]; 
         } else {
-          roadmapImage.src = "/images/categories/1.png"; 
+          roadmapImage.src = imagesMap.all; 
         }
         // Update the URL with the selected category
     const url = new URL(window.location);

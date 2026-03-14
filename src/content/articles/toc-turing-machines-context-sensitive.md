@@ -40,4 +40,5 @@ A **Turing Machine** consists of:
 
 ## Turing Machine Example
 
-![turing-machine](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157124/turin-machine_sjjdpd.png)
+![turing-machine](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/turin-machine_sjjdpd.png)
+

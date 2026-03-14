@@ -15,21 +15,21 @@ Imagine we run a pizza shop. It starts becoming successful and our daily custome
 Let’s explore foundational system design concepts through this analogy -
 
 - **Vertical Scaling -** Ask a chef to work faster or smarter.
-![vertical-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372103/vertical-scaling_wephum.webp)
+![vertical-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372103/vertical-scaling_wephum.webp)
 - **Pre-processing & Cron Jobs** - Prep the pizza dough in advance during off-peak hours.
-![pre-processing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372355/Screenshot_2025-07-24_212100_zfq0qs.webp)
+![pre-processing](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372355/Screenshot_2025-07-24_212100_zfq0qs.webp)
 - **Resilience via Backup** - Keep a backup chef ready.
-![resillience](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372355/Screenshot_2025-07-24_212105_mhyifq.webp)
+![resillience](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372355/Screenshot_2025-07-24_212105_mhyifq.webp)
 - **Horizontal Scaling** - Hire more chefs.
-![horizontal-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372354/Screenshot_2025-07-24_212109_ko0i74.webp)
+![horizontal-scaling](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372354/Screenshot_2025-07-24_212109_ko0i74.webp)
 - **Microservices Architecture** - Specialize! Two chefs handle pizzas, one handles garlic bread. Route orders based on expertise.
-![microservice](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372354/Screenshot_2025-07-24_212115_ssc7am.webp)
+![microservice](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372354/Screenshot_2025-07-24_212115_ssc7am.webp)
 - **Distributed Systems** - Open more branches of the pizza shop. Route orders to the nearest store. This is partitioning by geography.
-![distributed-systems](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372354/Screenshot_2025-07-24_212122_wa0gzp.webp)
+![distributed-systems](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372354/Screenshot_2025-07-24_212122_wa0gzp.webp)
 - **Load Balancing** - Use a central system to route customer orders to the shop with the shortest wait time.
-![load-balancing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372355/Screenshot_2025-07-24_212126_ih2wln.webp)
+![load-balancing](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372355/Screenshot_2025-07-24_212126_ih2wln.webp)
 - **Decoupling** - Delivery agents operate on their own system. Their work is independent of the pizza shop internals.
-![decoupling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753372354/Screenshot_2025-07-24_212131_tao7eu.webp)
+![decoupling](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753372354/Screenshot_2025-07-24_212131_tao7eu.webp)
 - **Logging & Metrics** - Track orders, delays, ingredients. Find patterns, improve quality.
 
 
@@ -52,4 +52,5 @@ System design is the process of defining components data flows, APIs, and integ
 ### System Design in Agile Methodology
 
 In Agile, you start building quickly and deliver in small increments and design evolves as the product grows. This means there is no grand design phase, just start with enough architecture, ex- just one database but keep in mind the awareness that this needs to scale. Iteratively keep refining the design
+
 

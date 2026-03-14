@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "AWS for Developers",
-  "image": "/images/thumbnails/aws.png",
+  "image": "../../assets/images/thumbnails/aws.png",
   "subtitle": "AWS fundamentals required for building scalable apps.",
   "description": "This series breaks down AWS for software developers starting from cloud basics to deploying real apps using cloud services. We'll cover security, serverless, and databases with hands-on examples.",
   "time": "13 articles",

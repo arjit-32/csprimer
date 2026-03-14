@@ -25,11 +25,11 @@ git stash pop
 
 Lets say I am in following state 
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781396/Untitled_6_xpt2ez.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781396/Untitled_6_xpt2ez.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781395/Untitled_8_c8o0ro.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_8_c8o0ro.png)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781396/Untitled_7_wm8vw1.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781396/Untitled_7_wm8vw1.png)
 
 My project had just 1 commit, which is the first line but then while adding new feature I got interrupted, thats where git stash comes into play.
 
@@ -39,11 +39,11 @@ git status
 git log --graph --all --oneline
 ```
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781395/Untitled_9_o6itoa.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_9_o6itoa.png)
 
 The stash branch created is special one. And now state is back to the previous commit and yet my changes are saved. 
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741781395/Untitled_10_ehj1qa.png)
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_10_ehj1qa.png)
 
 After doing this ad-hoc work we can pop back our changes
 
@@ -96,3 +96,4 @@ git stash -u
 # If we want to stash everything even those mentioned in .gitignore
 git stash --all
 ```
+

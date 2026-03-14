@@ -9,7 +9,7 @@ draft: false
 year: 2025
 ---
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746114385/aws-cheatsheet_ftria9.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746114385/aws-cheatsheet_ftria9.png)
 
 ## Security, Identity & Compliance
 
@@ -190,3 +190,4 @@ Tools to process, stream, and manage video content.
 | MediaConvert | High-quality media transcoding. |
 | Kinesis Video Streams | Stream video from connected devices. |
 | MediaLive, MediaTailor, MediaPackage | End-to-end pipeline for live video broadcasting. |
+

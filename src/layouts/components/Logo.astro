@@ -15,25 +15,38 @@ const {
   logo_text: string;
   title: string;
 } = config.site;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,svg}');
 ---
 
 <a href="/" class="navbar-brand block">
   {
-    src || logo ? (
-      <Image
-        width={logo_width.replace("px", "") * 2}
-        height={logo_height.replace("px", "") * 2}
-        src={src ? src : logo}
-        alt={title}
-        style={{
-          height: logo_height.replace("px", "") + "px",
-          width: logo_width.replace("px", "") + "px",
-        }}
-      />
-    ) : logo_text ? (
-      logo_text
-    ) : (
-      title
-    )
+    (() => {
+      let imagePath = src || logo;
+      
+      // If it's still pointing to the old /images/ path, patch it up
+      if(imagePath.startsWith("/images/")) {
+         imagePath = `/src/assets${imagePath}`;
+      }
+
+      if (imagePath && images[imagePath]) {
+        return (
+          <Image
+            width={logo_width.replace("px", "") * 2}
+            height={logo_height.replace("px", "") * 2}
+            src={images[imagePath]()}
+            alt={title}
+            style={{
+              height: logo_height.replace("px", "") + "px",
+              width: logo_width.replace("px", "") + "px",
+            }}
+          />
+        );
+      } else if (logo_text) {
+        return logo_text;
+      } else {
+        return title;
+      }
+    })()
   }
 </a>

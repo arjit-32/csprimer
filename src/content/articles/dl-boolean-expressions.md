@@ -43,7 +43,7 @@ Canonical forms are standardized, exhaustive representations using all input var
 In SOP Canonical, each minterm corresponds to one row in the truth table where output is 1. You can express entire functions by listing all minterms.
 
 **Example**
-![canonical-sop](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753898515/canonical-sop_s6cvgh.webp)
+![canonical-sop](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753898515/canonical-sop_s6cvgh.webp)
 
 If output is 1 for rows: <br/>
 Row 1 (A=0, B=0), Row 3 (A=1, B=0) <br/>
@@ -79,4 +79,5 @@ Steps:
 3. Derive a simplified term for each group (combine variables that stay constant)
 
 
-![k-map](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157124/k-map_u3b1hc.png)
+![k-map](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/k-map_u3b1hc.png)
+

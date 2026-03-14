@@ -25,7 +25,7 @@ When to Use EC2:
 
 ## How EC2 Actually Works ?
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746121685/how-ec2-works_yknniq.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746121685/how-ec2-works_yknniq.png)
 
 - Provisioning: EC2 provisions a virtual machine (VM) on a physical host in Amazon’s data centers.
 - Networking: Your instance gets a private IP (inside a Virtual Private Cloud), and optionally a public IP.
@@ -49,7 +49,7 @@ Under the hood, multiple EC2 instances might run on the same server ( thank you 
 
 ## Choosing the Right Instance Type
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746121684/ec2-instance-types_icytmu.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746121684/ec2-instance-types_icytmu.png)
 
 | Family | Use Case | Examples |
 | --- | --- | --- |
@@ -107,3 +107,4 @@ On Windows: Use **PuTTY** or WSL
 ---
 
 In the [next article](/articles/aws-6), lets learn how to deploy a nodejs app on EC2 instance.
+

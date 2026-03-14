@@ -59,7 +59,7 @@ This generates strings like *ab, aabb, aaabbb*, etc.
 
 Noam Chomsky formalized grammar types into 4 levels -
 
-![chomsky-hierarchy](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747728456/chomsky_uudche.png)
+![chomsky-hierarchy](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728456/chomsky_uudche.png)
 
 
 | Type | Grammar Type | Recognized By | Examples |
@@ -111,3 +111,4 @@ CFGs are used by **parsers** in compilers to understand nested syntax.
 - Grammars define how valid strings are built using a set of production rules.
 - **Chomsky hierarchy** classifies grammars by complexity
 - **Context-free grammars** can describe structured input, ideal for programming languages
+

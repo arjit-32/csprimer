@@ -20,7 +20,7 @@ f: A → B
 
 means every element in A is paired with *one and only one* element in B. Usage example can be in a website where email is mapped to a user account.
 
-![function](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727755/function_erj69d.png)
+![function](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/function_erj69d.png)
 
 
 ---
@@ -47,20 +47,20 @@ cleanEmail("  arjit@Gmail.COM   ")
 
 Each input maps to a unique output. *No two users share the same email.*
 
-![injective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696244/injective_hcqltd.webp)
+![injective](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696244/injective_hcqltd.webp)
 
 ### 2. Surjective (Onto)
 
 Every output is used at least once. *Every department in a company must have atleast one employee.*
 
-![surjective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696242/surjective_g06jnt.webp)
+![surjective](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696242/surjective_g06jnt.webp)
 
 
 ### 3. Bijective (One-to-One & Onto)
 
 Perfect pairing where each input has exactly one output and vice versa. *Each country has only 1 currency associated to it.*
 
-![bijective](https://res.cloudinary.com/dwa6rcttw/image/upload/v1753696243/bijective_kh0osj.webp)
+![bijective](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1753696243/bijective_kh0osj.webp)
 
 ---
 
@@ -83,3 +83,4 @@ x = (y+7)/5
 ## Conclusion
 
 Functions aren’t just pieces of code, they’re structured relationships with properties. Understanding those properties helps when building logic that’s traceable, invertible, and robust.
+

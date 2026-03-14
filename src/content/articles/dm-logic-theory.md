@@ -32,7 +32,7 @@ These are your cheatsheet showing all possible outcomes from a proposition.
 
 Example - Let A = “It is sunny” and B = “I have money”. Then lets make a truth table for
 
-![logic](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157124/logic_y2wz5f.png)
+![logic](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/logic_y2wz5f.png)
 
 | **A (sunny)** | **B (have money)** | **Buy ice-cream** |
 | --- | --- | --- |
@@ -83,3 +83,4 @@ It shows that is there atleast one product out of stock *(Existential)*
 ## Conclusion
 
 Logic helps you write code that makes sense and prove that it works the way it should. No guesses anymore !
+

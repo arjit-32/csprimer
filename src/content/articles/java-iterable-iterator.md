@@ -9,7 +9,7 @@ featured: false
 draft: false
 ---
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745530784/image_yipjxr.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745530784/image_yipjxr.png)
 
 Iterable interface is used to represent a collection of elements that can be iterated over, while the Iterator interface provides a way to iterate over the elements of the collection.
 
@@ -83,3 +83,4 @@ public class CollectionTesting implements Iterable<Integer> {
     }
 }
 ```
+

@@ -19,7 +19,7 @@ A distributed system must ensure that the following key properties hold even in 
 
 A theoretical model which determines how "in sync" everyone's view of the data is.
 
-![Untitled-2024-11-01-1228.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840765/Untitled-2024-11-01-1228_qdvr2q.png)
+![Untitled-2024-11-01-1228.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840765/Untitled-2024-11-01-1228_qdvr2q.png)
 
 | **Consistency Model** | **Behavior** | **Example** |
 | --- | --- | --- |
@@ -54,5 +54,6 @@ Anomalies  -
 
 Serializability prevents all these anomalies.  Higher isolation levels reduce concurrency but improve correctness.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1742840764/image_fyruad.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840764/image_fyruad.png)
+
 

@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "Distributed Systems",
-  "image": "/images/thumbnails/distributed-systems.png",
+  "image": "../../assets/images/thumbnails/distributed-systems.png",
   "subtitle": "Explore application design in multi-node systems.",
   "description": "Learn distributed systems through this series, tackling key concepts like consistency and consensus, trade-offs like CAP, and real-world applications.",
   "time": "9 articless",

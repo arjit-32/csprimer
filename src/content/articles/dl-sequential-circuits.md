@@ -25,7 +25,7 @@ Simplest memory elements, storing 1 bit and built using NOR or NAND gates.
 
 - **SR Latch**: Stores 1 bit using Set (S) and Reset (R) inputs
 
-![SR-Latch](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747985754/s-r-latch_kiqdb0.png)
+![SR-Latch](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747985754/s-r-latch_kiqdb0.png)
 ---
 
 ### 2. **Flip-Flops**
@@ -67,3 +67,4 @@ Example - A traffic light controller cycling through “red”, “green” and 
 ## Conclusion
 
 These circuits are essential for building CPUs, timers, memory controllers, and any logic that must respond to sequences over time.
+

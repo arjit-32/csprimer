@@ -55,7 +55,7 @@ In the **1940s**, computers moved from mechanical to electronic with vacuum t
 
 ## Von Neumann Architecture: The Modern Blueprint
 
-![von-nueman-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1748157123/von-nueman_w7a7at.png)
+![von-nueman-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157123/von-nueman_w7a7at.png)
 
 One of the limitations of ENIAC was for each program you had to manually change wiring. In **1945**, John von Neumann proposed the stored-program concept.
 
@@ -75,3 +75,4 @@ This design became known as the von Neumann architecture, and it's still the fo
 ## Conclusion
 
 Now you see, Babbage’s dream of a general-purpose computer to the computers you use today, everything was done in incremental steps.
+

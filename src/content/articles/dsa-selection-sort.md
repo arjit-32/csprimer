@@ -16,7 +16,7 @@ An array is like a bunch of friends sitting in a movie theater. Three friends fi
 Advantage: Fast random access.
 Disadvantage: Fixed size and costly insertions/deletions.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162605/arrays_szknxm.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162605/arrays_szknxm.png)
 
 ---
 
@@ -27,7 +27,7 @@ A linked list is like a bunch of chill friends. Even if new friend comes they do
 Advantage: Efficient insertions and deletions.
 Disadvantage: Requires traversal to access elements.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750162605/linklist_wlgohx.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162605/linklist_wlgohx.png)
 
 ---
 
@@ -57,3 +57,4 @@ public static int[] SelectionSort(int[] arr){
         return arr;
     }
 ```
+

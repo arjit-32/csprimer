@@ -15,7 +15,7 @@ Think of EC2 storage (EBS) like your computer's hard drive for running programs,
 
 Amazon S3 (Simple Storage Service) is an object storage service that provides highly scalable, reliable, and low-latency data storage. It's used by many for things like data analysis, modern apps, and backups, offering different storage options to save money and tools to manage and control who can access your data.
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746128637/aws-s3_a1x2ae.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746128637/aws-s3_a1x2ae.png)
 
 ### When to Use S3:
 
@@ -183,3 +183,4 @@ aws s3 ls s3://your-bucket-name/
 ## Conclusions
 
 Amazon S3 is an incredibly versatile service for developers. From file storage to static website hosting, backup, and archival, it's the go-to service for many cloud-based applications.
+

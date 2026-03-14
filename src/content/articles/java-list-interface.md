@@ -11,7 +11,7 @@ draft: false
 
 `List<E>` represents an ordered collection
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745530784/image_yipjxr.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745530784/image_yipjxr.png)
 
 ## ArrayList Class
 
@@ -112,3 +112,4 @@ while (listIt.hasPrevious()) {
     System.out.println(listIt.previous());
 }
 ```
+

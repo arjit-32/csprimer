@@ -11,7 +11,7 @@ draft: false
 
 Map does NOT extend the Collection interface. It stores value in key-value pairs and both key and value must be objects ( not primitives ).
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1745532255/image_1_dks0ol.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1745532255/image_1_dks0ol.png)
 
 Basic Map Methods
 
@@ -114,3 +114,4 @@ map.containsKey(100);
 for (Map.Entry<Integer, String> e : map.entrySet())
       System.out.println(e.getKey() + " " + e.getValue());
 ```
+

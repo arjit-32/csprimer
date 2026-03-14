@@ -26,7 +26,7 @@ When to Use AWS Lambda :
 
 ## How AWS Lambda Works
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1746251453/how-lambda-works_ndcv3v.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1746251453/how-lambda-works_ndcv3v.png)
 
 1. Something triggers your function (like uploading a file or clicking a button on a website)
 2. AWS Lambda springs into action by:
@@ -121,3 +121,4 @@ exports.handler = async (event) => {
 1. Click *Test* in the Lambda console.
 2. Choose a test event type (e.g., S3, API Gateway, custom JSON).
 3. Execute and view logs in **CloudWatch**.
+

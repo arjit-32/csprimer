@@ -57,7 +57,7 @@ const emptySet = new Set()
 
 ## Common Set Operations
 
-![set operations](https://res.cloudinary.com/dwa6rcttw/image/upload/v1747727434/Screenshot_2025-05-19_161827_cni0fb.png)
+![set operations](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727434/Screenshot_2025-05-19_161827_cni0fb.png)
 
 ### 1. Union (∪) - Combine all unique elements
 
@@ -124,3 +124,4 @@ hasPermission(adminPermissions, 'delete'); // true
 ## Conclusion
 
 Set Theory helps developers write cleaner, more efficient code. Whether it’s handling unique values, writing SQL queries sets are a fundamental tool worth mastering.
+

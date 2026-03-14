@@ -34,7 +34,7 @@ Lets take each row, one by one -
 
 ### 1. Guitar Row 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163849/dp_mmujgl.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163849/dp_mmujgl.png)
 
 The first cell has a capacity of 1 lb, guitar can fit in it so value of the cell is $1500. 
 
@@ -42,13 +42,13 @@ The same for the rest of the cells in this row. Remember, this is the first row,
 
 ### 2. Stereo Row 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163849/dp-2_cd1eb2.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163849/dp-2_cd1eb2.png)
 
 As stereo is 4lb, we take $1500 max till knapsack is at 3lb capacity. At 4lb capacity we have to choose between taking stereo or leaving it. We take it and value is $3000.
 
 ### 3. Laptop Row
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163848/dp-3_pvszdg.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163848/dp-3_pvszdg.png)
 
 The laptop weighs 3 lb, so it won’t fit into a 1 lb or a 2 lb knapsack. The estimate for the first two cells stays at $1,500. 
 
@@ -60,4 +60,5 @@ At 4 lbs capacity, choosing guitar (1 lb) + laptop (3 lb) gives $3500, which is 
 
 The formula at play here was - 
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1750163849/dp-4_u03ont.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163849/dp-4_u03ont.png)
+

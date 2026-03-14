@@ -20,7 +20,7 @@ Git is fundamentally different because of its distributed architecture (No centr
 
 ## Phases of Git Content
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741776562/image_wem8sa.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741776562/image_wem8sa.png)
 
 Git organizes files into three main phases:
 
@@ -31,7 +31,7 @@ Git organizes files into three main phases:
 
 ## Series of Changes
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741776562/image_1_zzoyef.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741776562/image_1_zzoyef.png)
 
 Git records changes through commits, each representing a snapshot of the codebase. This creates a clear and traceable history
 
@@ -45,7 +45,7 @@ This ensures a **linear and traceable** history of changes.
 
 ## Branches in Git
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1741776562/image_2_wxtdmo.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741776562/image_2_wxtdmo.png)
 
 A branch allows developers to work on different versions of the project simultaneously. Instead of modifying the main codebase directly, changes can be made in a separate branch and later merged.
 
@@ -64,3 +64,4 @@ It is a remote hosting service which is generally being used by people as a **ce
 - Branching takes O(1) time while in CVS and SVN it takes O(n).
 - Git stores changes as snapshots of the entire project, rather than tracking file-by-file diffs like some older systems.
 - Changes are marked with Hash numbers( Ex- `a1b2c3d4`) instead of version number thus ensuring security.
+

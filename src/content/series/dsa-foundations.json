@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "#1 DSA Foundations",
-  "image": "/images/thumbnails/dsa-foundations.png",
+  "image": "../../assets/images/thumbnails/dsa-foundations.png",
   "subtitle": "Starting strong with Algorithmic analysis and math concepts",
   "description": "This series builds a strong foundation in DSA by focusing on algorithm analysis and essential math concepts.",
   "time": "NaN",

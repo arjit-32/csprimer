@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "title": "DSA - The Complete Picture",
-  "image": "/images/thumbnails/dsa.png",
+  "image": "../../assets/images/thumbnails/dsa.png",
   "subtitle": "A clear overview of Data Structures and Algorithms",
   "description": "Inspired by Grokking Algorithms, this series provides a friendly introduction to core data structures and algorithms. Covering essentials like arrays, recursion, sorting, and graphs, it offers intuitive explanations and practical examples to strengthen problem‑solving and coding skills.",
   "time": "NaN",
