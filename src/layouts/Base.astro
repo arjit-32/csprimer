@@ -26,12 +26,10 @@ const { title, meta_title, description, image, noindex, canonical } =
 
 const GA_TRACKING_ID = 'G-6M575HQ2TZ';
 const scriptContent = `
-  window.addEventListener('load', function() {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '${GA_TRACKING_ID}');
-  });
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_TRACKING_ID}');
 `;
 ---
 
@@ -46,9 +44,9 @@ const scriptContent = `
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
 
-    <!-- Google Analytics (Deferred) -->
-    <script defer src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-    <script set:html={scriptContent}></script>
+    <!-- Google Analytics (Partytown) -->
+    <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+    <script type="text/partytown" set:html={scriptContent}></script>
 
     <meta
       name="theme-color"

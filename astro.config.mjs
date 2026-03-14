@@ -9,19 +9,18 @@ import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
 
 
+import partytown from "@astrojs/partytown";
+
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.csprimer.in",
   trailingSlash: "never",
-  image: {
-    // Rely on Astro's default image service (sharp) instead of passthrough
-  },
+  image: {},
   integrations: [
     react(),
     tailwind({
-      config: {
-        applyBaseStyles: false,
-      },
+      applyBaseStyles: false,
     }),
     AutoImport({
       imports: [
@@ -38,8 +37,19 @@ export default defineConfig({
         "@/shortcodes/Tabs",
       ],
     }),
-    mdx(),
-    // sitemap(),
+    mdx({
+      syntaxHighlight: 'shiki',
+      shikiConfig: {
+        theme: 'one-dark-pro',
+        wrap: true,
+      },
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
+    sitemap(),
   ],
   markdown: {
     remarkPlugins: [
@@ -51,10 +61,15 @@ export default defineConfig({
         },
       ],
     ],
-    shikiConfig: {
-      theme: "one-dark-pro",
-      wrap: true,
-    },
     extendDefaultPlugins: true,
+  },
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      assetsInlineLimit: 4096,
+    },
+    ssr: {
+      noExternal: ["@astrojs/partytown"],
+    },
   },
 });
