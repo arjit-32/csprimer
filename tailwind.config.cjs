@@ -9,13 +9,6 @@ let h3 = h4 * font_scale;
 let h2 = h3 * font_scale;
 let h1 = h2 * font_scale;
 
-let fontPrimaryType, fontSecondaryType;
-if (theme.fonts.font_family.primary) {
-  fontPrimaryType = theme.fonts.font_family.primary_type;
-}
-if (theme.fonts.font_family.secondary) {
-  fontSecondaryType = theme.fonts.font_family.secondary_type;
-}
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -59,8 +52,36 @@ module.exports = {
         h6: h6 + "rem",
       },
       fontFamily: {
-        primary: ["var(--font-primary)", fontPrimaryType],
-        secondary: ["var(--font-secondary)", fontSecondaryType],
+        primary: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+        secondary: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          '"Liberation Mono"',
+          '"Courier New"',
+          "monospace",
+        ],
       },
     },
   },
