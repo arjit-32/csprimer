@@ -8,12 +8,11 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
 
-const SITE_URL = "https://csprimer.in";
 
 // https://astro.build/config
 export default defineConfig({
-  site: config.site.base_url ? config.site.base_url : SITE_URL,
-  base: config.site.base_path ? config.site.base_path : "/",
+  site: "https://www.csprimer.in",
+  base: "/",
   outDir: 'dist',
   trailingSlash: "ignore",
   image: {

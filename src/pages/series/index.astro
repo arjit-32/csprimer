@@ -11,6 +11,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 // Pre-resolve roadmap images for the client-side switcher
 const roadmaps = {
   all: await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 800 }),
+  'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 800 }),
   DSA: await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 800 }),
   Development: await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 800 }),
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
@@ -64,6 +65,7 @@ const roadmaps = {
               src={roadmaps.all.src}
               data-roadmaps={JSON.stringify({
                 all: roadmaps.all.src,
+                'Core-CS': roadmaps['Core-CS'].src,
                 DSA: roadmaps.DSA.src,
                 Development: roadmaps.Development.src,
                 'System-Design': roadmaps['System-Design'].src
@@ -203,15 +205,7 @@ const roadmaps = {
           });
         }
         const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
-        if (category === "DSA") {
-          roadmapImage.src = imagesMap.DSA; 
-        } else if (category === "Development") {
-          roadmapImage.src = imagesMap.Development; 
-        } else if (category === "System-Design") {
-          roadmapImage.src = imagesMap["System-Design"]; 
-        } else {
-          roadmapImage.src = imagesMap.all; 
-        }
+        roadmapImage.src = imagesMap[category] || imagesMap.all;
         // Update the URL with the selected category
     const url = new URL(window.location);
     if (category === "all") {

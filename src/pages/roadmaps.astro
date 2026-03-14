@@ -2,22 +2,26 @@
 import Shape from "@/components/Shape.astro";
 import Base from "@/layouts/Base.astro";
 import Cta from "@/partials/Cta.astro";
+import { getImage } from "astro:assets";
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+
+// Pre-resolve roadmap images for the client-side switcher
+const resolvedRoadmaps = {
+  all: await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 1200 }),
+  'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 1200 }),
+  'DSA': await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 1200 }),
+  'Development': await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 1200 }),
+  'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 1200 }),
+};
 
 const categories = [
+  { category: "all", label: "Show All Roadmaps", color: "gray" },
   { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
   { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
   { category: "Development", label: "Development", color: "purple" },
   { category: "System-Design", label: "System Design & More", color: "red" }
 ];
-
-// Roadmap image mapping for each category
-const roadmapImages = {
-  'Core-CS': "/images/categories/1.png",
-  DSA: "/images/categories/2.png",
-  Development: "/images/categories/3.png",
-  'System-Design': "/images/categories/4.png",
-  all: "/images/categories/1.png" // Default for "all"
-};
 ---
 
 <Base title="Roadmaps">
@@ -59,7 +63,14 @@ const roadmapImages = {
             <div id="roadmapContent">
               <img
                 id="roadmapImage"
-                src="/images/categories/1.png"
+                src={resolvedRoadmaps.all.src}
+                data-roadmaps={JSON.stringify({
+                  all: resolvedRoadmaps.all.src,
+                  'Core-CS': resolvedRoadmaps['Core-CS'].src,
+                  'DSA': resolvedRoadmaps['DSA'].src,
+                  'Development': resolvedRoadmaps['Development'].src,
+                  'System-Design': resolvedRoadmaps['System-Design'].src
+                })}
                 alt="Roadmap"
                 class="max-w-full h-auto rounded-lg shadow-md object-contain"
               />
@@ -91,19 +102,13 @@ const roadmapImages = {
     if (!categoryButtons || !roadmapGrid || !roadmapContent || !roadmapImage || !noResults) return;
 
     function updateRoadmap(category) {
-      const roadmapImages = {
-        'Core-CS': "/images/categories/1.png",
-        'DSA': "/images/categories/2.png",
-        'Development': "/images/categories/3.png",
-        'System-Design': "/images/categories/4.png",
-        'all': "/images/categories/1.png"
-      };
-
       roadmapContent.classList.add("opacity-0", "scale-95");
       roadmapContent.style.transition = "opacity 0.3s ease, transform 0.3s ease";
 
       setTimeout(() => {
-        const imageSrc = roadmapImages[category] || "/images/categories/1.png";
+        const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
+        const imageSrc = imagesMap[category] || imagesMap.all;
+        
         if (imageSrc) {
           roadmapImage.src = imageSrc;
           roadmapImage.alt = `${category} Roadmap`;
@@ -130,16 +135,24 @@ const roadmapImages = {
 
       const category = button.dataset.category;
       updateRoadmap(category);
+      
+      // Update URL
+      const url = new URL(window.location);
+      if (category === "all") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", category);
+      }
+      window.history.replaceState({}, "", url);
     });
 
-    const defaultButton = document.querySelector('[data-category="all"]');
-    if (defaultButton) defaultButton.click();
-
     const urlParams = new URLSearchParams(window.location.search);
-    const categoryParam = urlParams.get("category");
-    if (categoryParam) {
-      const categoryButton = document.querySelector(`[data-category="${categoryParam}"]`);
-      if (categoryButton) categoryButton.click();
+    const categoryParam = urlParams.get("category") || "all";
+    const defaultButton = document.querySelector(`[data-category="${categoryParam}"]`) || document.querySelector('[data-category="all"]');
+    
+    if (defaultButton) {
+      defaultButton.classList.add("border-2", "border-blue-500");
+      updateRoadmap(defaultButton.dataset.category);
     }
 
     document.getElementById("showAllBtn").addEventListener("click", () => {
