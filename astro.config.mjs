@@ -49,7 +49,7 @@ export default defineConfig({
         forward: ["dataLayer.push"],
       },
     }),
-    sitemap(),
+    // sitemap(),
   ],
   markdown: {
     remarkPlugins: [
