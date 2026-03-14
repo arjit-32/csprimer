@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 2,
   "title": "DSA - The Complete Picture",
   "image": "../../assets/images/thumbnails/dsa.png",
   "subtitle": "A clear overview of Data Structures and Algorithms",

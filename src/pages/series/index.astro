@@ -5,7 +5,12 @@ import Cta from "@/partials/Cta.astro";
 import { getCollection } from "astro:content";
 import { Image, getImage } from "astro:assets";
 
-const seriesCollection = await getCollection("series");
+const seriesCollection = (await getCollection("series")).sort((a, b) => {
+  const weightA = a.data.weight ?? 100;
+  const weightB = b.data.weight ?? 100;
+  if (weightA !== weightB) return weightA - weightB;
+  return a.data.title.localeCompare(b.data.title);
+});
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 
 // Pre-resolve roadmap images for the client-side switcher

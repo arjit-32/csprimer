@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 3,
   "title": "#1 DSA Foundations",
   "image": "../../assets/images/thumbnails/dsa-foundations.png",
   "subtitle": "Starting strong with Algorithmic analysis and math concepts",

@@ -37,6 +37,7 @@ const seriesCollection = defineCollection({
     category: z.string().default('Course'),
     ongoing: z.union([z.boolean(), z.string()]).transform(val => val === true || val === 'On-going' || val === 'true'), // Normalize legacy data
     time: z.string().optional(),
+    weight: z.number().default(100),
     navbar: z.array(z.object({
       subheading: z.string(),
       link: z.array(z.object({
