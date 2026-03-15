@@ -84,6 +84,9 @@ const { starterCode, tests, title } = problem;
     loader.config({ paths: { vs: VS_CDN } });
   }
 
+  // Global set to track active editor instances for cleanup
+  const activeInstances = new Set<PracticeUI>();
+
   class PracticeUI {
     container: HTMLElement;
     starterCode: string;
@@ -98,6 +101,7 @@ const { starterCode, tests, title } = problem;
     editor: any;
     monaco: any;
     activeWorker: Worker | null;
+    resizeObserver: ResizeObserver | null;
 
     constructor(container: HTMLElement) {
       this.container = container;
@@ -115,10 +119,29 @@ const { starterCode, tests, title } = problem;
       this.editor = null;
       this.monaco = null;
       this.activeWorker = null;
+      this.resizeObserver = null;
 
       this.loadBtn.addEventListener('click', () => this.mountEditor());
       this.runBtn.addEventListener('click', (e) => { e.preventDefault(); this.runTests(); });
       this.resetBtn.addEventListener('click', (e) => { e.preventDefault(); this.resetCode(); });
+
+      activeInstances.add(this);
+    }
+
+    destroy() {
+      if (this.editor) {
+        this.editor.dispose();
+        this.editor = null;
+      }
+      if (this.activeWorker) {
+        this.activeWorker.terminate();
+        this.activeWorker = null;
+      }
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = null;
+      }
+      activeInstances.delete(this);
     }
 
     async mountEditor() {
@@ -145,7 +168,14 @@ const { starterCode, tests, title } = problem;
           quickSuggestions: false,
           wordBasedSuggestions: 'off',
           renderLineHighlight: 'all',
+          fixedOverflowWidgets: true, // Helps with layout in certain containers
         });
+
+        // Use ResizeObserver for perfect layout sync, even during CSS transitions
+        this.resizeObserver = new ResizeObserver(() => {
+          if (this.editor) this.editor.layout();
+        });
+        this.resizeObserver.observe(this.editorContainer);
 
         // CRITICAL FIX: Use KeyMod.CtrlCmd, NOT KeyMod.Ctrl (which is undefined in Monaco 0.45.0)
         // KeyMod.Ctrl being undefined caused `undefined | KeyCode.Enter` = just `KeyCode.Enter`,
@@ -165,10 +195,14 @@ const { starterCode, tests, title } = problem;
         this.loadBtn.classList.add('hidden');
         this.wrapper.classList.remove('hidden');
 
-        // Focus after DOM settles
+        // Focus and layout after DOM settles
         requestAnimationFrame(() => {
+          if (!this.editor) return;
           this.editor.focus();
+          // Force multiple layouts to handle container transitions
           this.editor.layout();
+          setTimeout(() => this.editor && this.editor.layout(), 100);
+          setTimeout(() => this.editor && this.editor.layout(), 400);
         });
       } catch (err) {
         console.error('Monaco load failed:', err);
@@ -297,6 +331,35 @@ const { starterCode, tests, title } = problem;
   mountAll();
   document.addEventListener('astro:page-load', mountAll);
   document.addEventListener('astro:after-swap', mountAll);
+
+  // CRITICAL: Cleanup before page swap to prevent memory leaks and editor conflicts
+  // AND preserve Monaco's CSS so the next page's editor renders correctly
+  document.addEventListener('astro:before-swap', (e: any) => {
+    activeInstances.forEach(instance => instance.destroy());
+
+    // Monaco injects <link> and <style> elements into <head> when loaded via CDN.
+    // Astro View Transitions replaces the <head>, removing these styles.
+    // Since the Monaco loader caches its init promise, it never re-injects them.
+    // We must manually copy them into the new document.
+    const newDoc = e.newDocument as Document;
+    
+    // Preserve <link> stylesheets from Monaco CDN
+    document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href.includes('monaco') || href.includes('vs/')) {
+        if (!newDoc.head.querySelector(`link[href="${href}"]`)) {
+          newDoc.head.appendChild(link.cloneNode(true));
+        }
+      }
+    });
+
+    // Preserve <style> elements injected by Monaco
+    document.querySelectorAll('style').forEach(style => {
+      if (style.textContent && style.textContent.includes('.monaco-editor')) {
+        newDoc.head.appendChild(style.cloneNode(true));
+      }
+    });
+  });
 </script>
 
 <style is:global>
