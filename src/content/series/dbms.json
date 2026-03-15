@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 8,
   "title": "Database Management Systems",
   "image": "../../assets/images/thumbnails/DBMS.png",
   "subtitle": "Learn how data is stored, organized, and managed efficiently.",

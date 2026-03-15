@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 4,
   "title": "Automata Theory",
   "image": "../../assets/images/thumbnails/toc.png",
   "subtitle": "Explore the theoretical limits of computation and automata theory.",

@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 4,
   "title": "Git Basics to Advanced",
   "image": "../../assets/images/thumbnails/git.png",
   "subtitle": "Manage multiple versions of your codebase and collaborate with others.",

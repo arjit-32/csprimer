@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 3,
   "title": "System Design", 
   "image": "../../assets/images/thumbnails/system-design-foundations.png",
   "subtitle": "How Modern Systems Scale, Communicate, and Survive",

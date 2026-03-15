@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 5,
   "title": "AWS for Developers",
   "image": "../../assets/images/thumbnails/aws.png",
   "subtitle": "AWS fundamentals required for building scalable apps.",

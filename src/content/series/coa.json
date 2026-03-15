@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 3,
   "title": "Computer Architecture",
   "image": "../../assets/images/thumbnails/COA.png",
   "subtitle": "Understand how computer hardware and software interact to execute programs.",

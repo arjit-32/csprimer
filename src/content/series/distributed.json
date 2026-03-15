@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 1,
   "title": "Distributed Systems",
   "image": "../../assets/images/thumbnails/distributed-systems.png",
   "subtitle": "Explore application design in multi-node systems.",

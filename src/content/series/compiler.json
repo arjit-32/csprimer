@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 5,
   "title": "Compiler Design",
   "image": "../../assets/images/thumbnails/compiler.png",
   "subtitle": "Learn how programming languages are translated into machine code.",

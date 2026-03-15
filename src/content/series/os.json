@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 6,
   "title": "Operating Systems",
   "image": "../../assets/images/thumbnails/OS.png",
   "subtitle": "Learn the interface handling your web servers",

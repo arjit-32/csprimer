@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 2,
   "title": "Digital Electronics",
   "image": "../../assets/images/thumbnails/digital-logic.png",
   "subtitle": "Understand how computers process binary data through logic circuits.",

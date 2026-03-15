@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "weight": 1,
   "title": "Discrete Mathematics",
   "image": "../../assets/images/thumbnails/discrete-math.png",
   "subtitle": "Master the mathematical foundations essential for computer science.",
