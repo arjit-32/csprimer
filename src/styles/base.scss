@@ -2,10 +2,6 @@ html {
   @apply text-base;
 }
 
-body {
-  @apply bg-body bg-[url('/images/body-bg.svg')] bg-repeat font-primary font-normal leading-relaxed text-text;
-}
-
 h1,
 h2,
 h3,
@@ -44,16 +40,20 @@ h6,
 .h6 {
   @apply text-h6;
 }
+
 .active-link {
-    background-color: #fb7299; 
-    span{
-    color: white !important; 
-    font-weight: 500; 
-    }
-    svg{
-      color: white !important;
-    }
+  background-color: #fb7299;
+
+  span {
+    color: white !important;
+    font-weight: 500;
   }
-  .active-link:hover {
-    background-color: #e65b8a; 
+
+  svg {
+    color: white !important;
   }
+}
+
+.active-link:hover {
+  background-color: #e65b8a;
+}

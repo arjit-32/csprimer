@@ -1,0 +1,52 @@
+---
+title: "Reverse a Number"
+meta_title: "ss"
+description: "ss"
+author: Arjit Sharma
+series: ["dsa-foundations"]
+categories: ["DSA"]
+featured: false
+draft: false
+---
+
+
+## Problem Statement
+
+Write a Java program to reverse the digits of a given integer.
+
+_Examples_
+
+- Input: 12345 → Output: 54321  
+- Input: 0 → Output: 0  
+- Input: -123 → Output: -321
+
+---
+
+<TryCode problemId="2-reverse-number" />
+
+---
+
+## Solution
+
+```java
+// O(log{10}(n))
+import java.util.*;
+
+public class Main{
+    public static void main(String s[]){
+        int res = reverseNumber(123);
+        System.out.println(res);
+    }
+
+    public static int reverseNumber(int n){
+        if(n==0) return 1;
+        int reversedNumber=0;
+        while(n>0){  
+            int digit = n%10;
+            reversedNumber = reversedNumber*10 + digit;
+            n=n/10;
+        }
+        return reversedNumber;
+    }
+}
+```

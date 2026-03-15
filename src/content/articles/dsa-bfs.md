@@ -3,7 +3,7 @@ title: Breadth-First Search
 meta_title: Breadth-First Search (BFS) Made Simple  Graphs, Queues & Java Examples
 description: Understand how Breadth-First Search works with intuitive examples like social networks and graphs. Explore its implementation in Java and learn BFS’s role in shortest path finding with O(V + E) efficiency.
 author: Arjit Sharma
-series: ["dsa-complete-picture"]
+series: ["dsa-overview"]
 categories: ["DSA"]
 featured: false
 draft: false

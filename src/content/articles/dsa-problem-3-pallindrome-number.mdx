@@ -1,0 +1,53 @@
+---
+title: "Pallindrome of a Number"
+meta_title: "ss"
+description: "ss"
+author: Arjit Sharma
+series: ["dsa-foundations"]
+categories: ["DSA"]
+featured: false
+draft: false
+---
+
+
+## Problem Statement
+
+Write a Java program to check whether a given integer is a palindrome.
+
+_Examples_
+
+- Input: 121 → Output: true  
+- Input: 123 → Output: false  
+- Input: 0 → Output: true  
+
+---
+
+<TryCode problemId="3-pallindrome-number" />
+
+---
+
+## Solution
+
+```java
+//  SOLUTION - O(log{10}(n))
+public class Main
+{
+	public static void main(String[] args) {
+		int n=3221;
+		boolean res = checkPallindrome(n);
+		System.out.println(res);
+	}
+	
+	static boolean checkPallindrome(int n){
+	    int t = n;
+	    int revNum=0;
+	    while(t>0){
+	        int mod = t%10;
+	        revNum = revNum*10 + mod;
+	        t=t/10;
+	    }
+	    if(n==revNum) return true;
+	    return false;
+	}
+}
+```

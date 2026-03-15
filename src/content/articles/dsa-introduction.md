@@ -3,7 +3,7 @@ title: Introduction to Algorithms
 meta_title: Introduction to Algorithms- Binary Search & Big-O Explained  DSA Guide
 description: Explore the foundations of Data Structures and Algorithms with clear explanations of Binary Search and Big-O Notation. Perfect for beginners diving into DSA concepts.
 author: Arjit Sharma
-series: ["dsa-complete-picture"]
+series: ["dsa-overview"]
 categories: ["DSA"]
 featured: false
 draft: false

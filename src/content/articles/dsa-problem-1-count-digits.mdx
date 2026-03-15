@@ -1,0 +1,69 @@
+---
+title: "Count Digits in an Integer"
+meta_title: "ss"
+description: "ss"
+author: Arjit Sharma
+series: ["dsa-foundations"]
+categories: ["DSA"]
+featured: false
+draft: false
+---
+
+## Problem Statement
+
+Write a Java program to count the number of digits in a given integer. <br/>
+
+_Examples_
+
+- Input: 12345 → Output: 5  
+- Input: 0 → Output: 1  
+- Input: -123 → Output: 3
+
+---
+
+<TryCode problemId="1-count-digits" />
+
+
+
+## Solution
+
+A simple approach is to repeatedly divide the number by 10 until it becomes 0. Each division removes one digit from the number.
+However we can optimize this by using using property of *logarithms*.
+
+<Tabs client:load>
+<Tab name="Brute Force">
+
+```java
+// O(log{10}(n))
+import java.util.*;
+
+class Main{
+    public static void main(String s[]){
+        int res = countDigits(0);
+        System.out.println(res);
+    }
+
+    public static int countDigits(int n){
+        if(n==0) return 1;
+        n = Math.abs(n);
+        int count=0;
+        while(n>0){  
+            n=n/10;
+            count+=1;
+        }
+        return count;
+    }
+}
+```
+</Tab>
+
+<Tab name="Optimized">
+```java
+//  SOLUTION - O(1)
+public static int countDigits(int n) {
+    if (n == 0) return 1;
+    return (int)Math.log10(Math.abs(n)) + 1;
+}
+```
+</Tab>
+</Tabs>

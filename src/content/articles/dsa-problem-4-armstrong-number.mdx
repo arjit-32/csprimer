@@ -1,0 +1,53 @@
+---
+title: "Check Armstrong Number"
+meta_title: "ss"
+description: "ss"
+author: Arjit Sharma
+series: ["dsa-foundations"]
+categories: ["DSA"]
+featured: false
+draft: false
+---
+
+
+## Problem Statement
+
+Write a Java program to check whether a given number is an Armstrong number.
+
+_Examples_
+
+- Input: 153 → Output: true  
+- Input: 370 → Output: true   
+- Input: 123 → Output: false  
+
+---
+
+<TryCode problemId="4-armstrong-number" />
+
+---
+
+## Solution
+
+```java
+//  SOLUTION - O(log{10}(n))
+public class Main
+{
+	public static void main(String[] args) {
+		int n=153;
+		boolean res = isArmstrong(n);
+		System.out.println(res);
+	}
+	
+	static boolean isArmstrong(int n){
+	    int digits = (int)Math.log10(Math.abs(n)) + 1;
+	    int t=n;
+	    int output=0;
+	    while(t>0){
+	        int mod=t%10;
+	        output= output + (int)Math.pow(mod,digits);
+	        t=t/10;
+	    }
+	    return output==n;
+	}
+}
+```

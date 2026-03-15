@@ -9,8 +9,6 @@ import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
 
 
-import partytown from "@astrojs/partytown";
-
 
 // https://astro.build/config
 export default defineConfig({
@@ -35,6 +33,7 @@ export default defineConfig({
         "@/shortcodes/Changelog",
         "@/shortcodes/Tab",
         "@/shortcodes/Tabs",
+        "@/shortcodes/TryCode.astro",
       ],
     }),
     mdx({
@@ -42,11 +41,6 @@ export default defineConfig({
       shikiConfig: {
         theme: 'one-dark-pro',
         wrap: true,
-      },
-    }),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
       },
     }),
     // sitemap(),
@@ -68,8 +62,6 @@ export default defineConfig({
       cssCodeSplit: true,
       assetsInlineLimit: 4096,
     },
-    ssr: {
-      noExternal: ["@astrojs/partytown"],
-    },
+
   },
 });
