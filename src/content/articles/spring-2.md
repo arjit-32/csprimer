@@ -6,7 +6,7 @@ description: Learn how dependencies are managed in Springboot
 author: Arjit Sharma
 series: ["springboot"]
 categories: ["Development"]
-image: /images/thumbnails/group-of-devs.jpg
+
 featured: false
 year: 2021
 draft: true

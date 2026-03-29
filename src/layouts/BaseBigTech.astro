@@ -7,6 +7,9 @@ import QuestionDialog from "@/components/QuestionDialog.astro";
 import "@/styles/main.scss";
 import { AstroFont } from "astro-font";
 import { ViewTransitions } from "astro:transitions";
+import { getImage } from "astro:assets";
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 
 // font families
 const pf = theme.fonts.font_family.primary;
@@ -45,6 +48,35 @@ const scriptContent = `
   gtag('js', new Date());
   gtag('config', '${GA_TRACKING_ID}');
 `;
+
+const imgStr = image || config.metadata.meta_image;
+let finalOgImage = imgStr;
+
+if (imgStr && !imgStr.startsWith('http')) {
+  let imagePath = imgStr;
+  if (imagePath.startsWith("/images/")) {
+    imagePath = `/src/assets${imagePath}`;
+  } else if (!imagePath.startsWith("/src/assets/") && imagePath.startsWith("src/assets/")) {
+    imagePath = `/${imagePath}`;
+  }
+
+  if (allImages[imagePath]) {
+    try {
+      const resolvedImage = await getImage({ src: (await allImages[imagePath]()).default, format: 'webp' });
+      finalOgImage = resolvedImage.src;
+    } catch (e) {
+      finalOgImage = imgStr.replace(/^(\/)?src\/assets/, '');
+    }
+  } else {
+    finalOgImage = imgStr.replace(/^(\/)?src\/assets/, '');
+  }
+  
+  if (!finalOgImage.startsWith('http')) {
+     finalOgImage = `${config.site.base_url}${finalOgImage}`;
+  }
+} else if (imgStr && imgStr.startsWith('http')) {
+  finalOgImage = imgStr;
+}
 ---
 
 <!doctype html>
@@ -163,20 +195,10 @@ const scriptContent = `
     />
 
     <!-- og-image -->
-    <meta
-      property="og:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
+    <meta property="og:image" content={finalOgImage} />
 
     <!-- twitter-image -->
-    <meta
-      name="twitter:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
+    <meta name="twitter:image" content={finalOgImage} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>

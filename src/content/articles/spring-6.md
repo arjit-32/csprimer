@@ -6,7 +6,7 @@ description: Lets create RESTful API in springboot
 author: Arjit Sharma
 series: ["springboot"]
 categories: ["Development"]
-image: /images/thumbnails/group-of-devs.jpg
+
 featured: false
 year: 2021
 draft: true

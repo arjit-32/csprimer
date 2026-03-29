@@ -6,7 +6,7 @@ description: Learn about Spring JDBC, JPA and Spring Data JPA
 author: Arjit Sharma
 series: ["springboot"]
 categories: ["Development"]
-image: /images/thumbnails/group-of-devs.jpg
+
 featured: false
 year: 2021
 draft: true

@@ -18,13 +18,23 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { title, meta_title, description, image, series } = post.data;
+
+// Extract first Cloudinary image from article body as og:image fallback
+function getOgImage(frontmatterImage: string | undefined, body: string): string | undefined {
+  if (frontmatterImage) return frontmatterImage;
+  const cloudinaryMatch = body?.match(/https:\/\/res\.cloudinary\.com\/[^\s)"]+/);
+  if (cloudinaryMatch) return cloudinaryMatch[0];
+  return undefined; // let Base.astro fall back to config.metadata.meta_image
+}
+
+const ogImage = getOgImage(image, post.body);
 ---
 
 <Base
   title={title}
   meta_title={meta_title}
   description={description}
-  image={image?image:'/images/logo.png'}
+  image={ogImage}
 > 
   <BlogSingle post={post} series={series} />
 </Base>
