@@ -117,7 +117,7 @@ questions:
     answer:
       - "1️⃣ process.nextTick() - Executes before the next event loop. Great for immediate logic after a task, like error handling or cleanup."
       - "2️⃣ setImmediate() - Executes after I/O events in the event loop. Useful for deferred tasks that shouldn’t block the current cycle."
-    related_images: ["images/interview-ques/ques12(1).jpg", "images/interview-ques/ques12(2).jpg"]
+    related_images: ["images/interview/ques12(1).jpg", "images/interview/ques12(2).jpg"]
   - id: 14
     tags: [nodejs]
     question: "💡 What is the Buffer class in Node.js?"

@@ -1,0 +1,209 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import { markdownify } from "@/lib/utils/textConverter";
+import Pagination from "@/layouts/components/Pagination.astro";
+
+export async function getStaticPaths() {
+  const allTopics = await getCollection('interview-questions');
+  
+  // Flatten all questions from all topics
+  const allQuestions = allTopics.flatMap(topic => topic.data.questions);
+
+  // Sort by ID
+  const sortedQuestions = allQuestions.sort((a, b) => {
+    return Number(a.id) - Number(b.id);
+  });
+
+  const allTagsSet = sortedQuestions.reduce((tags, question) => {
+    question.tags.forEach(tag => tags.add(tag));
+    return tags;
+  }, new Set());
+
+  const uniqueTags = ['all', ...Array.from(allTagsSet)];
+  const pageSize = 20;
+
+  return uniqueTags.flatMap(tag => {
+    const filteredQuestions = tag === 'all' 
+      ? sortedQuestions 
+      : sortedQuestions.filter(q => q.tags.includes(tag));
+    
+    const totalPages = Math.ceil(filteredQuestions.length / pageSize);
+    if (totalPages === 0) return [];
+
+    const pages = Array.from({ length: totalPages }, (_, i) => {
+      const pageNum = i + 1;
+      const start = i * pageSize;
+      const end = start + pageSize;
+      const data = filteredQuestions.slice(start, end);
+      
+      let path;
+      if (tag === 'all') {
+        path = pageNum === 1 ? undefined : `all/page/${pageNum}`;
+      } else {
+        path = pageNum === 1 ? tag : `${tag}/page/${pageNum}`;
+      }
+      
+      return {
+        params: { path },
+        props: { 
+          page: {
+            data,
+            start,
+            end: Math.min(end, filteredQuestions.length),
+            size: pageSize,
+            total: filteredQuestions.length,
+            currentPage: pageNum,
+            lastPage: totalPages,
+          },
+          currentTag: tag,
+          allTags: uniqueTags
+        }
+      };
+    });
+
+    // Special case: if tag is 'all', also add path: 'all' for Page 1
+    if (tag === 'all') {
+       const firstPage = pages[0];
+       pages.push({
+         ...firstPage,
+         params: { path: 'all' }
+       });
+    }
+
+    return pages;
+  });
+}
+
+const { page, currentTag, allTags } = Astro.props;
+const questions = page.data;
+---
+
+<Base meta_title='Interview Questions' description='Web Development related interview questions'>
+  <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Interview Questions</h2>
+
+      <!-- Question Filter Pills (Top) -->
+      <div class="flex flex-wrap gap-2 justify-center mb-8">
+        {allTags.map((tag) => (
+          <a 
+            href={tag === 'all' ? '/interview-bytes' : `/interview-bytes/${tag}`}
+            class={`px-4 py-2 rounded-full text-sm font-medium transition capitalize ${currentTag === tag ? 'bg-pink-300 text-white shadow-sm' : 'bg-pink-100 text-gray-700 hover:bg-pink-200'}`}
+          >
+            {tag === 'all' ? 'All Questions' : tag}
+          </a>
+        ))}
+      </div>
+
+     <div class="flex flex-wrap gap-2 justify-center mb-8">
+      <a 
+        href="https://youtube.com/playlist?list=PLNpQfWftj0-cQpKnc9077q0vTydClTUep&si=9zF33v83VXjnmUwx" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="px-4 py-2 bg-blue-100 rounded-full text-sm font-medium text-gray-700 hover:bg-blue-200 transition">
+        Oracle Cloud Shorts
+      </a>
+    </div>
+
+      <!-- Content Area -->
+      <div id="contentGrid" class="space-y-8">
+        <!-- Question Cards -->
+        {questions.map((question, index) => (
+          <div 
+            class="question-card bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 transform hover:-translate-y-1"
+            data-type="question"
+            data-tags={question.tags.join(',')}>
+            <div class="p-6 sm:p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#fa729a] to-[#fddc43] rounded-full flex items-center justify-center text-white font-semibold">
+                  {page.start + index + 1}
+                </div>
+                <div class="flex-1">
+                  <h2 class="text-lg font-semibold text-gray-900 mb-3 hover:text-[#fa729a] transition-colors duration-300">
+                    {question.question}
+                  </h2>
+
+                  <div class="prose prose-sm max-w-none text-gray-600 mb-4">
+                    {question.answer.map((ans) => (
+                      <p set:html={markdownify(ans)} class="mb-2" />
+                    ))}
+                  </div>
+
+                  {question.code && (
+                    <div class="mt-4 mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm bg-[#1e1e1e]">
+                       <div class="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-[#3d3d3d]">
+                         <span class="text-xs font-mono text-gray-400">javascript</span>
+                       </div>
+                       <pre class="p-4 text-sm font-mono text-gray-100 overflow-x-auto"><code>{question.code}</code></pre>
+                    </div>
+                  )}
+
+                  {(question.related_images ?? []).length > 0 && (
+                    <div class="mt-4 space-y-3">
+                      {question.related_images.map((img: string) => (
+                        <img 
+                          src={`/${img}`} 
+                          alt="Question illustration" 
+                          class="rounded-lg w-full h-auto object-cover shadow-sm transition-transform duration-300 hover:scale-[1.02]"
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {question.tags.map((tag: string) => (
+                      <a 
+                        href={`/interview-bytes/${tag}`}
+                        class="px-3 py-1 bg-gradient-to-r from-[#fddc43] to-yellow-200 text-black text-xs rounded-full capitalize font-medium hover:opacity-80 transition-opacity"
+                      >
+                        {tag}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-12">
+      <Pagination 
+        section={`interview-bytes/${currentTag}`} 
+        currentPage={page.currentPage} 
+        totalPages={page.lastPage} 
+      />
+    </div>
+  </section>
+
+  <style>
+    /* Center playlist card */
+    .playlist-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Custom Code Block Styling */
+    pre {
+      scrollbar-width: thin;
+      scrollbar-color: #4b5563 #1e1e1e;
+    }
+    pre::-webkit-scrollbar {
+      height: 6px;
+    }
+    pre::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+    pre::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 10px;
+    }
+    code {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</Base>
