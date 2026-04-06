@@ -17,8 +17,13 @@
       "url": "/interview-bytes"
     },
     {
+      "name": "Shorts",
+      "url": "/shorts"
+    },
+    {
       "name": "Roadmaps",
       "url": "/roadmaps"
     }
+
   ]
 }

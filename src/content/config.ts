@@ -64,10 +64,25 @@ const interviewQuestionsCollection = defineCollection({
   }),
 });
 
+// Shorts collection schema
+const shortsCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    youtubeId: z.string(),
+    series: z.string(),
+    seriesName: z.string(),
+    order: z.number().default(0),
+  }),
+});
+
+
+
 // Export collections
 export const collections = {
   articles: blogCollection,
   pages: pagesCollection,
   series: seriesCollection,
   'interview-questions': interviewQuestionsCollection,
+  shorts: shortsCollection,
 };
+

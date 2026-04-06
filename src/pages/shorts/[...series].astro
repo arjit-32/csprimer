@@ -1,0 +1,262 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import ShortsSidebar from "@/components/shorts/ShortsSidebar.astro";
+
+export async function getStaticPaths() {
+  const allShorts = await getCollection("shorts");
+  const seriesGroups = {};
+  
+  allShorts.forEach(short => {
+    const series = short.data.series;
+    if (!seriesGroups[series]) {
+      seriesGroups[series] = {
+        id: series,
+        name: short.data.seriesName,
+        items: []
+      };
+    }
+    seriesGroups[series].items.push(short);
+  });
+
+  const paths = Object.values(seriesGroups).map((group: any) => ({
+    params: { series: group.id },
+    props: { 
+      isIndex: false,
+      activeSeriesId: group.id, 
+      activeSeriesName: group.name,
+      allSeries: Object.values(seriesGroups),
+      shorts: group.items.sort((a, b) => a.data.order - b.data.order)
+    },
+  }));
+
+  // Dedicated Index path for /shorts
+  paths.push({
+    params: { series: undefined },
+    props: {
+      isIndex: true,
+      allSeries: Object.values(seriesGroups),
+      shorts: [],
+      activeSeriesId: undefined,
+      activeSeriesName: undefined
+    }
+  });
+
+  return paths;
+}
+
+const { isIndex, activeSeriesId, activeSeriesName, allSeries, shorts } = Astro.props;
+
+// Prepare data for rendering
+const shortItems = shorts.map((short) => ({
+  id: short.slug.split('/').pop() || '', 
+  title: short.data.title,
+}));
+---
+
+<Base 
+  title={isIndex ? "YouTube Shorts - All Series" : `Shorts - ${activeSeriesName}`} 
+  description={isIndex ? "Browse all YouTube Shorts learning series." : `Learn ${activeSeriesName} with bite-sized videos.`}
+>
+  {isIndex ? (
+    <div class="shorts-index-container container">
+      <div class="header-section text-center py-20">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-6">Learning Shorts Series</h1>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto">Master complex computer science and cloud concepts in 60 seconds or less. Choose a series to get started.</p>
+      </div>
+
+      <div class="series-grid mt-10">
+        {allSeries.map((series: any) => (
+          <a href={`/shorts/${series.id}`} class="series-card group">
+            <div class="series-content">
+              <div class="series-badge">Playlist</div>
+              <h2 class="series-title">{series.name}</h2>
+              <p class="series-meta">{series.items.length} Lessons available</p>
+              <span class="series-action">Explore Series →</span>
+            </div>
+            <div class="series-bg-effect"></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="shorts-page-container">
+      <ShortsSidebar 
+        activeSeriesId={activeSeriesId} 
+        activeSeriesName={activeSeriesName}
+        items={shortItems}
+      />
+      
+      <main class="shorts-content">
+        <div class="series-header mb-12">
+          <h1 class="text-4xl font-extrabold text-gray-900 mb-2">{activeSeriesName}</h1>
+          <p class="text-gray-500 text-lg">Select a lesson from the sidebar or choose below to start learning.</p>
+        </div>
+
+        <div class="shorts-grid">
+          {shortItems.map((short) => (
+            <a href={`/shorts/${activeSeriesId}/${short.id}`} class="short-list-item">
+              <div class="item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play-circle"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+              </div>
+              <div class="item-info">
+                <h3 class="item-title">{short.title}</h3>
+                <span class="item-link">Watch Lesson →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </main>
+    </div>
+  )}
+</Base>
+
+<style lang="scss">
+  /* Index Page Styles */
+  .shorts-index-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+  }
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .series-card {
+    position: relative;
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      border-color: #FE6019;
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      
+      .series-action {
+        color: #FE6019;
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  .series-badge {
+    display: inline-block;
+    background: #fff5f0;
+    color: #FE6019;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .series-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #222;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .series-meta {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 30px;
+  }
+
+  .series-action {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #444;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  /* Page with Sidebar Styles */
+  .shorts-page-container {
+    display: flex;
+    min-height: calc(100vh - 80px);
+    background: #fff;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
+  }
+
+  .shorts-content {
+    flex: 1;
+    padding: 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+
+    @media (max-width: 1024px) {
+      padding: 30px 20px;
+    }
+  }
+
+  .shorts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .short-list-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: #FE6019;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+      .item-icon {
+        color: #FE6019;
+      }
+      .item-link {
+        color: #FE6019;
+      }
+    }
+  }
+
+  .item-icon {
+    color: #999;
+    transition: color 0.2s;
+  }
+
+  .item-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 4px;
+  }
+
+  .item-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #888;
+    transition: color 0.2s;
+  }
+</style>
