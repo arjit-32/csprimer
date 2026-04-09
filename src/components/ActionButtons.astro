@@ -21,7 +21,6 @@ const { id, shareUrl, shareTitle, githubEditUrl } = Astro.props;
     </svg>
     <span class="action-label">Star</span>
   </button>
-  
   <a
     href={githubEditUrl}
     target="_blank"
@@ -131,6 +130,8 @@ const { id, shareUrl, shareTitle, githubEditUrl } = Astro.props;
       el.addEventListener('click', clickHandler);
     });
   }
+
+
 
   /* ── Share Dropdowns ── */
   function initShareDropdowns() {
@@ -247,6 +248,7 @@ const { id, shareUrl, shareTitle, githubEditUrl } = Astro.props;
       @media (max-width: 600px) { display: none; }
     }
   }
+
 
   /* Star */
   .star-btn {

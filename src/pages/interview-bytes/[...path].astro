@@ -166,7 +166,7 @@ const siteBaseUrl = config.site.base_url;
               <div class="item-images mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {question.related_images.map((img: string) => (
                   <div class="image-wrapper rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-transform hover:scale-[1.02] duration-500">
-                    <img src={`/${img}`} alt="Illustration" class="w-full h-auto object-cover" />
+                    <img src={`/${img}`} alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
                   </div>
                 ))}
               </div>
