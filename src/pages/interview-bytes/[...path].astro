@@ -3,17 +3,13 @@ import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import { markdownify } from "@/lib/utils/textConverter";
 import Pagination from "@/layouts/components/Pagination.astro";
+import config from "@/config/config.json";
+import ActionButtons from "@/components/ActionButtons.astro";
 
 export async function getStaticPaths() {
   const allTopicsData = await getCollection('interview-questions');
-  
-  // Flatten all questions from all topics
   const allQuestions = allTopicsData.flatMap(topic => topic.data.questions);
-
-  // Sort by ID
-  const sortedQuestions = allQuestions.sort((a, b) => {
-    return Number(a.id) - Number(b.id);
-  });
+  const sortedQuestions = allQuestions.sort((a, b) => Number(a.id) - Number(b.id));
 
   const allTagsSet = sortedQuestions.reduce((tags, question) => {
     question.tags.forEach(tag => tags.add(tag));
@@ -24,10 +20,10 @@ export async function getStaticPaths() {
   const pageSize = 20;
 
   const paths = uniqueTags.flatMap(tag => {
-    const filteredQuestions = tag === 'all' 
-      ? sortedQuestions 
+    const filteredQuestions = tag === 'all'
+      ? sortedQuestions
       : sortedQuestions.filter(q => q.tags.includes(tag));
-    
+
     const totalPages = Math.ceil(filteredQuestions.length / pageSize);
     if (totalPages === 0) return [];
 
@@ -36,18 +32,14 @@ export async function getStaticPaths() {
       const start = i * pageSize;
       const end = start + pageSize;
       const data = filteredQuestions.slice(start, end);
-      
-      let path;
-      if (tag === 'all') {
-        path = pageNum === 1 ? undefined : `all/page/${pageNum}`;
-      } else {
-        path = pageNum === 1 ? tag : `${tag}/page/${pageNum}`;
-      }
-      
+
+      const path = tag === 'all'
+        ? (pageNum === 1 ? undefined : `all/page/${pageNum}`)
+        : (pageNum === 1 ? tag : `${tag}/page/${pageNum}`);
+
       return {
         params: { path },
-        props: { 
-          isIndex: false,
+        props: {
           page: {
             data,
             start,
@@ -60,289 +52,362 @@ export async function getStaticPaths() {
           currentTag: tag,
           allTags: uniqueTags,
           tagCounts: uniqueTags.reduce((acc, t) => {
-            acc[t] = t === 'all' ? sortedQuestions.length : sortedQuestions.filter(q => q.tags.includes(t)).length;
+            acc[t] = t === 'all'
+              ? sortedQuestions.length
+              : sortedQuestions.filter(q => q.tags.includes(t)).length;
             return acc;
-          }, {})
-        }
+          }, {}),
+        },
       };
     });
 
-    // Special case: if tag is 'all', also add path: 'all' for Page 1
     if (tag === 'all') {
-       const firstPage = pages[0];
-       pages.push({
-         ...firstPage,
-         params: { path: 'all' }
-       });
+      pages.push({ ...pages[0], params: { path: 'all' } });
     }
 
     return pages;
   });
 
-  // Add the main index path
-  paths.push({
-    params: { path: undefined },
-    props: {
-      isIndex: true,
-      currentTag: 'all',
-      allTags: uniqueTags,
-      tagCounts: uniqueTags.reduce((acc, t) => {
-        acc[t] = t === 'all' ? sortedQuestions.length : sortedQuestions.filter(q => q.tags.includes(t)).length;
-        return acc;
-      }, {}),
-      page: { data: [] } // Empty data for index
-    }
-  });
-
   return paths;
 }
 
-const { isIndex, page, currentTag, allTags, tagCounts } = Astro.props;
+const { page, currentTag, allTags, tagCounts } = Astro.props;
 const questions = page.data;
+const githubRepoUrl = 'https://github.com/arjit-32/csprimer';
+const siteBaseUrl = config.site.base_url;
 ---
 
-<Base 
-  meta_title={isIndex ? 'Interview-Bytes Topics' : `Interview Questions - ${currentTag}`} 
-  description='Master your technical interviews with bite-sized questions and answers.'
+<Base
+  meta_title={currentTag === 'all' ? 'Interview-Bytes' : `Interview Questions - ${currentTag}`}
+  description="Master your technical interviews with bite-sized questions and answers."
 >
-  {isIndex ? (
-    <div class="interview-index-container container">
-      <div class="header-section text-center py-20">
-        <div class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-tight text-primary uppercase bg-primary/10 rounded-full">
-          Master Your Career
-        </div>
-        <h1 class="text-5xl font-extrabold text-gray-900 mb-6">Interview-Bytes</h1>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto">Expertly curated technical interview questions, simplified into manageable lessons. Choose a topic to sharpen your skills.</p>
-      </div>
+  <div class="interview-listing-container container py-12">
 
-      <div class="topic-grid mt-10">
-        {allTags.filter(t => t !== 'all').map((tag) => (
-          <a href={`/interview-bytes/${tag}`} class="topic-card group">
-            <div class="topic-content">
-              <div class="topic-badge">Interview Guide</div>
-              <h2 class="topic-title capitalize">{tag}</h2>
-              <p class="topic-meta">{tagCounts[tag]} Questions available</p>
-              <span class="topic-action">Study Topic →</span>
-            </div>
-            <div class="topic-bg-effect"></div>
-          </a>
-        ))}
+    <!-- Header -->
+    <div class="header-section text-center mb-16">
+      <div class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-tight text-primary uppercase bg-primary/10 rounded-full">
+        Master Your Career
       </div>
+      <h1 class="text-5xl font-extrabold text-gray-900 mb-4">Interview-Bytes</h1>
+      <p class="text-xl text-gray-500 max-w-2xl mx-auto">
+        Expertly curated technical interview questions, simplified into manageable lessons.
+      </p>
     </div>
-  ) : (
-    <div class="interview-listing-container container py-12">
-      <div class="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-        <div>
-          <a href="/interview-bytes" class="text-sm font-medium text-gray-400 hover:text-primary transition-colors block mb-4">← All Topics</a>
-          <h1 class="text-4xl font-extrabold text-gray-900 capitalize">{currentTag === 'all' ? 'All Questions' : currentTag}</h1>
-          <p class="text-gray-500 mt-2">Showing {page.start + 1} - {page.end} of {page.total} questions</p>
-        </div>
-        
-        {/* Quick Filter Bar */}
-        <div class="flex flex-wrap gap-2">
-          {allTags.slice(0, 6).map((tag) => (
-            <a 
-              href={tag === 'all' ? '/interview-bytes/all' : `/interview-bytes/${tag}`}
-              class={`px-3 py-1.5 rounded-lg text-sm font-semibold transition capitalize ${currentTag === tag ? 'bg-primary text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+
+    <!-- Tag Filter Bar -->
+    <div class="filter-section mb-10">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100">
+        <h2 class="text-xs font-black uppercase tracking-widest text-gray-400 shrink-0">Filter by Topic</h2>
+        <div class="filter-tags-row flex flex-wrap gap-2 justify-end">
+          {allTags.map((tag) => (
+            <a
+              href={tag === 'all' ? '/interview-bytes' : `/interview-bytes/${tag}`}
+              class={`filter-tag px-4 py-2 rounded-xl text-sm font-bold transition-all capitalize ${currentTag === tag ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white text-gray-600 border border-gray-100 hover:border-primary/30 hover:bg-primary/5 hover:text-primary'}`}
             >
               {tag}
+              <span class={`ml-1.5 text-[10px] font-black opacity-50`}>{tagCounts[tag]}</span>
             </a>
           ))}
+          <!-- Starred filter — injected/shown by JS -->
+          <button
+            id="starred-filter-btn"
+            class="filter-tag px-4 py-2 rounded-xl text-sm font-bold transition-all border border-gray-100 text-gray-600 hover:border-yellow-400 hover:bg-yellow-50 hover:text-yellow-700 hidden"
+          >
+            ⭐ Starred
+            <span id="starred-filter-count" class="ml-1.5 text-[10px] font-black opacity-50">0</span>
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="question-list">
-        {questions.map((question, index) => (
-          <div class="question-item">
+    <!-- Count -->
+    <div class="listing-info mb-8 flex items-center justify-between">
+      <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">
+        Showing <span class="text-primary">{page.start + 1}–{page.end}</span> of {page.total} questions
+      </p>
+    </div>
+
+    <!-- Question List -->
+    <div class="question-list" id="question-list">
+      {questions.map((question, index) => (
+        <div class="question-item group" data-question-id={String(question.id)}>
+
+          <!-- Question Header -->
+          <div class="item-header">
             <div class="item-number">
               <span>{page.start + index + 1}</span>
             </div>
-            <div class="item-main">
-              <h2 class="item-question text-xl font-bold text-gray-900 mb-6">{question.question}</h2>
-              
-              <div class="item-answer prose prose-lg max-w-none text-gray-600 mb-8">
-                {question.answer.map((ans) => (
-                  <p set:html={markdownify(ans)} class="mb-4" />
+            <h2 class="item-question">{question.question}</h2>
+          </div>
+
+          <!-- Answer + extras -->
+          <div class="item-main">
+            <div class="item-answer prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed mb-8">
+              {question.answer.map((ans) => (
+                <p set:html={markdownify(ans)} class="mb-4" />
+              ))}
+            </div>
+
+            {question.code && (
+              <div class="item-code mb-10 rounded-2xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/40 bg-[#0d1117]">
+                <div class="flex items-center justify-between px-6 py-3 bg-[#161b22] border-b border-gray-800">
+                  <div class="flex gap-1.5">
+                    <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40"></div>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Code Instance</span>
+                </div>
+                <pre class="p-8 text-sm font-mono text-gray-100 overflow-x-auto"><code>{question.code}</code></pre>
+              </div>
+            )}
+
+            {(question.related_images ?? []).length > 0 && (
+              <div class="item-images mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {question.related_images.map((img: string) => (
+                  <div class="image-wrapper rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-transform hover:scale-[1.02] duration-500">
+                    <img src={`/${img}`} alt="Illustration" class="w-full h-auto object-cover" />
+                  </div>
                 ))}
               </div>
+            )}
 
-              {question.code && (
-                <div class="item-code mt-6 mb-8 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-[#1a202c]">
-                   <div class="flex items-center justify-between px-5 py-3 bg-[#2d3748] border-b border-gray-700">
-                     <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">javascript</span>
-                   </div>
-                   <pre class="p-6 text-sm font-mono text-gray-100 overflow-x-auto"><code>{question.code}</code></pre>
-                </div>
-              )}
-
-              {(question.related_images ?? []).length > 0 && (
-                <div class="item-images mt-6 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {question.related_images.map((img: string) => (
-                    <img 
-                      src={`/${img}`} 
-                      alt="Illustration" 
-                      class="rounded-xl w-full h-auto object-cover border border-gray-100 shadow-sm"
-                    />
-                  ))}
-                </div>
-              )}
-
-              <div class="item-tags mt-4 flex flex-wrap gap-2">
+            <!-- Footer: tags + actions -->
+            <div class="item-footer">
+              <!-- Tags -->
+              <div class="item-tags flex flex-wrap gap-2">
                 {question.tags.map((tag: string) => (
-                  <a 
+                  <a
                     href={`/interview-bytes/${tag}`}
-                    class="px-3 py-1 bg-gray-50 text-gray-400 text-xs rounded-full capitalize font-bold hover:bg-primary/10 hover:text-primary transition-all"
+                    class="px-3 py-1 bg-gray-50 text-gray-400 text-[10px] rounded-lg capitalize font-black tracking-widest hover:bg-primary hover:text-white transition-all duration-300"
                   >
                     #{tag}
                   </a>
                 ))}
               </div>
+
+              <ActionButtons
+                id={String(question.id)}
+                shareTitle={question.question}
+                shareUrl={`${siteBaseUrl}/interview-bytes#q-${question.id}`}
+                githubEditUrl={`${githubRepoUrl}/blob/main/src/content/interview-questions/${question.tags[0]}.yaml`}
+              />
             </div>
           </div>
-        ))}
-      </div>
-
-      <div class="mt-20">
-        <Pagination 
-          section={`interview-bytes/${currentTag === 'all' ? 'all' : currentTag}`} 
-          currentPage={page.currentPage} 
-          totalPages={page.lastPage} 
-        />
-      </div>
+        </div>
+      ))}
     </div>
-  )}
+
+    <div class="mt-20">
+      <Pagination
+        section={`interview-bytes/${currentTag === 'all' ? 'all' : currentTag}`}
+        currentPage={page.currentPage}
+        totalPages={page.lastPage}
+      />
+    </div>
+  </div>
 </Base>
 
+<script>
+  const STARRED_KEY = 'ib_starred';
+
+  function getStarred() {
+    try { return JSON.parse(localStorage.getItem(STARRED_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  /* ── Starred Filter Button ── */
+  function syncStarredFilter() {
+    const starred = getStarred();
+    const btn = document.getElementById('starred-filter-btn');
+    const countEl = document.getElementById('starred-filter-count');
+    if (!btn || !countEl) return;
+    if (starred.length > 0) {
+      btn.classList.remove('hidden');
+      countEl.textContent = starred.length.toString();
+    } else {
+      btn.classList.add('hidden');
+      btn.classList.remove('active-starred');
+      document.querySelectorAll('.question-item').forEach(el => { (el as HTMLElement).style.display = ''; });
+    }
+  }
+
+  function initStarredFilterBtn() {
+    const btn = document.getElementById('starred-filter-btn');
+    if (!btn) return;
+    let active = false;
+    btn.addEventListener('click', () => {
+      active = !active;
+      btn.classList.toggle('active-starred', active);
+      const starred = getStarred();
+      document.querySelectorAll('.question-item').forEach(el => {
+        const id = (el as HTMLElement).dataset.questionId;
+        (el as HTMLElement).style.display = (!active || starred.includes(id || '')) ? '' : 'none';
+      });
+    });
+  }
+
+  function initInterviewBytes() {
+    syncStarredFilter();
+    initStarredFilterBtn();
+  }
+
+  // ActionButtons handles its own stars and syncing, but we need to init the filter button logic once
+  document.addEventListener('DOMContentLoaded', initInterviewBytes);
+  document.addEventListener('astro:page-load', initInterviewBytes);
+</script>
+
 <style lang="scss">
-  /* Index Page Styles */
-  .interview-index-container {
-    max-width: 1200px;
+  .interview-listing-container {
+    max-width: 1000px;
     margin: 0 auto;
-    padding-bottom: 100px;
   }
 
-  .topic-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px;
-    
+  /* ── Header ── */
+  .header-section {
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
+
+  /* ── Filter Bar ── */
+  .filter-tags-row {
     @media (max-width: 768px) {
-      grid-template-columns: 1fr;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      justify-content: flex-start;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar { height: 3px; }
+      &::-webkit-scrollbar-track { background: #f5f5f5; }
+      &::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
     }
   }
 
-  .topic-card {
-    position: relative;
-    background: #fff;
-    padding: 40px;
-    border-radius: 24px;
-    border: 1px solid #eee;
-    text-decoration: none;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-
-    &:hover {
-      border-color: #FE6019;
-      transform: translateY(-12px);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
-      
-      .topic-action {
-        color: #FE6019;
-        transform: translateX(8px);
-      }
-    }
+  .starred-filter-btn.active-starred {
+    background: #fffbeb !important;
+    border-color: #fde68a !important;
+    color: #b45309 !important;
   }
 
-  .topic-badge {
-    display: inline-block;
-    background: #fff5f0;
-    color: #FE6019;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
-  }
-
-  .topic-title {
-    font-size: 2rem;
-    font-weight: 900;
-    color: #111;
-    line-height: 1.1;
-    margin-bottom: 12px;
-  }
-
-  .topic-meta {
-    font-size: 1.05rem;
-    color: #888;
-    margin-bottom: 35px;
-  }
-
-  .topic-action {
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: #333;
-    transition: all 0.3s ease;
-    display: inline-block;
-  }
-
-  /* Listing Page Styles */
+  /* ── Question List ── */
   .question-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    margin-top: 40px;
+    gap: 48px;
   }
 
   .question-item {
-    display: flex;
-    gap: 30px;
-    padding: 50px;
+    padding: 52px 56px;
     background: #fff;
+    border-radius: 36px;
     border: 1px solid #f0f0f0;
-    border-radius: 24px;
-    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.45s ease, border-color 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 5px;
+      background: linear-gradient(90deg, #FE6019, #ff9a60);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
     &:hover {
-      border-color: #eee;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+      transform: translateY(-6px);
+      border-color: #e8e8e8;
+      box-shadow: 0 32px 72px rgba(0, 0, 0, 0.05);
+
+      &::before { opacity: 1; }
+
+      .item-number {
+        background: #FE6019;
+        color: #fff;
+        transform: scale(1.1) rotate(4deg);
+      }
     }
 
     @media (max-width: 768px) {
+      padding: 36px 22px;
+      border-radius: 28px;
+    }
+  }
+
+  /* ── Item Header ── */
+  .item-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
+
+    @media (max-width: 640px) {
       flex-direction: column;
-      padding: 30px 20px;
-      gap: 20px;
+      gap: 14px;
     }
   }
 
   .item-number {
     flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    background: #f8f8f8;
-    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    background: #fff5f0;
+    border: 2px solid #fde8db;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    color: #333;
-    font-size: 0.9rem;
+    font-weight: 900;
+    color: #FE6019;
+    font-size: 0.95rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
+  .item-question {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #111;
+    line-height: 1.3;
+  }
+
+  /* ── Item Main ── */
   .item-main {
-    flex: 1;
+    padding-left: 66px;
+
+    @media (max-width: 640px) {
+      padding-left: 0;
+    }
   }
 
-  /* Code Block Optimization */
+  .item-answer {
+    p {
+      margin-bottom: 18px;
+      &:last-child { margin-bottom: 0; }
+    }
+  }
+
+  /* ── Item Footer ── */
+  .item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid #f5f5f5;
+    margin-top: 8px;
+  }
+
+
+
+  /* Code Block */
   pre {
     scrollbar-width: thin;
-    scrollbar-color: #4a5568 #1a202c;
-    &::-webkit-scrollbar { height: 6px; }
-    &::-webkit-scrollbar-track { background: #1a202c; }
-    &::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 10px; }
+    scrollbar-color: #2d3748 #0d1117;
+    &::-webkit-scrollbar { height: 5px; }
+    &::-webkit-scrollbar-track { background: #0d1117; }
+    &::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 10px; }
+    code { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
   }
 </style>

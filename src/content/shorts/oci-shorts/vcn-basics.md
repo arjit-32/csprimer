@@ -2,7 +2,7 @@
 title: "Virtual Cloud Network (VCN) in oracle cloud"
 youtubeId: "o63z307utL0"
 series: "oci-shorts"
-seriesName: "Oracle Cloud Shorts Course"
+seriesName: "Oracle Cloud"
 order: 4
 ---
 

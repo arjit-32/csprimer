@@ -2,7 +2,7 @@
 title: "IAM in oracle cloud"
 youtubeId: "LbeV3TwK48s"
 series: "oci-shorts"
-seriesName: "Oracle Cloud Shorts Course"
+seriesName: "Oracle Cloud"
 order: 2
 ---
 

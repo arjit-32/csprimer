@@ -2,7 +2,7 @@
 title: "Routing inside a VCN ( Oracle Cloud )"
 youtubeId: "Y0bw-wVSjR8"
 series: "oci-shorts"
-seriesName: "Oracle Cloud Shorts Course"
+seriesName: "Oracle Cloud"
 order: 5
 ---
 

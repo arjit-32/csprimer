@@ -1,0 +1,314 @@
+---
+interface Props {
+  id: string; // The unique ID for the star functionality
+  shareUrl: string; // the absolute URL
+  shareTitle: string; // The title to share
+  githubEditUrl: string; // The explicit github edit url
+}
+
+const { id, shareUrl, shareTitle, githubEditUrl } = Astro.props;
+---
+
+<div class="item-actions">
+  <button
+    class="action-btn star-btn"
+    data-id={id}
+    title="Save to starred"
+    aria-label="Star this content"
+  >
+    <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+    <span class="action-label">Star</span>
+  </button>
+  
+  <a
+    href={githubEditUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="action-btn edit-btn"
+    title="Edit on GitHub"
+    aria-label="Edit on GitHub"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+    </svg>
+    <span class="action-label">Edit</span>
+  </a>
+
+  <div
+    class="share-container"
+    data-url={shareUrl}
+    data-title={shareTitle}
+  >
+    <button class="action-btn share-btn" title="Share" aria-label="Share">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      <span class="action-label">Share</span>
+    </button>
+    <div class="share-dropdown">
+      <button class="share-option share-twitter">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        Share on X
+      </button>
+      <button class="share-option share-whatsapp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Share on WhatsApp
+      </button>
+      <button class="share-option share-copy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Copy Link
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STARRED_KEY = 'ib_starred';
+
+  function getStarred() {
+    try { return JSON.parse(localStorage.getItem(STARRED_KEY) || '[]'); }
+    catch { return []; }
+  }
+  
+  function saveStarred(arr: string[]): void {
+    localStorage.setItem(STARRED_KEY, JSON.stringify(arr));
+  }
+
+  // Sync starred filter (mostly for interview-bytes page)
+  function syncStarredFilter() {
+    const starred = getStarred();
+    const btn = document.getElementById('starred-filter-btn');
+    const countEl = document.getElementById('starred-filter-count');
+    if (!btn || !countEl) return;
+    if (starred.length > 0) {
+      btn.classList.remove('hidden');
+      countEl.textContent = starred.length.toString();
+    } else {
+      btn.classList.add('hidden');
+      btn.classList.remove('active-starred');
+      document.querySelectorAll('.question-item').forEach(el => { (el as HTMLElement).style.display = ''; });
+    }
+  }
+
+  function initStarButtons() {
+    const starred = getStarred();
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      const el = btn as HTMLElement;
+      const id = el.dataset.id;
+      if (!id) return;
+      el.classList.toggle('is-starred', starred.includes(id));
+
+      const clickHandler = () => {
+        const current = getStarred();
+        const idx = current.indexOf(id);
+        if (idx === -1) { current.push(id); el.classList.add('is-starred'); }
+        else { current.splice(idx, 1); el.classList.remove('is-starred'); }
+        saveStarred(current);
+        syncStarredFilter();
+
+        const filterBtn = document.getElementById('starred-filter-btn');
+        if (filterBtn?.classList.contains('active-starred')) {
+          const nowStarred = getStarred();
+          document.querySelectorAll('.question-item').forEach(item => {
+            const itemEl = item as HTMLElement;
+            itemEl.style.display = nowStarred.includes(itemEl.dataset.questionId || '') ? '' : 'none';
+          });
+        }
+      };
+
+      // Ensure no duplicate listener
+      el.removeEventListener('click', (el as any)['__starClickHandler'] || clickHandler);
+      (el as any)['__starClickHandler'] = clickHandler;
+      el.addEventListener('click', clickHandler);
+    });
+  }
+
+  /* ── Share Dropdowns ── */
+  function initShareDropdowns() {
+    document.querySelectorAll('.share-container').forEach(container => {
+      const c = container as HTMLElement;
+      const shareBtn = c.querySelector('.share-btn') as HTMLElement;
+      const dropdown = c.querySelector('.share-dropdown') as HTMLElement;
+      const url = c.dataset.url;
+      const title = c.dataset.title;
+
+      if (!shareBtn || !dropdown) return;
+
+      const btnHandler = (e: Event) => {
+        e.stopPropagation();
+        document.querySelectorAll('.share-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+        dropdown.classList.toggle('open');
+      };
+      shareBtn.removeEventListener('click', (shareBtn as any)['__btnHandler'] || btnHandler);
+      (shareBtn as any)['__btnHandler'] = btnHandler;
+      shareBtn.addEventListener('click', btnHandler);
+
+      const twitterBtn = c.querySelector('.share-twitter') as HTMLElement;
+      if (twitterBtn) {
+        const tHandler = () => {
+          const text = encodeURIComponent(`💡 "${title}"\n\nCheck it out on CSPrimer → ${url}`);
+          window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+          dropdown.classList.remove('open');
+        };
+        twitterBtn.removeEventListener('click', (twitterBtn as any)['__tHandler'] || tHandler);
+        (twitterBtn as any)['__tHandler'] = tHandler;
+        twitterBtn.addEventListener('click', tHandler);
+      }
+
+      const waBtn = c.querySelector('.share-whatsapp') as HTMLElement;
+      if (waBtn) {
+        const waHandler = () => {
+          const text = encodeURIComponent(`💡 *${title}*\n\nCheck it out on CSPrimer → ${url}`);
+          window.open(`https://wa.me/?text=${text}`, '_blank');
+          dropdown.classList.remove('open');
+        };
+        waBtn.removeEventListener('click', (waBtn as any)['__waHandler'] || waHandler);
+        (waBtn as any)['__waHandler'] = waHandler;
+        waBtn.addEventListener('click', waHandler);
+      }
+
+      const copyBtn = c.querySelector('.share-copy') as HTMLElement;
+      if (copyBtn) {
+        const copyHandler = () => {
+          navigator.clipboard.writeText(url || '').then(() => {
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+            setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+          });
+          dropdown.classList.remove('open');
+        };
+        copyBtn.removeEventListener('click', (copyBtn as any)['__copyHandler'] || copyHandler);
+        (copyBtn as any)['__copyHandler'] = copyHandler;
+        copyBtn.addEventListener('click', copyHandler);
+      }
+    });
+
+    const docHandler = () => {
+      document.querySelectorAll('.share-dropdown.open').forEach(d => d.classList.remove('open'));
+    };
+    document.removeEventListener('click', (document as any)['__docHandler'] || docHandler);
+    (document as any)['__docHandler'] = docHandler;
+    document.addEventListener('click', docHandler);
+  }
+
+  function init() {
+    initStarButtons();
+    initShareDropdowns();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style lang="scss">
+  /* ── Action Buttons ── */
+  .item-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border: 1px solid #efefef;
+    background: #fafafa;
+    color: #a0a0a0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+
+    &:hover {
+      border-color: #ddd;
+      background: #fff;
+      color: #444;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    .action-label {
+      @media (max-width: 600px) { display: none; }
+    }
+  }
+
+  /* Star */
+  .star-btn {
+    &.is-starred {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #d97706;
+
+      .star-icon { fill: #f59e0b; stroke: #f59e0b; }
+
+      &:hover { background: #fef3c7; border-color: #fcd34d; }
+    }
+  }
+
+  /* Edit */
+  .edit-btn:hover { color: #1a1a1a; }
+
+  /* Share dropdown */
+  .share-container { position: relative; }
+
+  .share-dropdown {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    background: #fff;
+    border: 1px solid #efefef;
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.04);
+    min-width: 188px;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px) scale(0.96);
+    transform-origin: bottom right;
+    transition: all 0.2s cubic-bezier(0.34, 1.4, 0.64, 1);
+
+    &.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .share-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.14s ease;
+    text-align: left;
+
+    &:hover { background: #f5f5f5; color: #111; }
+    &.share-twitter:hover  { background: #f8fafc; color: #000; }
+    &.share-whatsapp:hover { background: #f0fdf4; color: #16a34a; }
+  }
+</style>

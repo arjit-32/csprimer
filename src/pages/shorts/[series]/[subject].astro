@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
 import ShortCard from "@/components/shorts/ShortCard.astro";
 import ShortsSidebar from "@/components/shorts/ShortsSidebar.astro";
+import config from "@/config/config.json";
 
 export async function getStaticPaths() {
   const allShorts = await getCollection("shorts");
@@ -57,6 +58,8 @@ const renderedShort = {
   youtubeId: short.data.youtubeId,
   title: short.data.title,
   Content: Content,
+  shareUrl: `${config.site.base_url}/shorts/${short.data.series}/${activeShortId}`,
+  githubEditUrl: `https://github.com/arjit-32/csprimer/blob/main/src/content/shorts/${short.id}`
 };
 
 // Map sidebar data

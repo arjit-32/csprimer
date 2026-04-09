@@ -8,6 +8,8 @@ import {
   FaRegUserCircle,
 } from "react-icons/fa";
 import { Image } from "astro:assets";
+import ActionButtons from "@/components/ActionButtons.astro";
+import config from "@/config/config.json";
 
 const { post, series } = Astro.props;
 const { Content } = await post.render();
@@ -15,6 +17,9 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 
 const seriesEntry = series ? await getEntry("series", series) : null;
 const courseData = seriesEntry ? seriesEntry.data : null;
+
+const githubRepoUrl = 'https://github.com/arjit-32/csprimer';
+const siteBaseUrl = config.site.base_url;
 
 ---
 
@@ -185,8 +190,14 @@ const courseData = seriesEntry ? seriesEntry.data : null;
                 <span>{readingTime(post.body)}</span>
               </div>
               
-             
-              
+              <div class="flex items-center mb-2">
+                <ActionButtons 
+                  id={`article-${post.slug}`} 
+                  shareTitle={post.data.title}
+                  shareUrl={`${siteBaseUrl}/articles/${post.slug}`}
+                  githubEditUrl={`${githubRepoUrl}/blob/main/src/content/articles/${post.id}`}
+                />
+              </div>
             </div>
             
             <div class="content max-w-none prose-headings:text-2xl prose-th:text-sm prose-h3:text-lg">

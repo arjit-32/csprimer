@@ -2,7 +2,7 @@
 title: "Networking concept for Oracle cloud infrastructure"
 youtubeId: "wBRhP4BNdZQ"
 series: "oci-shorts"
-seriesName: "Oracle Cloud Shorts Course"
+seriesName: "Oracle Cloud"
 order: 3
 ---
 
