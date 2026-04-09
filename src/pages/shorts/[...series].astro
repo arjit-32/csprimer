@@ -55,28 +55,38 @@ const shortItems = shorts.map((short) => ({
 ---
 
 <Base 
-  title={isIndex ? "YouTube Shorts - All Series" : `Shorts - ${activeSeriesName}`} 
+  title={isIndex ? "Learning Shorts – All Series" : `Shorts - ${activeSeriesName}`} 
   description={isIndex ? "Browse all YouTube Shorts learning series." : `Learn ${activeSeriesName} with bite-sized videos.`}
 >
   {isIndex ? (
-    <div class="shorts-index-container container">
-      <div class="header-section text-center py-20">
-        <h1 class="text-5xl font-extrabold text-gray-900 mb-6">Learning Shorts Series</h1>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto">Master complex computer science and cloud concepts in 60 seconds or less. Choose a series to get started.</p>
+    <div class="shorts-index-container">
+      <div class="hero-section">
+        <div class="hero-inner container">
+          <div class="hero-badge">⚡ Bite-sized Learning</div>
+          <h1 class="hero-title">Learning Shorts</h1>
+          <p class="hero-sub">Master complex CS and system design concepts in 60 seconds or less.<br/>Pick a series below to get started.</p>
+        </div>
+        <div class="hero-glow"></div>
       </div>
 
-      <div class="series-grid mt-10">
-        {allSeries.map((series: any) => (
-          <a href={`/shorts/${series.id}`} class="series-card group">
-            <div class="series-content">
-              <div class="series-badge">Playlist</div>
-              <h2 class="series-title">{series.name}</h2>
-              <p class="series-meta">{series.items.length} Lessons available</p>
-              <span class="series-action">Explore Series →</span>
-            </div>
-            <div class="series-bg-effect"></div>
-          </a>
-        ))}
+      <div class="series-section container">
+        <div class="series-grid">
+          {allSeries.map((series: any, i: number) => (
+            <a href={`/shorts/${series.id}`} class="series-card" style={`--accent: ${['#FE6019','#6C63FF','#00B4D8','#2EC4B6','#FF6B6B','#F7B731'][i % 6]}`}>
+              <div class="card-number">{String(i + 1).padStart(2, '0')}</div>
+              <div class="card-body">
+                <div class="card-badge">Series</div>
+                <h2 class="card-title">{series.name}</h2>
+                <p class="card-meta">
+                  <span class="dot"></span>
+                  {series.items.length} lessons
+                </p>
+              </div>
+              <div class="card-arrow">→</div>
+              <div class="card-glow"></div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   ) : (
@@ -112,18 +122,74 @@ const shortItems = shorts.map((short) => ({
 </Base>
 
 <style lang="scss">
-  /* Index Page Styles */
+  /* ── Index Page ────────────────────────────────── */
   .shorts-index-container {
-    max-width: 1200px;
+    min-height: 100vh;
+    background: #fafafa;
+  }
+
+  /* Hero */
+  .hero-section {
+    position: relative;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    padding: 100px 0 90px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(254, 96, 25, 0.15);
+    color: #FE6019;
+    border: 1px solid rgba(254, 96, 25, 0.4);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 560px;
     margin: 0 auto;
-    padding-bottom: 100px;
+    line-height: 1.7;
+  }
+
+  /* Series Grid */
+  .series-section {
+    padding: 64px 16px 100px;
   }
 
   .series-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px;
-    
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
     }
@@ -132,62 +198,95 @@ const shortItems = shorts.map((short) => ({
   .series-card {
     position: relative;
     background: #fff;
-    padding: 40px;
     border-radius: 20px;
-    border: 1px solid #eee;
+    padding: 36px 32px;
+    border: 1.5px solid #eeeeee;
     text-decoration: none;
-    transition: all 0.3s ease;
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
     &:hover {
-      border-color: #FE6019;
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-      
-      .series-action {
-        color: #FE6019;
-        transform: translateX(5px);
-      }
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent);
+
+      .card-glow { opacity: 1; }
+      .card-arrow { transform: translateX(4px); color: var(--accent); }
+      .card-number { color: var(--accent); }
     }
   }
 
-  .series-badge {
-    display: inline-block;
-    background: #fff5f0;
-    color: #FE6019;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 20px;
+  .card-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 0% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
   }
 
-  .series-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #222;
-    line-height: 1.2;
+  .card-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #e5e5e5;
+    line-height: 1;
+    transition: color 0.3s ease;
+    flex-shrink: 0;
+    min-width: 52px;
+  }
+
+  .card-body { flex: 1; }
+
+  .card-badge {
+    display: inline-block;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     margin-bottom: 12px;
   }
 
-  .series-meta {
-    font-size: 1rem;
-    color: #888;
-    margin-bottom: 30px;
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.3;
+    margin-bottom: 10px;
   }
 
-  .series-action {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #444;
-    transition: all 0.3s ease;
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: 600;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
     display: inline-block;
   }
 
-  /* Page with Sidebar Styles */
+  .card-arrow {
+    font-size: 1.3rem;
+    color: #ccc;
+    transition: transform 0.3s ease, color 0.3s ease;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* ── Series Page with Sidebar ──────────────────── */
   .shorts-page-container {
     display: flex;
     min-height: calc(100vh - 80px);
@@ -226,18 +325,14 @@ const shortItems = shorts.map((short) => ({
     border-radius: 12px;
     text-decoration: none;
     transition: all 0.2s ease;
-    
+
     &:hover {
       border-color: #FE6019;
       transform: translateY(-2px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
-      .item-icon {
-        color: #FE6019;
-      }
-      .item-link {
-        color: #FE6019;
-      }
+      .item-icon { color: #FE6019; }
+      .item-link { color: #FE6019; }
     }
   }
 

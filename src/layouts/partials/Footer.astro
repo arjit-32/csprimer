@@ -4,7 +4,7 @@ import Social from "@/components/Social.astro";
 import config from "@/config/config.json";
 import social from "@/config/social.json";
 import { markdownify } from "@/lib/utils/textConverter";
-const { copyright, youtube_series, quick_links, footer_description } = config.params;
+const { copyright, explore_links, quick_links, footer_description } = config.params;
 ---
 <footer class="footer bg-[#FFF]">
   <div class="container">
@@ -20,11 +20,11 @@ const { copyright, youtube_series, quick_links, footer_description } = config.pa
         <h6 class="font-semibold text-gray-800">Connect</h6>
         <Social source={social} className="social-icons mt-4 lg:mt-6" />
       </div>
-      <!-- Youtube Series -->
+      <!-- Explore -->
       <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 class="font-semibold text-gray-800">Youtube Extras</h6>
+        <h6 class="font-semibold text-gray-800">Explore</h6>
         <ul>
-          {youtube_series.map((link) => (
+          {explore_links.map((link) => (
             <li class="mb-2">
               <a href={link.url} class="text-gray-600 hover:text-primary">{link.name}</a>
             </li>

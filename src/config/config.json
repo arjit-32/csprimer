@@ -17,7 +17,7 @@
   },
   "call_to_action": {
     "title": "Important Announcement",
-    "description": "I’m committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
+    "description": "I'm committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
     "button": {
       "label1": "Connect on LinkedIn",
       "link1": "https://www.linkedin.com/in/arjit32/",
@@ -26,7 +26,7 @@
     }
   },
   "params": {
-    "footer_description": "From fundamentals to full-stack development — A journey through computer science.",
+    "footer_description": "From fundamentals to full-stack development - A journey through computer science.",
     "copyright": "© 2026 All Rights Reserved.",
     "quick_links": [
       {
@@ -46,10 +46,22 @@
         "url": "/series?category=Core-CS"
       }
     ],
-    "youtube_series": [
+    "explore_links": [
       {
-        "name": "Oracle Cloud",
-        "url": "https://youtube.com/playlist?list=PLNpQfWftj0-cQpKnc9077q0vTydClTUep&si=1DMlSytg14OZBqr8"
+        "name": "All Series",
+        "url": "/series"
+      },
+      {
+        "name": "Learning Shorts",
+        "url": "/shorts"
+      },
+      {
+        "name": "Articles",
+        "url": "/articles"
+      },
+      {
+        "name": "Roadmaps",
+        "url": "/roadmaps"
       }
     ]
   },
