@@ -81,18 +81,27 @@ const siteBaseUrl = config.site.base_url;
   meta_title={currentTag === 'all' ? 'Interview-Bytes' : `Interview Questions - ${currentTag}`}
   description="Master your technical interviews with bite-sized questions and answers."
 >
+  <!-- Hero Banner -->
+  <div class="ib-hero-section">
+    <div class="ib-hero-glow"></div>
+    <div class="container ib-hero-inner">
+      <div class="ib-hero-badge">🎯 Master Your Career</div>
+      <h1 class="ib-hero-title">Interview-Bytes</h1>
+      <p class="ib-hero-sub">
+        Expertly curated technical interview questions,<br/>simplified into manageable lessons.
+      </p>
+      <div class="ib-hero-stats">
+        <div class="ib-stat"><span class="ib-stat-num">100+</span><span class="ib-stat-label">Questions</span></div>
+        <div class="ib-stat-divider"></div>
+        <div class="ib-stat"><span class="ib-stat-num">4</span><span class="ib-stat-label">Topics</span></div>
+        <div class="ib-stat-divider"></div>
+        <div class="ib-stat"><span class="ib-stat-num">Free</span><span class="ib-stat-label">Always</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="interview-listing-container container py-12">
 
-    <!-- Header -->
-    <div class="header-section text-center mb-16">
-      <div class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-tight text-primary uppercase bg-primary/10 rounded-full">
-        Master Your Career
-      </div>
-      <h1 class="text-5xl font-extrabold text-gray-900 mb-4">Interview-Bytes</h1>
-      <p class="text-xl text-gray-500 max-w-2xl mx-auto">
-        Expertly curated technical interview questions, simplified into manageable lessons.
-      </p>
-    </div>
 
     <!-- Tag Filter Bar -->
     <div class="filter-section mb-10">
@@ -130,7 +139,7 @@ const siteBaseUrl = config.site.base_url;
     <!-- Question List -->
     <div class="question-list" id="question-list">
       {questions.map((question, index) => (
-        <div class="question-item group" data-question-id={String(question.id)}>
+        <div class="question-item group" id={`q-${question.id}`} data-question-id={String(question.id)}>
 
           <!-- Question Header -->
           <div class="item-header">
@@ -258,15 +267,103 @@ const siteBaseUrl = config.site.base_url;
 </script>
 
 <style lang="scss">
+  /* ── Hero Banner ── */
+  .ib-hero-section {
+    position: relative;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    padding: 96px 0 88px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .ib-hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.28) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .ib-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ib-hero-badge {
+    display: inline-block;
+    background: rgba(254, 96, 25, 0.15);
+    color: #FE6019;
+    border: 1px solid rgba(254, 96, 25, 0.4);
+    border-radius: 999px;
+    padding: 6px 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+  }
+
+  .ib-hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .ib-hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.75;
+  }
+
+  .ib-hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 16px 32px;
+    backdrop-filter: blur(8px);
+  }
+
+  .ib-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0 28px;
+  }
+
+  .ib-stat-num {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .ib-stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .ib-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+  }
+
+  /* ── Container ── */
   .interview-listing-container {
     max-width: 1000px;
     margin: 0 auto;
-  }
-
-  /* ── Header ── */
-  .header-section {
-    padding-top: 40px;
-    padding-bottom: 20px;
   }
 
   /* ── Filter Bar ── */
