@@ -1,0 +1,6 @@
+{
+  "Core-CS": ["dm", "dl", "coa", "toc", "compiler", "os", "cn", "dbms"],
+  "DSA": ["java", "dsa-overview", "dsa-foundations"],
+  "Development": ["html-css"],
+  "System-Design": ["git", "api", "distributed", "system-design-foundation"]
+}

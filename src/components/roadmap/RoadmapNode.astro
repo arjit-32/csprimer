@@ -1,0 +1,48 @@
+---
+export interface Props {
+  course: any;
+}
+const { course } = Astro.props;
+---
+
+<button 
+  class="course-node-btn roadmap-node relative group z-10 w-full max-w-[280px] text-left appearance-none focus:outline-none"
+  data-course={JSON.stringify(course)}
+  data-course-id={course.id}
+>
+  <!-- Decorative Background Glow -->
+  <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl opacity-0 group-hover:opacity-20 blur-md transition duration-500 rounded-2xl"></div>
+  
+  <div class="relative flex items-center bg-white border border-zinc-200 rounded-2xl px-5 py-4 shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-300 transform group-hover:-translate-y-1">
+    <!-- Progress Indicator Circle -->
+    <div class="mr-4 relative flex items-center justify-center shrink-0">
+      <svg class="w-8 h-8 text-zinc-100" fill="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+      <!-- Completed State -->
+      <svg class="course-completed-icon absolute w-8 h-8 text-blue-500 opacity-0 transition-opacity duration-300" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+    </div>
+    
+    <!-- Label -->
+    <div class="flex-grow flex flex-col justify-center">
+      <span class="text-zinc-900 font-bold text-base group-hover:text-blue-700 transition-colors leading-snug mb-0.5">
+        {course.title}
+      </span>
+      <span class="text-[11px] text-zinc-500 font-medium tracking-wide">
+        {course.sections.length} Module{course.sections.length !== 1 ? 's' : ''}
+      </span>
+    </div>
+    
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-zinc-300 group-hover:text-blue-500 ml-2 transform group-hover:translate-x-1 transition-all duration-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</button>
+
+<style>
+  .roadmap-node.completed .course-completed-icon {
+    opacity: 1 !important;
+  }
+</style>

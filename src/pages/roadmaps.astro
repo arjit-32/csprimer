@@ -3,6 +3,9 @@ import Shape from "@/components/Shape.astro";
 import Base from "@/layouts/Base.astro";
 import Cta from "@/partials/Cta.astro";
 import { getImage } from "astro:assets";
+import InteractiveRoadmap from "@/components/roadmap/InteractiveRoadmap.astro";
+import { getAllRoadmapCourses } from "@/lib/roadmapParser";
+import CourseDrawer from "@/components/roadmap/CourseDrawer.astro";
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
 
@@ -15,6 +18,8 @@ const resolvedRoadmaps = {
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 1200 }),
 };
 
+const dynamicRoadmapData = await getAllRoadmapCourses();
+
 const categories = [
   { category: "all", label: "Show All Roadmaps", color: "gray" },
   { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
@@ -25,42 +30,60 @@ const categories = [
 ---
 
 <Base title="Roadmaps" description="Visual roadmaps for learning Computer Science, DSA, Web Development, and System Design.">
-  <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
+  <section class="py-12 bg-gradient-to-br from-white via-zinc-50 to-blue-50/30">
     <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Roadmaps</h2>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight">Learning Roadmaps</h2>
+          <p class="text-zinc-500 mt-2">Choose a path and start your journey.</p>
+        </div>
+        
+        <!-- View Mode Toggle -->
+        <div class="flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200 shadow-inner">
+          <button 
+            id="visualModeBtn" 
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 mode-active bg-white text-blue-600 shadow-sm"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Static Image
+          </button>
+          <button 
+            id="interactiveModeBtn" 
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 text-zinc-500 hover:text-zinc-700"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+            </svg>
+            Interactive
+          </button>
+        </div>
+      </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-        <div class="md:col-span-4 space-y-6">
-          <div id="categoryButtons" class="space-y-3">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        <!-- Sidebar Navigation -->
+        <div class="md:col-span-3 sticky top-24">
+          <div id="categoryButtons" class="space-y-2">
             {categories.map(({ category, label, color }) => {
-              const bgColor = {
-                gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
-                purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
-                red: "bg-red-50 hover:bg-red-100 text-red-500",
-                green: "bg-green-50 hover:bg-green-100 text-green-500",
-                yellow: "bg-yellow-50 hover:bg-yellow-100 text-yellow-500"
-              }[color];
-            
               return (
                 <button
                   data-category={category}
-                  class={`category-btn w-full flex items-center rounded-lg p-3 text-left transition border ${bgColor}`}
+                  class={`category-btn w-full flex items-center rounded-xl p-4 text-left transition-all duration-200 border border-transparent hover:bg-white hover:shadow-md group`}
                 >
-                  <span class="mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                  </span>
-                  <span class="font-medium text-gray-700">{label}</span>
+                  <div class={`w-2 h-8 rounded-full mr-4 transition-all duration-300 group-hover:scale-y-110`} style={`background-color: var(--theme-${color}, #ccc)`}></div>
+                  <span class="font-bold text-zinc-600 group-hover:text-zinc-900">{label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div class="md:col-span-8">
-          <div id="roadmapGrid" class="grid grid-cols-1 gap-8">
-            <div id="roadmapContent">
+        <!-- Main Content Area -->
+        <div class="md:col-span-9">
+          <div id="roadmapDisplayArea" class="bg-white/40 backdrop-blur-sm p-2 md:p-8 rounded-3xl border border-zinc-200/50 shadow-sm min-h-[600px]">
+            <!-- Visual Mode Content -->
+            <div id="visualContent" class="transition-all duration-500">
               <img
                 id="roadmapImage"
                 src={resolvedRoadmaps.all.src}
@@ -72,13 +95,37 @@ const categories = [
                   'System-Design': resolvedRoadmaps['System-Design'].src
                 })}
                 alt="Roadmap"
-                class="max-w-full h-auto rounded-lg shadow-md object-contain"
+                class="max-w-full h-auto rounded-2xl shadow-xl mx-auto"
               />
             </div>
-            <div id="no-results" class="hidden text-center py-10">
-              <p class="text-lg text-gray-600">No roadmap found for this category.</p>
-              <button id="showAllBtn" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
-                Show All Roadmaps
+
+            <!-- Interactive Mode Content -->
+            <div id="interactiveContent" class="hidden transition-all duration-500 opacity-0 scale-95">
+              {categories.filter(c => c.category !== 'all').map(cat => (
+                <div id={`interactive-${cat.category}`} class="interactive-container hidden">
+                  <InteractiveRoadmap 
+                    courses={dynamicRoadmapData[cat.category] || []} 
+                    title={cat.label} 
+                  />
+                </div>
+              ))}
+              <div id="interactive-all" class="interactive-container">
+                <div class="text-center py-20 px-4">
+                  <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <h3 class="text-2xl font-bold text-zinc-900 mb-2">Select a Specific Category</h3>
+                  <p class="text-zinc-500 max-w-sm mx-auto">To use the interactive roadmap, please select a specific category from the sidebar (Core-CS, DSA, etc.)</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="no-results" class="hidden text-center py-20">
+              <p class="text-xl text-zinc-400 font-medium">No roadmap found for this category.</p>
+              <button id="showAllBtn" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-200">
+                Back to All Roadmaps
               </button>
             </div>
           </div>
@@ -87,81 +134,140 @@ const categories = [
     </div>
   </section>
 
+  <CourseDrawer />
   <Cta />
 </Base>
 
-<!-- JavaScript for Category Filtering and Roadmap Image Change -->
+<style>
+  :root {
+    --theme-gray: #71717a;
+    --theme-purple: #a855f7;
+    --theme-red: #ef4444;
+    --theme-green: #22c55e;
+    --theme-yellow: #eab308;
+  }
+
+  .mode-active {
+    @apply bg-white text-blue-600 shadow-sm border border-zinc-200/50;
+  }
+  
+  .category-active {
+    @apply border-blue-500/30 bg-white shadow-md;
+  }
+  
+  .category-active span {
+    @apply text-blue-600;
+  }
+</style>
+
 <script is:inline>
-  function initCategoryButtons() {
+  function initRoadmapsPage() {
     const categoryButtons = document.getElementById("categoryButtons");
-    const roadmapGrid = document.getElementById("roadmapGrid");
-    const roadmapContent = document.getElementById("roadmapContent");
     const roadmapImage = document.getElementById("roadmapImage");
     const noResults = document.getElementById("no-results");
+    const visualContent = document.getElementById("visualContent");
+    const interactiveContent = document.getElementById("interactiveContent");
+    const visualModeBtn = document.getElementById("visualModeBtn");
+    const interactiveModeBtn = document.getElementById("interactiveModeBtn");
 
-    if (!categoryButtons || !roadmapGrid || !roadmapContent || !roadmapImage || !noResults) return;
+    if (!categoryButtons || !roadmapImage || !visualContent || !interactiveContent) return;
 
-    function updateRoadmap(category) {
-      roadmapContent.classList.add("opacity-0", "scale-95");
-      roadmapContent.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+    let currentCategory = "all";
+    let currentMode = "visual"; // visual or interactive
 
-      setTimeout(() => {
-        const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
-        const imageSrc = imagesMap[category] || imagesMap.all;
+    function updateDisplay() {
+      // Toggle visibility based on mode
+      if (currentMode === "visual") {
+        visualContent.classList.remove("hidden");
+        interactiveContent.classList.add("hidden");
+        interactiveContent.classList.add("opacity-0", "scale-95");
         
-        if (imageSrc) {
-          roadmapImage.src = imageSrc;
-          roadmapImage.alt = `${category} Roadmap`;
-          roadmapContent.classList.remove("hidden");
-          noResults.classList.add("hidden");
+        // Update Image
+        const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
+        const imageSrc = imagesMap[currentCategory] || imagesMap.all;
+        roadmapImage.src = imageSrc;
+        
+        visualModeBtn.classList.add("mode-active", "bg-white", "text-blue-600", "shadow-sm");
+        visualModeBtn.classList.remove("text-zinc-500");
+        interactiveModeBtn.classList.remove("mode-active", "bg-white", "text-blue-600", "shadow-sm");
+        interactiveModeBtn.classList.add("text-zinc-500");
+      } else {
+        visualContent.classList.add("hidden");
+        interactiveContent.classList.remove("hidden");
+        setTimeout(() => {
+          interactiveContent.classList.remove("opacity-0", "scale-95");
+        }, 10);
+        
+        // Show the correct interactive container
+        document.querySelectorAll(".interactive-container").forEach(el => el.classList.add("hidden"));
+        const activeIntBox = document.getElementById(`interactive-${currentCategory}`);
+        if (activeIntBox) {
+          activeIntBox.classList.remove("hidden");
         } else {
-          roadmapContent.classList.add("hidden");
-          noResults.classList.remove("hidden");
+          document.getElementById("interactive-all").classList.remove("hidden");
         }
+        
+        interactiveModeBtn.classList.add("mode-active", "bg-white", "text-blue-600", "shadow-sm");
+        interactiveModeBtn.classList.remove("text-zinc-500");
+        visualModeBtn.classList.remove("mode-active", "bg-white", "text-blue-600", "shadow-sm");
+        visualModeBtn.classList.add("text-zinc-500");
+      }
 
-        roadmapContent.classList.remove("opacity-0", "scale-95");
-      }, 300);
+      // Update Sidebar Buttons
+      document.querySelectorAll(".category-btn").forEach(btn => {
+        if (btn.dataset.category === currentCategory) {
+          btn.classList.add("category-active");
+        } else {
+          btn.classList.remove("category-active");
+        }
+      });
     }
 
     categoryButtons.addEventListener("click", (event) => {
       const button = event.target.closest(".category-btn");
       if (!button) return;
 
-      document.querySelectorAll(".category-btn").forEach(btn => {
-        btn.classList.remove("border-2", "border-blue-500");
-      });
-
-      button.classList.add("border-2", "border-blue-500");
-
-      const category = button.dataset.category;
-      updateRoadmap(category);
+      currentCategory = button.dataset.category;
+      updateDisplay();
       
       // Update URL
       const url = new URL(window.location);
-      if (category === "all") {
+      if (currentCategory === "all") {
         url.searchParams.delete("category");
       } else {
-        url.searchParams.set("category", category);
+        url.searchParams.set("category", currentCategory);
       }
       window.history.replaceState({}, "", url);
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryParam = urlParams.get("category") || "all";
-    const defaultButton = document.querySelector(`[data-category="${categoryParam}"]`) || document.querySelector('[data-category="all"]');
-    
-    if (defaultButton) {
-      defaultButton.classList.add("border-2", "border-blue-500");
-      updateRoadmap(defaultButton.dataset.category);
-    }
+    visualModeBtn.addEventListener("click", () => {
+      currentMode = "visual";
+      localStorage.setItem("roadmap_mode", "visual");
+      updateDisplay();
+    });
 
-    document.getElementById("showAllBtn").addEventListener("click", () => {
-      const allButton = document.querySelector('[data-category="all"]');
-      if (allButton) allButton.click();
+    interactiveModeBtn.addEventListener("click", () => {
+      currentMode = "interactive";
+      localStorage.setItem("roadmap_mode", "interactive");
+      updateDisplay();
+    });
+
+    // Initialize from URL and localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    currentCategory = urlParams.get("category") || "all";
+    currentMode = localStorage.getItem("roadmap_mode") || "visual";
+    
+    updateDisplay();
+    
+    document.getElementById("showAllBtn")?.addEventListener("click", () => {
+      currentCategory = "all";
+      updateDisplay();
     });
   }
 
-  document.addEventListener("astro:page-load", initCategoryButtons);
-  document.addEventListener("astro:after-swap", initCategoryButtons);
-  window.addEventListener("load", initCategoryButtons);
-</script>
+  // Handle both initial load and client-side navigation
+  document.addEventListener("astro:page-load", initRoadmapsPage);
+  document.addEventListener("astro:after-swap", initRoadmapsPage);
+  window.addEventListener("load", initRoadmapsPage);
+  initRoadmapsPage();
+</script>

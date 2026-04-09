@@ -1,0 +1,156 @@
+---
+import RoadmapNode from "./RoadmapNode.astro";
+
+interface Props {
+  courses: any[];
+  title: string;
+}
+
+const { courses, title } = Astro.props;
+---
+
+<div class="interactive-roadmap-wrapper w-full max-w-5xl mx-auto py-12 px-4 animate-in fade-in duration-700">
+  <!-- Interactive Roadmap Header / Stats -->
+  <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 bg-white/80 backdrop-blur-md p-8 rounded-3xl border border-blue-50/50 shadow-xl shadow-blue-900/5">
+    <div class="space-y-2 text-center md:text-left">
+      <h3 class="text-3xl font-black text-zinc-900 tracking-tight">{title} <span class="text-blue-600">Roadmap</span></h3>
+      <p class="text-zinc-500 max-w-sm">Level up your skills by completing these courses in order.</p>
+    </div>
+    
+    <div class="progress-stats flex items-center gap-6">
+      <div class="relative w-28 h-28 flex items-center justify-center">
+        <svg class="w-full h-full transform -rotate-90 filter drop-shadow-sm">
+          <circle
+            cx="56"
+            cy="56"
+            r="50"
+            stroke="currentColor"
+            stroke-width="8"
+            fill="transparent"
+            class="text-zinc-100"
+          />
+          <circle
+            id={`roadmap-progress-circle-${title.replace(/\s+/g, '-')}`}
+            cx="56"
+            cy="56"
+            r="50"
+            stroke="currentColor"
+            stroke-width="8"
+            stroke-dasharray="314"
+            stroke-dashoffset="314"
+            fill="transparent"
+            stroke-linecap="round"
+            class="text-blue-600 transition-all duration-1000 ease-out category-progress-circle"
+          />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <span id={`roadmap-progress-percent-${title.replace(/\s+/g, '-')}`} class="text-2xl font-black text-zinc-900 leading-none category-progress-text">0%</span>
+          <span class="text-[9px] text-zinc-400 uppercase font-black tracking-widest mt-1">Done</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap Path -->
+  <div class="roadmap-path relative flex flex-col items-center gap-12" id={`roadmap-path-container-${title.replace(/\s+/g, '-')}`}>
+    <!-- Center Vertical Line with Gradient -->
+    <div class="absolute left-1/2 top-0 bottom-0 w-1.5 bg-zinc-100 transform -translate-x-1/2 hidden md:block rounded-full z-0">
+      <div class="path-progress-fill w-full bg-blue-500 rounded-full transition-all duration-1000 origin-top h-0"></div>
+    </div>
+
+    {courses.map((course, idx) => (
+      <div class="w-full relative flex justify-center pb-8 last:pb-0 z-10" data-course-container={course.id}>
+        <div class="w-full max-w-md flex justify-center">
+           <RoadmapNode course={course} />
+        </div>
+        <!-- Connector Node (visual dot) -->
+        {idx < courses.length - 1 && (
+          <div class="absolute left-1/2 bottom-[-16px] w-4 h-4 rounded-full bg-zinc-200 border-4 border-white shadow-sm transform -translate-x-1/2 z-10 hidden md:block"></div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  function initInteractiveRoadmap() {
+    // Add click listeners to course nodes
+    document.querySelectorAll('.course-node-btn').forEach(btn => {
+      // Remove old listeners
+      const newBtn = btn.cloneNode(true) as HTMLButtonElement;
+      btn.parentNode?.replaceChild(newBtn, btn);
+      
+      newBtn.addEventListener('click', () => {
+        const courseData = JSON.parse(newBtn.dataset.course || '{}');
+        window.dispatchEvent(new CustomEvent('openCourseDrawer', { detail: { course: courseData } }));
+      });
+    });
+
+    calculateGlobalProgress();
+  }
+
+  function calculateGlobalProgress() {
+    const savedProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}');
+    
+    // We update progress for EACH category container present on page (though only one is usually visible)
+    document.querySelectorAll('.roadmap-path').forEach(pathContainer => {
+      let totalLessons = 0;
+      let completedLessons = 0;
+
+      const courseContainers = pathContainer.querySelectorAll('[data-course-container]');
+      
+      courseContainers.forEach(container => {
+        const btn = container.querySelector('.course-node-btn') as HTMLButtonElement;
+        if (!btn) return;
+        
+        const courseData = JSON.parse(btn.dataset.course || '{}');
+        let courseLessons = 0;
+        let courseCompleted = 0;
+
+        courseData.sections?.forEach((section: any) => {
+          section.lessons?.forEach((lesson: any) => {
+            courseLessons++;
+            if (savedProgress[lesson.id]) {
+              courseCompleted++;
+            }
+          });
+        });
+
+        totalLessons += courseLessons;
+        completedLessons += courseCompleted;
+
+        if (courseLessons > 0 && courseLessons === courseCompleted) {
+          btn.classList.add('completed');
+        } else {
+          btn.classList.remove('completed');
+        }
+      });
+
+      const wrapper = pathContainer.closest('.interactive-roadmap-wrapper');
+      if (wrapper) {
+        const percent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+        
+        const circle = wrapper.querySelector('.category-progress-circle') as SVGCircleElement;
+        const text = wrapper.querySelector('.category-progress-text') as HTMLSpanElement;
+        const lineFill = wrapper.querySelector('.path-progress-fill') as HTMLDivElement;
+
+        if (circle) {
+          const circumference = 314;
+          const offset = circumference - (percent / 100) * circumference;
+          circle.style.strokeDashoffset = offset.toString();
+        }
+        if (text) text.textContent = `${percent}%`;
+        if (lineFill) lineFill.style.height = `${percent}%`;
+      }
+    });
+  }
+
+  // Listen for the custom event from the Drawer
+  window.addEventListener('roadmapProgressUpdated', () => {
+    calculateGlobalProgress();
+  });
+
+  document.addEventListener('astro:page-load', initInteractiveRoadmap);
+  // In case drawer is opened and closed
+  initInteractiveRoadmap();
+</script>
