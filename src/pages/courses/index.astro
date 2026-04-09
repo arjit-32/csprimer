@@ -22,16 +22,29 @@ const roadmaps = {
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
 };
 ---
-<Base title="Series" description="Browse all CSPrimer course series — Core CS, DSA, Web Development, and System Design.">
-  <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
+<Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
+  <!-- Hero Banner -->
+  <div class="series-hero-section">
+    <div class="series-hero-glow"></div>
+    <div class="container series-hero-inner">
+      <div class="series-hero-badge">🎓 Master Computer Science</div>
+      <h1 class="series-hero-title">Course Series</h1>
+      <p class="series-hero-sub">
+        Expertly structured learning series to master core computer science and system design.<br/>
+        Start your journey by selecting a category below.
+      </p>
+    </div>
+  </div>
+
+  <section class="py-12 bg-[#fafafa]">
     <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Series</h2>
+
       
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
         <div class="md:col-span-4 space-y-6"> 
           <div id="categoryButtons" class="space-y-3">
             {[
-              { category: "all", label: "Show All Series", color: "gray" },
+              { category: "all", label: "Show All Courses", color: "gray" },
               { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
               { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
               { category: "Development", label: "Development", color: "purple" },
@@ -99,7 +112,7 @@ const roadmaps = {
 
             return (
               <a
-                href={`/series/${slug}`}
+                href={`/courses/${slug}`}
                 class="course-card group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
                 data-category={series.category}
               >
@@ -198,9 +211,9 @@ const roadmaps = {
           noResults.id = "no-results";
           noResults.className = "col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10";
           noResults.innerHTML = `
-            <p class="text-lg text-gray-600">No series found in the "${category}" category.</p>
+            <p class="text-lg text-gray-600">No courses found in the "${category}" category.</p>
             <button id="showAllBtn" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
-              Show All Series
+              Show All Courses
             </button>`;
           courseGrid.appendChild(noResults);
 
@@ -251,3 +264,78 @@ const roadmaps = {
   document.addEventListener("astro:after-swap", initCategoryButtons);
   window.addEventListener("load", initCategoryButtons);
 </script>
+
+<style lang="scss">
+  .series-hero-section {
+    position: relative;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    padding: 100px 0 90px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .series-hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .series-hero-inner {
+    position: relative;
+    z-index: 10;
+  }
+
+  .series-hero-badge {
+    display: inline-block;
+    background: rgba(254, 96, 25, 0.15);
+    color: #FE6019;
+    border: 1px solid rgba(254, 96, 25, 0.4);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .series-hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .series-hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Refine category buttons to be more cohesive */
+  .category-btn {
+    border: 1px solid #efefef;
+    background: white;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: #FE6019;
+      transform: translateX(4px);
+    }
+
+    &.border-blue-500 {
+      border-color: #FE6019 !important;
+      background: #fff5f0 !important;
+      color: #FE6019 !important;
+      
+      span.font-medium {
+        color: #FE6019 !important;
+      }
+    }
+  }
+</style>

@@ -89,7 +89,7 @@ JABTAK (x < 10) {
 
 ## Theoritical part 
 
-Well, we won't get into much theory _(if you're interested checkout [compiler series](/series/compiler))_ but one thing that is quite practical and usefull is grammar. Its the rules we give to our language _( what comes after what)_. <br/>
+Well, we won't get into much theory _(if you're interested checkout [compiler series](/courses/compiler))_ but one thing that is quite practical and usefull is grammar. Its the rules we give to our language _( what comes after what)_. <br/>
 This language follows a **BNF-like grammar** (Backus-Naur Form) to define its syntax. Here’s a simplified structure:
 
 ```bash

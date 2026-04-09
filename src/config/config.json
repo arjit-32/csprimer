@@ -31,25 +31,25 @@
     "quick_links": [
       {
         "name": "Data Structures & Algorithms",
-        "url": "/series?category=DSA"
+        "url": "/courses?category=DSA"
       },
       {
         "name": "Web Development",
-        "url": "/series?category=Development"
+        "url": "/courses?category=Development"
       },
       {
         "name": "System Design & More",
-        "url": "/series?category=System-Design"
+        "url": "/courses?category=System-Design"
       },
       {
         "name": "Core CS",
-        "url": "/series?category=Core-CS"
+        "url": "/courses?category=Core-CS"
       }
     ],
     "explore_links": [
       {
-        "name": "All Series",
-        "url": "/series"
+        "name": "All Courses",
+        "url": "/courses"
       },
       {
         "name": "Learning Shorts",

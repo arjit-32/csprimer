@@ -9,12 +9,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 export async function getStaticPaths() {
   const seriesEntries = await getCollection("series");
   return seriesEntries.map((entry) => ({
-    params: { series: entry.id },
+    params: { course: entry.id },
     props: { seriesData: entry.data },
   }));
 }
 
-const { series } = Astro.params;
+const { course } = Astro.params;
 const { seriesData } = Astro.props;
 
 // Reconstruct the full path
@@ -30,7 +30,7 @@ if (!images[imagePath]) {
 }
 ---
 
-<Base title={seriesData.title || (series as string)} description={seriesData.description}>
+<Base title={seriesData.title || (course as string)} description={seriesData.description}>
   
   <!-- Hero Section with Gradient Overlay -->
   <section class="relative min-h-[500px] flex items-center py-20">
@@ -65,7 +65,7 @@ if (!images[imagePath]) {
 
   <section class="py-16 bg-gray-50">
     <div class="container max-w-4xl">
-      <h2 class="text-3xl font-bold text-center mb-12">Series Content</h2>
+      <h2 class="text-3xl font-bold text-center mb-12">Course Content</h2>
       <p class="text-lg mb-12">
         {seriesData.description}
       </p>
