@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
+import YoutubeShorts from "@/layouts/shortcodes/YoutubeShorts.jsx";
 
 export async function getStaticPaths() {
   const allShorts = await getCollection("shorts");
@@ -104,13 +105,11 @@ const currentIndex = seriesItems.findIndex(item => item.slug.split('/').pop() ==
           <!-- Video Column (Portrait focus) -->
           <div class="video-section">
             <div class="video-container">
-              <iframe
-                src={`https://www.youtube.com/embed/${short.data.youtubeId}?controls=1&modestbranding=1&rel=0&autoplay=0`}
-                title={short.data.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
+              <YoutubeShorts 
+                client:load
+                id={short.data.youtubeId} 
+                title={short.data.title} 
+              />
             </div>
           </div>
 
