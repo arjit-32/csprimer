@@ -18,7 +18,6 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 const seriesEntry = series ? await getEntry("series", series) : null;
 const courseData = seriesEntry ? seriesEntry.data : null;
 
-const githubRepoUrl = 'https://github.com/arjit-32/csprimer';
 const siteBaseUrl = config.site.base_url;
 
 ---
@@ -195,7 +194,6 @@ const siteBaseUrl = config.site.base_url;
                   id={`article-${post.slug}`} 
                   shareTitle={post.data.title}
                   shareUrl={`${siteBaseUrl}/articles/${post.slug}`}
-                  githubEditUrl={`${githubRepoUrl}/blob/main/src/content/articles/${post.id}`}
                 />
               </div>
             </div>
@@ -312,7 +310,7 @@ const siteBaseUrl = config.site.base_url;
   }
 
   // Attach handlers on Astro events
-  document.addEventListener("astro:page-load", initNavHandlers); // Ensures handlers work on first load
-  document.addEventListener("astro:after-swap", initNavHandlers); // Handles dynamic navigation
-  window.addEventListener("load", initNavHandlers); // Ensures handlers attach even if Astro fails
+  document.addEventListener("astro:page-load", initNavHandlers);
+  document.addEventListener("astro:after-swap", initNavHandlers);
+  window.addEventListener("load", initNavHandlers);
 </script>

@@ -73,7 +73,6 @@ export async function getStaticPaths() {
 
 const { page, currentTag, allTags, tagCounts } = Astro.props;
 const questions = page.data;
-const githubRepoUrl = 'https://github.com/arjit-32/csprimer';
 const siteBaseUrl = config.site.base_url;
 ---
 
@@ -199,7 +198,6 @@ const siteBaseUrl = config.site.base_url;
                 id={String(question.id)}
                 shareTitle={question.question}
                 shareUrl={`${siteBaseUrl}/interview-bytes#q-${question.id}`}
-                githubEditUrl={`${githubRepoUrl}/blob/main/src/content/interview-questions/${question.tags[0]}.yaml`}
               />
             </div>
           </div>

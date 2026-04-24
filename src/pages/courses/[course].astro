@@ -130,14 +130,30 @@ if (!images[imagePath]) {
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       )}
-                      <span class="text-gray-700 group-hover:text-[#fb7299] transition-colors">
+                      <span class="text-gray-700 group-hover:text-[#fb7299] transition-colors flex-1 lesson-title">
                         {link.title}
                       </span>
-                      {( link.type != "articles") && (
-                        <svg class="w-4 h-4 text-gray-400 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      
+                      <!-- Action Indicators on Right -->
+                      <div class="flex items-center gap-3 ml-auto pr-2">
+                        <svg class="w-4 h-4 text-yellow-400 opacity-0 transition-opacity star-indicator" viewBox="0 0 24 24" fill="currentColor" data-star-id={link.type === "articles" ? `article-${link.url}` : ""}>
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
-                      )}
+                        
+                        <div class="relative flex items-center justify-center w-5 h-5 completion-indicator opacity-0 transition-opacity" data-lesson-id={link.url}>
+                          <div class="w-full h-full rounded-full bg-green-500 flex items-center justify-center">
+                            <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+                              <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {( link.type != "articles") && (
+                          <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        )}
+                      </div>
                     </a>
                   );
                 })}
@@ -150,21 +166,73 @@ if (!images[imagePath]) {
   </section>
 
   <script is:inline>
-    // Toggle section visibility
-    document.querySelectorAll('[data-toggle]').forEach(button => {
-      button.addEventListener('click', () => {
-        const sectionId = button.getAttribute('data-toggle');
-        const content = document.getElementById(sectionId);
-        const icon = button.querySelector('svg');
-        
-        if (content?.classList.contains('hidden')) {
-          content.classList.remove('hidden');
-          icon?.classList.add('rotate-180');
+    function initCoursePage() {
+      // 1. Toggle section visibility
+      document.querySelectorAll('[data-toggle]').forEach(button => {
+        button.removeEventListener('click', toggleSection);
+        button.addEventListener('click', toggleSection);
+      });
+
+      // 2. Sync progress and stars
+      syncProgress();
+    }
+
+    function toggleSection(event) {
+      const button = event.currentTarget;
+      const sectionId = button.getAttribute('data-toggle');
+      const content = document.getElementById(sectionId);
+      const icon = button.querySelector('svg');
+      
+      if (content) {
+        content.classList.toggle('hidden');
+        if (icon) icon.classList.toggle('rotate-180');
+      }
+    }
+
+    function syncProgress() {
+      // Stars
+      let starred = [];
+      try { starred = JSON.parse(localStorage.getItem('ib_starred') || '[]'); } catch(e) {}
+      
+      document.querySelectorAll('.star-indicator').forEach(icon => {
+        const starId = icon.getAttribute('data-star-id');
+        if (starId && starred.includes(starId)) {
+          icon.classList.remove('opacity-0');
         } else {
-          content?.classList.add('hidden');
-          icon?.classList.remove('rotate-180');
+          icon.classList.add('opacity-0');
         }
       });
-    });
+
+      // Completion
+      let progress = {};
+      try { progress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
+      
+      document.querySelectorAll('.completion-indicator').forEach(indicator => {
+        const lessonId = indicator.getAttribute('data-lesson-id');
+        const lessonRow = indicator.closest('.group');
+        const titleSpan = lessonRow?.querySelector('.lesson-title');
+
+        if (lessonId && progress[lessonId]) {
+          indicator.classList.remove('opacity-0');
+          if (titleSpan) {
+            titleSpan.classList.add('line-through', 'text-gray-400');
+            titleSpan.classList.remove('text-gray-700');
+          }
+        } else {
+          indicator.classList.add('opacity-0');
+          if (titleSpan) {
+            titleSpan.classList.remove('line-through', 'text-gray-400');
+            titleSpan.classList.add('text-gray-700');
+          }
+        }
+      });
+    }
+
+    // Initialize on page load and after Astro navigation
+    document.addEventListener('astro:page-load', initCoursePage);
+    document.addEventListener('astro:after-swap', initCoursePage);
+    
+    // Initial call for the very first load
+    initCoursePage();
   </script>
 </Base>
