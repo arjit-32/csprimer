@@ -27,12 +27,33 @@ const roadmaps = {
   <div class="series-hero-section">
     <div class="series-hero-glow"></div>
     <div class="container series-hero-inner">
-      <div class="series-hero-badge">🎓 Master Computer Science</div>
-      <h1 class="series-hero-title">Course Series</h1>
-      <p class="series-hero-sub">
-        Expertly structured learning series to master core computer science and system design.<br/>
-        Start your journey by selecting a category below.
-      </p>
+      <div class="series-hero-badge">🎓 Deep Dive</div>
+<h1 class="series-hero-title">Courses</h1>
+
+<p class="series-hero-sub">
+  Structured learning path for interviews, engineering skills, <br/> and real-world development.
+</p>
+
+<div class="series-hero-stats">
+  <div class="series-stat">
+    <span class="series-stat-num">4</span>
+    <span class="series-stat-label">Categories</span>
+  </div>
+
+  <div class="series-stat-divider"></div>
+
+  <div class="series-stat">
+    <span class="series-stat-num">{seriesCollection.length}+</span>
+    <span class="series-stat-label">Courses</span>
+  </div>
+
+  <div class="series-stat-divider"></div>
+
+  <div class="series-stat">
+    <span class="series-stat-num">Free</span>
+    <span class="series-stat-label">Always</span>
+  </div>
+</div>
     </div>
   </div>
 
@@ -316,6 +337,44 @@ const roadmaps = {
     margin: 0 auto;
     line-height: 1.7;
   }
+
+  .series-hero-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 36px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 16px 32px;
+  backdrop-filter: blur(8px);
+}
+
+.series-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 28px;
+}
+
+.series-stat-num {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: white;
+}
+
+.series-stat-label {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.series-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.12);
+}
 
   /* Refine category buttons to be more cohesive */
   .category-btn {
