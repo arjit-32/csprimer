@@ -1,14 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
-import ShortCard from "@/components/shorts/ShortCard.astro";
-import ShortsSidebar from "@/components/shorts/ShortsSidebar.astro";
 import config from "@/config/config.json";
 
 export async function getStaticPaths() {
   const allShorts = await getCollection("shorts");
-  
-  // Group by series for additional context
+
   const seriesGroups = {};
   allShorts.forEach(short => {
     const series = short.data.series;
@@ -25,23 +22,19 @@ export async function getStaticPaths() {
   return allShorts.flatMap((short) => {
     const seriesId = short.data.series;
     const group = seriesGroups[seriesId];
-    
-    // Sort items to find relative ones
     const sortedItems = group.items.sort((a, b) => a.data.order - b.data.order);
     const currentIndex = sortedItems.findIndex(item => item.id === short.id);
-    
     const prevShort = currentIndex > 0 ? sortedItems[currentIndex - 1] : null;
     const nextShort = currentIndex < sortedItems.length - 1 ? sortedItems[currentIndex + 1] : null;
-    
+
     return {
-      params: { 
+      params: {
         series: seriesId,
         subject: short.slug.split('/').pop()
       },
-      props: { 
+      props: {
         short,
         seriesItems: sortedItems,
-        allSeries: Object.values(seriesGroups),
         prevShort,
         nextShort
       },
@@ -49,136 +42,455 @@ export async function getStaticPaths() {
   });
 }
 
-const { short, seriesItems, allSeries, prevShort, nextShort } = Astro.props;
+const { short, seriesItems, prevShort, nextShort } = Astro.props;
 const { Content } = await short.render();
-
 const activeShortId = short.slug.split('/').pop() || '';
-const renderedShort = {
-  id: activeShortId,
-  youtubeId: short.data.youtubeId,
-  title: short.data.title,
-  Content: Content,
-  shareUrl: `${config.site.base_url}/shorts/${short.data.series}/${activeShortId}`,
-  githubEditUrl: `https://github.com/arjit-32/csprimer/blob/main/src/content/shorts/${short.id}`
-};
-
-// Map sidebar data
-const sidebarItems = seriesItems.map(item => ({
-  id: item.slug.split('/').pop() || '',
-  title: item.data.title
-}));
-
-const sidebarSeries = allSeries.map(s => ({
-  slug: (s as any).id,
-  name: (s as any).name,
-  count: (s as any).items.length
-}));
+const shareUrl = `${config.site.base_url}/shorts/${short.data.series}/${activeShortId}`;
+const currentIndex = seriesItems.findIndex(item => item.slug.split('/').pop() === activeShortId);
 ---
 
-<Base title={short.data.title} description={short.data.title}>
-  <div class="shorts-page-container">
-    <ShortsSidebar 
-      activeSeriesId={short.data.series} 
-      activeSeriesName={short.data.seriesName}
-      items={sidebarItems}
-      activeShortId={activeShortId}
-    />
-    
-    <main class="shorts-content">
-      <div class="navigation-top mb-6 flex justify-between items-center">
-        <a href={`/shorts/${short.data.series}`} class="text-gray-400 hover:text-primary text-sm font-medium transition-colors">
-          ← Back to {short.data.seriesName}
-        </a>
-      </div>
+<Base title={`${short.data.title} – ${short.data.seriesName}`} description={short.data.title}>
+  <div class="short-page-wrapper">
+    <div class="short-container">
+      
+      <!-- Minimal Sticky Sidebar -->
+      <aside class="lesson-sidebar">
+        <div class="sidebar-header">
+          <a href="/shorts" class="back-link">← All Series</a>
+          <span class="series-badge">{short.data.seriesName}</span>
+        </div>
+        
+        <nav class="lesson-nav">
+          {seriesItems.map((item, i) => {
+            const itemId = item.slug.split('/').pop();
+            const isActive = itemId === activeShortId;
+            return (
+              <a
+                href={`/shorts/${short.data.series}/${itemId}`}
+                class={`lesson-link ${isActive ? 'is-active' : ''}`}
+              >
+                <span class="num">{i + 1}</span>
+                <span class="title">{item.data.title}</span>
+              </a>
+            );
+          })}
+        </nav>
+      </aside>
 
-      <ShortCard {...renderedShort} isSinglePage={true} />
+      <!-- Main Video Feed Section -->
+      <main class="short-content-area">
+        
+        <!-- Mobile Header Picker -->
+        <div class="mobile-nav">
+           <details class="nav-dropdown">
+             <summary>
+               <span class="current-info">Lesson {currentIndex + 1} of {seriesItems.length}: <strong>{short.data.title}</strong></span>
+               <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+             </summary>
+             <div class="dropdown-content">
+               {seriesItems.map((item, i) => {
+                 const itemId = item.slug.split('/').pop();
+                 return (
+                   <a href={`/shorts/${short.data.series}/${itemId}`} class={itemId === activeShortId ? 'active' : ''}>
+                     <span class="n">{i+1}</span> {item.data.title}
+                   </a>
+                 );
+               })}
+             </div>
+           </details>
+        </div>
 
-      <!-- Pagination Buttons -->
-      <div class="navigation-bottom mt-16 py-10 border-t border-gray-100 flex flex-wrap gap-6 justify-between">
-        {prevShort ? (
-          <a href={`/shorts/${short.data.series}/${prevShort.slug.split('/').pop()}`} class="nav-btn prev group">
-            <span class="nav-label">Previous Lesson</span>
-            <span class="nav-title">← {prevShort.data.title}</span>
-          </a>
-        ) : <div class="flex-1"></div>}
+        <div class="short-layout">
+          <!-- Video Column (Portrait focus) -->
+          <div class="video-section">
+            <div class="video-container">
+              <iframe
+                src={`https://www.youtube.com/embed/${short.data.youtubeId}?controls=1&modestbranding=1&rel=0&autoplay=0`}
+                title={short.data.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
 
-        {nextShort ? (
-          <a href={`/shorts/${short.data.series}/${nextShort.slug.split('/').pop()}`} class="nav-btn next group">
-            <span class="nav-label text-right">Next Lesson</span>
-            <span class="nav-title text-right">{nextShort.data.title} →</span>
-          </a>
-        ) : <div class="flex-1"></div>}
-      </div>
-    </main>
+          <!-- Info Section -->
+          <div class="text-section">
+            <header class="short-header">
+              <h1 class="title">{short.data.title}</h1>
+              <div class="meta">
+                <span class="series">{short.data.seriesName}</span>
+                <span class="divider">•</span>
+                <span class="count">Lesson {currentIndex + 1} of {seriesItems.length}</span>
+              </div>
+            </header>
+
+            <article class="prose-content">
+              <Content />
+            </article>
+
+            <footer class="short-footer">
+              <button class="share-btn" id="copy-link" data-url={shareUrl}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                <span id="btn-text">Share Lesson</span>
+              </button>
+            </footer>
+          </div>
+        </div>
+
+        <!-- Sticky-ish Bottom Nav -->
+        <nav class="pagination">
+          {prevShort ? (
+            <a href={`/shorts/${short.data.series}/${prevShort.slug.split('/').pop()}`} class="nav-item prev">
+              <span class="label">Previous</span>
+              <span class="val">{prevShort.data.title}</span>
+            </a>
+          ) : <div class="spacer"></div>}
+
+          {nextShort ? (
+            <a href={`/shorts/${short.data.series}/${nextShort.slug.split('/').pop()}`} class="nav-item next">
+              <span class="label">Next</span>
+              <span class="val">{nextShort.data.title}</span>
+            </a>
+          ) : <div class="spacer"></div>}
+        </nav>
+      </main>
+
+    </div>
   </div>
 </Base>
 
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('copy-link');
+    const txt = document.getElementById('btn-text');
+    if (!btn || !txt) return;
+    
+    btn.addEventListener('click', () => {
+      const url = btn.getAttribute('data-url') || window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        txt.textContent = 'Link Copied!';
+        setTimeout(() => { txt.textContent = 'Share Lesson'; }, 2000);
+      });
+    });
+  });
+</script>
+
+<style lang="scss" is:global>
+  /* Global prose-like styles for the short content */
+  .prose-content {
+    color: #444;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    
+    h2, h3 { color: #111; font-weight: 800; margin: 32px 0 12px; line-height: 1.2; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+    
+    p { margin-bottom: 20px; }
+    
+    code:not(pre code) {
+      background: #f7f7f7;
+      color: #e65100;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+    
+    pre {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 24px 0;
+      font-size: 0.9rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 24px;
+      li {
+        position: relative;
+        padding-left: 24px;
+        margin-bottom: 12px;
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 10px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #FE6019;
+        }
+      }
+    }
+  }
+</style>
+
 <style lang="scss">
-  .shorts-page-container {
+  .short-page-wrapper {
+    background: #fff;
+    min-height: 100vh;
+  }
+
+  .short-container {
     display: flex;
-    min-height: calc(100vh - 80px);
-    background: #fff;
-
-    @media (max-width: 1024px) {
-      flex-direction: column;
-    }
-  }
-
-  .shorts-content {
-    flex: 1;
-    padding: 60px;
-    max-width: 1000px;
+    max-width: 1440px;
     margin: 0 auto;
-    width: 100%;
+    position: relative;
+  }
+
+  /* ── Sidebar ── */
+  .lesson-sidebar {
+    width: 280px;
+    height: calc(100vh - 64px);
+    position: sticky;
+    top: 64px;
+    border-right: 1px solid #f0f0f0;
+    padding: 40px 24px;
+    overflow-y: auto;
+    flex-shrink: 0;
 
     @media (max-width: 1024px) {
-      padding: 30px 20px;
+      display: none;
+    }
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: #f0f0f0; border-radius: 10px; }
+  }
+
+  .sidebar-header {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .back-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #999;
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: #FE6019; }
+  }
+
+  .series-badge {
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #ccc;
+  }
+
+  .lesson-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .lesson-link {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+
+    &:hover { background: #f9f9f9; color: #111; }
+
+    &.is-active {
+      background: #fff5f0;
+      color: #FE6019;
+      font-weight: 700;
+      .num { color: #FE6019; }
     }
   }
 
-  /* Navigation Buttons */
-  .nav-btn {
+  .num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #ddd;
+    min-width: 18px;
+  }
+
+  /* ── Main Area ── */
+  .short-content-area {
     flex: 1;
-    min-width: 280px;
-    padding: 24px;
+    padding: 60px 80px;
+    min-width: 0;
+
+    @media (max-width: 1200px) { padding: 40px; }
+    @media (max-width: 768px) { padding: 0 0 60px 0; }
+  }
+
+  /* ── Mobile Nav ── */
+  .mobile-nav {
+    display: none;
     background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+
+    @media (max-width: 1024px) { display: block; }
+  }
+
+  .nav-dropdown {
+    summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      cursor: pointer;
+      list-style: none;
+      &::-webkit-details-marker { display: none; }
+    }
+    
+    &[open] .chevron { transform: rotate(180deg); }
+  }
+
+  .current-info {
+    font-size: 0.9rem;
+    color: #666;
+    strong { color: #111; font-weight: 800; }
+  }
+
+  .chevron { color: #ccc; transition: transform 0.2s; }
+
+  .dropdown-content {
+    padding: 8px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    max-height: 300px;
+    overflow-y: auto;
+    
+    a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #666;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      
+      &.active { background: #fff5f0; color: #FE6019; font-weight: 700; .n { color: #FE6019; } }
+      .n { font-size: 0.7rem; font-weight: 800; color: #ccc; }
+    }
+  }
+
+  /* ── Layout ── */
+  .short-layout {
+    display: flex;
+    gap: 64px;
+    align-items: flex-start;
+
+    @media (max-width: 1200px) { gap: 40px; }
+    @media (max-width: 768px) { flex-direction: column; gap: 0; }
+  }
+
+  .video-section {
+    width: 380px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 104px;
+
+    @media (max-width: 1200px) { width: 320px; }
+    @media (max-width: 768px) { width: 100%; position: relative; top: 0; }
+  }
+
+  .video-container {
+    aspect-ratio: 9/16;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    
+    @media (max-width: 768px) {
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+  }
+
+  .text-section {
+    flex: 1;
+    min-width: 0;
+    padding-top: 8px;
+
+    @media (max-width: 768px) { padding: 40px 24px; }
+  }
+
+  .short-header {
+    margin-bottom: 32px;
+    
+    .title { font-size: 2.2rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .meta { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; color: #999; }
+    .series { color: #FE6019; }
+    .divider { color: #eee; }
+    
+    @media (max-width: 768px) {
+      .title { font-size: 1.8rem; }
+    }
+  }
+
+  .short-footer {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid #f5f5f5;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover { background: #fff5f0; border-color: #FE6019; color: #FE6019; }
+  }
+
+  /* ── Pagination ── */
+  .pagination {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    @media (max-width: 600px) { grid-template-columns: 1fr; gap: 12px; margin: 40px 24px; }
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px;
     border: 1px solid #eee;
     border-radius: 16px;
     text-decoration: none;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
+    transition: all 0.2s;
 
-    &:hover {
-      border-color: #FE6019;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
-      
-      .nav-title {
-        color: #FE6019;
-      }
-    }
-
-    &.next {
-      text-align: right;
-      align-items: flex-end;
-    }
-  }
-
-  .nav-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #999;
-    margin-bottom: 8px;
-  }
-
-  .nav-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #222;
-    transition: color 0.3s;
-    line-height: 1.4;
+    &:hover { border-color: #FE6019; background: #fff5f0; transform: translateY(-2px); }
+    
+    &.next { text-align: right; }
+    
+    .label { font-size: 0.7rem; font-weight: 900; text-transform: uppercase; color: #ccc; letter-spacing: 0.1em; }
+    .val { font-size: 1rem; font-weight: 800; color: #333; }
   }
 </style>
