@@ -202,6 +202,21 @@ const siteBaseUrl = config.site.base_url;
               <Content />
             </div>
           
+            <div class="mt-12 mb-8 flex justify-center">
+              <button 
+                id="article-complete-btn" 
+                class="flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-sm border-2 group"
+                data-lesson-id={post.slug}
+              >
+                <div class="status-icon w-5 h-5 flex items-center justify-center rounded-full border-2 border-gray-300 transition-all duration-300">
+                   <svg class="check-svg w-3 h-3 opacity-0 text-white transition-opacity duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+                     <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                   </svg>
+                </div>
+                <span class="btn-text text-gray-500 group-hover:text-gray-700 transition-colors">Mark as Completed</span>
+              </button>
+            </div>
+
             {courseData && courseData.navbar.length > 0 && (() => {
               const flatArticles = courseData.navbar
                 .flatMap(section => section.link)
@@ -215,7 +230,7 @@ const siteBaseUrl = config.site.base_url;
               const nextSlug = currentIndex < flatArticles.length - 1 ? flatArticles[currentIndex + 1] : null;
             
               return (
-                <div class="mt-10 flex justify-between pt-6 text-sm font-medium text-[#fb7299]">
+                <div class="mt-6 flex justify-between pt-6 text-sm font-medium border-t border-gray-100 text-[#fb7299]">
                   <div>
                     {prevSlug && (
                       <a
@@ -309,8 +324,77 @@ const siteBaseUrl = config.site.base_url;
     }
   }
 
+  function initCompletionButton() {
+    const btn = document.getElementById('article-complete-btn');
+    if (!btn) return;
+
+    const lessonId = btn.getAttribute('data-lesson-id');
+    const btnText = btn.querySelector('.btn-text');
+    
+    function updateUI(isCompleted) {
+      if (isCompleted) {
+        btn.classList.add('is-completed');
+        if (btnText) btnText.textContent = 'Completed';
+      } else {
+        btn.classList.remove('is-completed');
+        if (btnText) btnText.textContent = 'Mark as Completed';
+      }
+    }
+
+    // Load initial state
+    let progress = {};
+    try { progress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
+    updateUI(!!progress[lessonId]);
+
+    // Handle click
+    btn.removeEventListener('click', handleToggle);
+    btn.addEventListener('click', handleToggle);
+
+    function handleToggle() {
+      let currentProgress = {};
+      try { currentProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
+      
+      const newState = !currentProgress[lessonId];
+      currentProgress[lessonId] = newState;
+      localStorage.setItem('roadmap_progress', JSON.stringify(currentProgress));
+      
+      updateUI(newState);
+    }
+  }
+
+  function initAllFeatures() {
+    initNavHandlers();
+    initCompletionButton();
+  }
+
   // Attach handlers on Astro events
-  document.addEventListener("astro:page-load", initNavHandlers);
-  document.addEventListener("astro:after-swap", initNavHandlers);
-  window.addEventListener("load", initNavHandlers);
+  document.addEventListener("astro:page-load", initAllFeatures);
+  document.addEventListener("astro:after-swap", initAllFeatures);
+  window.addEventListener("load", initAllFeatures);
 </script>
+
+<style>
+  #article-complete-btn {
+    background: white;
+    border-color: #efefef;
+  }
+  #article-complete-btn:hover {
+    border-color: #e5e7eb;
+    background: #f9fafb;
+  }
+  #article-complete-btn.is-completed {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+  }
+  #article-complete-btn.is-completed .status-icon {
+    background: #16a34a;
+    border-color: #16a34a;
+  }
+  #article-complete-btn.is-completed .check-svg {
+    opacity: 1;
+  }
+  #article-complete-btn.is-completed .btn-text {
+    color: #16a34a;
+  }
+</style>
