@@ -11,7 +11,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 
 // Pre-resolve roadmap images for the client-side switcher
 const resolvedRoadmaps = {
-  all: await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 1200 }),
+  all: await getImage({ src: (await images['/src/assets/images/categories/roadmap.png']()).default, width: 1200 }),
   'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 1200 }),
   'DSA': await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 1200 }),
   'Development': await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 1200 }),
@@ -270,4 +270,4 @@ const categories = [
   document.addEventListener("astro:after-swap", initRoadmapsPage);
   window.addEventListener("load", initRoadmapsPage);
   initRoadmapsPage();
-</script>
+</script>

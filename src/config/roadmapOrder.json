@@ -15,7 +15,8 @@
     "dsa-foundations"
   ],
   "Development": [
-    "html-css"
+    "dev-foundations",
+    "javascript"
   ],
   "System-Design": [
     "git",

@@ -1,0 +1,77 @@
+{
+  "ongoing": false,
+  "weight": 3,
+  "title": "Node.js",
+  "image": "../../assets/images/thumbnails/nodejs.png",
+  "subtitle": "Learn server-side JavaScript and backend fundamentals",
+  "description": "A structured path to mastering Node.js from basics to scalability and performance.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "nodejs-1",
+          "title": "Introduction to Node.js"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-2",
+          "title": "Getting Started"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-3",
+          "title": "Essential Core Modules"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-4",
+          "title": "Modules, Dependencies & Environment"
+        }
+      ]
+    },
+    {
+      "subheading": "How Node Works",
+      "link": [
+        {
+          "type": "articles",
+          "url": "nodejs-7",
+          "title": "Event Loop"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-8",
+          "title": "Thread Pool"
+        }
+      ]
+    },
+    {
+      "subheading": "Building Nodejs Apps",
+      "link": [
+         {
+          "type": "articles",
+          "url": "nodejs-5",
+          "title": "Middleware Pattern"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-6",
+          "title": "Events & Error Handling"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-9",
+          "title": "Node.js Clustering"
+        },
+        {
+          "type": "articles",
+          "url": "nodejs-10",
+          "title": "Streams & Buffers"
+        }
+      ]
+    }
+  ]
+}

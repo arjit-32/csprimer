@@ -3,7 +3,7 @@ title: "Math for DSA"
 meta_title: "Learn about the Math required for DSA"
 description: "ss"
 author: Arjit Sharma
-series: ["dsa-foundations"]
+series: ["dsa-math"]
 categories: ["DSA"]
 featured: false
 draft: false

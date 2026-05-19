@@ -1,0 +1,127 @@
+{
+  "ongoing": false,
+  "weight": 2,
+  "title": "JavaScript",
+  "image": "../../assets/images/thumbnails/javascript.png",
+  "subtitle": "Learn the language of the web (and servers)",
+  "description": "A structured path to mastering JavaScript from fundamentals to real-world practice.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "javascript-1",
+          "title": "Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-2",
+          "title": "Syntax Guide"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-3",
+          "title": "ES6 Guide"
+        }
+      ]
+    },
+    {
+      "subheading": "Advanced",
+      "link": [
+        {
+          "type": "articles",
+          "url": "javascript-4",
+          "title": "Execution Model"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-5",
+          "title": "Scopes & lexical behaviour"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-6",
+          "title": "Closures"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-7",
+          "title": "this keyword"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-8",
+          "title": "Prototypes"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-9",
+          "title": "Object Oriented"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-10",
+          "title": "functional programming"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-11",
+          "title": "Advanced Concepts"
+        }
+      ]
+    },
+    {
+      "subheading": "Asynchronous JS",
+      "link": [
+        {
+          "type": "articles",
+          "url": "javascript-12",
+          "title": "Event Loop"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-13",
+          "title": "Asynchronous JS"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-14",
+          "title": "HTTP & Error Handlign"
+        }
+      ]
+    },
+    {
+      "subheading": "JS DOM",
+      "link": [
+        {
+          "type": "articles",
+          "url": "javascript-15",
+          "title": "DOM intro"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-16",
+          "title": "DOM manipulation"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-17",
+          "title": "Event Handling"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-18",
+          "title": "Browser Storage"
+        },
+        {
+          "type": "articles",
+          "url": "javascript-19",
+          "title": "Performance Optimizing"
+        }
+      ]
+    }
+  ]
+}

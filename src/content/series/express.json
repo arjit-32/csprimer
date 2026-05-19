@@ -1,0 +1,128 @@
+{
+  "ongoing": false,
+  "weight": 4,
+  "title": "Express.js",
+  "image": "../../assets/images/thumbnails/express-js.png",
+  "subtitle": "Build scalable backend APIs with Express.js",
+  "description": "Learn Express.js from routing basics to production-ready backend systems.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "Getting Started",
+      "link": [
+        {
+          "type": "articles",
+          "url": "express-1",
+          "title": "Introduction"
+        },
+        {
+          "type": "articles",
+          "url": "express-2",
+          "title": "Getting Started with Express"
+        },
+        {
+          "type": "articles",
+          "url": "express-3",
+          "title": "Routing"
+        },
+        {
+          "type": "articles",
+          "url": "express-5",
+          "title": "Route & Query Parameters"
+        },
+        {
+          "type": "articles",
+          "url": "express-6",
+          "title": "Sending Responses"
+        },
+        {
+          "type": "articles",
+          "url": "express-7",
+          "title": "Serving Static Files"
+        }
+      ]
+    },
+    {
+      "subheading": "Core Concepts",
+      "link": [
+        {
+          "type": "articles",
+          "url": "express-4",
+          "title": "Middleware"
+        },
+        {
+          "type": "articles",
+          "url": "express-8",
+          "title": "Advanced Routing"
+        },
+        {
+          "type": "articles",
+          "url": "express-9",
+          "title": "Error Handling"
+        }
+      ]
+    },
+    {
+      "subheading": "Building Real Apps",
+      "link": [
+        {
+          "type": "articles",
+          "url": "express-10",
+          "title": "Input Validation (Zod)"
+        },
+        {
+          "type": "articles",
+          "url": "express-11",
+          "title": "Sessions Storage"
+        },
+        {
+          "type": "articles",
+          "url": "express-13",
+          "title": "Environment Variables"
+        },
+        {
+          "type": "articles",
+          "url": "express-14",
+          "title": "Database Integration"
+        },
+        {
+          "type": "articles",
+          "url": "express-15",
+          "title": "Modular Architecture"
+        }
+      ]
+    },
+    {
+      "subheading": "Production & Best Practices",
+      "link": [
+        
+        {
+          "type": "articles",
+          "url": "express-12",
+          "title": "Linting"
+        },
+        {
+          "type": "articles",
+          "url": "express-16",
+          "title": "Security Best Practices"
+        },
+        {
+          "type": "articles",
+          "url": "express-17",
+          "title": "Logging"
+        },
+        {
+          "type": "articles",
+          "url": "express-18",
+          "title": "Testing (Jest + Supertest)"
+        },
+        {
+          "type": "articles",
+          "url": "express-19",
+          "title": "Deployment Basics"
+        }
+      ]
+    }
+  ]
+}

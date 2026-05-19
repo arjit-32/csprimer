@@ -1,0 +1,147 @@
+{
+  "ongoing": false,
+  "weight": 7,
+  "title": "MySQL & Prisma",
+  "image": "../../assets/images/thumbnails/sql.png",
+  "subtitle": "Master relational databases and modern ORM workflows",
+  "description": "Learn MySQL from schema design to advanced queries, and use Prisma to build production-ready database layers.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "Getting Started",
+      "link": [
+        {
+          "type": "articles",
+          "url": "sql-0",
+          "title": "Introduction to MySQL"
+        },
+        {
+          "type": "articles",
+          "url": "sql-1",
+          "title": "SQL Setup"
+        }
+      ]
+    },
+    {
+      "subheading": "Data & Schema Design",
+      "link": [
+        {
+          "type": "articles",
+          "url": "sql-2",
+          "title": "Data Types (Numeric, Text, Date, JSON, UUID)"
+        },
+        {
+          "type": "articles",
+          "url": "sql-3",
+          "title": "Databases & Schemas"
+        },
+        {
+          "type": "articles",
+          "url": "sql-4",
+          "title": "Table Design & Constraints"
+        },
+        {
+          "type": "articles",
+          "url": "sql-5",
+          "title": "Foreign Keys & Relationships"
+        }
+      ]
+    },
+    {
+      "subheading": "Querying & Data Operations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "sql-6",
+          "title": "CRUD Operations"
+        },
+        {
+          "type": "articles",
+          "url": "sql-7",
+          "title": "SELECT Queries (WHERE, ORDER BY, Pagination)"
+        },
+        {
+          "type": "articles",
+          "url": "sql-8",
+          "title": "Joins (INNER, LEFT)"
+        },
+        {
+          "type": "articles",
+          "url": "sql-9",
+          "title": "Aggregations"
+        },
+        {
+          "type": "articles",
+          "url": "sql-10",
+          "title": "Window Functions"
+        },
+        {
+          "type": "articles",
+          "url": "sql-11",
+          "title": "Common Table Expressions (CTEs)"
+        },
+        {
+          "type": "articles",
+          "url": "sql-12",
+          "title": "Working with JSON in MySQL"
+        }
+      ]
+    },
+    {
+      "subheading": "Performance & Advanced Concepts",
+      "link": [
+        {
+          "type": "articles",
+          "url": "sql-13",
+          "title": "Indexing (Basic, Composite, Unique, Full-text)"
+        },
+        {
+          "type": "articles",
+          "url": "sql-14",
+          "title": "Query Performance & EXPLAIN"
+        },
+        {
+          "type": "articles",
+          "url": "sql-15",
+          "title": "Transactions & Isolation Levels"
+        },
+        {
+          "type": "articles",
+          "url": "sql-16",
+          "title": "Views"
+        },
+        {
+          "type": "articles",
+          "url": "sql-17",
+          "title": "Partitioning"
+        },
+        {
+          "type": "articles",
+          "url": "sql-18",
+          "title": "Stored Procedures, Triggers & Events"
+        },
+        {
+          "type": "articles",
+          "url": "sql-19",
+          "title": "Storage Engines (InnoDB vs MyISAM)"
+        }
+      ]
+    },
+    {
+      "subheading": "Prisma ORM",
+      "link": [
+        {
+          "type": "articles",
+          "url": "sql-20",
+          "title": "Introduction to ORMs"
+        },
+        {
+          "type": "articles",
+          "url": "sql-21",
+          "title": "Prisma Cheatsheet"
+        }
+      ]
+    }
+  ]
+}

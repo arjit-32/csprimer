@@ -1,0 +1,42 @@
+{
+  "ongoing": false,
+  "weight": 6,
+  "title": "MongoDB & Mongoose",
+  "image": "../../assets/images/thumbnails/mongodb.png",
+  "subtitle": "Learn NoSQL database design and querying with MongoDB",
+  "description": "Understand MongoDB fundamentals, data modeling, and practical usage with Mongoose for backend development.",
+  "time": "NaN",
+  "category": "Development",
+  "navbar": [
+    {
+      "subheading": "Fundamentals",
+      "link": [
+        {
+          "type": "articles",
+          "url": "mongo-1",
+          "title": "Introduction to MongoDB"
+        },
+        {
+          "type": "articles",
+          "url": "mongo-2",
+          "title": "Data Modeling in MongoDB"
+        }
+      ]
+    },
+    {
+      "subheading": "Practical Usage",
+      "link": [
+        {
+          "type": "articles",
+          "url": "mongo-3",
+          "title": "MongoDB Cheatsheet"
+        },
+        {
+          "type": "articles",
+          "url": "mongo-4",
+          "title": "Mongoose Cheatsheet"
+        }
+      ]
+    }
+  ]
+}

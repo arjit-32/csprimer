@@ -1,0 +1,52 @@
+{
+  "ongoing": "false",
+  "weight": 3,
+  "title": "DSA Math",
+  "image": "../../assets/images/thumbnails/dsa-math.png",
+  "subtitle": "Starting with math concepts, building foundations for more advance topics.",
+  "description": "This series builds a strong foundation in DSA by focusing on essential math concepts.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Basic Theory",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-analysis-of-algorithms",
+          "title": "Introduction to Algorithmic Analysis"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-math-foundations",
+          "title": "Introduction to Math for DSA"
+        }
+      ]
+    },
+    {
+      "subheading": "Digits & Number",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-problem-1-count-digits",
+          "title": "Count Digits"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-problem-2-reverse-number",
+          "title": "Reverse a Number"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-problem-3-pallindrome-number",
+          "title": "Pallindrome Number"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-problem-4-armstrong-number",
+          "title": "Armstrong Number"
+        }
+      ]
+    }
+  ]
+}
