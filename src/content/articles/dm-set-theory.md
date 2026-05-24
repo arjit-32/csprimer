@@ -87,6 +87,8 @@ A-B = {1, 2}
 
 ## How Developers Use Sets
 
+![set-theory-for-developers](https://addimage)
+
 ### De-duplication
 
 Sets help remove duplicates from lists like tags, cache, or user inputs.

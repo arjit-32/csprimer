@@ -9,28 +9,100 @@ draft: false
 year: 2025
 ---
 
-## Basic
+A Common Table Expression (CTE) is a temporary named result set that exists only for the duration of a query.
 
-```
-WITH active_usersAS (
-SELECT*FROM usersWHERE is_active=TRUE
+CTEs help:
+- simplify complex queries,
+- improve readability,
+- and break large SQL statements into logical steps.
+
+They are defined using the `WITH` keyword.
+
+---
+
+## Why Use CTEs?
+
+CTEs make SQL more modular and easier to understand. Think of them like temporary query variables or reusable query blocks.
+
+---
+
+## Basic CTE Example
+
+```sql
+WITH active_users AS (
+
+  SELECT *
+  FROM users
+  WHERE is_active = TRUE
+
 )
-SELECT*FROM active_users;
+
+-- Can use CTE now
+SELECT * FROM active_users;
 ```
 
-## Recursive
+**Understanding the Query**
 
+- WITH active_users is The CTE., it stores all active users temporarily.
+- Within parenthesis (), contains the query whose result set, we want our CTE to hold.
+- Using the CTE: Instead of repeating, you can define it once and reuse it.
+
+---
+
+## Recursive CTEs
+
+Recursive CTEs allow queries to reference themselves. They are commonly used for:
+- hierarchical data
+- organization charts
+- tree structures
+- categories
+- graph traversal
+
+**Example: Organization Hierarchy**
+
+Suppose employees have managers:
+
+| id | name    | manager_id |
+| -- | ------- | ---------- |
+| 1  | Alice   | NULL       |
+| 2  | Bob     | 1          |
+| 3  | Charlie | 2          |
+
+This forms a hierarchy:
+
+```bash
+Alice
+ └── Bob
+      └── Charlie
 ```
-WITHRECURSIVE org_chartAS (
-SELECT id, name, manager_id
-FROM employees
-WHERE manager_idISNULL
 
-UNIONALL
 
-SELECT e.id, e.name, e.manager_id
-FROM employees e
-JOIN org_chart ocON e.manager_id= oc.id
+### Recursive CTE Example
+
+```sql
+WITH RECURSIVE org_chart AS (
+
+  -- Base query
+  SELECT
+    id,
+    name,
+    manager_id
+  FROM employees
+  WHERE manager_id IS NULL
+
+  UNION ALL
+
+  -- Recursive query
+  SELECT
+    e.id,
+    e.name,
+    e.manager_id
+  FROM employees e
+
+  JOIN org_chart oc
+    ON e.manager_id = oc.id
+
 )
-SELECT*FROM org_chart;
+
+SELECT * FROM org_chart;
 ```

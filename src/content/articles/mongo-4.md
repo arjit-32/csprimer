@@ -9,11 +9,23 @@ draft: false
 year: 2025
 ---
 
-Setup and Connection
+Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js.
+
+It provides:
+- schema validation,
+- middleware,
+- query helpers,
+- relationships via population,
+- and a cleaner API on top of the MongoDB driver.
+
+---
+
+## Setup and Connection
 
 ```jsx
-const mongoose = require("mongoose")
-mongoose.connect("mongodb://localhost:27017/mydb")
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://127.0.0.1:27017/mydb");
 
 // Connection events
 mongoose.connection.on("connected", () => {
@@ -25,32 +37,65 @@ mongoose.connection.on("error", (err) => {
 });
 ```
 
-Schema & Model
+---
+
+## Schema & Model
+
+
+### Defining a Schema 
 
 ```jsx
-// Defining a Schema
+const mongoose = require("mongoose");
+
 const userSchema = new mongoose.Schema({
   name: String,
-  email: { type: String, required: true, unique: true },
-  age: Number,
-  createdAt: { type: Date, default: Date.now },
-})
 
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
+  age: Number,
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+```
+
+### Creating a Model
+
+A model provides an interface for interacting with a MongoDB collection
+
+```jsx
 // Create a Model
 const User = mongoose.model("User", userSchema)
 ```
 
-CRUD Operations
+---
 
-➕ **Create**
+
+## CRUD Operations
+
+### Create
 
 ```jsx
 // Create and save a single user using .create()
-const newUser = await User.create({ name: "Alice", email: "a@a.com", age: 25 });
+const newUser = await User.create({
+  name: "Alice",
+  email: "alice@example.com",
+  age: 25,
+});
 console.log(newUser);
 
 // Alternatively, create a user instance and save it using .save()
-const newUser = new User({ name: "Alice", email: "a@a.com", age: 25 });
+const newUser = new User({
+  name: "Alice",
+  email: "alice@example.com",
+  age: 25,
+});
 await newUser.save();
 console.log(newUser);
 
@@ -61,7 +106,9 @@ await User.insertMany([
 ]);
 ```
 
-🔍 **Read**
+*Note - Use .save() when you need document middleware or want to modify the document before saving.*
+
+### Read 
 
 ```jsx
 // Find all users
@@ -91,7 +138,8 @@ const orCondition = await User.find({
 const sortedUsers = await User.find().sort({ age: -1 }).limit(5).skip(2);
 ```
 
-✏️ **Update**
+
+### Update
 
 ```jsx
 // Update one document
@@ -108,7 +156,7 @@ const updatedUser = await User.findOneAndUpdate(
 );
 ```
 
-❌ **Delete**
+### Delete
 
 ```jsx
 // Delete one document
@@ -121,23 +169,48 @@ await User.deleteMany({ age: { $lt: 18 } });
 const deletedUser = await User.findOneAndDelete({ name: "Charlie" });
 ```
 
-**Validation**
+---
+
+## Validation
+
+### Built-in Validators
 
 ```jsx
-// Built-in validators
-const userSchema = new Schema({
-  name: { type: String, required: true, minlength: 3, maxlength: 50 },
-  age: { type: Number, min: 0, max: 120 },
-  email: { type: String, required: true, match: /.+\@.+\..+/ },
-});
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50,
+  },
 
-// Custom validators
-userSchema.path("age").validate((value) => {
-  return value >= 18; // Age must be 18 or older
-}, "Age must be 18 or older");
+  age: {
+    type: Number,
+    min: 0,
+    max: 120,
+  },
+
+  email: {
+    type: String,
+    required: true,
+    match: /.+\@.+\..+/,
+  },
+});
 ```
 
-Aggregations
+
+### Custom Validators
+
+```jsx
+userSchema.path("age").validate(
+  (value) => value >= 18,
+  "Age must be 18 or older"
+);
+```
+
+---
+
+## Aggregations
 
 ```jsx
 // Count documents
@@ -160,7 +233,9 @@ const limited = await User.aggregate([{ $limit: 5 }]);
 const skipped = await User.aggregate([{ $skip: 10 }]);
 ```
 
-**Middleware**
+---
+
+## Middleware
 
 ```jsx
 // Pre-save middleware
@@ -175,29 +250,52 @@ userSchema.post("save", function (doc) {
 });
 ```
 
-Populate (Relationships)
+---
+
+## Populate (Relationships)
+
+Population allows Mongoose to replace referenced IDs with actual documents
+
+### Define Relationships
 
 ```jsx
-// Define schemas with references
-const postSchema = new Schema({
+const postSchema = new mongoose.Schema({
   title: String,
+
   content: String,
-  author: { type: Schema.Types.ObjectId, ref: "User" },
+
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Post = mongoose.model("Post", postSchema);
+```
 
-// Create a post with a reference to a user
+### Create a Referenced Document
+
+```jsx
 const post = new Post({
   title: "My First Post",
-  content: "This is the content of the post.",
-  author: "64a7f8c2e4b0f1a2d3e4f567", // User ID
-});
-await post.save();
 
-// Populate the author field
-const populatedPost = await Post.findOne({ title: "My First Post" }).populate(
+  content: "This is the content of the post.",
+
+  author: "64a7f8c2e4b0f1a2d3e4f567",
+});
+
+await post.save();
+```
+
+### Populate Referenced Data
+
+```jsx
+const populatedPost = await Post.findOne({
+  title: "My First Post",
+}).populate(
   "author",
-  "name email -_id" // Include "name" and "email", exclude "_id"
+  "name email -_id"
 );
 ```
+
+This replaces the author ObjectId with actual user data.

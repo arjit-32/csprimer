@@ -29,7 +29,7 @@
         {
           "type": "articles",
           "url": "sql-2",
-          "title": "Data Types (Numeric, Text, Date, JSON, UUID)"
+          "title": "Data Types"
         },
         {
           "type": "articles",
@@ -59,12 +59,17 @@
         {
           "type": "articles",
           "url": "sql-7",
-          "title": "SELECT Queries (WHERE, ORDER BY, Pagination)"
+          "title": "SELECT Queries"
+        },
+        {
+          "type": "articles",
+          "url": "sql-7",
+          "title": "Subqueries"
         },
         {
           "type": "articles",
           "url": "sql-8",
-          "title": "Joins (INNER, LEFT)"
+          "title": "Joins"
         },
         {
           "type": "articles",
@@ -79,12 +84,7 @@
         {
           "type": "articles",
           "url": "sql-11",
-          "title": "Common Table Expressions (CTEs)"
-        },
-        {
-          "type": "articles",
-          "url": "sql-12",
-          "title": "Working with JSON in MySQL"
+          "title": "Common Table Expressions"
         }
       ]
     },
@@ -94,12 +94,12 @@
         {
           "type": "articles",
           "url": "sql-13",
-          "title": "Indexing (Basic, Composite, Unique, Full-text)"
+          "title": "Indexing"
         },
         {
           "type": "articles",
           "url": "sql-14",
-          "title": "Query Performance & EXPLAIN"
+          "title": "Query Performance"
         },
         {
           "type": "articles",
@@ -124,7 +124,7 @@
         {
           "type": "articles",
           "url": "sql-19",
-          "title": "Storage Engines (InnoDB vs MyISAM)"
+          "title": "Storage Engines"
         }
       ]
     },

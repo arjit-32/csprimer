@@ -46,6 +46,8 @@ Just flipping the direction of Relation.
 
 If R = {(arjit, admin)}, then R⁻¹ = {(admin, arjit)}
 
+![inverse-of-relation](https://gooto.com)
+
 Useful when you want to go “backwards” in your mapping.
 
 ---

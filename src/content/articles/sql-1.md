@@ -1,5 +1,5 @@
 ---
-title: SQL Setup
+title: MySQL Setup and CLI Basics
 meta_title: js
 description: js
 author: Arjit Sharma
@@ -10,45 +10,82 @@ year: 2025
 ---
 
 
-# mysql – MySQL CLI
+Before writing SQL queries, you first need access to a MySQL server.
 
-`mysql` is the interactive command-line tool for MySQL databases.
+You can interact with MySQL using:
+- the MySQL command-line client,
+- graphical tools,
+- or online playgrounds.
 
-## Connecting to a Database
+This guide covers the basics of connecting to MySQL and navigating the CLI.
 
+---
+
+## MySQL CLI ( Command Line Interface )
+
+`mysql` is the official interactive command-line client for MySQL databases.
+
+It allows you to:
+- connect to databases,
+- run SQL queries,
+- inspect tables,
+- and manage databases directly from the terminal.
+
+
+### Connecting to MySQL
+
+```bash 
+mysql -h <host> -P 3306 -u <username> -p <database>
 ```
-mysql-h <host>-P3306-u <username>-p <database>
+
+| Option       | Description                   |
+| ------------ | ----------------------------- |
+| `-h`         | Hostname or IP address        |
+| `-P`         | Port number (default: `3306`) |
+| `-u`         | Username                      |
+| `-p`         | Prompt for password           |
+| `<database>` | Optional database name        |
+
+
+Example - 
+
+```bash
+mysql -u root -p shop
 ```
 
-- `h` Host (default: localhost)
-- `P` Port (default: 3306)
-- `u` Username
-- `p` Prompt for password
-- `<database>` Optional database name
+### Useful MySQL CLI Commands
 
-Example:
+```bash
+SHOW DATABASES; # List all databases
 
-```
-mysql-u root-p shop
+USE shop; # Switch to the shop database
+
+SHOW TABLES; # Show all tables in the current database
+ 
+DESCRIBE users; # Display table structure
+
+SHOW CREATE TABLE users; # Show full table creation SQL
+
+SHOW INDEX FROM users; # List indexes on a table
+
+SHOW VARIABLES; # Display MySQL server variables
+
+SHOW PROCESSLIST; # Show active database connections
+
+EXIT; # Exit the MySQL CLI
 ```
 
 ---
 
-## Useful CLI Commands
+## GUI Tools for MySQL
 
-```
-SHOW DATABASES;
-USE shop;
-SHOW TABLES;
-DESCRIBE users;
-SHOWCREATETABLE users;
-SHOW INDEXFROM users;
-SHOW VARIABLES;
-SHOW PROCESSLIST;
-EXIT;
-```
+Many developers prefer graphical database clients instead of the terminal. These Software applications provide query editors, table viewers, visual management interfaces and much more.
 
-# Softwares like Heidi 
+Popular MySQL GUI tools include: *HeidiSQL, MySQL Workbench, DBeaver, TablePlus*
+
+---
 
 
-# Online 
+## Online SQL Playground
+
+If you do not want to install MySQL locally, online SQL playgrounds are useful for practice. Just google something man.

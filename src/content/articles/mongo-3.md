@@ -11,70 +11,164 @@ year: 2025
 
 MongoDB is a powerful NoSQL database designed for high-speed, scalable applications. It stores data as BSON (binary JSON), which makes it perfect for modern stacks like MERN (MongoDB, Express, React, Node).
 
-Basic Database Operation
+---
+
+## Database Operation
 
 ```jsx
-use myDatabase; // Switch to or create a database
-show dbs; // List all databases
-db.dropDatabase(); // Drop the current database
+// Switch to or create a database
+use myDatabase
+
+// List all databases
+show dbs
+
+// Show current database
+db
+
+// Delete current database
+db.dropDatabase()
 ```
 
-Collection Operations
+---
+
+## Collection Operations
 
 ```jsx
-db.createCollection("users"); // Create a new collection
-show collections; // List all collections in the current database
-db.users.drop(); // Drop the "users" collection
-db.users.renameCollection("customers"); // Rename "users" collection to "customers"
+// Create a collection
+db.createCollection("users")
+
+// List collections
+show collections
+
+// Delete a collection
+db.users.drop()
+
+// Rename collection
+db.users.renameCollection("customers")
 ```
 
-Insert Operations
+---
+
+## Insert Operations
 
 ```jsx
-// Add a single document
-db.users.insertOne({ name: "Arjit", age: 25 });
+// Insert one document
+db.users.insertOne({
+  name: "Arjit",
+  age: 25
+})
 
-// Add multiple documents at once
+// Insert multiple documents
 db.users.insertMany([
   { name: "Bob", age: 30 },
   { name: "Charlie", age: 22 }
-]);
+])
 ```
 
-Query Documents
+---
+
+## Query Documents
 
 ```jsx
-db.users.find(); // Returns all documents
-db.users.findOne({ name: "Arjit" }); // Find the first document matching the query
+// Find all documents
+db.users.find()
 
-db.users.findById("1"); // Find a document by its ID
+// Find one document
+db.users.findOne({ name: "Arjit" })
 
-// Projection (Include/Exclude fields)
-db.users.find({}, { name: 1, age: 1, _id: 0 }); // Include "name" and "age", exclude "_id"
+// Find by ObjectId
+db.users.findOne({
+  _id: ObjectId("507f1f77bcf86cd799439011")
+})
 ```
 
-Query Operators
+---
+
+## Projection 
+
+Select Specific Fields.
 
 ```jsx
-// Comparison
-db.users.find({ age: { $gt: 20 } }); // Users older than 20
-db.users.find({ age: { $gte: 18, $lte: 30 } });
-
-// Logical
-db.users.find({ age: { $gt: 25 }, name: "Arjit" });           // AND
-db.users.find({ $or: [{ age: 25 }, { name: "Bob" }] });       // OR
-db.users.find({ age: { $not: { $gt: 30 } } });                 // NOT
-
-// Membership
-db.users.find({ age: { $in: [25, 30] } });
-db.users.find({ age: { $nin: [25, 30] } });
-
-// Regex search
-db.users.find({ name: { $regex: /^J/, $options: "i" } }); // Names starting with "J" (case-insensitive)
-
+// This includes name , age and excludes _id
+db.users.find(
+  {},
+  {
+    name: 1,
+    age: 1,
+    _id: 0
+  }
+)
 ```
 
-Cursor Operations
+---
+
+## Query Operators
+
+### Comparison Operators
+
+```jsx
+db.users.find({
+  age: { $gt: 20 }
+})
+
+db.users.find({
+  age: { $gte: 18, $lte: 30 }
+})
+```
+
+
+### Logical Operators
+
+```jsx
+// AND
+db.users.find({
+  age: { $gt: 25 },
+  name: "Arjit"
+})
+
+// OR
+db.users.find({
+  $or: [
+    { age: 25 },
+    { name: "Bob" }
+  ]
+})
+
+// NOT
+db.users.find({
+  age: {
+    $not: { $gt: 30 }
+  }
+})
+```
+
+### Membership Operators
+
+```jsx
+db.users.find({
+  age: { $in: [25, 30] }
+})
+
+db.users.find({
+  age: { $nin: [25, 30] }
+})
+```
+
+### Regex Search
+
+```jsx
+// Matches names starting with "J" (case-insensitive)
+db.users.find({
+  name: {
+    $regex: /^J/,
+    $options: "i"
+  }
+})
+```
+
+---
+
+## Cursor Operations
 
 ```jsx
 // Sort documents
@@ -87,48 +181,131 @@ db.users.find().limit(5); // Limit to 5 documents
 db.users.find().skip(5); // Skip the first 5 documents
 ```
 
-Update Operation
+---
+
+## Update Operation
 
 ```jsx
-db.users.updateOne({ name: "Alice" }, { $set: { age: 26 } });
-db.users.updateMany({}, { $inc: { age: 1 } });      // increment age
+// Update one document
+db.users.updateOne(
+  { name: "Alice" },
+  { $set: { age: 26 } }
+)
+
+// Update multiple documents
+db.users.updateMany(
+  {},
+  { $inc: { age: 1 } }
+)
 ```
 
-Delete Operation
+---
+
+## Delete Operation
 
 ```jsx
-db.users.deleteOne({ name: "Bob" });
-db.users.deleteMany({ age: { $lt: 20 } });
+// Delete one document
+db.users.deleteOne({
+  name: "Bob"
+})
+
+// Delete many documents
+db.users.deleteMany({
+  age: { $lt: 20 }
+})
 ```
 
-Aggregation Framework
+---
+
+## Aggregation Framework
+
+### Count documents
 
 ```jsx
-// Count documents
-db.users.countDocuments();
+db.users.countDocuments()
+```
 
-// Group by and aggregate
+### Group and Aggregate
+
+```jsx
+// Groups users by age and counts them.
 db.users.aggregate([
-  { $group: { _id: "$age", count: { $sum: 1 } } }
-]);
-
-// Filter and aggregate
-db.users.aggregate([
-  { $match: { age: { $gt: 25 } } },
-  { $group: { _id: "$age", count: { $sum: 1 } } }
-]);
-
-// Sort, limit, and skip in aggregation
-db.users.aggregate([{ $sort: { age: -1 }}]);
-db.users.aggregate([{ $limit: 5 }]);
-db.users.aggregate([{ $skip: 10 }]);
+  {
+    $group: {
+      _id: "$age",
+      count: { $sum: 1 }
+    }
+  }
+])
 ```
 
-Indexing
+### Filter and Aggregate
 
 ```jsx
-db.users.createIndex({ name: 1 }); // Create an ascending index on "name"
-db.users.createIndex({ email: 1 }, { unique: true }); // Create a unique index on "email"
-db.users.dropIndex("name_1"); // Drop the index on "name"
-db.users.getIndexes(); // List all indexes
+db.users.aggregate([
+  {
+    $match: {
+      age: { $gt: 25 }
+    }
+  },
+  {
+    $group: {
+      _id: "$age",
+      count: { $sum: 1 }
+    }
+  }
+])
 ```
+
+### Sort, Limit, and Skip in Aggregation
+
+```jsx
+db.users.aggregate([
+  { $sort: { age: -1 } },
+  { $limit: 5 },
+  { $skip: 2 }
+])
+```
+
+---
+
+## Indexing
+
+```jsx
+// Create ascending index
+db.users.createIndex({
+  name: 1
+})
+
+// Create unique index
+db.users.createIndex(
+  { email: 1 },
+  { unique: true }
+)
+
+// Delete index
+db.users.dropIndex("name_1")
+
+// Show indexes
+db.users.getIndexes()
+```
+
+---
+
+## Useful Utility Commands
+
+```jsx
+// Count all documents
+db.users.countDocuments()
+
+// Pretty print output
+db.users.find().pretty()
+
+// Check query execution plan
+db.users.find({
+  age: { $gt: 20 }
+}).explain("executionStats")
+```
+
+---
+

@@ -1,84 +1,264 @@
 ---
-title: Introduction to MongoDb
-meta_title: js
-description: js
+title: Introduction to MongoDB
+meta_title: Introduction to MongoDB
+description: Learn the basics of MongoDB, how it stores data, and how querying and updates work.
 author: Arjit Sharma
 series: ["mongo"]
 categories: ["Development"]
 draft: false
 year: 2025
 ---
-Traditional relational databases (MySQL, Postgres) store data in tables with strict schemas. MongoDB instead stores semi-structured documents that look like JSON.
 
-**MongoDB** 
+Traditional relational databases like MySQL and PostgreSQL store data in tables with predefined schemas.
 
-- NoSQL (not relational)
-- Schema-flexible (documents can differ)
-- Document-based (JSON/BSON)
-- Horizontally scalable (sharding built-in)
+MongoDB works differently. Instead of tables and rows, it stores data as flexible JSON-like documents.
 
-## How **MongoDB Stores Data**
+This makes MongoDB easier to work with when:
+- data structures change frequently,
+- objects contain nested data,
+- or applications need to scale quickly.
 
-MongoDB stores data in a hierarchy:
+## What is MongoDB?
 
-```flow
+MongoDB is a **NoSQL document database** designed for flexibility and scalability.
+
+### Key Features
+
+- **NoSQL database**  
+  Data is not stored in relational tables.
+
+- **Schema-flexible**  
+  Documents inside the same collection can have different fields.
+
+- **Document-oriented**  
+  Data is stored as JSON-like documents.
+
+- **Horizontally scalable**  
+  MongoDB supports sharding, which allows data to be distributed across multiple servers.
+
+---
+
+## How MongoDB Stores Data
+
+MongoDB organizes data in the following hierarchy:
+
+```text
 Database
-   → Collections
-       → Documents (BSON)
-           → Fields
+   └── Collection
+          └── Document (BSON)
+                  └── Fields
 ```
 
-**Documents**
+### Database
 
-A document is essentially a JSON-like object:
+A database is a container for collections.
 
-```jsx
+Example: ecommerce, blog, school
+
+
+### Collection
+
+A collection is similar to a table in SQL databases. It stores multiple related documents.
+
+Example: users, products, order
+
+Unlike SQL tables, collections do not require a fixed schema.
+
+### Documents
+
+A document is a single record stored in MongoDB. Documents look similar to JSON objects:
+
+```json
 {
-  "name": "Alice",
+  "name": "Arjit",
   "age": 25,
-  "skills": ["JS", "Node", "MongoDB"]
+  "skills": ["JavaScript", "Node.js", "MongoDB"]
 }
 ```
 
-MongoDB stores documents as BSON (Binary JSON), which supports more types than JSON: *Date, Decimal128, ObjectId, Binary data, Regex*
+MongoDB internally stores documents using BSON (Binary JSON). BSON extends JSON with additional data types such as: 
 
-The _id field uniquely identifies each document. If not provided, MongoDB generates an ObjectId, which includes a timestamp and ensures uniqueness without coordination.
+- Date
+- ObjectId
+- Decimal128
+- Binary Data
+- Regular Expressions
 
-## Types of data in MongoDB
+---
 
-## Querying in MongoDB
 
-MongoDB queries use a rich set of operators to filter documents. 
+## The _id Field
 
-- Comparison: *$gt, $gte, $lt, $eq*
-- Logical: *$and, $or, $not*
-- Membership: *$in, $nin*
-- Pattern Matching: *$regex* for partial matches
+Every MongoDB document contains a unique _id field.
 
-Queries can target nested fields, array elements, and multiple conditions at once. This makes MongoDB query language surprisingly powerful for a schema-flexible database.
+Example:
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "name": "Alice"
+}
+```
 
-MongoDB queries return a cursor, not a raw array. A cursor streams results and allows operations like: .*sort() , .limit() , .skip() , .project() (include or exclude fields)*
+If you do not provide _id, MongoDB automatically generates an ObjectId.
 
-This prevents loading large datasets into memory unnecessarily.
+An ObjectId:
 
-## Updating Data in MongoDB
+- is globally unique,
+- contains a timestamp,
+- and can be generated without coordination between servers.
 
-MongoDB provides powerful update operators that let you modify documents without replacing them entirely. This makes updates efficient and flexible, especially for nested structures:
+This helps MongoDB scale efficiently in distributed systems.
 
-- **$set** - change specific fields
-- **$inc** - increment numeric values
-- **$push / $pull** - add or remove items from arrays
+---
+
+## Data Types in MongoDB
+
+| Type     | Example             |
+| -------- | ------------------- |
+| String   | `"Alice"`           |
+| Number   | `25`                |
+| Boolean  | `true`              |
+| Array    | `["JS", "Node"]`    |
+| Object   | `{ city: "Delhi" }` |
+| Date     | `ISODate()`         |
+| ObjectId | `ObjectId()`        |
+| Null     | `null`              |
+
+Because MongoDB supports nested objects and arrays naturally, it works well for complex application data.
+
+---
+
+## Querying Data in MongoDB
+
+MongoDB provides a rich query language for filtering documents.
+
+### Comparison Operators
+
+```bash
+$gt   // greater than
+$gte  // greater than or equal
+$lt   // less than
+$eq   // equal
+```
 
 Example:
 
-```jsx
-{ $inc: { score: 1 } }
+```javascript
+db.users.find({ age: { $gt: 18 } })
 ```
 
-These operators allow partial updates, avoiding the need to overwrite entire documents.
+### Logical Operators
 
-**Atomicity of Updates**
+```bash
+$and
+$or
+$not
+```
 
-All updates in MongoDB are **atomic at the document level**. This means that if a document contains multiple fields, arrays, or nested objects, the update either applies fully or not at all, ensuring consistency.
+Example:
 
-For scenarios requiring changes across multiple documents, MongoDB supports **multi-document transactions** (introduced in 4.0). While transactions provide stronger guarantees, they are slower and often unnecessary if your data model is designed around MongoDB’s document-centric approach.
+```javascript
+db.users.find({
+  $or: [
+    { age: { $lt: 18 } },
+    { age: { $gt: 60 } }
+  ]
+})
+```
+
+
+### Membership Operators
+
+```bash
+$in
+$nin
+```
+
+Example:
+
+```javascript
+db.users.find({
+  skills: { $in: ["MongoDB"] }
+})
+```
+
+### Pattern Matching
+
+MongoDB supports regular expression searches using $regex.
+
+Example:
+
+```javascript
+db.users.find({
+  name: { $regex: "^A" }
+})
+```
+
+---
+
+## Query Results and Cursors
+
+MongoDB queries return a cursor, not a plain array. A cursor allows MongoDB to stream results gradually instead of loading everything into memory at once. This is important when working with large datasets.
+
+You can modify cursor results using methods like:
+
+```bash
+.sort()
+.limit()
+.skip()
+.project()
+```
+
+Example:
+
+```javascript
+db.users
+  .find({})
+  .sort({ age: -1 })
+  .limit(5)
+```
+
+---
+
+## Updating Data in MongoDB
+
+MongoDB supports partial document updates using update operators. This means you can modify only specific fields instead of replacing the entire document.
+
+Common Update Operators are -
+
+| Operator | Purpose                  |
+| -------- | ------------------------ |
+| `$set`   | Update specific fields   |
+| `$inc`   | Increment numeric values |
+| `$push`  | Add items to arrays      |
+| `$pull`  | Remove items from arrays |
+
+Example:
+
+```javascript
+db.users.updateOne(
+  { name: "Alice" },
+  { $inc: { score: 1 } }
+)
+```
+
+---
+
+
+## MongoDB at Scale
+
+
+### Atomic Updates 
+
+In MongoDB, updates are atomic at the document level. This means:
+- The entire update either succeeds,
+- Or nothing changes at all.
+
+Even if a document contains multiple nested fields or arrays, MongoDB ensures that all changes within that single document are consistent. Think of it like flipping a switch: either the whole document is updated, or it stays exactly the same.
+
+
+### Multi-Document Transactions
+
+Sometimes applications need to update multiple documents together - for example, transferring money between two accounts. To handle these cases, MongoDB introduced multi-document transactions in version 4.0.
+
+Transactions provide stronger consistency guarantees across documents, but they come with a trade-off: they are slower than single-document operations. That’s why MongoDB encourages data models where related information is stored inside the same document whenever possible. This design reduces the need for transactions and keeps operations fast.

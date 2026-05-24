@@ -11,26 +11,32 @@ year: 2025
 
 Prisma is a modern, type-safe ORM for Node.js/TypeScript. It provides a clean query API, excellent developer experience, and auto-generated types from your database schema.
 
-Setup and Connection
+---
 
-```sql
+## Installation
+
+```bash
 # Install Prisma
 npm install prisma @prisma/client
 
-# Initialize Prisma (creates prisma folder + schema.prisma)
+# Initialize Prisma
 npx prisma init
 ```
 
-Edit .env (created by Prisma):
+*Environment Variables- Edit .env file*
 
-```sql
+```bash
 # .env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/mydb?schema=public"
 ```
 
-Define your Models in prisma/schema.prisma
+---
 
-```sql
+## Prisma Schema
+
+Define your Models in *prisma/schema.prisma*
+
+```javascript
 // prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
@@ -41,49 +47,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   name      String?
   email     String   @unique
   age       Int?
-  createdAt DateTime @default(now())
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+
   posts     Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String?
+  published   Boolean  @default(false)
+
+  authorId    Int
+  author      User     @relation(fields: [authorId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  @@index([authorId])
 }
 ```
 
-Generate client and migrate:
+---
 
-```sql
-# Create migration and apply to DB
+## Migrations
+
+```bash
+# Create migration
 npx prisma migrate dev --name init
 
-# Generate Prisma Client
+# Generate client
 npx prisma generate
+
+# Reset DB
+npx prisma migrate reset
+
+# Open Prisma Studio
+npx prisma studio
 ```
 
-Connect in Express (singleton pattern recommended):
+---
 
-```sql
+## Prisma Client Setup
+
+
+```js
 // prisma.js or lib/prisma.js
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'], // optional: log queries
-})
+const globalForPrisma = globalThis
 
-export default prisma
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+  })
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma
+}
 ```
 
-```sql
+
+Connect in Express (singleton pattern recommended):
+
+```js
 // app.js or server.js
 import express from 'express'
 import prisma from './prisma.js'
@@ -103,10 +146,12 @@ app.listen(PORT, () => {
 })
 ```
 
-CRUD Operations
-Create
+---
 
-```sql
+
+## Create Operations
+
+```js
 // Create single user
 const newUser = await prisma.user.create({
   data: {
@@ -116,66 +161,85 @@ const newUser = await prisma.user.create({
   },
 })
 
-// Create with related data (posts)
-const userWithPosts = await prisma.user.create({
-  data: {
-    email: "bob@example.com",
-    name: "Bob",
-    posts: {
-      create: [
-        { title: "First Post" },
-        { title: "Second Post" },
-      ],
-    },
-  },
-})
-
 // Create many (Prisma supports it efficiently)
 await prisma.user.createMany({
   data: [
-    { email: "c@example.com", name: "Charlie", age: 30 },
-    { email: "d@example.com", name: "Dave", age: 22 },
+    {
+      name: "John",
+      email: "john@example.com",
+    },
+    {
+      name: "Jane",
+      email: "jane@example.com",
+    }
   ],
-  skipDuplicates: true, // optional: skip if unique constraint violated
+  skipDuplicates: true,
 })
 
+// Create with related data (posts)
+await prisma.user.create({
+  data: {
+    name: "Bob",
+    email: "bob@example.com",
+
+    posts: {
+      create: [
+        {
+          title: "Post 1"
+        },
+        {
+          title: "Post 2"
+        }
+      ]
+    }
+  }
+})
 ```
 
-Read
 
-```sql
+## Read Operations
+
+
+```js
 // Find all users
 const users = await prisma.user.findMany()
 
 // Find one user
-const user = await prisma.user.findUnique({
-  where: { email: "alice@example.com" },
+await prisma.user.findUnique({
+  where: {
+    email: "alice@example.com"
+  }
 })
 
-// Or by ID
-const userById = await prisma.user.findUnique({
-  where: { id: 1 },
+await prisma.user.findUniqueOrThrow({
+  where: {
+    id: 1
+  }
 })
 
 // Find first match
 const firstMatch = await prisma.user.findFirst({
-  where: { age: { gte: 18 } },
+  where: {
+    age: {
+      gte: 18
+    }
+  }
 })
 
 // Select specific fields
 const selected = await prisma.user.findMany({
   select: {
+    id: true,
     name: true,
     email: true,
-    age: true,
-  },
+  }
 })
 
 // Include relations
 const usersWithPosts = await prisma.user.findMany({
   include: {
-    posts: true,
-  },
+    posts: true
+  }
 })
 
 // Or select specific relation fields
@@ -188,70 +252,44 @@ const usersWithPostTitles = await prisma.user.findMany({
   },
 })
 
-// Filtering
-const adults = await prisma.user.findMany({
-  where: {
-    age: { gte: 18 },
-    AND: [{ name: { startsWith: "A" } }],
-    OR: [{ age: { gt: 30 } }, { name: "Bob" }],
-  },
-})
-
-// Sort, pagination
-const paginated = await prisma.user.findMany({
-  orderBy: { age: 'desc' },
-  take: 10,     // LIMIT
-  skip: 20,     // OFFSET
-  cursor: { id: 50 }, // for keyset pagination
-})
-```
-
-```sql
-// Find all users
-const users = await prisma.user.findMany()
-
-// Find one user
-const user = await prisma.user.findUnique({
-  where: { email: "alice@example.com" },
-})
-
-// Or by ID
-const userById = await prisma.user.findUnique({
-  where: { id: 1 },
-})
-
-// Find first match
-const firstMatch = await prisma.user.findFirst({
-  where: { age: { gte: 18 } },
-})
-
-// Select specific fields
-const selected = await prisma.user.findMany({
-  select: {
-    name: true,
-    email: true,
-    age: true,
-  },
-})
-
-// Include relations
-const usersWithPosts = await prisma.user.findMany({
+// relation count
+await prisma.user.findMany({
   include: {
-    posts: true,
-  },
+    _count: {
+      select: {
+        posts: true
+      }
+    }
+  }
+})
+```
+
+
+### Filtering
+
+```js
+// Basic Filtering
+await prisma.user.findMany({
+  where: {
+    age: {
+      gte: 18
+    }
+  }
 })
 
-// Or select specific relation fields
-const usersWithPostTitles = await prisma.user.findMany({
-  select: {
-    name: true,
-    posts: {
-      select: { title: true },
-    },
-  },
-})
-
-// Filtering
+// Comparisor Operators
+gt   // greater than
+gte  // greater than or equal
+lt   // less than
+lte  // less than or equal
+not
+// String Filters
+startsWith
+endsWith
+contains
+// IN / NOT IN
+// Logical Operators - and, or, not
+// Relation Filters - some, every, none
 const adults = await prisma.user.findMany({
   where: {
     age: { gte: 18 },
@@ -259,237 +297,497 @@ const adults = await prisma.user.findMany({
     OR: [{ age: { gt: 30 } }, { name: "Bob" }],
   },
 })
-
-// Sort, pagination
-const paginated = await prisma.user.findMany({
-  orderBy: { age: 'desc' },
-  take: 10,     // LIMIT
-  skip: 20,     // OFFSET
-  cursor: { id: 50 }, // for keyset pagination
-})
 ```
 
-Update
+---
 
-```sql
+## Update Operations
+
+```js
 // Update one
 await prisma.user.update({
-  where: { email: "alice@example.com" },
-  data: { age: 26 },
+  where: {
+    id: 1
+  },
+  data: {
+    age: 26
+  }
 })
 
 // Update many
 await prisma.user.updateMany({
-  where: { age: { lt: 18 } },
-  data: { isActive: false },
+  where: {
+    age: {
+      lt: 18
+    }
+  },
+  data: {
+    isActive: false
+  }
 })
 
 // Upsert (create if not exists, update if does)
-const upserted = await prisma.user.upsert({
-  where: { email: "alice@example.com" },
-  update: { age: 27 },
-  create: { email: "alice@example.com", name: "Alice", age: 27 },
+await prisma.user.upsert({
+  where: {
+    email: "alice@example.com"
+  },
+
+  update: {
+    age: 30
+  },
+
+  create: {
+    name: "Alice",
+    email: "alice@example.com"
+  }
 })
+
+
 ```
 
-Delete
+## Delete Operations
 
-```sql
+```js
 // Delete one
 await prisma.user.delete({
-  where: { email: "bob@example.com" },
+  where: {
+    id: 1
+  }
 })
 
 // Delete many
 await prisma.user.deleteMany({
-  where: { age: { lt: 18 } },
+  where: {
+    age: {
+      lt: 18
+    }
+  }
 })
 ```
 
-Aggregations & Counting
+---
 
-```jsx
+## Relation Management
+
+```js
+// Connect Existing Relation
+await prisma.post.create({
+  data: {
+    title: "Hello",
+
+    author: {
+      connect: {
+        id: 1
+      }
+    }
+  }
+})
+
+// Connect Multiple
+posts: {
+  connect: [
+    { id: 1 },
+    { id: 2 }
+  ]
+}
+
+// Disconnect Relation
+posts: {
+  disconnect: [
+    { id: 1 }
+  ]
+}
+
+// Replace Relations
+posts: {
+  set: [
+    { id: 3 }
+  ]
+}
+
+// Connect Or Create
+author: {
+  connectOrCreate: {
+    where: {
+      email: "john@example.com"
+    },
+
+    create: {
+      email: "john@example.com",
+      name: "John"
+    }
+  }
+}
+```
+
+---
+
+## Nested Updates
+
+```js
+// Create Nested
+await prisma.user.update({
+  where: {
+    id: 1
+  },
+
+  data: {
+    posts: {
+      create: {
+        title: "New Post"
+      }
+    }
+  }
+})
+
+// Update Nested
+await prisma.user.update({
+  where: {
+    id: 1
+  },
+
+  data: {
+    posts: {
+      update: {
+        where: {
+          id: 2
+        },
+
+        data: {
+          title: "Updated"
+        }
+      }
+    }
+  }
+})
+
+// Delete Nested
+await prisma.user.update({
+  where: {
+    id: 1
+  },
+
+  data: {
+    posts: {
+      delete: {
+        id: 2
+      }
+    }
+  }
+})
+```
+
+---
+
+## Pagination
+
+```js
+// Offset Pagination
+await prisma.user.findMany({
+  skip: 20,
+  take: 10
+})
+
+// Cursor Pagination
+await prisma.user.findMany({
+  cursor: {
+    id: 10
+  },
+
+  take: 10
+})
+```
+
+---
+
+## Sorting
+
+```js
+// Single Sort
+orderBy: {
+  createdAt: 'desc'
+}
+
+// Multiple Sort
+orderBy: [
+  {
+    createdAt: 'desc'
+  },
+  {
+    name: 'asc'
+  }
+]
+
+// Distinct
+await prisma.user.findMany({
+  distinct: ['email']
+})
+```
+
+---
+
+## Aggregations 
+
+```js
 // Count
 const count = await prisma.user.count()
 const adultCount = await prisma.user.count({
   where: { age: { gte: 18 } },
 })
 
-// Group by + aggregate
-const grouped = await prisma.user.groupBy({
-  by: ['age'],
-  _count: { _all: true },
-  _avg: { age: true },
-  _sum: { age: true },
-  _min: { age: true },
-  _max: { age: true },
+// Aggregate
+await prisma.user.aggregate({
+  _count: true,
+  _avg: {
+    age: true
+  },
+  _sum: {
+    age: true
+  },
+  _min: {
+    age: true
+  },
+  _max: {
+    age: true
+  }
 })
+
+// Group By
+await prisma.user.groupBy({
+  by: ['age'],
+
+  _count: {
+    _all: true
+  },
+
+  _avg: {
+    age: true
+  }
+})
+
 ```
 
-Transactions
+---
 
-```jsx
-// Interactive transaction
-const [user, post] = await prisma.$transaction([
-  prisma.user.create({ data: { email: "t@example.com", name: "Tx" } }),
-  prisma.post.create({ data: { title: "Tx Post", author: { connect: { email: "t@example.com" } } } }),
+## Transactions
+
+```js
+// Batch Transactions
+await prisma.$transaction([
+  prisma.user.create({
+    data: {
+      email: "a@example.com"
+    }
+  }),
+
+  prisma.post.create({
+    data: {
+      title: "Post"
+    }
+  })
 ])
 
-// Sequential transaction (with rollback on error)
+// Interactive transaction
 await prisma.$transaction(async (tx) => {
-  await tx.user.update({ where: { id: 1 }, data: { age: { increment: 1 } } })
-  await tx.post.create({ data: { title: "New", authorId: 1 } })
+
+  const user = await tx.user.create({
+    data: {
+      email: "a@example.com"
+    }
+  })
+
+  await tx.post.create({
+    data: {
+      title: "Hello",
+      authorId: user.id
+    }
+  })
+
 })
 ```
 
 ---
 
-// BASIC CRUD
-prisma.model.create({ data: { ... } })
-prisma.model.findUnique({ where: { id: 1 } })
-prisma.model.findFirst({ where: { ... } })
-prisma.model.findMany({ where: { ... } })
-prisma.model.update({ where: { id: 1 }, data: { ... } })
-prisma.model.delete({ where: { id: 1 } })
-prisma.model.upsert({
-where: { id: 1 },
-update: { ... },
-create: { ... }
-})
 
-// FILTERING (WHERE)
-where: {
-id: 1,
-title: "Task",
-completed: true,
+## Running Raw SQL
 
-// Comparison
-id: { gt: 5 },          // >
-id: { gte: 5 },         // >=
-id: { lt: 10 },         // <
-id: { lte: 10 },        // <=
-id: { not: 3 },         // !=
-
-// String filters
-title: { contains: "work" },     // LIKE %work%
-title: { startsWith: "A" },      // LIKE A%
-title: { endsWith: "Z" },        // LIKE %Z
-title: { mode: "insensitive" },  // case insensitive
-
-// In / Not In
-id: { in: [1,2,3] },
-id: { notIn: [4,5] },
-
-// AND / OR / NOT
-AND: [{ completed: true }, { userId: 1 }],
-OR: [{ completed: true }, { userId: 1 }],
-NOT: { completed: false }
-}
-
-// RELATIONS (JOIN)
-include: {
-user: true,
-posts: true,
-
-// Nested include
-user: {
-select: { id: true, email: true }
-}
-}
-
-select: {
-id: true,
-title: true
-}
-
-// RELATION FILTERING
-where: {
-user: {
-email: "[test@email.com](mailto:test@email.com)"
-}
-}
-
-where: {
-posts: {
-some: { published: true }   // EXISTS
-}
-}
-
-where: {
-posts: {
-every: { published: true }
-}
-}
-
-where: {
-posts: {
-none: { published: true }
-}
-}
-
-// PAGINATION
-take: 10         // LIMIT
-skip: 20         // OFFSET
-
-cursor: { id: 5 }   // Cursor pagination
-
-// SORTING
-orderBy: {
-createdAt: "desc"
-}
-
-orderBy: [
-{ createdAt: "desc" },
-{ title: "asc" }
-]
-
-// DISTINCT
-distinct: ["userId"]
-
-// AGGREGATIONS
-_count: true
-
-_count: {
-select: { posts: true }
-}
-
-_sum: { amount: true }
-_avg: { price: true }
-_min: { createdAt: true }
-_max: { createdAt: true }
-
-// GROUP BY
-prisma.model.groupBy({
-by: ["userId"],
-where: { completed: true },
-_count: { userId: true },
-_sum: { amount: true },
-orderBy: {
-_count: { userId: "desc" }
-},
-having: {
-userId: { gt: 5 }
-}
-})
-
-// TRANSACTIONS
-await prisma.$transaction([
-prisma.user.create({ data: {...} }),
-prisma.todo.create({ data: {...} })
-])
-
-// RAW SQL
+```js
+// Query Raw
 await prisma.$queryRaw`SELECT * FROM User`
-await prisma.$executeRaw`DELETE FROM User WHERE id = 1`
 
-where        → WHERE
-include      → JOIN
-select       → SELECT columns
-orderBy      → ORDER BY
-take         → LIMIT
-skip         → OFFSET
-_count       → COUNT()
-_sum         → SUM()
-groupBy      → GROUP BY
-having       → HAVING
-distinct     → DISTINCT
+// Execute Raw
+await prisma.$executeRaw`DELETE FROM User WHERE id = 1`
+```
+
+---
+
+## Prisma Middleware
+
+```js
+prisma.$use(async (params, next) => {
+
+  console.log(params.model)
+  console.log(params.action)
+
+  const result = await next(params)
+
+  return result
+})
+```
+
+---
+
+## Error Handling
+
+```js
+try {
+
+  await prisma.user.create({
+    data: {
+      email: "test@example.com"
+    }
+  })
+
+} catch (error) {
+
+  console.log(error)
+
+}
+```
+
+---
+
+
+## Composite Keys
+
+```js
+model Like {
+  postId Int
+  userId Int
+
+  @@id([postId, userId])
+}
+```
+
+---
+
+## Common Prisma Commands
+
+```bash
+# Generate client
+npx prisma generate
+
+# Create migration
+npx prisma migrate dev
+
+# Reset DB
+npx prisma migrate reset
+
+# Open DB GUI
+npx prisma studio
+
+# Pull existing DB schema
+npx prisma db pull
+
+# Push schema without migration
+npx prisma db push
+
+# Seed database
+npx prisma db seed
+```
+
+---
+
+## Useful Attributes
+
+```js
+// Field Attributes
+@id
+@default()
+@unique
+@updatedAt
+@relation()
+
+
+// Model Attributes
+@@index()
+@@unique()
+@@id()
+```
+
+---
+
+## Mapping Prisma to SQL
+
+| Prisma   | SQL      |
+| -------- | -------- |
+| where    | WHERE    |
+| select   | SELECT   |
+| include  | JOIN     |
+| orderBy  | ORDER BY |
+| take     | LIMIT    |
+| skip     | OFFSET   |
+| distinct | DISTINCT |
+| groupBy  | GROUP BY |
+| having   | HAVING   |
+| _count   | COUNT    |
+| _sum     | SUM      |
+| _avg     | AVG      |
+| _min     | MIN      |
+| _max     | MAX      |
+
+
+## Quick Summaries
+
+```js
+// CRUD
+
+create()
+createMany()
+
+findUnique()
+findFirst()
+findMany()
+
+update()
+updateMany()
+
+delete()
+deleteMany()
+
+upsert()
+
+// Relations
+connect
+disconnect
+set
+create
+connectOrCreate
+
+
+// Filtering
+
+contains
+startsWith
+endsWith
+
+gt
+gte
+lt
+lte
+
+in
+notIn
+
+AND
+OR
+NOT
+
+// Aggregation
+_count
+_sum
+_avg
+_min
+_max
+groupBy
+```

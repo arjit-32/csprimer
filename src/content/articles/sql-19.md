@@ -1,5 +1,5 @@
 ---
-title: Storage Engines (InnoDB vs MyISAM)
+title: Storage Engines in MySQL (InnoDB vs MyISAM)
 meta_title: js
 description: js
 author: Arjit Sharma
@@ -9,32 +9,50 @@ draft: false
 year: 2025
 ---
 
+A storage engine is the underlying component responsible for:
+- storing table data,
+- managing indexes,
+- handling locks,
+- and controlling transaction behavior.
 
-## InnoDB (Default)
+In MySQL, different storage engines provide different features and performance characteristics.
 
-- ACID compliant
-- Row-level locking
-- Foreign keys
-- MVCC
+Historically, MySQL supported multiple storage engines for different workloads.
 
-## MyISAM (Legacy)
-
-- Table-level locking
-- No foreign keys
-- Mostly deprecated
+Today, most modern applications primarily use:
 
 ---
 
-# Performance Tips
+## InnoDB (Default and Recommended)
 
-1. Always use InnoDB
-2. Index foreign keys
-3. Avoid SELECT *
-4. Use composite indexes correctly
-5. Prefer keyset pagination
-6. Analyze slow queries with EXPLAIN
-7. Tune:
+It is designed for reliability, concurrency, transactions and production workloads.
 
-```
-SHOW VARIABLESLIKE'innodb_buffer_pool_size';
+### Key Features of InnoDB
+- ACID Compliance
+- Row-level locking - InnoDB locks individual rows instead of entire tables.
+- Foreign keys Support
+- MVCC (Multi-Version Concurrency Control) - Allows readers and writers to operate concurrently while reducing locking conflicts.
+
+
+---
+
+## MyISAM (Legacy Storage Engine)
+
+It was historically popular because was simpler, lightweight and fast for certain read-heavy workloads. However, it lacks many modern database features.
+
+### Limitation of MyISAM
+- Table-level locking - MyISAM locks entire tables during writes. This reduces concurrency significantly under heavy workloads.
+- No foreign key support - Referential integrity must be handled manually by the application.
+- No Transactions - MyISAM does not support transactions, rollbacks or ACID gurantees.
+
+---
+
+## Creating a Table with a Specific Engine
+
+```sql
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY,
+  email VARCHAR(255)
+)
+ENGINE = InnoDB;
 ```
