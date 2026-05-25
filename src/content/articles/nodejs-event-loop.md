@@ -1,7 +1,7 @@
 ---
 title: Node.js Event Loop & Concurrency Model
-meta_title: js
-description: js
+meta_title: Node.js Event Loop Explained | CS Primer
+description: Understand the Node.js event loop, asynchronous execution, callback queues, and non-blocking I/O architecture.
 author: Arjit Sharma
 series: ["nodejs"]
 categories: ["Development"]

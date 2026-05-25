@@ -13,22 +13,22 @@
       "link": [
         {
           "type": "articles",
-          "url": "nodejs-1",
+          "url": "nodejs-introduction",
           "title": "Introduction to Node.js"
         },
         {
           "type": "articles",
-          "url": "nodejs-2",
+          "url": "nodejs-getting-started",
           "title": "Getting Started"
         },
         {
           "type": "articles",
-          "url": "nodejs-3",
+          "url": "nodejs-core-modules",
           "title": "Essential Core Modules"
         },
         {
           "type": "articles",
-          "url": "nodejs-4",
+          "url": "nodejs-modules-dependencies-environment",
           "title": "Modules, Dependencies & Environment"
         }
       ]
@@ -38,12 +38,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "nodejs-7",
+          "url": "nodejs-event-loop",
           "title": "Event Loop"
         },
         {
           "type": "articles",
-          "url": "nodejs-8",
+          "url": "nodejs-thread-pool",
           "title": "Thread Pool"
         }
       ]
@@ -53,22 +53,22 @@
       "link": [
          {
           "type": "articles",
-          "url": "nodejs-5",
+          "url": "nodejs-middleware",
           "title": "Middleware Pattern"
         },
         {
           "type": "articles",
-          "url": "nodejs-6",
+          "url": "nodejs-events-and-errors",
           "title": "Events & Error Handling"
         },
         {
           "type": "articles",
-          "url": "nodejs-9",
+          "url": "nodejs-clustering",
           "title": "Node.js Clustering"
         },
         {
           "type": "articles",
-          "url": "nodejs-10",
+          "url": "nodejs-streams-and-buffers",
           "title": "Streams & Buffers"
         }
       ]

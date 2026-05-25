@@ -87,11 +87,11 @@ A-B = {1, 2}
 
 ## How Developers Use Sets
 
-![set-theory-for-developers](https://addimage)
-
 ### De-duplication
 
 Sets help remove duplicates from lists like tags, cache, or user inputs.
+
+![de-duplication-using-sets](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779635820/dm-1_pkuoch.webp)
 
 ```jsx
 const cache = new Set();
@@ -103,6 +103,8 @@ cache.add('user123'); // Duplicate ignored
 
 Set theory powers common SQL operations like `UNION`, `INTERSECT`, and `EXCEPT`.
 
+![set-theory-in-databases](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779637176/dm-2_sfv8qp.webp)
+
 ```jsx
 SELECT id FROM active_users
 UNION
@@ -110,6 +112,8 @@ SELECT id FROM premium_users;
 ```
 
 ### Role-Based Access
+
+![role-based-access-using-sets](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779637268/dm-3_cn4bnq.webp)
 
 ```jsx
 const adminPermissions = new Set(['read', 'write', 'delete']);

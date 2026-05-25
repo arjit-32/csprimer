@@ -1,7 +1,7 @@
 ---
 title: Functional Programming Concepts
-meta_title: js
-description: js
+meta_title: Functional Programming in JavaScript | CS Primer
+description: Explore functional programming concepts in JavaScript including pure functions, immutability, higher-order functions, and composition.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

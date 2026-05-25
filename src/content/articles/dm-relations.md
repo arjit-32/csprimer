@@ -46,7 +46,7 @@ Just flipping the direction of Relation.
 
 If R = {(arjit, admin)}, then R⁻¹ = {(admin, arjit)}
 
-![inverse-of-relation](https://gooto.com)
+![inverse-of-relation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/inverse-of-relation_tlxbsc.webp)
 
 Useful when you want to go “backwards” in your mapping.
 
@@ -57,22 +57,22 @@ Useful when you want to go “backwards” in your mapping.
 ### Reflexive
 
 Everything maps to itself. *e.g - every service has permission to view its own logs*
-![reflexive](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/relation_kcrozf.png)
+![reflexive](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/reflexive-relation_oiaqbk.webp)
 
 ### Symmetric
 
 If A follows B, then B follows A . *e.g - maybe in mutual friendships*
-![symmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727754/symmetric_ilhcu7.png)
+![symmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/symmetric-relation_fgoxaz.webp)
 
 ### Transitive
 
 If A depends on B, and B depends on C, then A depends on C. *e.g - used in build systems*
-![transitive](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727754/transitive_f4i2sk.png)
+![transitive](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/transitive-relation_etxxlv.webp)
 
 ### Antisymmetric
 
 If A ≤ B and B ≤ A → then A = B. *e.g. - important in orderings like file structures or task flows*
-![antisymmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/antisymmetric_u2qzlm.png)
+![antisymmetric](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/anti-symmetric-relation_wsevcy.webp)
 
 
 ### Equivalence
@@ -87,6 +87,9 @@ Example - Lets take example of programming languages(compiled vs interpreted)
 
 Hence a group of compiled languages is formed containing java, c++ and c.
 
+
+![equivalence-relation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/equivalence-relation_um1fr0.webp)
+
 ### Partial Order Relation
 
 Reflexive + Antisymmetric + Transitive. It a relationship where some items may not be comparable.
@@ -98,6 +101,9 @@ Example - Lets take a office hierarchy
 - If A reports to B and B reports to C, then A reports to C (transitive)
 
 Not everyone has a reporting relationship with each other as different departments. All of this creates a hierarchy without any circular reporting relationships.
+
+
+![partial-order-relation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779644719/Screenshot_2026-05-24_231234_asugnf.webp)
 
 ---
 

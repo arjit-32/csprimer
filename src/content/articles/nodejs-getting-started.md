@@ -1,7 +1,7 @@
 ---
 title: Getting Started with Node.js
-meta_title: js
-description: js
+meta_title: Getting Started with Node.js | CS Primer
+description: Set up Node.js, run your first server, manage packages, and understand the basics of backend development.
 author: Arjit Sharma
 series: ["nodejs"]
 categories: ["Development"]

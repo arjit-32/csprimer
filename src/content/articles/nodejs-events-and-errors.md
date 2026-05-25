@@ -1,7 +1,7 @@
 ---
 title: Events & Error Handling in Nodejs
-meta_title: js
-description: js
+meta_title: Node.js Events & Error Handling | CS Primer
+description: Understand Node.js events, EventEmitter, error handling strategies, and building reliable backend applications.
 author: Arjit Sharma
 series: ["nodejs"]
 categories: ["Development"]

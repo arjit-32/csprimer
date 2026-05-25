@@ -1,7 +1,7 @@
 ---
 title: Asynchronous JavaScript
-meta_title: js
-description: js
+meta_title: Asynchronous JavaScript Explained | CS Primer
+description: Learn asynchronous JavaScript using callbacks, promises, async-await, concurrency, and non-blocking execution patterns.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

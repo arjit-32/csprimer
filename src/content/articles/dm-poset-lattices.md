@@ -26,11 +26,16 @@ This isn’t a *total* order, not everything has to be comparable.
 
 A POSET is often visualized with a Hasse diagram, a graph where nodes (items) and edges(direct relationships without showing every indirect link) exists.
 
-Example: A set *{1,2,4,8}* , where aRb means *“a divides b”*
+![Hasse-Diagram](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779645224/hasse-diagram_ysu6rk.webp)
+
+
+### Example 
+
+A set *{1,2,4,8}* , where aRb means *“a divides b”*
 
 Its POSET will be *{(1,1), (1,2), (1,4), (1,8), (2,2), (2,4), (2,8), (4,4), (4,8), (8,8)}*
 
-![Hasse-Diagram](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/hasse-diagram_coxpsh.png)
+![Hasse-Diagram-Example](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747727755/hasse-diagram_coxpsh.png)
 
 Hasse Diagram will be →
 
@@ -49,6 +54,8 @@ Hasse Diagram will be →
 ---
 
 ## Importance of POSETs
+
+![importance-of-posets](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779645224/importance-of-posets_kenvrj.webp)
 
 In previous article, we saw importance of partial order relations. Some common examples of POSETs usage are Version trees, Project management tools(Trello, Asana), dependency chains and many more. They’re also a base for topological sorting, which many build tools and task schedulers rely on.
 

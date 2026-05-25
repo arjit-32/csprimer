@@ -57,7 +57,18 @@ Its nothing but a proposition logic *(isAdmin ∧ isActive → access)* in form 
 
 ## First Order Predicate Logic
 
-Goes beyond simple statements and lets us talk about variables. Quantifiers are used to express statements about collections of objects. There are 2 types -
+Goes beyond simple statements and lets us talk about variables. FOL extends simpler systems by allowing automated reasoning systems to apply rules to entire categories of objects without needing to list every single one individually. 
+
+
+![first-order-predicate-logic](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779646374/first-order-predicate-logic_zomffm.webp)
+
+
+### Quantifiers
+
+Quantifiers are used to express statements about collections of objects. They are binding operators that determine the scope of variables over a specified domain. There are 2 types of Quantifiers -
+
+
+![quantifiers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779646374/quantifiers_h5q6wf.webp)
 
 - **Universal Quantifier** - ∀x *(“for all x”)*
 `∀x (x² ≥ 0)` This is read as “For all x, x squared is greater than equal to 0”
@@ -65,6 +76,7 @@ Goes beyond simple statements and lets us talk about variables. Quantifiers are 
 `∃x (x² = 4)` This is read as “There exists an x, where x squared equals 4”
 
 This is the basis of assertions in formal verification, tests, and proofs.
+
 
 ### Code Example
 
@@ -75,6 +87,9 @@ WHERE EXISTS (
     WHERE inventory.quantity = 0
 );
 ```
+
+
+![example-of-predicate-logic](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779646373/example-of-predicate-logic_f3txpn.webp)
 
 It shows that is there atleast one product out of stock *(Existential)*
 

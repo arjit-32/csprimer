@@ -8,15 +8,34 @@ categories: ["Core-CS"]
 draft: false
 year: 2025
 ---
-A Boolean expression describes a digital circuit’s behavior using binary variables (0 or 1) and logical operators. It’s like a recipe for how inputs produce an output in a circuit.
 
-A boolean expression is built of Variable, Operator and Constants. 
+A boolean expression is a logical statement that evaluates to exactly one of two values: *True (or 1)* or *False (or 0)*. They are the foundation of computer science, digital electronics, and algorithmic logic, used to control program flow and build circuit logic
+
+![boolean-expression](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779713794/boolean-expression_j3xqth.webp)
+
+---
+
+## Building Blocks of Boolean Expressions
+
+A Boolean expression is built of Variable, Operator and Constants. 
+
+![building-block-of-boolean-expression](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779713782/bulding-blocks-of-boolean-expression_gcqzfq.webp)
 
 - Variables: A, B, C, etc. (binary inputs)
 - Operators: AND (·) , OR (+) , NOT (¬)
 - Constants: 0 (false), 1 (true)
 
-Example: *F = A·¬B + C* , its read as Output F is 1 if (A AND NOT B) OR C is true
+---
+
+## Example Expression
+
+Let's look at a simple example:
+
+**F = A·¬B + C**
+
+Its read as *Output F is 1* -> if (A AND NOT B) is True OR C is True.
+
+![boolean-expression-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779713782/boolean-expression-example_nefihb.webp)
 
 ---
 
@@ -79,5 +98,5 @@ Steps:
 3. Derive a simplified term for each group (combine variables that stay constant)
 
 
-![k-map](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/k-map_u3b1hc.png)
+![k-map](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779714608/karnough-map_wgq4id.webp)
 

@@ -13,17 +13,17 @@
       "link": [
         {
           "type": "articles",
-          "url": "javascript-1",
+          "url": "javascript-introduction",
           "title": "Introduction"
         },
         {
           "type": "articles",
-          "url": "javascript-2",
+          "url": "javascript-syntax-guide",
           "title": "Syntax Guide"
         },
         {
           "type": "articles",
-          "url": "javascript-3",
+          "url": "javascript-es6-guide",
           "title": "ES6 Guide"
         }
       ]
@@ -33,42 +33,42 @@
       "link": [
         {
           "type": "articles",
-          "url": "javascript-4",
+          "url": "javascript-execution-model",
           "title": "Execution Model"
         },
         {
           "type": "articles",
-          "url": "javascript-5",
+          "url": "javascript-scopes-and-lexical-behaviour",
           "title": "Scopes & lexical behaviour"
         },
         {
           "type": "articles",
-          "url": "javascript-6",
+          "url": "javascript-closures",
           "title": "Closures"
         },
         {
           "type": "articles",
-          "url": "javascript-7",
+          "url": "javascript-this-keyword",
           "title": "this keyword"
         },
         {
           "type": "articles",
-          "url": "javascript-8",
+          "url": "javascript-prototypes",
           "title": "Prototypes"
         },
         {
           "type": "articles",
-          "url": "javascript-9",
+          "url": "javascript-object-oriented",
           "title": "Object Oriented"
         },
         {
           "type": "articles",
-          "url": "javascript-10",
+          "url": "javascript-functional-programming",
           "title": "functional programming"
         },
         {
           "type": "articles",
-          "url": "javascript-11",
+          "url": "javascript-advanced-concepts",
           "title": "Advanced Concepts"
         }
       ]
@@ -78,17 +78,17 @@
       "link": [
         {
           "type": "articles",
-          "url": "javascript-12",
+          "url": "javascript-event-loop-task-queues",
           "title": "Event Loop"
         },
         {
           "type": "articles",
-          "url": "javascript-13",
+          "url": "javascript-asynchronous",
           "title": "Asynchronous JS"
         },
         {
           "type": "articles",
-          "url": "javascript-14",
+          "url": "javascript-http-request-and-errors",
           "title": "HTTP & Error Handlign"
         }
       ]
@@ -98,27 +98,27 @@
       "link": [
         {
           "type": "articles",
-          "url": "javascript-15",
+          "url": "javascript-dom-introduction",
           "title": "DOM intro"
         },
         {
           "type": "articles",
-          "url": "javascript-16",
+          "url": "javascript-dom-manipulation-cheatsheet",
           "title": "DOM manipulation"
         },
         {
           "type": "articles",
-          "url": "javascript-17",
+          "url": "javascript-event-handling",
           "title": "Event Handling"
         },
         {
           "type": "articles",
-          "url": "javascript-18",
+          "url": "javascript-browser-storage",
           "title": "Browser Storage"
         },
         {
           "type": "articles",
-          "url": "javascript-19",
+          "url": "javascript-performance-optimization",
           "title": "Performance Optimizing"
         }
       ]

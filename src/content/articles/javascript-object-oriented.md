@@ -1,7 +1,7 @@
 ---
 title: Object Oriented Javascript
-meta_title: js
-description: js
+meta_title: Object Oriented JavaScript | CS Primer
+description: Learn object-oriented programming in JavaScript including classes, objects, encapsulation, inheritance, and polymorphism.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

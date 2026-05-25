@@ -1,7 +1,7 @@
 ---
-title: DOM Basics & Manipulation
-meta_title: js
-description: js
+title: DOM Manipulation Cheatsheet
+meta_title: JavaScript DOM Manipulation Guide | CS Primer
+description: Master JavaScript DOM manipulation including element selection, content updates, styling, and dynamic page interactions.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

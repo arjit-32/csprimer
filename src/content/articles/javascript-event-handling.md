@@ -1,7 +1,7 @@
 ---
 title: Events & Event Handling
-meta_title: js
-description: js
+meta_title: JavaScript Event Handling | CS Primer
+description: Learn JavaScript event handling, event listeners, bubbling, capturing, delegation, and interactive UI programming.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

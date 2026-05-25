@@ -19,37 +19,53 @@ But before we get into that, lets go back in time to the 19th century where it a
 
 ### Charles Babbage: Idea of a Computer
 
+![charles-babbage](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730100/charles-babbage_yobzxo.webp)
+
 In the **1830s**, *Charles Babbage* envisioned the **Analytical Engine**, a fully mechanical, general-purpose computer. It used rotating gears to represent and manipulate numbers, had memory unit using punch cards and could perform programmatical operations.
 
 Though never completed, it introduced the fundamental structure of a computer.
 
 ### Ada Lovelace: The First Programmer
 
+![ada-lovelace](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730208/ada-lovelace_varqoh.webp)
+
 *Ada Lovelace*, working alongside Babbage, wrote what is now considered the *first computer program,* an algorithm to compute **Bernoulli numbers** on the Analytical Engine. She saw that such a machine could go beyond numbers, even proposed that one might compose music.
 
 ### Herman Hollerith: Data Processing
+
+![herman-hollirith](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730206/herman-hollirith_cwvp1j.webp)
 
 In **1880s,** Herman Hollerith developed a tabulating machine that used punch cards to process data efficiently and was used for **1890** U.S census, reducing data processing time from years to months.
 
 ### Alan Turing: Formalized Computation
 
+![alan-turing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730100/alan-turing_jmhqrh.webp)
+
 In **1936**, Alan Turing introduced the turing machine, a theoritical model consisting of a infinite tape, a read/write head and set of rules to manipulate symbols. This laid the concept of a universal machine and a foundation for stored-program computers. 
 
 ### Electromechanical Computers
+
+![electromechanical-computers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730206/electromechanical-computers_nfgqet.webp)
 
 As mechanical systems were reaching their limits, engineers started incorporating electrical components. In **1941**, **Konrad Zuse’s Z3** used electromechanical relays. While IBM also developed Harvard Mark 1 in **1944**, which used relays and punch cards.
 
 ### Claude Shannon: Simplified Circuit Design
 
+![claude-shanon](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730099/claude-shanon_xjrw4x.webp)
+
 In **1937**, *Claude Shannon* revolutionized circuit design by proving that Boolean algebra could model logic circuits. Now engineers could now design logic circuits mathematically instead of guess work.
 
 ### Electronic Computers with Vacuum Tubes
+
+![electronic-computers-with-vaccum-tubes](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730208/vaccum-tubes_qayxb0.webp)
 
 In the **1940s**, computers moved from mechanical to electronic with vacuum tubes. ENIAC (**1945**): One of the first electronic general-purpose computers. It used ~18,000 vacuum tubes and was programmed manually with cables *(no concept of stored program)*, primarily used in military calculations. 
 
 ### Evolution of Hardware
 
- A transistor was developed in **1947**, it replaced vacuum tubes and was later used in **IBM 7090** *(1959).* Soon after Transistors, followed Integrated Circuits in **1958,** and a microprocessor in **1970s** which later gave us personal computers.
+![evolution-of-hardware-for-modern-computers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779730207/modern-hardware_vzkmaw.webp)
+
+A transistor was developed in **1947**, it replaced vacuum tubes and was later used in **IBM 7090** *(1959).* Soon after Transistors, followed Integrated Circuits in **1958,** and a microprocessor in **1970s** which later gave us personal computers.
 
 ---
 

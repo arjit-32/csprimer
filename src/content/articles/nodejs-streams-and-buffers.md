@@ -1,7 +1,7 @@
 ---
 title: Node.js Streams & Buffers for Efficient Data Handling
-meta_title: js
-description: js
+meta_title: Node.js Streams & Buffers | CS Primer
+description: Master Node.js streams and buffers for efficient data processing, file handling, and memory optimization.
 author: Arjit Sharma
 series: ["nodejs"]
 categories: ["Development"]

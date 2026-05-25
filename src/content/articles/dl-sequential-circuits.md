@@ -11,24 +11,34 @@ year: 2025
 
 Sequential circuits are *logic circuits with memory* . Their output depends not only on current inputs but also on the history of inputs.
 
-**Key Characteristics -**
+![sequential-circuits](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724276/sequential-circuit_qojqfz.webp)
+
+## Key Characteristics of Sequential Circuits
+
+![charachteristics-of-sequential-circuits](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724276/sequential-circuit-characters_wyp9f9.webp)
 
 - Use feedback loops to store state
 - Require a clock signal for timing (in synchronous systems)
 - Built using flip-flops and latches
 
+---
+
 ## Types of Sequential Circuits
 
-### 1. **Latches**
+### 1. Latches
+
+![latches](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724277/latches_jrwuoj.webp)
 
 Simplest memory elements, storing 1 bit and built using NOR or NAND gates.
 
 - **SR Latch**: Stores 1 bit using Set (S) and Reset (R) inputs
 
-![SR-Latch](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747985754/s-r-latch_kiqdb0.png)
+![SR-Latch](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724495/S-R-FlipFlop_ndrko5.webp)
 ---
 
-### 2. **Flip-Flops**
+### 2. Flip-Flops
+
+![flip-flops](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724275/flip-flops_jwztel.webp)
 
 Clocked version of latches where data changes only on clock edge (e.g., rising or falling).
 
@@ -40,19 +50,25 @@ Clocked version of latches where data changes only on clock edge (e.g., rising o
 
 ---
 
-### 3. **Registers**
+### 3. Registers
+
+![registers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724275/registers_oa9phl.webp)
 
 Group of flip-flops used to store multi-bit values. They are synchronized by clock, used in processors for temporary data storage
 
 ---
 
-### 4. **Counters**
+### 4. Counters
+
+![counters](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724277/counters_ze0nlk.webp)
 
 Circuits that count clock pulses in sequence. There are multiple types like Up Counter, Down counter etc
 
 ---
 
-### 5. **Finite State Machines (FSMs)**
+### 5. Finite State Machines (FSMs)
+
+![finite-state-machines](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779724364/finite-state-machines_fzqg57.webp)
 
 Models that manage sequences by transitioning between states. These are defined by -
 

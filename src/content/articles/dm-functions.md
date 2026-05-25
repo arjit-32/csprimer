@@ -66,17 +66,28 @@ Perfect pairing where each input has exactly one output and vice versa. *Each co
 
 ## Inverse of a Function
 
+
+![inverse-of-function](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779645803/inverse-of-function_u0ouwj.webp)
+
 To find the inverse of a function, you essentially "undo" its operation. That means if a function maps *f(x) = y*, the inverse function will reverse this mapping and is represented as *f⁻¹(x)*. 
 Inverses have powerful applications in fields like encryption, computer graphics, data modeling, and more.
 
-Example - Let f(x)=5x-7, to find the inverse ->
-```html
+**Example** 
+
+
+![example-of-inverse-of-function](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779645802/example-of-inverse-of-function_jr48xk.webp)
+
+Let *f(x)=5x-7*, to find the inverse -
+
+```bash
 Set y = 5x-7 and solve for x; 
 5x-7 = y 
 5x = y+7 
 x = (y+7)/5 
 ```
- *f⁻¹(x)=(x+7)/5*
+
+**f⁻¹(x)=(x+7)/5**
+
 
 ---
 

@@ -24,6 +24,9 @@ A branch of mathematics that studies *elements* present in a *group*. A group is
 
 ## What are Algebraic Structures ?
 
+
+![algebraic-structures](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779677267/algebraic-structure_poiwfk.webp)
+
 Algebraic structures defines a *set of values* and *rules for combining them*. There are many types, some common ones are -
 
 ### 1. Semigroup
@@ -56,7 +59,11 @@ example → (Z,+): Addition on Integers.
 
 Algebraic structures are a theoretical concept but they provide practical pattern for solving real-world problems. The properties being followed by a algebraic structure allows use to shape programming model. 
 
-For example → Concatenation of Strings often follow properties of a Monoid
+### Example - Concatenation of Strings 
+
+![monoid-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779677268/monoid-example_e6g00b.webp)
+
+Concat operation of strings often follow properties of a Monoid
 
 ```jsx
 // Closure
@@ -68,6 +75,9 @@ For example → Concatenation of Strings often follow properties of a Monoid
 // Identity
 "" + "hello" = "hello"
 ```
+
+
+![monoid-example-of-strings](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779677267/monoid-example-string_bbejlv.webp)
 
 ---
 

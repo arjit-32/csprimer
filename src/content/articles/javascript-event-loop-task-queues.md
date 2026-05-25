@@ -1,7 +1,7 @@
 ---
 title: Event Loop & Task Queues in Javascript
-meta_title: js
-description: js
+meta_title: JavaScript Event Loop & Task Queues | CS Primer
+description: Understand the JavaScript event loop, microtasks, macrotasks, callback queue, and asynchronous execution flow.
 author: Arjit Sharma
 series: ["javascript"]
 categories: ["Development"]

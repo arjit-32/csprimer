@@ -26,17 +26,17 @@ These three operations are the building blocks of all digital logic -
 
 | Law Name | Expression(s) | Meaning | 
 |--|--|--|
-| Identity | A + 0 = A<br>A · 1 = A | Adding false or multiplying by true doesn’t change the value | 
-| Null | A + 1 = 1<br>A · 0 = 0 | OR with true always gives true; AND with false always gives false | 
-| Idempotent | A + A = A<br>A · A = A | Repeating a condition has no effect | 
-| Complement | A + ¬A = 1<br>A · ¬A = 0 | A condition or its opposite is always true in OR; always false in AND | 
-| Domination | A + 1 = 1<br>A · 0 = 0 | Dominating values (1 in OR, 0 in AND) override everything | 
+| Identity | A + 0 = A<br/>A · 1 = A | Adding false or multiplying by true doesn’t change the value | 
+| Null | A + 1 = 1<br/>A · 0 = 0 | OR with true always gives true; AND with false always gives false | 
+| Idempotent | A + A = A<br/>A · A = A | Repeating a condition has no effect | 
+| Complement | A + ¬A = 1<br/>A · ¬A = 0 | A condition or its opposite is always true in OR; always false in AND | 
+| Domination | A + 1 = 1<br/>A · 0 = 0 | Dominating values (1 in OR, 0 in AND) override everything | 
 | Double Negation | ¬(¬A) = A | Negating a value twice gives back the original value | 
-| Commutative | A + B = B + A<br>A · B = B · A | Order doesn't affect outcome for OR and AND | 
-| Associative | (A + B) + C = A + (B + C)<br>(A · B) · C = A · (B · C) | Grouping doesn't affect outcome | 
-| Distributive | A · (B + C) = A·B + A·C<br>A + (B · C) = (A + B) · (A + C) | Distribute one operation over another (like multiplying over addition) | 
-| Absorption | A + A·B = A<br>A · (A + B) = A | Redundant conditions can be removed | 
-| De Morgan's | ¬(A · B) = ¬A + ¬B<br>¬(A + B) = ¬A · ¬B | Converts AND to OR (and vice versa) when negating entire expressions | 
+| Commutative | A + B = B + A<br/>A · B = B · A | Order doesn't affect outcome for OR and AND | 
+| Associative | (A + B) + C = A + (B + C)<br/>(A · B) · C = A · (B · C) | Grouping doesn't affect outcome | 
+| Distributive | A · (B + C) = A·B + A·C<br/>A + (B · C) = (A + B) · (A + C) | Distribute one operation over another (like multiplying over addition) | 
+| Absorption | A + A·B = A<br/>A · (A + B) = A | Redundant conditions can be removed | 
+| De Morgan's | ¬(A · B) = ¬A + ¬B<br/>¬(A + B) = ¬A · ¬B | Converts AND to OR (and vice versa) when negating entire expressions | 
 
 ---
 
@@ -61,6 +61,17 @@ Boolean operations come to life as logic gates in electronic circuits. These gat
 
 ![derived-logic-gates](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747728164/logic-gates_fh6j4f.png)
 
+
+---
+
+## Summarizing Boolean Algebra and Logic Gates
+
+Boolean algebra provides the rules of simplification, while logic gates are the physical implementation of those rules in digital circuits. Together, they form the foundation of computer architecture and digital systems.
+
+
+<Notice type="note">Let's try to summarize all the laws in a single image.</Notice>
+
+![boolean-algebra-laws](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779679492/laws-of-boolean-algebra_qxbsi6.webp)
 
 ---
 
