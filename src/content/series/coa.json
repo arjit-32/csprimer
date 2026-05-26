@@ -28,6 +28,16 @@
         },
         {
           "type": "articles",
+          "url": "coa-program-counter",
+          "title": "Program Counter"
+        },
+        {
+          "type": "articles",
+          "url": "coa-clock-cycle-and-pipelining",
+          "title": "Clock Cycle & Pipelining"
+        },
+        {
+          "type": "articles",
           "url": "coa-control-unit",
           "title": "Control Unit"
         },

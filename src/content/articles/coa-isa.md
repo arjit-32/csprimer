@@ -11,9 +11,13 @@ year: 2025
 
 The Instruction Set Architecture (ISA) is the interface between CPU’s hardware and software it runs. In this article we will try to understand about ISA using x86 *(ISA used in many CPUs)*
 
+![instruction-set-architecture](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779820406/instruction-set-architecture_yccuaf.webp)
+
 ## What Is an ISA?
 
 An ISA is the bridge between software and hardware, defining the instructions a CPU can execute. Think of x86 as the specific dialect spoken by Intel and AMD processors. It specifies -
+
+![isa-defines-what](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779820399/isa-defines-what_yp6yis.webp)
 
 - **Instructions**: Commands like “add two numbers” or “move data.”
 - **Format**: How instructions are written in binary.
@@ -25,9 +29,11 @@ An ISA is the bridge between software and hardware, defining the instructions a 
 
 Let’s take a simple x86 instruction -
 
-```nasm
+```bash
 MOV EAX, 42
 ```
+
+![x86-isa-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779820400/x86-isa_lmufqx.webp)
 
 This tells the CPU to move the number 42 into a register called EAX.  MOV is a data movement *instruction.* EAX is one of x86’s *registers.* Immediate *addressing mode* is used.
 
@@ -43,8 +49,9 @@ When you write a program (say, in C), the compiler translates it into x86 machin
 
 Suppose in your code somewhere you do *score = score + 10*. The compiler might generate x86 code like -
 
-```asm
-MOV EAX, [score] // Load score from memory to EAX
+```bash
+
+MOV EAX, [score]  # Load score from memory to EAX
 ADD EAX, 10 // Add 10 to EAX
 MOV [score], EAX // Store result back to memory
 ```

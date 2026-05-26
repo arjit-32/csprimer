@@ -21,3 +21,9 @@ Addressing modes define how a CPU locates operands (data) for instructions, enab
 | Indirect | Register holds the memory address. | MOV R1, [R2] *(Loads value at address in R2 into R1)* |
 | Indexed | Combines a base register with an offset, ideal for arrays. | MOV R1, [R2 + 4] *(Loads value at address R2+4 into R1)* |
 | Relative | Address is relative to the Program Counter, used for jumps. | JMP PC + 3 *(Jumps to PC + 3 bytes)* |
+
+---
+
+## Visual Example of all Addressing Modes
+
+![visual-example-of-addressing-modes](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779820144/addressing-modes_v2o336.webp)
