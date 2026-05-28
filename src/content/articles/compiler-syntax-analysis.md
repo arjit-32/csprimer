@@ -11,6 +11,8 @@ year: 2025
 
 ## What Is Syntax Analysis?
 
+![syntax-analysis-intro](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779968533/syntax-analysis-intro_q9a2c3.webp)
+
 Once the lexer has broken source code into tokens, syntax analysis (or parsing) takes over. It arranges these tokens into a parse tree *(or syntax tree)* based on the grammar of the programming language.
 
 We are just trying to ask - 
@@ -26,19 +28,26 @@ The syntax of a programming language is defined using a **context-free grammar (
 - A set of rules (productions) that describe how statements are structured
 - For example:
     
-    ```
+    ```bash
     stmt → if ( expr ) stmt
     expr → ID > NUM
     ```
     
-
 Parsers are built to check input against these rules.
+
+---
+
+Now that we know about Grammars., lets take a look at the complete flow 
+
+![syntax-analysis-complete-flow](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779968534/syntax-analysis-flow_ggvxib.webp)
 
 ---
 
 ## Types of Parsers
 
 Two major categories:
+
+![two-types-of-parsers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779968534/topdown-bottomup-parsers_xsfzdx.webp)
 
 1. **Top-down Parsers** (predictive, recursive descent)
     - Try to build the parse tree from the root down

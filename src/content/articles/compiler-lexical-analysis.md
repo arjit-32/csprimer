@@ -11,6 +11,8 @@ year: 2025
 
 ## What Is Lexical Analysis?
 
+![lexiacl-analysis-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779966435/lexical-analysis-example_ko4fza.webp)
+
 Lexical analysis is the first phase of a compiler. It scans the source code and breaks it into a sequence of tokens, which are the basic building blocks of a program:
 
 - Keywords (`if`, `while`)
@@ -27,28 +29,72 @@ This process is handled by the *lexer* or *scanner*.
 
 Lets say you have a input like *x = a+b;*
 
-1. **Scanning:** Break input string into tokens*(lexemes).*
+1. **Scanning:** Break input string into tokens *(lexemes).*
     
-    ```
-    [x] [=] [a] [+] [b] [;]
-    ```
+```text
+[x] [=] [a] [+] [b] [;]
+```
     
 2. **Evaluating:** Convert lexemes into processed values.
 
-```bash
-[(identifies,x), (operator,=), (identifier,a), (operator,+), (identifier,b)]
+```text
+[   
+    (identifies,x), 
+    (operator,=), 
+    (identifier,a), 
+    (operator,+), 
+    (identifier,b)
+]
 ```
+
+---
+
+Now that we know about the two phases., lets take a look at complete picture of how lexical anlysis works.
+
+![lexical-analysis](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779966434/lexical-analysis_a0rz0x.webp)
+
+
+---
+
+## Lexical Errors
+
+A lexical analyzer may also detect invalid character sequences that do not match any defined token pattern. These are called lexical errors.
+
+![lexical-errors](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779966434/lexical-errors_fw8tpq.webp)
+
+For example:
+
+```c
+if(total $ 50)
+```
+
+In above code, the symbol $ may be considered invalid if it is not part of the language grammar, causing the lexer to throw a lexical error.
+
 
 ---
 
 ## Tools & Techniques
 
-Lexers are built using *regular expressions* to describe patterns and *Finite automata* to implement those patterns efficiently. **Lex** is one such tool that is used to generate lexical analyzers from regex-like rules.
+Lexical analyzers are built using two important concepts:
 
-A lexical analyzer may throw an error when it sees an invalid pattern *(not defined by us).* These are called lexical errors.
+1. **Regular Expressions (Regex)**  
+   Used to describe token patterns such as identifiers, numbers, operators, and keywords.
+
+2. **Finite Automata**  
+   Used internally to efficiently recognize and match those patterns while scanning source code.
+
+![lexical-analysis-foundations](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779966435/lexical-analysis-foundations_ffhxo8.webp)
+
+For example:
+
+- `[a-zA-Z_][a-zA-Z0-9_]*` → identifier
+- `[0-9]+` → integer
+- `==|!=|<=|>=` → operators
+
+In practice, tools like **Lex** allow developers to write regex-based rules and automatically generate a lexical analyzer from them.
 
 ---
 
-## Why Is Lexing Important?
+## Conclusion
 
-It simplifies the parser’s job by structuring raw text and also provides early error detection *(invalid characters, unclosed strings)*
+Lexing simplifies the parser’s job by structuring raw text and also provides early error detection *(invalid characters, unclosed strings)*

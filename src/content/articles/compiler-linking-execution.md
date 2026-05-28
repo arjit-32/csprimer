@@ -30,7 +30,7 @@ The linker:
 
 ## What Is Execution?
 
-1. The OS loads the binary into memory
-2. Sets up a stack *(for variables)* and heap *(for dynamic data)*
-3. Initializes registers and jumps to the start point (like `main()`)
-4. The CPU starts executing your instructions
+1. The OS loads the executable into memory
+2. OS creates memory regions (stack *(for variables)*, heap *(for dynamic data)*, code and data).
+3. CPU registers are initialized to point to these regions.
+4. CPU starts fetching and executing these instructions.

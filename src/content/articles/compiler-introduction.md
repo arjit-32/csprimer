@@ -11,11 +11,15 @@ year: 2025
 
 ## What Is a Compiler?
 
+![compilers-introduction](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779964275/compilers-intro_ganqfv.webp)
+
 A compiler is a program that translates code written in a high-level programming language (like C, Java, or Rust) into machine code that a computer's processor can execute. 
 
 ---
 
 ## A Bit of History
+
+![brief-history-of-compilers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779964296/history-of-compilers_gk24xw.webp)
 
 - **1940s** Early Computers: The first computers, like the ENIAC (1945), were programmed manually using switches or punch cards. Programmers had to write machine code (0s and 1s), which was slow and error-prone, like writing a book in binary.
 - **Late 1940s** Assembly Language: Computers like the EDSAC (1949) introduced assembly language, using words (e.g., “ADD”) instead of 0s and 1s. Assemblers, early compiler-like tools, translated these into machine code, saving time.
@@ -27,6 +31,8 @@ Early computers were hard to program directly. Compilers emerged to bridge the g
 ---
 
 ## The Building Blocks of a Compiler
+
+![phases-of-compiler](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779964297/all-phases-of-compiler_umkrbd.webp)
 
 A modern compiler is built in phases, each responsible for a part of the translation process:
 
