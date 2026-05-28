@@ -11,6 +11,8 @@ year: 2025
 
 Finite automata are great for flat, linear patterns like checking if a string ends with *01*. But they can't handle nested structures like -
 
+![pushdown-automata](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959713/context-free-grammar_gsjzng.webp)
+
 - Matching parentheses: *( ( ) ( ) )*
 - Balanced *aⁿbⁿ: aabb, aaabbb*
 - Simple arithmetic like *a + (b * c)*
@@ -25,17 +27,19 @@ To recognize such patterns, the machine needs memory to keep track of context, a
 
 A Pushdown Automaton (PDA) is like a DFA but with an extra component: a **stack**.
 
-This allows the PDA to Push symbols onto the stack , Pop symbols  and Peek at the top symbol. It makes decisions based on the **c**urrent state, input symbol, and top of the stack.
+This allows the PDA to Push symbols onto the stack , Pop symbols  and Peek at the top symbol. It makes decisions based on the current state, input symbol, and top of the stack.
 
 ---
 
-## How It Works
+## How a Pushdown Automata Works ?
 
 Imagine trying to match balanced parentheses:
 
 ```
 ( ( ) )
 ```
+
+![balancing-parnethesis-detailed](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959713/matching-parenthesis-with-pushdown-automata_jofyep.webp)
 
 1. When it sees a *(* → it **pushes** it onto the stack
 2. When it sees a *)* → it **pops** a *(*  from the stack

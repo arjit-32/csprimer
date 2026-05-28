@@ -11,6 +11,8 @@ year: 2025
 
 ## What Is a Finite Automata?
 
+![finita-automata-introduction](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945396/finite-automata-intro_w92oda.webp)
+
 A finite automaton is an abstract machine which reads an input string *(e.g., 0s and 1s)* one symbol at a time, in response to which moves from one state to another.
 
 ---
@@ -27,11 +29,11 @@ A DFA that accepts strings starting in abb over the alphabet {a, b}
 
 ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1747371667/dfa_fqadse.png)
 
-- It starts at a base state*(q0)*
-- Moves to a second state*(q1)* when it reads *a*
-- Moves to a third state*(q2)* when it reads a *b*
+- It starts at a base state *(q0)*
+- Moves to a second state *(q1)* when it reads *a*
+- Moves to a third state *(q2)* when it reads a *b*
 - Moves to a final accepting state*(q3)* when it sees a *b* right after.
-- If any other sequence appears, it ends in a non-accepting state*(q4) (loop to stay in reject state)*
+- If any other sequence appears, it ends in a non-accepting state *(q4) (loop to stay in reject state)*
 
 ---
 
@@ -57,10 +59,21 @@ A NFA that accepts strings starting in abb over the alphabet {a, b}
 
 ## Mealy and Moore Machines
 
+![mealy-moore](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945397/mealy-moore-intro_wabgkx.webp)
+
 Mealy and Moore machine are a special case of DFA that produce output rather than acting as language acceptors. 
 
 So far DFA and NFA only say *“yes”* or *“no”,* but what if you want a machine that produces output as it runs? That’s where these two models come in.
 
-- **Moore Machine**: The output depends **only on the current state**
-- **Mealy Machine**: The output depends on **both the current state and input symbol**
+### Moore Machine 
+
+![moore-machine](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945396/moore-machine_iuzqfz.webp)
+
+The output depends **only on the current state**
+
+### Mealy Machine 
+
+![mealy-machine](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945397/mealy-machine_oiqqsy.webp)
+
+The output depends on **both the current state and input symbol**
 

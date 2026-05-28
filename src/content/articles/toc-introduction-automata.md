@@ -15,9 +15,17 @@ Long before high-level programming languages existed, mathematicians tried to an
 
 *“Can we model human reasoning and mechanical computation with formal systems? “*
 
+![introdction-to-automata-theory](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945396/introduction-to-automata-theory_okodf6.webp)
+
 This led to the birth of automata theory, a branch of theoretical computer science that models simple machines capable of understanding structured input.
 
-Key figures in development of the field are -
+---
+
+## History of Automata Theory
+
+Key figures in development of the field are
+
+![key-figures-of-automata-theory](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945397/key-figures-of-automata-theory_rduvd9.webp)
 
 - **Alan Turing (1936)**: Created the Turing Machine, the simplest possible machine that can simulate any algorithm. This became the formal definition of "computability".
 - **Alonzo Church**: Worked on lambda calculus, another formal system showing how functions and logic could be expressed.
@@ -53,10 +61,14 @@ These operations are what make regular expressions possible and regular expressi
 
 ## Why Does This Matter for Developers?
 
-Every compiler’s or interpreter’s initial 2 steps are -
+![automata-theory-for-developers](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779945396/automata-theory-for-developers_wqcace.webp)
 
-1. Lexical analysis - Breaks your code into tokens (e.g., `while`, `if`, `123`, `=`)
-2. Syntax analysis - Checks if those tokens follow the grammar
+Every compiler or interpreter processes code through multiple stages.
 
-These first two stages are automata in action. *Lexical analyzers use finite automata and regular expressions* while *Syntax analyzers use context-free grammars.* So, before we can write or understand a compiler, we need to know how machines process structured input which is exactly what automata theory teaches us
+The first two stages are especially important in automata theory:
 
+1. Lexical Analysis: Breaks source code into tokens using regular expressions and finite automata.
+
+2. Syntax Analysis *(Parsing)*: Checks whether those tokens follow the grammar rules of the language using context-free grammars.
+
+These stages form the foundation of compilation and language processing. Concepts from automata theory, grammars, and formal languages later extend into compiler construction, interpreters, and programming language design.

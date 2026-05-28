@@ -17,9 +17,13 @@ For example: αAβ → αγβ *(A transforms to γ only when surrounded by α an
 
 A Context-Sensitive Grammar can generate more complex patterns than CFGs, and these patterns are recognized by **Linear Bounded Automata (LBA)**. An LBA is like a Turing Machine but with limited memory *(it can only use memory proportional to the input length)*
 
-### Example of a Context-Sensitive Language:
+---
 
-`L = { aⁿbⁿcⁿ | n ≥ 1 }`
+## Example of a Context-Sensitive Language:
+
+Lets take a language say - **L = { aⁿbⁿcⁿ | n ≥ 1 }**
+
+![context-sensitive-grammar](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779960283/cfg-vs-context-sensitive-grammar_h9ruea.webp)
 
 In this language, the number of *a’s* must match the number of *b’s* and *c’s*. A CFG can’t handle this, but a context-sensitive grammar can.
 
@@ -29,16 +33,22 @@ In this language, the number of *a’s* must match the number of *b’s* and *c�
 
 A Turing Machine (TM) is the most powerful model of computation. It can simulate any other machine *(including PDAs and LBAs)* and is the foundation of computation theory.
 
-A **Turing Machine** consists of:
+A Turing Machine consists of:
+
+![turing machine](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959713/turing-machine-intro_ekivou.webp)
 
 1. An *infinite tape* (like memory) divided into cells
 2. A *head* that reads and writes on the tape
 3. A *state register* to keep track of the machine's state
-4. A t*ransition function* that determines the machine's next action (move left/right, write a symbol, change state)
+4. A *transition function* that determines the machine's next action (move left/right, write a symbol, change state)
+
+![turing-machine-working](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959713/turing-machine-working_etb6yw.webp)
 
 ---
 
 ## Turing Machine Example
+
+Lets build a Turing Machine for say - **L = { aⁿbⁿ | n ≥ 1 }**
 
 ![turing-machine](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1748157124/turin-machine_sjjdpd.png)
 

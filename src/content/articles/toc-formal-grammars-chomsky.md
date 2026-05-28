@@ -11,6 +11,8 @@ year: 2025
 
 ## What Is a Grammar?
 
+![what-is-grammar](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959712/grammar_eacq6i.webp)
+
 A grammar is a set of rules used to generate strings in a language. It tells you how to build valid sentences (or code) from a set of symbols.
 
 A grammar includes:
@@ -20,11 +22,13 @@ A grammar includes:
 - **Non-terminals**: placeholders *(like <expr> or S)*
 - **Production rules**: how symbols can be replaced
 
-### Example
+### Example of Grammar
 
 ```
 S → aSb | ε
 ```
+
+![example-of-grammar-producing-strings](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959712/example-of-grammar_yxh7tr.webp)
 
 - *S* is Start Symbol and Non-terminal
 - *a* and *b* are Terminals
@@ -36,22 +40,24 @@ This generates strings like *ab, aabb, aaabbb*, etc.
 
 ## Regular vs Non-Regular Grammar
 
-- A regular grammar produces regular languages, the simplest kind.
+- Regular Grammar - A regular grammar produces regular languages, the simplest class in the Chomsky hierarchy. Regular grammars can only describe patterns that don’t require “counting” or balancing.
+
     
-    It uses rules like:
+It uses very restricted rules like:
+
+```bash
+A → aB # (a terminal followed by a non-terminal)
+B → b # (just a terminal)
+A → ε # (empty string)
+```
     
-    ```
-    A → aB
-    B → b
-    ```
+- Non-Regular Grammar - More powerful than regular grammars; they produce context-free languages. Productions can have recursive patterns, allowing dependencies between symbols. Can describe structures with dependencies, such as matching parentheses or equal numbers of symbols.
+
+```bash
+S → aSb | ε
+```
     
-- A non-regular grammar is more powerful and can describe structures finite automata cannot, like:
-    
-    ```
-    S → aSb | ε
-    ```
-    
-    This generates equal numbers of *a’s* and *b’s*, which is valid in context-free grammars.
+This generates equal numbers of *a’s* and *b’s*, which is valid in context-free grammars.
     
 ---
 
@@ -78,7 +84,7 @@ Regular languages (Type 3) are the simplest and most limited, but also the **fas
 
 A context-free grammar allows productions of the form:
 
-```arduino
+```bash
 A → γ
 ```
 
@@ -86,21 +92,25 @@ Where *A* is a single non-terminal, and *γ* can be any string of terminals and 
 
 This allows recursive structures, such as:
 
+![context-free-grammar](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959713/context-free-grammar_gsjzng.webp)
+
 - Arithmetic expressions *(Expr → Expr + Term)*
 - Balanced parentheses *(S → (S) | ε)*
 - Nested blocks in code
 
-**Example CFG:**
+### Example of Context Free Grammar
 
-```
+```bash
 S → aSb | ε
 ```
 
 Generates: *ε, ab, aabb, aaabbb ...*
 
-**Need of CFG ?**
+### Need of CFG ?
 
 Finite automata *(and regular grammars)* cannot count or remember, so they can’t ensure matching numbers of symbols (like open and close brackets). CFGs solve that with a stack-based memory (via Pushdown Automata).
+
+![balancing-brackets-with-pushdown-automata](https://res.cloudinary.com/dwa6rcttw/image/upload/v1779959712/push-down-automata_kkpnd2.webp)
 
 CFGs are used by **parsers** in compilers to understand nested syntax.
 
