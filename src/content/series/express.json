@@ -13,32 +13,32 @@
       "link": [
         {
           "type": "articles",
-          "url": "express-1",
+          "url": "express-introduction",
           "title": "Introduction"
         },
         {
           "type": "articles",
-          "url": "express-2",
+          "url": "express-getting-started",
           "title": "Getting Started with Express"
         },
         {
           "type": "articles",
-          "url": "express-3",
+          "url": "express-routing",
           "title": "Routing"
         },
         {
           "type": "articles",
-          "url": "express-5",
+          "url": "express-route-query-parameter",
           "title": "Route & Query Parameters"
         },
         {
           "type": "articles",
-          "url": "express-6",
+          "url": "express-sending-responses",
           "title": "Sending Responses"
         },
         {
           "type": "articles",
-          "url": "express-7",
+          "url": "express-serving-static-files",
           "title": "Serving Static Files"
         }
       ]
@@ -48,17 +48,17 @@
       "link": [
         {
           "type": "articles",
-          "url": "express-4",
+          "url": "express-middlewares",
           "title": "Middleware"
         },
         {
           "type": "articles",
-          "url": "express-8",
+          "url": "express-advanced-routing",
           "title": "Advanced Routing"
         },
         {
           "type": "articles",
-          "url": "express-9",
+          "url": "express-error-handling",
           "title": "Error Handling"
         }
       ]
@@ -68,22 +68,22 @@
       "link": [
         {
           "type": "articles",
-          "url": "express-10",
+          "url": "express-input-validation-with-zod",
           "title": "Input Validation (Zod)"
         },
         {
           "type": "articles",
-          "url": "express-11",
+          "url": "express-session-storage",
           "title": "Sessions Storage"
         },
         {
           "type": "articles",
-          "url": "express-13",
+          "url": "express-environment-variables",
           "title": "Environment Variables"
         },
         {
           "type": "articles",
-          "url": "express-14",
+          "url": "express-database-integration",
           "title": "Database Integration"
         },
         {
@@ -99,27 +99,27 @@
         
         {
           "type": "articles",
-          "url": "express-12",
+          "url": "express-linting",
           "title": "Linting"
         },
         {
           "type": "articles",
-          "url": "express-16",
+          "url": "express-security-best-practices",
           "title": "Security Best Practices"
         },
         {
           "type": "articles",
-          "url": "express-17",
+          "url": "express-logging",
           "title": "Logging"
         },
         {
           "type": "articles",
-          "url": "express-18",
+          "url": "express-testing",
           "title": "Testing (Jest + Supertest)"
         },
         {
           "type": "articles",
-          "url": "express-19",
+          "url": "express-deployment",
           "title": "Deployment Basics"
         }
       ]

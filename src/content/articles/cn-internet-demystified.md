@@ -24,8 +24,8 @@ End Systems (Hosts) like laptops, smartphones or servers that run applications (
 
 **2 Models of connectivity**
 
-- *Client-Server Model -* ****Your browser (client) sends an HTTP request to a website’s server, which responds with the webpage data.
-- *Peer-to-Peer(P2P) Model -* **** File-sharing systems like BitTorrent, where users download and upload files to each other.
+- Client-Server Model - Your browser (client) sends an HTTP request to a website’s server, which responds with the webpage data.
+- Peer-to-Peer(P2P) Model - File-sharing systems like BitTorrent, where users download and upload files to each other.
 
 ---
 
@@ -33,7 +33,7 @@ End Systems (Hosts) like laptops, smartphones or servers that run applications (
 
 The networks that connect end systems. Types -
 
-- Residential: DSL (uses phone lines), cable (uses TV cables), or fiber-to-the-home (FTTH).
+- Residential: Connects homes to internet using wired technologies. Example - DSL (uses phone lines), cable (uses TV cables), or fiber-to-the-home (FTTH).
 - Wi-Fi: Wireless local area networks (LANs) connecting devices to a router, which in turn can be connected to a cable or Fiber Internet.
 - Mobile: Cellular networks (e.g., 4G, 5G) connecting smartphones to the Internet.
 

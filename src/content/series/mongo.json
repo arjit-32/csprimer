@@ -13,12 +13,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "mongo-1",
+          "url": "mongo-introduction",
           "title": "Introduction to MongoDB"
         },
         {
           "type": "articles",
-          "url": "mongo-2",
+          "url": "mongo-data-modelling",
           "title": "Data Modeling in MongoDB"
         }
       ]
@@ -28,12 +28,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "mongo-3",
+          "url": "mongo-cheatsheet",
           "title": "MongoDB Cheatsheet"
         },
         {
           "type": "articles",
-          "url": "mongo-4",
+          "url": "mongo-mongoose-cheatsheet",
           "title": "Mongoose Cheatsheet"
         }
       ]

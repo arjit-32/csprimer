@@ -13,12 +13,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "dev-foundations-1",
+          "url": "dev-foundations-history-of-web",
           "title": "The History of the Web"
         },
         {
           "type": "articles",
-          "url": "dev-foundations-2",
+          "url": "dev-foundations-websites-served",
           "title": "How Websites are Served"
         }
       ]
@@ -28,12 +28,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "dev-foundations-3",
+          "url": "dev-foundations-html-cheatsheet",
           "title": "HTML Cheatsheet"
         },
         {
           "type": "articles",
-          "url": "dev-foundations-4",
+          "url": "dev-foundations-css-cheatsheet",
           "title": "CSS Cheatsheet"
         }
       ]

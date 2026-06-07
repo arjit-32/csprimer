@@ -13,12 +13,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-0",
+          "url": "sql-introduction",
           "title": "Introduction to MySQL"
         },
         {
           "type": "articles",
-          "url": "sql-1",
+          "url": "sql-setup",
           "title": "SQL Setup"
         }
       ]
@@ -28,22 +28,22 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-2",
+          "url": "sql-data-types",
           "title": "Data Types"
         },
         {
           "type": "articles",
-          "url": "sql-3",
+          "url": "sql-database-and-schemas",
           "title": "Databases & Schemas"
         },
         {
           "type": "articles",
-          "url": "sql-4",
+          "url": "sql-table-design-and-constraints",
           "title": "Table Design & Constraints"
         },
         {
           "type": "articles",
-          "url": "sql-5",
+          "url": "sql-foreign-keys",
           "title": "Foreign Keys & Relationships"
         }
       ]
@@ -53,12 +53,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-6",
+          "url": "sql-crud-operations",
           "title": "CRUD Operations"
         },
         {
           "type": "articles",
-          "url": "sql-7",
+          "url": "sql-select-queries",
           "title": "SELECT Queries"
         },
         {
@@ -68,22 +68,22 @@
         },
         {
           "type": "articles",
-          "url": "sql-8",
+          "url": "sql-joins",
           "title": "Joins"
         },
         {
           "type": "articles",
-          "url": "sql-9",
+          "url": "sql-aggregations",
           "title": "Aggregations"
         },
         {
           "type": "articles",
-          "url": "sql-10",
+          "url": "sql-window-functions",
           "title": "Window Functions"
         },
         {
           "type": "articles",
-          "url": "sql-11",
+          "url": "sql-common-table-expressions",
           "title": "Common Table Expressions"
         }
       ]
@@ -93,37 +93,37 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-13",
+          "url": "sql-indexing",
           "title": "Indexing"
         },
         {
           "type": "articles",
-          "url": "sql-14",
+          "url": "sql-query-performance",
           "title": "Query Performance"
         },
         {
           "type": "articles",
-          "url": "sql-15",
+          "url": "sql-transactions",
           "title": "Transactions & Isolation Levels"
         },
         {
           "type": "articles",
-          "url": "sql-16",
+          "url": "sql-views",
           "title": "Views"
         },
         {
           "type": "articles",
-          "url": "sql-17",
+          "url": "sql-partitioning",
           "title": "Partitioning"
         },
         {
           "type": "articles",
-          "url": "sql-18",
+          "url": "sql-stored-procedures",
           "title": "Stored Procedures, Triggers & Events"
         },
         {
           "type": "articles",
-          "url": "sql-19",
+          "url": "sql-storage-engines",
           "title": "Storage Engines"
         }
       ]
@@ -133,12 +133,12 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-20",
+          "url": "sql-introduction-to-ORMS",
           "title": "Introduction to ORMs"
         },
         {
           "type": "articles",
-          "url": "sql-21",
+          "url": "sql-prisma-cheatsheet",
           "title": "Prisma Cheatsheet"
         }
       ]
