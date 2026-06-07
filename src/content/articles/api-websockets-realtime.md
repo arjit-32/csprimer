@@ -10,9 +10,13 @@ year: 2025
 ---
 
 While HTTP is great for request-response communication, but  it struggles with real-time use cases like live chats, multiplayer games or collaborative editors.
-That’s where **WebSockets** shine.
+That’s where WebSockets shine.
 
-## Why WebSockets over HTTP ?
+---
+
+## Why to use Websockets instead of HTTP ?
+
+WebSockets run on top of HTTP primarily to ensure 100% compatibility with existing web infrastructure. It makes initial connection using http and then upgrades to websocket.
 
 | **Characteristic** | **HTTP** | **WebSocket** |
 | --- | --- | --- |
@@ -46,7 +50,7 @@ That’s where **WebSockets** shine.
     Connection: Upgrade
     ```
     
-3. The connection is upgraded from HTTP to **WebSocket**.
+3. The connection is upgraded from HTTP to WebSocket.
 4. Both sides can now send and receive messages *asynchronously*, without re-opening the connection.
 
 ---

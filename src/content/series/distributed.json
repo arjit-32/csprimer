@@ -20,6 +20,11 @@
           "type": "articles",
           "url": "distributed-data-management",
           "title": "Data Management"
+        },
+         {
+          "type": "articles",
+          "url": "distributed-communication-patterns",
+          "title": "Communication Patterns"
         }
       ]
     },
@@ -29,7 +34,7 @@
         {
           "type": "articles",
           "url": "distributed-consistency-concurrency",
-          "title": "Consistency & Concurrency Control"
+          "title": "Consistency & Concurrency"
         },
         {
           "type": "articles",
@@ -40,32 +45,22 @@
           "type": "articles",
           "url": "distributed-ordering-time",
           "title": "Ordering and Time"
+        },
+        {
+          "type": "articles",
+          "url": "distributed-transactions",
+          "title": "Distributed Transactions"
         }
       ]
     },
     {
-      "subheading": "System Design & Operations",
+      "subheading": "Advanced",
       "link": [
-        {
-          "type": "articles",
-          "url": "distributed-transactions",
-          "title": "Transactions"
-        },
         {
           "type": "articles",
           "url": "distributed-cap-tradeoffs",
           "title": "Trade-offs (CAP & Beyond)"
         },
-        {
-          "type": "articles",
-          "url": "distributed-communication-patterns",
-          "title": "Communication Patterns"
-        }
-      ]
-    },
-    {
-      "subheading": "Real-World Applications",
-      "link": [
         {
           "type": "articles",
           "url": "distributed-real-world-applications",

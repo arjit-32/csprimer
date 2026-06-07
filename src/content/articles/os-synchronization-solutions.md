@@ -13,6 +13,8 @@ Process synchronization is essential for *coordinating multiple processes* that 
 
 **1. Turn Variable Method**
 
+![turn-variable-method](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/turn-variable_cvhhgd.webp)
+
 This simple approach ensures mutual exclusion by using a **shared variable** to determine which process can enter the *critical section*.
 
 *Example:* Imagine two processes updating a shared counter. The turn variable ensures only one modifies the counter at a time.
@@ -30,6 +32,8 @@ turn = next_process_id; // Pass the turn
 🔹 *Cons:* Not efficient when handling more than two processes.
 
 **2. Peterson’s Algorithm**
+
+![peterson-algorithm](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835920/petersons-algorithm_ievklv.webp)
 
 A well-known synchronization solution for *two processes*, using **flags and a shared turn variable** to regulate access.
 
@@ -75,6 +79,8 @@ Modern CPUs provide low-level atomic operations for process synchronization with
 
 **1. Test-and-Set**
 
+![test-and-set](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/test-and-set_vcdimt.webp)
+
 Used to implement locks that prevent race conditions.
 
 ```bash
@@ -88,6 +94,8 @@ lock = false;
 🔹 *Used in:* Multi-threading environments where performance is critical.
 
 **2. Compare-and-Swap**
+
+![compare-and-swap](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/compare-and-swap_rrl2n4.webp)
 
 Ensures that a process updates a value only if the expected condition holds, preventing interference.
 

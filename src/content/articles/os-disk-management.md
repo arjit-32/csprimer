@@ -11,6 +11,8 @@ Disk management ensures efficient storage, retrieval, and maintenance of data, o
 
 ## Disk Structure & Organization
 
+![disk-verview](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835923/disk-management_p4iudo.webp)
+
 A disk consists of *plates* divided into *tracks and sectors*, where data is stored magnetically. The OS manages these storage units through file systems like NTFS, FAT32, and ext4.
 
 🔹 *Example:* Your laptop’s SSD or HDD organizes files using partitions, ensuring smooth access.

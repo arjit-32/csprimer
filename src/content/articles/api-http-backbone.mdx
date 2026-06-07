@@ -15,6 +15,13 @@ HTTP is:
 - **Stateless**: Each request is independent; the server doesn’t remember what you did before.
 - **Request-response based**: The client sends a request, the server sends back a response.
 
+**Stateless but Extendable**
+
+> Although HTTP is stateless, meaning the server doesn't remember previous requests, we use tools like **Cookies, Sessions, Tokens (JWTs)** to maintain context across multiple interactions.
+
+
+---
+
 ## HTTP Request Flow (How It Works)
 
 1. Your browser or app opens a **TCP connection** to the server.
@@ -33,7 +40,7 @@ HTTP is:
     
     {
       "id": 42,
-      "name": "Alice"
+      "name": "Arjit"
     }
     ```
     
@@ -58,7 +65,7 @@ HTTP is:
 
 ## HTTP Headers
 
-HTTP headers are **name-value pairs** that carry metadata with requests and responses.
+HTTP headers are name-value pairs that carry metadata with requests and responses.
 
 *Examples:*
 
@@ -69,20 +76,14 @@ HTTP headers are **name-value pairs** that carry metadata with requests and resp
 
 ---
 
-## Stateless but Extendable
-
-Although HTTP is **stateless**, meaning the server doesn't remember previous requests, we use tools like **Cookies, Sessions, Tokens (JWTs)** to maintain context across multiple interactions.
-
----
-
 ## HTTP Versions in Brief
 
 | **Version** | **Key Characteristics** |
 | --- | --- |
-| **HTTP/0.9** | Single-line protocol with only GET method and HTML-only responses |
-| **HTTP/1.0** | <ul><li>Added HEAD/POST methods, headers</li>  <li>Multiple content types</li></ul> |
-| **HTTP/1.1** | <ul><li>Introduced persistent connections</li>  <li>Request pipelining *(sending multiple-inflight requests before the arrival of the responses of earlier request*)</li>  <li>Mandatory Host header *(helped in virtual hosting)*</li></ul> |
-| **HTTP/2.0** | <ul><li>Prioritized resposes / multiplexing *(If 2 images requested, sends small image before bigger image*) </li> <li>Server push *(send resources to the client without it requesting)*. Server push is deprecated by most browsers including Chrome in 2022, Firefox in 2024</li><li> Binary protocol with header compression </li></ul> |
-| **HTTP/3.0** | <ul><li>QUIC-based (UDP) transport with built-in TLS 1.3 </li> <li>Resolves Head-on-line blocking</li> </ul> |
+| **HTTP/0.9** | <ul><li>Single-line protocol with only GET method and HTML-only responses. Responses are strictly raw HTML without headers or status codes.</li></ul> |
+| **HTTP/1.0** | <ul><li>Added HEAD/POST methods, headers</li>  <li>Multiple content types using MIME types</li> <li>Opened a new TCP connection for every single request-response pair.</li></ul> |
+| **HTTP/1.1** | <ul><li>Introduced persistent connections (keep alive)</li>  <li>Request pipelining *(sending multiple-inflight requests before the arrival of the responses of earlier request*)</li>  <li>Mandatory Host header *(helped in virtual hosting on a single IP)*</li><li>Introduced chunked transfer encoding for data streaming.</li></ul> |
+| **HTTP/2.0** | <ul><li>Prioritized resposes *(If 2 images requested, sends small image before bigger image*). </li> <li>Introduced multiplexing *(splitting data into frames to interleave multiple requests/responses concurrently over a single connection)*</li> <li>Server push *(send resources to the client without it requesting)*. Server push is laregely deprecated.</li><li>Replaced text with a binary protocol and introduced HPACK header compression</li></ul> |
+| **HTTP/3.0** | <ul><li>Switched from TCP to the QUIC transport protocol running over UDP with built-in TLS 1.3 </li> <li>Solved Transport-Layer HoL blocking; a dropped packet on one stream no longer stalls the rest of the connection.</li> </ul> |
 
-`Note` - Most HTTP connection should use HTTPS over HTTP/2 and if that doesn't work should use HTTP 1.1
+*Note - Most HTTP connection should use HTTPS over HTTP/2 and if that doesn't work should use HTTP 1.1*

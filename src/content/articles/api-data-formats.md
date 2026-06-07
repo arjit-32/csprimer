@@ -9,7 +9,7 @@ draft: false
 year: 2025
 ---
 
-Before data can travel between systems over a network, it must be **serialized***(converted into a format suitable for transmission)*. Choosing the right format impacts speed, readability, and interoperability.
+Before data can travel between systems over a network, it must be **serialized** *(converted into a format suitable for transmission)*. Choosing the right format impacts speed, readability, and interoperability.
 
 What to Consider When Choosing a Data Format →
 

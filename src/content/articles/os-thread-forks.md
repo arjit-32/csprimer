@@ -11,6 +11,8 @@ Processes in an OS can be lightweight (threads) or independent (forked processes
 
 ## What Are Threads?
 
+![what-are-threads](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780834505/what-are-threads_tpbses.webp)
+
 Threads are *subtasks within a process* that share resources but execute independently. Each thread:
 
 - Has its own stack and registers.
@@ -18,6 +20,8 @@ Threads are *subtasks within a process* that share resources but execute indepen
 - Enables faster execution compared to creating separate processes.
 
 **Example: Web Server Handling Requests**
+
+![web-server](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780834505/example-web-server_vr7w2k.webp)
 
 A web server like Apache creates multiple threads to serve incoming requests efficiently.
 
@@ -29,12 +33,16 @@ A web server like Apache creates multiple threads to serve incoming requests eff
 
 ## What is Fork()?
 
+![fork](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780834505/fork-a-process_rxrrv3.webp)
+
 `fork()` is a system call that creates a new process by duplicating an existing one.
 
 - The child process gets a copy of the parent’s memory space.
 - Independent execution: Unlike threads, forked processes do not share memory.
 
 **Example: Running Multiple Instances**
+
+![terminals-fork](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780834505/terminals-fork_sbvgua.webp)
 
 When you open multiple terminal windows, each runs as an independent process created using `fork()`.
 

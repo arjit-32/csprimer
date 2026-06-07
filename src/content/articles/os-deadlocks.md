@@ -11,12 +11,16 @@ Deadlock occurs when multiple processes *get stuck indefinitely*, waiting for re
 
 ## What is a Deadlock?
 
+![deadlocks](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835923/deadlocks-intro_ft5gnq.webp)
+
 A deadlock happens when processes:
 
 - Hold resources that another process needs.
 - Wait for resources held by other waiting processes.
 
 **Real-World Example**
+
+![deadlocks-train-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835923/deadlock-train-example_pegu6e.webp)
 
 Imagine two trains approaching an intersection:
 
@@ -42,6 +46,8 @@ Deadlock occurs when *all four conditions* are present:
 ## Deadlock Detection & Prevention
 
 Operating systems use several strategies to **detect, prevent, and resolve** deadlocks.
+
+![deadlock-detection-and-recovery](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/deadlock-detection-and-recovery_lzwg60.webp)
 
 **1. Deadlock Prevention**
 

@@ -11,9 +11,13 @@ As learnt CPU scheduling ensures efficient execution of processes by determining
 
 ## Understanding CPU Scheduling
 
+![cpu-scheduling](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/cpu-scheduling_f5geks.webp)
+
 Since multiple processes run simultaneously, the OS must decide *which process gets CPU time next*. This is handled by the *short-term scheduler*, which selects from the ready queue and assigns CPU time.
 
 ### Scheduling Criteria
+
+![cpu-scheduling-criteria](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/cpu-scheduling-criteria_iz9hil.webp)
 
 A good scheduling algorithm aims to optimize:
 

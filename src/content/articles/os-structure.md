@@ -11,6 +11,8 @@ An operating system (OS) is a structured system that manages hardware and softwa
 
 ## Core Components of an OS
 
+![structure-of-os](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379384/core-components-of-os_f4vlvg.webp)
+
 The OS is built from key components, each with a specific function:
 
 - Kernel: The heart of the OS, controlling hardware, managing tasks, and handling *system calls*.
@@ -23,6 +25,8 @@ The OS is built from key components, each with a specific function:
 
 ## System Calls in Action
 
+![system-calls](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379383/system-calls-in-action_omoyuf.webp)
+
 System calls allow user applications to interact with the OS. When a program needs to *read a file, allocate memory, or create a process*, it makes a system call to request OS services. For example:
 
 - `open()` → Accesses files
@@ -34,6 +38,8 @@ These calls act as *bridges* between user applications and the OS kernel.
 ---
 
 ## User Mode and Kernel Mode
+
+![user-kernel-mode](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379384/user-mode-kernel-mode_kbl79g.webp)
 
 Modern OS architectures operate in two modes to ensure security and stability:
 

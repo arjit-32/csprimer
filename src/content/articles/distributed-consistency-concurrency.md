@@ -15,6 +15,8 @@ A distributed system must ensure that the following key properties hold even in 
 - Isolation - Concurrent transactions should not interfere with each other. *Difficult due to concurrency issues.*
 - Consistency - The system must remain in a valid state after operations. *Difficult due to network asynchrony.*
 
+---
+
 ## Consistency Model
 
 A theoretical model which determines how "in sync" everyone's view of the data is.
@@ -29,13 +31,15 @@ A theoretical model which determines how "in sync" everyone's view of the data i
 | Causal Consistency | If A happened before B, all nodes see A before B. | If a person replies to comment, then another person replies., its order should be maintained.  |
 | Eventual Consistency | All replicas eventually converge to the same value but may temporarily return stale data. | Amazon DynamoDB, Cassandra – writes propagate eventually. |
 
+---
+
 ## Isolation Levels and Concurrency Anomalies
 
-Concurrency can lead to **anomalies.** 
+Concurrency can lead to *anomalies*.
 
 Anomalies  - 
 
-- Dirty Read : A transaction reads **uncommitted** changes from another transaction.
+- Dirty Read : A transaction reads *uncommitted* changes from another transaction.
 - Fuzzy Read : A value changes between two reads in the same transaction.
 - Phantom Read : A transaction does a read and another transaction writes or removes a data item, so first transaction may be working on stale data.
 - Lost Update : Two transactions update the same value without knowing about each other.
@@ -57,3 +61,4 @@ Serializability prevents all these anomalies.  Higher isolation levels reduce co
 ![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1742840764/image_fyruad.png)
 
 
+---

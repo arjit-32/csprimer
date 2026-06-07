@@ -13,11 +13,14 @@ In modern computing, multiple processes run *concurrently*, often sharing resour
 
 When multiple processes access shared resources without control, unpredictable behavior may occur:
 
+![process-sync](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/why-process-synchronization_nnjhpp.webp)
+
 - **Race Conditions** – Two processes modifying shared data simultaneously, causing incorrect results.
 - **Deadlocks** – Processes get stuck, waiting indefinitely for resources locked by each other.
 - **Inconsistent Data** – Uncontrolled access leading to incorrect computations.
 
 *Example:* In banking systems, two transactions modifying the same balance at the same time without synchronization could result in incorrect deductions or deposits.
+![banking-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/banking-example_itpxam.webp)
 
 ---
 
@@ -26,6 +29,8 @@ When multiple processes access shared resources without control, unpredictable b
 A process has multiple sections, but synchronization is critical in its *critical section*, where shared resources are modified.
 
 **Process Structure with Critical Section**
+
+![general-structure-of-process](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835924/general-structure-of-process_vh1d4s.webp)
 
 ```bash
 while (true) {  
@@ -49,6 +54,8 @@ In the above pseudocode, `lock(resource)` ensures that *only one process modifie
 ## Criteria for Solving the Critical Section Problem
 
 For an effective synchronization mechanism, it must satisfy:
+
+![criteria-for-critical-section-problem](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/crieteria-for-critical-section-problem_chyu6a.webp)
 
 1. **Mutual Exclusion** – Only one process can be in the *critical section* at a time.
 2. **Progress** – If no process is in the critical section, others should be able to enter.

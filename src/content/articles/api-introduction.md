@@ -13,17 +13,17 @@ year: 2025
 
 API ( Application Programming Interface ) is an intermediatory that lets software components talk to each other. 
 
-It started with IBM’s release of [CICS](https://www.notion.so/API-Design-Development-79b3f02dabd24fdbbf2fb2739e1c0ecf?pvs=21) , which allowed different programs to communicate with each other and then later with UNIX’s system calls(api) became more mainstream.
+It started with IBM’s release of [CICS](https://en.wikipedia.org/wiki/CICS) , which allowed different programs to communicate with each other and then later with UNIX’s system calls*(api)* became more mainstream.
 
 ---
 
 ## What is an API Endpoint?
 
-An API endpoint is simply **a specific location on a server** where your app sends a request and expects a response.
+An API endpoint is simply a specific location on a server where your app sends a request and expects a response.
 
 ### URI vs URL vs URN
 
-- URI ( Uniform Resource Identifier ) is  **general term** for anything that identifies a resource.
+- URI ( Uniform Resource Identifier ) is  general term for anything that identifies a resource.
 - URL ( Uniform Resource Locator ) is a type of URI that specifies location of resource on internet. It identifies *“where”.*
     
     Example - **https://www.csprimer.in/page.html**

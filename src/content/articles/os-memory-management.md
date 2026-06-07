@@ -11,6 +11,8 @@ Memory management plays a crucial role in modern computing, ensuring efficient a
 
 ## Memory Hierarchy
 
+![memory-hierarchy](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835924/memory-hierarchy_byv0x2.webp)
+
 Memory is structured in a *hierarchy*, balancing *speed, size, and cost* to optimize performance.
 
 *Levels of Memory Hierarchy (Fastest to Slowest)*
@@ -26,6 +28,8 @@ Memory is structured in a *hierarchy*, balancing *speed, size, and cost* to opti
 5️⃣ **External Storage (USB, Cloud, etc.)** – Portable or network-based storage.
 
 *Example: CPU Accessing Frequently Used Data*
+
+![cpu-access-data](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/cpu-accessing-data_veoxza.webp)
 
 When playing a game, your CPU *fetches textures and game logic from RAM*, but frequently accessed game settings or computations are stored in cache for faster retrieval.
 

@@ -11,11 +11,15 @@ year: 2025
 
 To determine Order of event, time becomes of importance. The problem with distributed systems is each node has its own clock (are’nt perfectly synchronized) and we do not have a global shared memory.
 
+---
+
 ## Why it matters
 
 - Determining the sequence of events
 - Ensuring Consistency - Avoid conflicts when multiple nodes update the same data.
 - Causal Relationships - Understanding how one event influences another.
+
+---
 
 ## Logical Clocks
 
@@ -23,12 +27,16 @@ Instead of relying on physical time (which is unsynchronized across nodes), logi
 
 Example - If Node A updates a database at 10:01 AM and Node B reads it at 10:00 AM (its local time), the system may incorrectly think B’s read happened before A’s update. Logical clocks prevent this confusion by defining order based on even dependencies.
 
+---
+
 ## Types of Ordering
 
 1. Total Ordering - Every event in system is comparable and has well-defined order. It is hard to achieve in distributed systems due to concurrency.
 Example - A centralized message queue ( Kafka ) maintains a strict order. 
 2. Partial Ordering - Not all events are ordered and nodes may see different event sequences based on message delays. This is often the case in a distributed system.
 Example - Two people comment on a post, each one sees their own comment immediately, but others may see them in different order.
+
+---
 
 ## Causality
 
@@ -45,6 +53,8 @@ Each node maintains a **counter**.
 - When a local event occurs → Increment counter by 1.
 - When sending a message → Attach the counter value.
 - When receiving a message → Update the counter as Max(local, received) +1.
+
+---
 
 ## Distributed Snapshot Problem
 

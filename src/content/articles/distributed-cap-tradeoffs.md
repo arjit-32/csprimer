@@ -21,11 +21,13 @@ It is impossible for a distributed data store to guarantee all three of the foll
 
 Or more correctly -
 
-“ A distributed system can be either *consistent* or *available* in the presence of a network partition. “
+> A distributed system can be either *consistent* or *available* in the presence of a network partition. 
 
 We prioritize Consistency in Banking transactions, Stock trading systems, while for Social media feeds and E-commerce carts, Availability is prioritized.
 
 *Note - ACID focusses on ensuring integrity and reliability of individual transaction in system while CAP deals with broader trade-offs across distributed system*
+
+---
 
 ## PACELC theorem
 

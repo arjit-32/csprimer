@@ -11,6 +11,8 @@ Process synchronization plays a crucial role in multi-process systems, ensuring 
 
 ## 1. Producer-Consumer Problem
 
+![producer-consumer-problem](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835920/producer-consumer_venosk.webp)
+
 Scenario:
 
 A *producer* generates data and places it into a buffer, while a *consumer* retrieves and processes it. The challenge is ensuring that:
@@ -19,6 +21,8 @@ A *producer* generates data and places it into a buffer, while a *consumer* retr
 - The consumer does not read empty data.
 
 *Solution Using Semaphores*
+
+![producer-consumer-solution](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835920/producer-consumer-solution_agygwu.webp)
 
 This problem is solved using two semaphores:
 
@@ -57,12 +61,16 @@ Consumer() {
 
 ## 2. Reader-Writer Problem
 
+![reader-writer-problem](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835920/reader-writer_arbfrh.webp)
+
 Scenario:
 
 - *Multiple readers* can access shared data simultaneously.
 - *Only one writer* can modify data, ensuring consistency.
 
 *Solution Using Read-Write Locks*
+
+![reader-writer-solution](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835920/reader-writer-locks_oadf9h.webp)
 
 This is solved by prioritizing either readers or writers using read-write locks.
 
@@ -101,6 +109,8 @@ Writer() {
 ---
 
 ## 3. Dining Philosophers Problem
+
+![dining-philosopher](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835923/dining-philosopher_u61ska.webp)
 
 Scenario:
 

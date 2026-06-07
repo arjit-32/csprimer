@@ -33,9 +33,9 @@ GET https://api.foodapp.com/v1/orders/123
 
 The device starts routing the request. Three key things happen:
 
-- **DNS (Domain Name System)** - Looks up `api.foodapp.com` and finds its IP, like `192.168.2.10`.
-- **IP (Internet Protocol)** - ****Handles where the request should go (like the address on a letter).
-- **TCP (Transmission Control Protocol)** - ****Breaks the request into packets, ensures reliable delivery.
+- **DNS (Domain Name System)** - Looks up *api.foodapp.com* and finds its IP, like `192.168.2.10`.
+- **IP (Internet Protocol)** - Handles where the request should go (like the address on a letter).
+- **TCP (Transmission Control Protocol)** - Breaks the request into packets, ensures reliable delivery.
 
 ---
 

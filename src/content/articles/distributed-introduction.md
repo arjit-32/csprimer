@@ -12,6 +12,7 @@ year: 2025
 
 A *distributed system* is a system whose components are located on different networked computers, which communicate and coordinate their actions by passing messages to one another.
 
+---
 
 ## Why Do We Need Distributed Systems?
 
@@ -19,6 +20,7 @@ A *distributed system* is a system whose components are located on different n
 - Scalability - Allows systems to scale horizontally by adding more machines rather than upgrading a single machine.
 - Availability - Ensures high availability and fault tolerance by distributing workloads and replicating data.
 
+---
 
 ## Fallacies of Distributed Computing
 
@@ -33,6 +35,8 @@ A *distributed system* is a system whose components are located on different n
 | One Administrator | Large-scale systems have multiple admins with different policies. |
 | Transport Cost is Zero | Communication has overhead costs (latency, processing). |
 
+---
+
 ## Challenges in Designing Distributed Systems
 
 Lots of challenges arise due to absence of global state and unreliable communication.
@@ -44,15 +48,18 @@ Lots of challenges arise due to absence of global state and unreliable communica
 - **Partial Failure** - Some nodes can go down, thus maintaining atomicity can be a issue.
 - **Concurrency -** Multiple computations may execute on the same data, requiring synchronization mechanisms.
 
+---
 
 ## Fundamental trade-offs in Distributed Systems
 
 1. **Consistency Vs Availability (CAP Theorem)** : A system can be consistent ( every node has consistent data at all times ) or available ( system remains operational even if a node fails )
-Ex - In banking systems consistency is prioritizes while in social media availability.
+Ex - In **banking systems** consistency is prioritized, while in **social media** website availability is.
 2. **Cost Vs Performance** : High performance distributed system often require more resources.
 Ex - Different pricing in AWS DynamoDB offers different performance.
 
 *Note - Safety property (something that must never happen) outweighs Liveliness property (something that should happen eventually ) in a distributed environment.*
+
+---
 
 ## Types of Distributed Systems
 
@@ -60,6 +67,8 @@ Can be classified based on how they handle time and message delays.
 
 - Synchronous : Each node has accurate clock and an upper bound on message transmission delay. Ex - Air Traffic control
 - Asynchronous : No upper bound on how long it takes for a node to deliver a message. Ex - Internet
+
+---
 
 ## Types of Failures in Distributed Systems
 
@@ -71,6 +80,8 @@ Failures in distributed systems are **inevitable**, and systems must be designed
 | Crash | Node halts **silently**, and others assume failure based on timeout. | Heartbeats and failure detectors |
 | Omission | Node **fails to respond** to incoming requests | Implement retries and acknowledgments. |
 | Byzantine | Node exhibits **arbitrary behavior**, including sending incorrect or malicious messages. | Byzantine Fault Tolerance (BFT) algorithms like PBFT. |
+
+---
 
 ## Multiple Deliveries of a Message
 

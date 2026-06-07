@@ -11,26 +11,32 @@ year: 2025
 
 Consensus is the process of **getting multiple nodes in a distributed system to agree on a single value**, despite failures and unreliable communication.
 
-**Use Cases of Consensus**
+---
+
+## Use Cases of Consensus
 
 - Leader Election : Selecting a node to coordinate tasks.
 - Distributed Locking : Concurrency control mechanisms that use locking.
-- Atomic Transactions: Sending multiple messages in an agreed-upon order.
-- Fault tolerance – Handling node failures while maintaining a consistent system state.
+- Atomic Transactions : Sending multiple messages in an agreed-upon order.
+- Fault tolerance : Handling node failures while maintaining a consistent system state.
 
-### FLP impossibility theory
+---
+
+## FLP impossibility theory
 
 The **Fischer-Lynch-Paterson (FLP) theorem** states that:
 
-"In an asynchronous distributed system, it is impossible to guarantee consensus if even one node can fail.”
+> In an asynchronous distributed system, it is impossible to guarantee consensus if even one node can fail.
 
 We can use probabilistic guarantees(eg- Paxos, Raft) instead of absolute certainty.
+
+---
 
 ## Consensus Algorithms
 
 ### Paxos Algorithm
 
-This algorithm guarantees that the system will come to an agreement on a single value and tolerate the failure of any number of nodes (potentially all of them) as long as more than half the nodes work properly at any time.
+This algorithm guarantees that the system will come to an agreement on a single value and tolerate the failure of any number of nodes *(potentially all of them)* as long as more than half the nodes work properly at any time.
 Paxos tolerates message delays and failures. Eventually, all nodes will learn the same value (consensus) through message propagation.
 
 The Phases of Paxos Algorithm - 
@@ -59,3 +65,5 @@ How it Works ?
 3. Commit Confirmation - Once committed, leader informs all the nodes that change is final.
 
 *Note - If leader crashes, new leader is elected.*
+
+---

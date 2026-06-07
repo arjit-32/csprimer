@@ -14,12 +14,12 @@
         {
           "type": "articles",
           "url": "api-internet-basics",
-          "title": "Crash course on Internet Basics"
+          "title": "Internet Basics"
         },
         {
           "type": "articles",
           "url": "api-network-performance-guide",
-          "title": "Understanding Network Performance - A Simple Guide"
+          "title": "Network Performance"
         }
       ]
     },
@@ -44,27 +44,27 @@
         {
           "type": "articles",
           "url": "api-client-server-communication",
-          "title": "Client-Server Communication in APIs"
+          "title": "Client-Server Communication"
         },
         {
           "type": "articles",
           "url": "api-http-backbone",
-          "title": "HTTP - The Backbone of API Communication"
+          "title": "HTTP"
         },
         {
           "type": "articles",
           "url": "api-websockets-realtime",
-          "title": "WebSockets - For Real-Time APIs"
+          "title": "WebSockets"
         },
         {
           "type": "articles",
           "url": "api-event-driven-updates",
-          "title": "Event-Driven Protocols for Asynchronous Updates"
+          "title": "Event-Driven Protocols"
         },
         {
           "type": "articles",
           "url": "api-data-formats",
-          "title": "Common Data Formats for Web APIs"
+          "title": "Common Data Formats"
         }
       ]
     },
@@ -74,47 +74,37 @@
         {
           "type": "articles",
           "url": "api-rest-architecture",
-          "title": "REST - Representational State Transfer"
+          "title": "REST"
         },
         {
           "type": "articles",
           "url": "api-graphql-modern-apps",
-          "title": "GraphQL - Flexible APIs for Modern Apps"
+          "title": "GraphQL"
         },
         {
           "type": "articles",
           "url": "api-rpc-grpc",
-          "title": "RPC and gRPC - Function Oriented APIs"
+          "title": "RPC and gRPC"
         }
       ]
     },
     {
-      "subheading": "API Design & Implementation",
+      "subheading": "API Design",
       "link": [
         {
           "type": "articles",
           "url": "api-design-guide",
-          "title": "Complete Guide to API Design"
+          "title": "Complete Guide"
         },
         {
           "type": "articles",
           "url": "api-coffee-shop-blueprint",
-          "title": "Designing the Coffee Shop API - A Practical Blueprint"
+          "title": "Designing Coffee Shop API"
         },
         {
           "type": "articles",
           "url": "api-performance-patterns",
           "title": "API Optimization & Performance Patterns"
-        }
-      ]
-    },
-    {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://www.educative.io/courses/grokking-the-product-architecture-interview/unpacking-api-design?utm_campaign=brand_educative&utm_source=google&utm_medium=ppc&utm_content=performance_max_india&utm_term=&aff=K3Zq&utm_term=&utm_campaign=%5BNew%5D+Performance+Max&utm_source=adwords&utm_medium=ppc&hsa_acc=5451446008&hsa_cam=18931439518&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=18924941403&gbraid=0AAAAADfWLuTtU0q8sM1D2kPeDG8uu1_LT&gclid=Cj0KCQjw0erBBhDTARIsAKO8iqQdMp-lQ0uxxyWl5yhr0KR7sYuPHAbo8GBvOJ70C33c1yZIJShhFcAaAp10EALw_wcB",
-          "title": "Educative's Course"
         }
       ]
     }

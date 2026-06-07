@@ -12,6 +12,8 @@ Memory allocation is essential for managing process execution efficiently. Impro
 
 ## What is Contiguous Allocation?
 
+![contiguous-allocation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835922/contiguous-allocation_avlz5u.webp)
+
 In contiguous allocation, processes are assigned a single continuous block of memory, simplifying access but causing *fragmentation issues*.
 
 🔹 Advantage: Easy to track memory usage.
@@ -19,6 +21,8 @@ In contiguous allocation, processes are assigned a single continuous block of me
 🔹 Disadvantage: Leads to fragmentation and inefficient resource utilization.
 
 **Address Translation in Contiguous Allocation**
+
+![address-translation-in-contiguous-allocation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/address-translation-in-cont-alloc_g1dtr5.webp)
 
 The OS calculates memory addresses using:
 
@@ -58,6 +62,8 @@ Assigns the largest available block, leaving bigger gaps.
 
 ## Fragmentation
 
+![fragmentation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835924/fragmentation_ea5v7l.webp)
+
 Fragmentation occurs when memory is not used efficiently, leading to wasted space.
 
 **1. External Fragmentation**
@@ -76,15 +82,25 @@ A process does not fully utilize its allocated block, leaving unused memory with
 
 ## Paging
 
+![paging-intro](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835924/paging_gal88n.webp)
+
 Paging eliminates fragmentation by dividing memory into fixed-size pages.
 
 🔹 Advantage: Allows processes to use non-contiguous memory efficiently.
 
 🔹 Used in: Modern OSes like Linux and Windows.
 
+Paging solves external fragmentation
+
+![paging-benefit](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835924/paging-benefit_exkvtk.webp)
+
 ---
 
 ## Segmentation
+
+![segmentation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/segmentation_t3ugvy.webp)
+
+![segmentation-benefit](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780835921/segmentation-benefit_smek0v.webp)
 
 Segmentation divides memory logically into sections like code, stack, and heap.
 

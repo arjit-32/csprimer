@@ -11,6 +11,8 @@ A program in execution is a process. The OS manages these processes to ensure ef
 
 ## Understanding Processes
 
+![processes-management](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379382/process-management-example_xl1i6x.webp)
+
 A process consists of →
 
 - Text Segment (Code)
@@ -26,9 +28,17 @@ A process consists of →
 
 The OS maintains a *Process Control Block (PCB)*, a data structure containing vital details such as process state, program counter, memory management, and scheduling information.
 
+![os-manages-multiple-processes](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379383/os-manages-multiple-processes_uhtuua.webp)
+
+Each process gets their own PCB. Lets take a look inside a PCB
+
+![pcb-for-each-process](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379383/pcb-for-each-process_gkaubw.webp)
+
 ---
 
 ## Process States
+
+![process-states](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379383/process-lifecycle_tirsnd.webp)
 
 A process transitions through several states:
 
@@ -54,9 +64,13 @@ Common scheduling algorithms are FCFS, Round Robin and many more we will look at
 
 ## Inter-Process Communication (IPC)
 
+![inter-process-communication-brief](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379382/inter-process-communication_xewosv.webp)
+
 Processes exchange data via pipes, shared memory, message queues, and signals, enabling efficient multitasking
 
 *Example* - In Linux, IPC mechanisms like pipes allow processes to communicate. 
+
+![example-of-ipc](https://res.cloudinary.com/dwa6rcttw/image/upload/v1780379382/ipc-example_juk9sg.webp)
 
 ```bash
 cat logfile.txt | grep "error" | sort > filtered_errors.txt
