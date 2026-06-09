@@ -128,7 +128,7 @@ const siteBaseUrl = config.site.base_url;
       )}
       
       <!-- Main Content -->
-      <div class="flex-1">
+      <div class="flex-1 min-w-0">
         <div class={`${courseData ? '' : 'flex justify-center'}`}>
           <div class={`${courseData ? 'w-full' : 'max-w-[720px]'}`}>
             {(() => {
@@ -198,7 +198,7 @@ const siteBaseUrl = config.site.base_url;
               </div>
             </div>
             
-            <div class="content max-w-none prose-headings:text-2xl prose-th:text-sm prose-h3:text-lg">
+            <div class="content max-w-none prose-headings:text-2xl prose-th:text-sm prose-h3:text-lg overflow-x-hidden">
               <Content />
             </div>
           

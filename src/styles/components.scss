@@ -231,7 +231,7 @@ select:invalid {
   @apply prose-p:text-base prose-p:text-text;
   @apply prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:text-dark;
   @apply prose-code:px-1 prose-code:text-primary;
-  @apply prose-pre:rounded-md;
+  @apply prose-pre:rounded-md prose-pre:overflow-x-auto prose-pre:max-w-full;
   @apply prose-strong:text-dark;
   @apply prose-a:text-primary prose-a:no-underline hover:prose-a:underline;
   @apply prose-li:text-text;
