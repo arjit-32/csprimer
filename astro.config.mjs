@@ -55,7 +55,7 @@ export default defineConfig({
         },
       ],
     ],
-    extendDefaultPlugins: true,
+
   },
   vite: {
     build: {
