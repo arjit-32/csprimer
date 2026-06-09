@@ -69,7 +69,8 @@ if (imgStr && !imgStr.startsWith('http')) {
 <html lang="en">
   <head>
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     
     <!-- Resource Hints -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
@@ -106,7 +107,7 @@ if (imgStr && !imgStr.startsWith('http')) {
     </title>
 
     <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    <link rel="canonical" href={canonical || `${config.site.base_url}${Astro.url.pathname}`} item-prop="url" />
 
     <!-- noindex robots -->
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -171,7 +172,7 @@ if (imgStr && !imgStr.startsWith('http')) {
   <body>
     <TwSizeIndicator />
     <Header />
-    <main id="main-content">
+    <main id="main-content" class="overflow-x-hidden">
       <slot />
     </main>
     <Footer />

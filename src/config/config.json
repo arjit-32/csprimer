@@ -1,10 +1,10 @@
 {
   "site": {
     "title": "Master Full-Stack Development",
-    "base_url": "https://csprimer.in",
+    "base_url": "https://www.csprimer.in",
     "base_path": "/",
     "trailing_slash": false,
-    "favicon": "/src/assets/images/logo.png",
+    "favicon": "/favicon.png",
     "logo": "/src/assets/images/logo.png",
     "logo_width": "80",
     "logo_height": "80",
@@ -48,20 +48,16 @@
     ],
     "explore_links": [
       {
-        "name": "All Courses",
-        "url": "/courses"
+        "name": "About",
+        "url": "/about"
       },
       {
-        "name": "Learning Shorts",
-        "url": "/shorts"
+        "name": "AI Disclaimer",
+        "url": "/ai"
       },
       {
-        "name": "Articles",
-        "url": "/articles"
-      },
-      {
-        "name": "Roadmaps",
-        "url": "/roadmaps"
+        "name": "Terms & Conditions",
+        "url": "/terms&condn"
       }
     ]
   },

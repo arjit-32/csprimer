@@ -4,41 +4,39 @@ import Social from "@/components/Social.astro";
 import config from "@/config/config.json";
 import social from "@/config/social.json";
 import { markdownify } from "@/lib/utils/textConverter";
-const { copyright, explore_links, quick_links, footer_description } = config.params;
+const { copyright, footer_description, explore_links } = config.params;
 ---
 <footer class="footer bg-[#FFF]">
   <div class="container">
     <div class="gx-5 row pb-10">
       <!-- Logo and Description -->
-      <div class="col-12 mt-12 md:col-6 lg:col-3">
+      <div class="col-12 mt-12 md:col-6 lg:col-4">
         <Logo />
-        <p class="mt-6 text-gray-600">{footer_description}</p>
+        <p class="mt-6 text-gray-600 text-sm leading-relaxed">{footer_description}</p>
       </div>
 
       <!-- Socials -->
-      <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 class="font-semibold text-gray-800">Connect</h6>
-        <Social source={social} className="social-icons mt-4 lg:mt-6" />
+      <div class="col-12 mt-12 md:col-6 lg:col-4">
+        <h6 class="font-semibold text-gray-800 mb-4">Connect</h6>
+        <Social source={social} className="social-icons" />
+        <a
+          href="https://github.com/arjit-32/csprimer"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+        >
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          ⭐ Star on GitHub
+        </a>
       </div>
-      <!-- Explore -->
-      <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 class="font-semibold text-gray-800">Explore</h6>
+
+      <!-- Links -->
+      <div class="col-12 mt-12 md:col-6 lg:col-4">
+        <h6 class="font-semibold text-gray-800 mb-4">Links</h6>
         <ul>
           {explore_links.map((link) => (
             <li class="mb-2">
-              <a href={link.url} class="text-gray-600 hover:text-primary">{link.name}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 class="font-semibold text-gray-800">Quick Links</h6>
-        <ul>
-          {quick_links.map((link) => (
-            <li class="mb-2">
-              <a href={link.url} class="text-gray-600 hover:text-primary">{link.name}</a>
+              <a href={link.url} class="text-sm text-gray-600 hover:text-primary transition-colors">{link.name}</a>
             </li>
           ))}
         </ul>
@@ -47,8 +45,8 @@ const { copyright, explore_links, quick_links, footer_description } = config.par
   </div>
 
   <div class="container max-w-[1440px]">
-    <div class="footer-copyright mx-auto pb-4 pt-2 text-center">
-      <p class="content text-text">{markdownify(copyright)}</p>
+    <div class="footer-copyright mx-auto border-t border-gray-100 pb-4 pt-4 text-center">
+      <p class="content text-text text-sm">{markdownify(copyright)}</p>
     </div>
   </div>
 </footer>

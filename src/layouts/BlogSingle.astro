@@ -266,7 +266,9 @@ const siteBaseUrl = config.site.base_url;
   </div>
 </section>
 
-<script is:inline>
+
+
+<script>
   function initNavHandlers() {
     setTimeout(() => {
       // Get the current page's slug from the URL
@@ -287,7 +289,9 @@ const siteBaseUrl = config.site.base_url;
         let isActiveSection = false;
 
         links.forEach(link => {
-          const linkUrl = link.getAttribute('href').split('/').pop() || '';
+          const href = link.getAttribute('href');
+          if (!href) return;
+          const linkUrl = href.split('/').pop() || '';
           // Highlight the link if it matches the current slug
           if (linkUrl === currentSlug) {
             link.classList.add('active-link');
@@ -310,8 +314,8 @@ const siteBaseUrl = config.site.base_url;
     }, 100); // Slight delay to ensure DOM is ready
   }
 
-  function toggleNav(event) {
-    const button = event.currentTarget;
+  function toggleNav(event: Event) {
+    const button = event.currentTarget as HTMLElement;
     const index = button.id.split("-").pop();
     const content = document.getElementById(`nav-content-${index}`);
     const icon = button.querySelector(".transform");
@@ -329,20 +333,21 @@ const siteBaseUrl = config.site.base_url;
     if (!btn) return;
 
     const lessonId = btn.getAttribute('data-lesson-id');
+    if (!lessonId) return;
     const btnText = btn.querySelector('.btn-text');
     
-    function updateUI(isCompleted) {
+    function updateUI(isCompleted: boolean) {
       if (isCompleted) {
-        btn.classList.add('is-completed');
+        btn?.classList.add('is-completed');
         if (btnText) btnText.textContent = 'Completed';
       } else {
-        btn.classList.remove('is-completed');
+        btn?.classList.remove('is-completed');
         if (btnText) btnText.textContent = 'Mark as Completed';
       }
     }
 
     // Load initial state
-    let progress = {};
+    let progress: Record<string, boolean> = {};
     try { progress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
     updateUI(!!progress[lessonId]);
 
@@ -351,7 +356,7 @@ const siteBaseUrl = config.site.base_url;
     btn.addEventListener('click', handleToggle);
 
     function handleToggle() {
-      let currentProgress = {};
+      let currentProgress: Record<string, boolean> = {};
       try { currentProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
       
       const newState = !currentProgress[lessonId];
@@ -359,6 +364,10 @@ const siteBaseUrl = config.site.base_url;
       localStorage.setItem('roadmap_progress', JSON.stringify(currentProgress));
       
       updateUI(newState);
+      
+      window.dispatchEvent(new CustomEvent('roadmapProgressUpdated', {
+        detail: { lessonId, isChecked: newState }
+      }));
     }
   }
 
@@ -369,8 +378,6 @@ const siteBaseUrl = config.site.base_url;
 
   // Attach handlers on Astro events
   document.addEventListener("astro:page-load", initAllFeatures);
-  document.addEventListener("astro:after-swap", initAllFeatures);
-  window.addEventListener("load", initAllFeatures);
 </script>
 
 <style>

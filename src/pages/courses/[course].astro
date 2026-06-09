@@ -100,8 +100,8 @@ if (!images[imagePath]) {
                 {section.link.map((link: any) => {
                   return (
                     <a 
-                      href={ link.type != "articles" ? link.url : `/articles/${link.url}` }
-                      target={link.type != "articles" ? "_blank" : "_self"}
+                      href={(link.type === "articles" || link.type === "assignment") ? `/articles/${link.url}` : link.url}
+                      target={(link.type === "articles" || link.type === "assignment") ? "_self" : "_blank"}
                       class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-50 transition-colors group"
                     >
                       {link.type === "youtube" ? (
@@ -148,7 +148,7 @@ if (!images[imagePath]) {
                           </div>
                         </div>
 
-                        {( link.type != "articles") && (
+                        {( link.type != "articles" && link.type != "assignment") && (
                           <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
@@ -165,7 +165,7 @@ if (!images[imagePath]) {
     </div>
   </section>
 
-  <script is:inline>
+  <script>
     function initCoursePage() {
       // 1. Toggle section visibility
       document.querySelectorAll('[data-toggle]').forEach(button => {
@@ -177,9 +177,10 @@ if (!images[imagePath]) {
       syncProgress();
     }
 
-    function toggleSection(event) {
-      const button = event.currentTarget;
+    function toggleSection(event: Event) {
+      const button = event.currentTarget as HTMLElement;
       const sectionId = button.getAttribute('data-toggle');
+      if (!sectionId) return;
       const content = document.getElementById(sectionId);
       const icon = button.querySelector('svg');
       
@@ -191,7 +192,7 @@ if (!images[imagePath]) {
 
     function syncProgress() {
       // Stars
-      let starred = [];
+      let starred: string[] = [];
       try { starred = JSON.parse(localStorage.getItem('ib_starred') || '[]'); } catch(e) {}
       
       document.querySelectorAll('.star-indicator').forEach(icon => {
@@ -204,7 +205,7 @@ if (!images[imagePath]) {
       });
 
       // Completion
-      let progress = {};
+      let progress: Record<string, boolean> = {};
       try { progress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
       
       document.querySelectorAll('.completion-indicator').forEach(indicator => {
@@ -230,9 +231,5 @@ if (!images[imagePath]) {
 
     // Initialize on page load and after Astro navigation
     document.addEventListener('astro:page-load', initCoursePage);
-    document.addEventListener('astro:after-swap', initCoursePage);
-    
-    // Initial call for the very first load
-    initCoursePage();
   </script>
 </Base>

@@ -182,50 +182,51 @@ const roadmaps = {
   <Cta />
 </Base>
 
-<!-- JavaScript for Filtering and Roadmap Image Change -->
-<script is:inline>
+<script>
   function initCategoryButtons() {
     const categoryButtons = document.getElementById("categoryButtons");
     const courseGrid = document.getElementById("courseGrid");
     const courseCards = document.querySelectorAll(".course-card");
-    const roadmapImage = document.getElementById("roadmapImage");
+    const roadmapImage = document.getElementById("roadmapImage") as HTMLImageElement;
 
     if (!categoryButtons || !courseGrid || !roadmapImage) return;
 
-    function filterSeries(category) {
+    function filterSeries(category: string) {
       const existingNoResults = document.getElementById("no-results");
       if (existingNoResults) existingNoResults.remove();
 
       courseCards.forEach(card => {
-        card.classList.add("opacity-0", "scale-95");
-        card.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        const c = card as HTMLElement;
+        c.classList.add("opacity-0", "scale-95");
+        c.style.transition = "opacity 0.3s ease, transform 0.3s ease";
       });
 
       setTimeout(() => {
         let visibleCount = 0;
         if (category === "all") {
           courseCards.forEach(card => {
-            card.style.display = "";
-            void card.offsetWidth;
-            card.classList.remove("opacity-0", "scale-95");
+            const c = card as HTMLElement;
+            c.style.display = "";
+            void c.offsetWidth;
+            c.classList.remove("opacity-0", "scale-95");
             visibleCount++;
           });
         } else {
           courseCards.forEach(card => {
-            if (card.dataset.category === category) {
-              card.style.display = "";
-              void card.offsetWidth;
-              card.classList.remove("opacity-0", "scale-95");
+            const c = card as HTMLElement;
+            if (c.dataset.category === category) {
+              c.style.display = "";
+              void c.offsetWidth;
+              c.classList.remove("opacity-0", "scale-95");
               visibleCount++;
             } else {
-              card.style.display = "none";
+              c.style.display = "none";
             }
           });
         }
 
-        
-        const existingNoResults = document.getElementById("no-results");
-        if (existingNoResults) existingNoResults.remove();
+        const existingNoResultsAfter = document.getElementById("no-results");
+        if (existingNoResultsAfter) existingNoResultsAfter.remove();
 
         if (visibleCount === 0) {
           const noResults = document.createElement("div");
@@ -238,26 +239,31 @@ const roadmaps = {
             </button>`;
           courseGrid.appendChild(noResults);
 
-          document.getElementById("showAllBtn").addEventListener("click", () => {
-            const allButton = document.querySelector('[data-category="all"]');
+          const showAllBtn = document.getElementById("showAllBtn");
+          showAllBtn?.addEventListener("click", () => {
+            const allButton = document.querySelector('[data-category="all"]') as HTMLButtonElement;
             if (allButton) allButton.click();
           });
         }
-        const imagesMap = JSON.parse(roadmapImage.dataset.roadmaps);
-        roadmapImage.src = imagesMap[category] || imagesMap.all;
+        const dataRoadmaps = roadmapImage.dataset.roadmaps;
+        if (dataRoadmaps) {
+          const imagesMap = JSON.parse(dataRoadmaps);
+          roadmapImage.src = imagesMap[category] || imagesMap.all;
+        }
+        
         // Update the URL with the selected category
-    const url = new URL(window.location);
-    if (category === "all") {
-      url.searchParams.delete("category");
-    } else {
-      url.searchParams.set("category", category);
-    }
-    window.history.replaceState({}, "", url);
-          }, 300);
+        const url = new URL(window.location.href);
+        if (category === "all") {
+          url.searchParams.delete("category");
+        } else {
+          url.searchParams.set("category", category);
+        }
+        window.history.replaceState({}, "", url.toString());
+      }, 300);
     }
 
     categoryButtons.addEventListener("click", (event) => {
-      const button = event.target.closest(".category-btn");
+      const button = (event.target as HTMLElement).closest(".category-btn") as HTMLElement;
       if (!button) return;
 
       document.querySelectorAll(".category-btn").forEach(btn => {
@@ -266,24 +272,27 @@ const roadmaps = {
 
       button.classList.add("border-2", "border-blue-500");
 
-      const category = button.dataset.category;
+      const category = button.dataset.category || "all";
       filterSeries(category);
     });
-
-    const defaultButton = document.querySelector('[data-category="all"]');
-    if (defaultButton) defaultButton.click();
 
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.get("category");
     if (categoryParam) {
-      const categoryButton = document.querySelector(`[data-category="${categoryParam}"]`);
-      if (categoryButton) categoryButton.click();
+      const categoryButton = document.querySelector(`[data-category="${categoryParam}"]`) as HTMLButtonElement;
+      if (categoryButton) {
+        categoryButton.click();
+      } else {
+        const defaultButton = document.querySelector('[data-category="all"]') as HTMLButtonElement;
+        defaultButton?.click();
+      }
+    } else {
+      const defaultButton = document.querySelector('[data-category="all"]') as HTMLButtonElement;
+      defaultButton?.click();
     }
   }
 
   document.addEventListener("astro:page-load", initCategoryButtons);
-  document.addEventListener("astro:after-swap", initCategoryButtons);
-  window.addEventListener("load", initCategoryButtons);
 </script>
 
 <style lang="scss">

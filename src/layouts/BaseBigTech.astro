@@ -83,7 +83,8 @@ if (imgStr && !imgStr.startsWith('http')) {
 <html lang="en">
   <head>
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <!-- theme meta -->
     <meta name="theme-name" content="pinwheel-astro" />
     <meta name="msapplication-TileColor" content="#000000" />
@@ -139,7 +140,7 @@ if (imgStr && !imgStr.startsWith('http')) {
     </title>
 
     <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    <link rel="canonical" href={canonical || `${config.site.base_url}${Astro.url.pathname}`} item-prop="url" />
 
     <!-- noindex robots -->
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -204,7 +205,7 @@ if (imgStr && !imgStr.startsWith('http')) {
   <body>
     <TwSizeIndicator />
     
-    <main id="main-content">
+    <main id="main-content" class="overflow-x-hidden">
       <slot />
     </main>
   </body>

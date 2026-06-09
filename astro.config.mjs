@@ -43,7 +43,7 @@ export default defineConfig({
         wrap: true,
       },
     }),
-    // sitemap(),
+    sitemap(),
   ],
   markdown: {
     remarkPlugins: [
