@@ -31,10 +31,10 @@
     {
       "subheading": "Coordination & Consistency",
       "link": [
-        {
+         {
           "type": "articles",
-          "url": "distributed-consistency-concurrency",
-          "title": "Consistency & Concurrency"
+          "url": "distributed-transactions",
+          "title": "Distributed Transactions"
         },
         {
           "type": "articles",
@@ -43,13 +43,13 @@
         },
         {
           "type": "articles",
-          "url": "distributed-ordering-time",
-          "title": "Ordering and Time"
+          "url": "distributed-consistency-concurrency",
+          "title": "Consistency & Concurrency"
         },
         {
           "type": "articles",
-          "url": "distributed-transactions",
-          "title": "Distributed Transactions"
+          "url": "distributed-ordering-time",
+          "title": "Ordering and Time"
         }
       ]
     },

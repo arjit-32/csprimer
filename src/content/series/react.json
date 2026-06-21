@@ -1,0 +1,116 @@
+{
+  "title": "ReactJS",
+  "subtitle": "Learn ReactJS from scratch and build dynamic web applications",
+  "description": "A comprehensive course designed to teach you the fundamentals of ReactJS, including components, state management, hooks, and advanced concepts like context and performance optimization.",
+  "image": "../../assets/images/thumbnails/reactjs.png",
+  "category": "Development",
+  "ongoing": false,
+  "status": "planned",
+  "time": "18 articles",
+  "weight": 12,
+  "navbar": [
+    {
+      "subheading": "Introduction to ReactJS",
+      "link": [
+        {
+          "type": "articles",
+          "url": "reactjs-introduction",
+          "title": "What is ReactJS?"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-setup",
+          "title": "Setting Up Your React Environment"
+        }
+      ]
+    },
+    {
+      "subheading": "React Basics",
+      "link": [
+        {
+          "type": "articles",
+          "url": "reactjs-components",
+          "title": "Understanding Components"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-props",
+          "title": "Props in React"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-state",
+          "title": "State Management Basics"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-event-handling",
+          "title": "Event Handling in React"
+        }
+      ]
+    },
+    {
+      "subheading": "Advanced React Concepts",
+      "link": [
+        {
+          "type": "articles",
+          "url": "reactjs-hooks",
+          "title": "Introduction to Hooks"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-useeffect",
+          "title": "Using useEffect for Side Effects"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-context",
+          "title": "Context API for State Sharing"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-performance",
+          "title": "Performance Optimization in React",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "React Ecosystem",
+      "link": [
+        {
+          "type": "articles",
+          "url": "reactjs-router",
+          "title": "React Router for Navigation"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-redux",
+          "title": "State Management with Redux",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "reactjs-testing",
+          "title": "Testing React Applications",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Further Learnings",
+      "link": [
+        {
+          "type": "youtube",
+          "url": "https://youtu.be/dGcsHMXbSOA",
+          "title": "ReactJS Crash Course (Traversy Media)"
+        },
+        {
+          "type": "external",
+          "url": "https://reactjs.org/docs/getting-started.html",
+          "title": "Official ReactJS Documentation"
+        }
+      ]
+    }
+  ]
+}

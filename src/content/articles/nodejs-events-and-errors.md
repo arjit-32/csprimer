@@ -26,7 +26,7 @@ Rather than blocking execution, Node.js emits events and invokes registered list
 
 ## The Events Module
 
-Node provides the built-in `events` module fto work with custom events. At its core is the EventEmitter class, which allows you to define, emit, and listen for events.
+Node provides the built-in `events` module to work with custom events. At its core is the EventEmitter class, which allows you to define, emit, and listen for events.
 
 **Example: EventEmitter in Action**
 

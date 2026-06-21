@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 5,
+  "title": "Arrays",
+  "image": "../../assets/images/thumbnails/dsa-array.png",
+  "subtitle": "Master the fundamentals and advanced techniques of array manipulation.",
+  "description": "This series explores the core concepts and problem-solving techniques using arrays, covering everything from basic operations to complex algorithms.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Introduction to Arrays",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-array-introduction",
+          "title": "What are Arrays?"
+        }
+      ]
+    }
+  ]
+}

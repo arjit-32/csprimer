@@ -21,37 +21,47 @@ const roadmaps = {
   Development: await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 800 }),
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
 };
+
+// Status pill config — defined once in frontmatter so TS generics are safe
+const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
+  'completed':    { label: '✅ Completed',    cls: 'status-pill--completed'    },
+  'in-progress':  { label: '🔄 In Progress',  cls: 'status-pill--in-progress'  },
+  'proofreading': { label: '🔍 Proofreading', cls: 'status-pill--proofreading' },
+  'planned':      { label: '🕐 Planned',      cls: 'status-pill--planned'      },
+  'draft':        { label: '✏️ Draft',         cls: 'status-pill--draft'        },
+};
 ---
 <Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
   <!-- Hero Banner -->
   <div class="series-hero-section">
     <div class="series-hero-glow"></div>
     <div class="container series-hero-inner">
-      <div class="series-hero-badge">🎓 Deep Dive</div>
+      <div class="series-hero-badge">🎓 LEARNING PATHS</div>
 <h1 class="series-hero-title">Courses</h1>
 
 <p class="series-hero-sub">
-  Structured learning path for interviews, engineering skills, <br/> and real-world development.
+  Everything you need to become a complete software engineer,
+from Computer Science fundamentals to real-world systems.
 </p>
 
 <div class="series-hero-stats">
   <div class="series-stat">
-    <span class="series-stat-num">4</span>
-    <span class="series-stat-label">Categories</span>
-  </div>
-
-  <div class="series-stat-divider"></div>
-
-  <div class="series-stat">
-    <span class="series-stat-num">{seriesCollection.length}+</span>
+    <span class="series-stat-num">50+</span>
     <span class="series-stat-label">Courses</span>
   </div>
 
   <div class="series-stat-divider"></div>
 
   <div class="series-stat">
-    <span class="series-stat-num">Free</span>
-    <span class="series-stat-label">Always</span>
+    <span class="series-stat-num">Practical</span>
+    <span class="series-stat-label">Assignments</span>
+  </div>
+
+  <div class="series-stat-divider"></div>
+
+  <div class="series-stat">
+    <span class="series-stat-num">Structured</span>
+    <span class="series-stat-label">Roadmaps</span>
   </div>
 </div>
     </div>
@@ -131,12 +141,11 @@ const roadmaps = {
             };
             const categoryColor = categoryColorMap[series.category] || "bg-gray-50 text-gray-500"; 
 
-            return (
-              <a
-                href={`/courses/${slug}`}
-                class="course-card group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
-                data-category={series.category}
-              >
+            const statusCfg = series.status ? STATUS_CONFIG[series.status] : null;
+            const isPlanned = series.status === 'planned';
+
+            const cardInner = (
+              <>
                 {series.ongoing && (
                   <p class="py-1 bg-slate-200 text-zinc-900 text-center text-xs">On-going</p>
                 )}
@@ -159,10 +168,15 @@ const roadmaps = {
                       />
                     ) : null;
                   })()}
-                  <div class="space-x-2 mb-3">
+                  <div class="space-x-2 mb-3 flex flex-wrap gap-y-2 items-center">
                     <span class={`inline-block ${categoryColor} text-xs font-semibold py-1 px-3 rounded-full`}>
                       {series.category}
                     </span>
+                    {statusCfg && (
+                      <span class={`status-pill ${statusCfg.cls}`}>
+                        {statusCfg.label}
+                      </span>
+                    )}
                   </div>
                   <h3 class="text-lg font-semibold text-gray-800 group-hover:text-pink-500 transition-colors">
                     {series.title}
@@ -170,6 +184,29 @@ const roadmaps = {
                   <p class="text-gray-600 mt-2 text-sm">{series.subtitle}</p>
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-br from-pink-400 to-yellow-300 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                {isPlanned && (
+                  <div class="course-card-locked-overlay">
+                    <span class="course-card-locked-icon">🔒</span>
+                  </div>
+                )}
+              </>
+            );
+
+            return isPlanned ? (
+              <div
+                class="course-card course-card--planned group relative bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
+                data-category={series.category}
+                title="This course is not yet available"
+              >
+                {cardInner}
+              </div>
+            ) : (
+              <a
+                href={`/courses/${slug}`}
+                class="course-card group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                data-category={series.category}
+              >
+                {cardInner}
               </a>
             );
           })}
@@ -385,7 +422,6 @@ const roadmaps = {
   background: rgba(255,255,255,0.12);
 }
 
-  /* Refine category buttons to be more cohesive */
   .category-btn {
     border: 1px solid #efefef;
     background: white;
@@ -405,5 +441,78 @@ const roadmaps = {
         color: #FE6019 !important;
       }
     }
+  }
+
+  /* ── Status Pills ── */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+
+  .status-pill--completed {
+    background: #dcfce7;
+    color: #15803d;
+    border-color: #86efac;
+  }
+
+  .status-pill--in-progress {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border-color: #93c5fd;
+  }
+
+  .status-pill--proofreading {
+    background: #fef9c3;
+    color: #a16207;
+    border-color: #fde047;
+  }
+
+  .status-pill--planned {
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #cbd5e1;
+  }
+
+  .status-pill--draft {
+    background: #ffedd5;
+    color: #c2410c;
+    border-color: #fdba74;
+  }
+
+  /* ── Planned (locked) course card ── */
+  .course-card--planned {
+    cursor: not-allowed;
+    opacity: 0.72;
+    filter: grayscale(35%);
+  }
+
+  .course-card-locked-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .course-card--planned:hover .course-card-locked-overlay {
+    opacity: 1;
+  }
+
+  .course-card-locked-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
   }
 </style>

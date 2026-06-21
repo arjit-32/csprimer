@@ -16,12 +16,12 @@
     "blog_folder": "articles"
   },
   "call_to_action": {
-    "title": "Important Announcement",
-    "description": "I'm committed to keeping this site open-source and free for everyone. The syllabus is planned to be completed by December 2026. Stay connected and contribute to the journey!",
+    "title": "Found Something Missing?",
+    "description": "Have an idea for a course, spotted an issue, or want a topic covered? I'd love to hear from you.",
     "button": {
       "label1": "Connect on LinkedIn",
       "link1": "https://www.linkedin.com/in/arjit32/",
-      "label2": "Report Issues/Contribute",
+      "label2": "Open a GitHub Issue",
       "link2": "https://github.com/arjit-32/csprimer"
     }
   },

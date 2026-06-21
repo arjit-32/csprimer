@@ -1,5 +1,6 @@
 {
   "ongoing": "false",
+  "status": "in-progress",
   "weight": 3,
   "title": "DSA Math",
   "image": "../../assets/images/thumbnails/dsa-math.png",
@@ -45,6 +46,115 @@
           "type": "articles",
           "url": "dsa-problem-4-armstrong-number",
           "title": "Armstrong Number"
+        }
+      ]
+    },
+    {
+      "subheading": "Factorials & Combinatorics",
+      "link": [
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Factorial",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Factorial of large number",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-problem-3-pallindrome-number",
+          "title": "Trailing zeros in Factorial",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "GCD / LCM",
+      "link": [
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "GCD of Two numbers",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "LCM of Two numbers",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "GCD of array of numbers",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Prime Numbers",
+      "link": [
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Check if a number is prime",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Print all primes up to N",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Sieve of Eratosthenes",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Prime Factors & Divisors",
+      "link": [
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Prime factors of Number",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Count number of Divisors",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Sum of divisors",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Power & Modulo",
+      "link": [
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Compute a^n",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "..",
+          "title": "Compute (a^n) % m",
+          "status": "planned"
         }
       ]
     }

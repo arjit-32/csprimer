@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 16,
+  "title": "Heaps",
+  "image": "../../assets/images/thumbnails/dsa-heap.png",
+  "subtitle": "Master heap data structures for efficient priority management.",
+  "description": "This series explores the fundamentals and advanced concepts of heaps, covering types of heaps, heap operations, and problem-solving techniques for priority-based data management and optimization.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+     {
+      "subheading": "Introduction to Heaps",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-heaps-introduction",
+          "title": "What is a Heap?"
+        }
+      ]
+    }
+  ]
+}

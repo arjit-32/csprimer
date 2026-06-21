@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 6,
+  "title": "Searching",
+  "image": "../../assets/images/thumbnails/dsa-search.png",
+  "subtitle": "Master the art of searching algorithms and techniques.",
+  "description": "This series delves into various searching algorithms, from basic linear and binary search to advanced search techniques, helping you solve problems efficiently and effectively.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Introduction to Searching",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-search-introduction",
+          "title": "What is Searching?"
+        }
+      ]
+    }
+  ]
+}

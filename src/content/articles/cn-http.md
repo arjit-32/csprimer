@@ -66,10 +66,13 @@ Content-Length: 147
 
 ## Persistent vs Non-Persistent HTTP
 
+HTTP connections can be either persistent or non-persistent, depending on how they handle multiple requests.
+
 **Non-Persistent HTTP**
 
 - For each object (HTML, image, CSS, etc.), a separate TCP connection is made.
 - Slower due to repeated connection setup.
+- Common in older versions like HTTP/1.0.
 
 **Persistent HTTP**
 
@@ -108,13 +111,34 @@ HTTPS (HyperText Transfer Protocol Secure) is HTTP over TLS (Transport Layer Se
 
 ---
 
-## HTTP Version History
+## HTTP Versions: Evolution Over Time
+HTTP has evolved significantly since its inception, with each version introducing new features and improvements.
 
-| **Version** | **Key Feature** |
-| --- | --- |
-| HTTP/1.0 | Non-persistent, no caching |
-| HTTP/1.1 | Persistent connections, pipelining |
-| HTTP/2 | Multiplexing, header compression |
-| HTTP/3 | Runs over QUIC (uses UDP), faster |
+### HTTP/0.9:
+- Single-line protocol supporting only the GET method.
+- Responses were raw HTML without headers or status codes.
 
-Modern browsers support **HTTP/2** and **HTTP/3**, which significantly reduce latency and improve performance
+### HTTP/1.0:
+- Introduced headers and additional methods (POST, HEAD).
+- Opened a new TCP connection for each request-response pair.
+
+### HTTP/1.1:
+- Enabled persistent connections (keep-alive).
+- Added request pipelining (sending multiple requests before receiving responses).
+- Introduced chunked transfer encoding for streaming data.
+
+### HTTP/2:
+- Multiplexing: Interleaved multiple requests/responses over a single connection.
+- Header Compression: Reduced overhead using HPACK.
+- Server Push: Allowed servers to send resources proactively (now deprecated).
+
+### HTTP/3:
+- Switched to QUIC (UDP-based transport protocol with built-in TLS 1.3).
+- Eliminated Head-of-Line Blocking at the transport layer.
+- Improved performance and reliability.
+
+---
+
+## Conclusion
+
+HTTP is the backbone of web communication, enabling seamless interaction between clients and servers. From its humble beginnings as a simple protocol to its modern iterations like HTTP/3, it has evolved to meet the demands of a fast, secure, and scalable web. 

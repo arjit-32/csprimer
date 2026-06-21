@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 11,
+  "title": "Stacks",
+  "image": "../../assets/images/thumbnails/dsa-stacks.png",
+  "subtitle": "Master stack operations and algorithms for efficient problem-solving.",
+  "description": "This series explores the fundamentals and advanced concepts of stacks, covering stack operations, applications, and problem-solving techniques to handle real-world challenges effectively.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Introduction to Stacks",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-stacks-introduction",
+          "title": "What is a Stack?"
+        }
+      ]
+    }
+  ]
+}

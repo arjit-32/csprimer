@@ -89,7 +89,59 @@
       ]
     },
     {
-      "subheading": "Real-World Architecture",
+      "subheading": "Reliability & Operations",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-reliability-resillience",
+          "title": "Reliability and Resillience Pattern",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-observability",
+          "title": "Observability",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Low Level Design",
+      "link": [
+        {
+          "type": "articles",
+          "url": "systemdesign-solid",
+          "title": "SOLID Pattern",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-di-ioc",
+          "title": "Dependency Injection",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-strategy-pattern",
+          "title": "Strategy Pattern",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-factory-pattern",
+          "title": "Factory Pattern",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "systemdesign-observer-pattern",
+          "title": "Observer Pattern",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Real-World HLD Architecture",
       "link": [
         {
           "type": "articles",

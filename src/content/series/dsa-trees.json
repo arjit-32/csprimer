@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 14,
+  "title": "Binary Trees",
+  "image": "../../assets/images/thumbnails/dsa-binary-tree.png",
+  "subtitle": "Master tree data structures and algorithms for hierarchical problem-solving.",
+  "description": "This series explores the fundamentals and advanced concepts of trees, covering types of trees, traversal techniques, and problem-solving strategies to handle hierarchical data efficiently.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+     {
+      "subheading": "Introduction to Trees",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-trees-introduction",
+          "title": "What is a Tree?"
+        }
+      ]
+    }
+  ]
+}

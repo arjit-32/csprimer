@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 19,
+  "title": "Backtracking",
+  "image": "../../assets/images/thumbnails/dsa-greedy.png",
+  "subtitle": "Master backtracking algorithms for solving complex combinatorial problems.",
+  "description": "This series explores the fundamentals and applications of backtracking, covering its principles, problem-solving strategies, and real-world use cases for efficient exploration of solution spaces.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+     {
+      "subheading": "Introduction",
+      "link": [
+       {
+          "type": "articles",
+          "url": "dsa-backtracking-introduction",
+          "title": "What is Backtracking?"
+        }
+      ]
+    }
+  ]
+}

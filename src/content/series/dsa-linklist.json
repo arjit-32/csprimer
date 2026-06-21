@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 10,
+  "title": "Linked List",
+  "image": "../../assets/images/thumbnails/dsa-linklist.png",
+  "subtitle": "Learn the fundamentals and advanced techniques of linked lists.",
+  "description": "This series covers the basics and advanced concepts of linked lists, including singly, doubly, and circular linked lists, along with problem-solving techniques and real-world applications.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Introduction to Linked Lists",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-linked-list-introduction",
+          "title": "What is a Linked List?"
+        }
+      ]
+    }
+  ]
+}

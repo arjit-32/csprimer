@@ -1,5 +1,5 @@
 ---
-title: Distributed Transactions and ACID - A Practical Guide
+title: Understanding Distributed Transactions Beyond ACID
 meta_title: Transactions in Distributed Systems | CS Primer
 description: Explore how transactions are handled in distributed systems. Understand ACID properties, distributed transactions, and the challenges of ensuring consistency across systems.
 author: Arjit Sharma
@@ -9,9 +9,20 @@ draft: false
 year: 2025
 ---
 
-A transaction is a sequence of operations that should behave as a single unit of work. Example - Transfering money between bank accounts. A transaction should either complete successfully or leave the system unchanged.
+A transaction is a sequence of operations that should behave as a single unit of work.
 
-As systems grow, data may be stored across multiple machines, introducing new challenges beyond those faced by a traditional single-node database.
+Consider a money transfer:
+```bash
+Debit Alice Account 
+Credit Bob Account
+```
+
+Both operations must succeed together or fail together.
+
+- If Alice is debited but Bob is never credited, the system enters an invalid state.
+- Transactions help preserve correctness in the presence of failures and concurrent access.
+
+In a traditional database, transactions are relatively straightforward because all data resides on a single machine. As systems scale across multiple machines, replicas, and services, maintaining transactional guarantees becomes significantly more difficult.
 
 ---
 
@@ -42,24 +53,31 @@ Even though multiple tables or rows may be involved, everything is managed by a 
 
 No distributed coordination is required.
 
+*Example - MySQL, PostgreSQL, Oracle Database.*
+
 
 ### Distributed Database
 
 Data is partitioned or replicated across multiple machines.
 
 Example:
+
 ```bash
 Alice account -> Node A
 Bob account   -> Node B
 ```
+
 Money transfer:
 ```bash
 Debit Alice on Node A
 Credit Bob on Node B
 ```
-Now multiple machines must coordinate to ensure correctness.
 
-This is a distributed transaction.
+If one machine succeeds while the other fails, correctness is violated.
+
+Multiple machines must coordinate before a transaction can complete.
+
+This introduces the concept of a distributed transaction.
 
 ---
 
@@ -75,6 +93,33 @@ ACID is a set of properties traditionally used in databases. It ensures correctn
 - **Durability** - Once committed, data must persist even after failures.
 
 ---
+
+
+## Who Provides ACID Guarantees?
+
+- In a traditional database, ACID guarantees are largely implemented by the database engine itself through mechanisms such as locking, MVCC, logging, and recovery.
+
+- In a distributed database, the database additionally coordinates multiple nodes using distributed transaction and replication protocols. Ex - Google Spanner, Cockroach DB
+
+- Suppose you arent using a distributed database like Spanner, but data may be partitioned (sharded) or replicated across multiple machines.
+
+```bash
+Account A → Node A
+Account B → Node B
+```
+
+A transaction may now span multiple nodes. To preserve ACID guarantees, the database must coordinate those nodes using additional mechanisms: MVCC / Locking → Isolation , 2PC (or similar protocols) → Atomic Commit Across Shards, Replication → Fault Tolerance, Consensus Protocols → Replica Agreement, WAL and Recovery → Durability.
+
+---
+
+## A Layered view of Transactions 
+
+Distributed transaction systems solve several independent problems.
+
+- Application Layer: This is where the business logic resides. Applications initiate transactions, such as transferring money, booking tickets, or updating inventory.
+- Transaction Management Layer: This layer coordinates the execution of transactions across multiple nodes, ensuring correctness and consistency.
+- Replication and Consensus Layer: This layer ensures that data is replicated across multiple nodes and that all replicas agree on the state of the system.
+
 
 ## Layer 1: Concurrency Control (Isolation)
 
@@ -105,13 +150,14 @@ Several mechanisms provide isolation.
    - Begin – Assigns a unique timestamp to the transaction.
    - Read and Modify – Transaction reads/writes tentatively without locks.
    - Validate and Commit/Rollback 
-     - If another transaction modified the accessed data **after** this transaction started → *Abort & Retry with a new timestamp.*  
-     - If no conflict → *Commit changes.*
+     - During validation, the system checks whether concurrent transactions modified data that conflicts with the current transaction's read or write set.
+     - If a conflict is detected → Abort and Retry.
+     - Otherwise → Commit.
 
    *Example: If two users edit a shared document, OCC allows both to proceed without locking.*
 
 3. **Multi-Version Concurrency Control (MVCC)**  
-   Multiple physical versions are maintained for a single logical data item, so updates do not overwrite existing records but create new versions.
+   MVCC allows transactions to read a consistent snapshot of data while newer versions are being written. A major advantage is that readers generally do not block writers and writers generally do not block readers.
 
    *Example: A bank statement generation shouldn't be blocked by live transactions.*
 
@@ -148,22 +194,17 @@ This is an atomic commit problem.
    - Prepare phase – The coordinator sends a *"prepare"* message, and each node performs the transaction locally and acknowledges with *"yes."*
    - Commit phase – If all nodes respond with *"yes,"* the coordinator sends a *"commit"* message. If any node responds with *"no,"* the coordinator sends a *"rollback"* message.
 
-   *Note: If the coordinator crashes after sending “Prepare” but before “Commit,” participants wait indefinitely (Blocking Problem).*
+   *Note: If the coordinator crashes after sending “Prepare” but before “Commit,” participants wait indefinitely (Blocking Problem). Modern systems often mitigate this issue by using timeout mechanisms or leader election protocols to recover from coordinator failures*
 
 2. **Three-Phase Commit (3PC)**  
-   To overcome the blocking problem in 2PC, 3PC ensures that the coordinator is not a single point of failure.
+   3PC attempts to reduce the blocking behavior of 2PC by introducing an additional pre-commit phase. Participants can make progress after certain failures using timeout-based decisions. However, 3PC assumes bounded network delays and is rarely used in modern distributed systems.
 
    Phases of 3PC:
    - Prepare phase – Nodes vote to commit or abort.
    - Pre-commit phase – The coordinator sends a *"prepare to commit"* message before finalizing.
    - Commit phase – If no failures occur, all nodes commit.
 
-   *If the coordinator crashes after sending "pre-commit," participants already know they must commit. However, if it fails before "pre-commit," it still faces the same issue as 2PC.*
-
-3. **Quorum-Based Commit Protocol**  
-   Instead of relying on a single coordinator (like in 2PC/3PC), some systems use **quorum-based writes**.
-
-   - Majority Agreement – A transaction commits if a majority (quorum) of nodes confirm.
+   *While 3PC reduces blocking behavior compared to 2PC, it assumes bounded network delays and reliable communication. In real-world systems, where network partitions and unbounded delays can occur, 3PC is rarely used due to its impracticality*
 
 ---
 
@@ -175,17 +216,14 @@ A transaction must move the database from one valid state to another valid state
 
 In ACID, consistency means preserving invariants. Consistency ensures that the database follows **integrity constraints** before and after a transaction. Example - Account balance cannot become negative.
 
-Distributed Consistency - All replicas eventually agree on the same value. Replica agreement problem. 
-
-These are related but different concepts.
-
+Distributed Consistency - Distributed Consistency describes the guarantees provided about the visibility and ordering of updates across replicas. Different systems provide different consistency models ranging from eventual consistency to stronger guarantees such as linearizability.
 
 ### Mechanisms to achieve consistency:
 
 - Schema Enforcement – Ensures data follows the defined structure. 
 - Business Logic Rules – Constraints like *"Balance ≥ 0"* must always hold.
 - Serializability – Ensured through concurrency control (*2PL, OCC, MVCC, etc.*).
-- Consensus Protocols (Paxos, Raft) – Ensure all replicas agree on the correct state.
+- Consensus Protocols (Paxos, Raft) – Ensure Replicas agree on the same sequence of state transitions despite failures.
 
 ---
 
@@ -196,24 +234,40 @@ Durability ensures that once a transaction is committed, its changes persist per
 ### Mechanisms to achieve durability:
 
 - Write-Ahead Logging (WAL) – Logs changes before applying them to prevent data loss.
-- Replication (Leader-Follower, Quorum-based, etc.) – Copies data across multiple nodes for fault tolerance.
+- Replication (Leader-Follower, Quorum-based, etc.) – Copies data across multiple nodes for fault tolerance. However, replication alone does not guarantee durability unless combined with consensus protocols like Paxos or Raft to ensure that committed data is agreed upon by all replicas.
 - Checkpointing – Periodically saves consistent database states to speed up recovery.
 
 ---
 
+## ACID in Microservice Architectures
+
+Microservices introduce a different challenge.
+
+Example:
+```bash
+Order Service
+Payment Service
+Inventory Service
+```
+
+Each service owns its own database.
+
+There is no single database engine coordinating the entire workflow.
+
+As a result, global ACID guarantees across multiple services become difficult to achieve.
+
+Each service can maintain ACID within its own database, but coordination across services is typically handled at the application level using patterns such as:
+```bash
+Saga
+Outbox Pattern
+Event-Driven Workflows
+```
+
+Rather than enforcing a single global transaction, these systems often rely on eventual consistency and compensating actions. This trade-off allows microservices to scale independently and avoid the performance bottlenecks associated with global ACID guarantees.
+
+---
+
 ## SAGA Pattern
-
-Traditional distributed transactions are common inside distributed databases. Microservices introduce a different challenge.
-
-*Microservice Architecture*
-- Order Service
-- Inventory Service
-- Payment Service
-- Shipping Service
-
-Each service owns its own database. A global distributed transaction across all services is often impractical.
-
-**How Saga Pattern Solves it ?**
 
 A Saga consists of a sequence of local transactions.
 
@@ -239,20 +293,16 @@ These compensating actions undo previous work.
 
 Unlike 2PC - No global lock, No distributed commit coordinator and No atomic commit across services
 
-Consistency is achieved eventually.
+While the Saga pattern simplifies distributed workflows, it introduces additional complexity in managing compensating actions and ensuring eventual consistency.
 
 ---
 
 ## Connclusion 
 
-- 2PL, OCC, MVCC → Concurrency Control (Isolation)
+Maintaining ACID becomes progressively more challenging as data is distributed across multiple machines.
 
-- 2PC, 3PC → Atomic Commit Across Machines
+For a single-node database, the database engine itself provides ACID guarantees through mechanisms such as locking, MVCC, logging, and recovery.
 
-- Raft, Paxos → Replica Agreement (Consensus)
+When a database is distributed or sharded, the same guarantees require additional coordination across nodes. Isolation may still be provided through MVCC or locking, but atomicity, durability, and fault tolerance now depend on distributed transaction protocols, replication, and recovery mechanisms.
 
-- WAL, Replication, Checkpointing → Durability
-
-- Saga → Long-Running Business Workflows
-
-They are not alternatives to one another. A modern distributed system often combines several of these mechanisms together to achieve reliability, correctness, and scalability.
+In microservice architectures, there is often no single database responsible for an entire business workflow. In such cases, ACID guarantees are typically limited to individual services, while cross-service coordination is achieved through patterns such as Saga and eventual consistency.

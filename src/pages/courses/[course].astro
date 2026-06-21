@@ -28,6 +28,16 @@ if (imagePath.startsWith("../../assets")) {
 if (!images[imagePath]) {
   throw new Error(`"${imagePath}" does not exist in glob: "src/assets/images/**"`);
 }
+
+// Status pill config (shared)
+const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
+  'completed':    { label: '✅ Completed',    cls: 'status-pill--completed'    },
+  'in-progress':  { label: '🔄 In Progress',  cls: 'status-pill--in-progress'  },
+  'proofreading': { label: '🔍 Proofreading', cls: 'status-pill--proofreading' },
+  'planned':      { label: '🕐 Planned',      cls: 'status-pill--planned'      },
+  'draft':        { label: '✏️ Draft',         cls: 'status-pill--draft'        },
+};
+const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : null;
 ---
 
 <Base title={seriesData.title || (course as string)} description={seriesData.description}>
@@ -49,9 +59,16 @@ if (!images[imagePath]) {
     
     <div class="container relative z-10">
       <div class="max-w-3xl mx-auto text-center text-white">
-        <span class="inline-block px-4 py-1 bg-[#fb7299] rounded-full text-sm font-medium mb-4">
-          {seriesData.category || "Course"}
-        </span>
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-4">
+          <span class="inline-block px-4 py-1 bg-[#fb7299] rounded-full text-sm font-medium">
+            {seriesData.category || "Course"}
+          </span>
+          {courseStatusCfg && (
+            <span class={`status-pill ${courseStatusCfg.cls}`}>
+              {courseStatusCfg.label}
+            </span>
+          )}
+        </div>
         <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
           {seriesData.title}
         </h1>
@@ -98,12 +115,14 @@ if (!images[imagePath]) {
             <div id={`section-${index}`} class="border-t border-gray-100">
               <div class="p-4 space-y-2">
                 {section.link.map((link: any) => {
-                  return (
-                    <a 
-                      href={(link.type === "articles" || link.type === "assignment") ? `/articles/${link.url}` : link.url}
-                      target={(link.type === "articles" || link.type === "assignment") ? "_self" : "_blank"}
-                      class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-50 transition-colors group"
-                    >
+                  const articleStatusCfg = link.status ? STATUS_CONFIG[link.status] : null;
+                  const isLocked = link.status === 'planned' || link.status === 'draft';
+                  const isArticle = link.type === 'articles' || link.type === 'assignment';
+                  const href = isArticle ? `/articles/${link.url}` : link.url;
+                  const target = isArticle ? '_self' : '_blank';
+
+                  const linkIcon = (
+                    <>
                       {link.type === "youtube" ? (
                         <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
@@ -130,30 +149,60 @@ if (!images[imagePath]) {
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       )}
-                      <span class="text-gray-700 group-hover:text-[#fb7299] transition-colors flex-1 lesson-title">
+                    </>
+                  );
+
+                  const linkContent = (
+                    <>
+                      {linkIcon}
+                      <span class={`flex-1 lesson-title transition-colors ${isLocked ? 'text-gray-400 italic' : 'text-gray-700 group-hover:text-[#fb7299]'}`}>
                         {link.title}
                       </span>
-                      
-                      <!-- Action Indicators on Right -->
-                      <div class="flex items-center gap-3 ml-auto pr-2">
-                        <svg class="w-4 h-4 text-yellow-400 opacity-0 transition-opacity star-indicator" viewBox="0 0 24 24" fill="currentColor" data-star-id={link.type === "articles" ? `article-${link.url}` : ""}>
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                        </svg>
-                        
-                        <div class="relative flex items-center justify-center w-5 h-5 completion-indicator opacity-0 transition-opacity" data-lesson-id={link.url}>
-                          <div class="w-full h-full rounded-full bg-green-500 flex items-center justify-center">
-                            <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-                              <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                      <div class="flex items-center gap-2 ml-auto pr-2">
+                        {articleStatusCfg && (
+                          <span class={`status-pill ${articleStatusCfg.cls}`}>
+                            {articleStatusCfg.label}
+                          </span>
+                        )}
+                        {!isLocked && (
+                          <>
+                            <svg class="w-4 h-4 text-yellow-400 opacity-0 transition-opacity star-indicator" viewBox="0 0 24 24" fill="currentColor" data-star-id={link.type === "articles" ? `article-${link.url}` : ""}>
+                              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                             </svg>
-                          </div>
-                        </div>
-
-                        {( link.type != "articles" && link.type != "assignment") && (
-                          <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            <div class="relative flex items-center justify-center w-5 h-5 completion-indicator opacity-0 transition-opacity" data-lesson-id={link.url}>
+                              <div class="w-full h-full rounded-full bg-green-500 flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+                                  <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                              </div>
+                            </div>
+                            {(!isArticle) && (
+                              <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            )}
+                          </>
+                        )}
+                        {isLocked && (
+                          <svg class="w-4 h-4 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
                           </svg>
                         )}
                       </div>
+                    </>
+                  );
+
+                  return isLocked ? (
+                    <span class="article-locked flex items-center gap-3 p-1 rounded-md">
+                      {linkContent}
+                    </span>
+                  ) : (
+                    <a 
+                      href={href}
+                      target={target}
+                      class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-50 transition-colors group"
+                    >
+                      {linkContent}
                     </a>
                   );
                 })}
@@ -232,4 +281,64 @@ if (!images[imagePath]) {
     // Initialize on page load and after Astro navigation
     document.addEventListener('astro:page-load', initCoursePage);
   </script>
+
+  <style>
+    /* ── Status Pills (course detail page) ── */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .status-pill--completed {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #86efac;
+    }
+
+    .status-pill--in-progress {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-color: #93c5fd;
+    }
+
+    .status-pill--proofreading {
+      background: #fef9c3;
+      color: #a16207;
+      border-color: #fde047;
+    }
+
+    .status-pill--planned {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #cbd5e1;
+    }
+
+    .status-pill--draft {
+      background: #ffedd5;
+      color: #c2410c;
+      border-color: #fdba74;
+    }
+
+    /* ── Locked article rows ── */
+    .article-locked {
+      cursor: not-allowed;
+      opacity: 0.6;
+      user-select: none;
+    }
+
+    /* Hero status pill contrast override (dark bg) */
+    .status-pill--completed[data-hero] {
+      background: rgba(220,252,231,0.18);
+      color: #86efac;
+      border-color: rgba(134,239,172,0.4);
+    }
+  </style>
 </Base>

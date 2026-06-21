@@ -25,6 +25,9 @@ const pagesCollection = defineCollection({
   }),
 });
 
+// Shared status enum for courses and articles
+const statusEnum = z.enum(['completed', 'in-progress', 'proofreading', 'planned', 'draft']).optional();
+
 // Series collection schema
 const seriesCollection = defineCollection({
   type: 'data', // JSON/YAML based
@@ -35,6 +38,7 @@ const seriesCollection = defineCollection({
     image: z.string().optional(),
     category: z.string().default('Course'),
     ongoing: z.union([z.boolean(), z.string()]).transform(val => val === true || val === 'On-going' || val === 'true'), // Normalize legacy data
+    status: statusEnum,
     time: z.string().optional(),
     weight: z.number().default(100),
     navbar: z.array(z.object({
@@ -43,6 +47,7 @@ const seriesCollection = defineCollection({
         type: z.enum(['articles', 'video', 'external', 'assignment', 'book', 'youtube', 'github']),
         url: z.string(),
         title: z.string(),
+        status: statusEnum,
       })),
     })),
   }),

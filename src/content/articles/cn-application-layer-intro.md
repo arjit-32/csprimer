@@ -30,8 +30,8 @@ Here are the main building blocks and design choices behind every network applic
 
 **Application Architecture**
 
-- *Client-Server Model -*  One machine (the server) provides services, and other machines (the clients) request those services. Example- A web browser (client) sends a request to a web server, which responds with the web page.
-- *Peer-to-Peer (P2P) Model -* ****All participating devices (called peers) both request and provide services to each other. Example- BitTorrent, you download and upload pieces of files from/to other peers.
+- *Client-Server Model -*  One machine (the server) provides services, and other machines (the clients) request those services. Example - A web browser (client) sends a request to a web server, which responds with the web page.
+- *Peer-to-Peer (P2P) Model -* All participating devices (called peers) both request and provide services to each other. Example - BitTorrent, you download and upload pieces of files from/to other peers.
 
 **Processes Communicating**
 
@@ -47,6 +47,8 @@ Example: Your web browser might talk to a web server at IP *192.0.2.1* on port
 ## The Role of Sockets
 
 A socket is like a door through which data flows in and out of a process. It serves as the interface between the application and the transport layer *(TCP or UDP)*.
+
+Socket is the interface between application and transport layer. All data sent or received by an application travels through the socket.
 
 ---
 

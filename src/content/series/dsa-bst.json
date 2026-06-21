@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 15,
+  "title": "Binary Search Tree (BST)",
+  "image": "../../assets/images/thumbnails/dsa-bst.png",
+  "subtitle": "Master Binary Search Trees for efficient searching and sorting.",
+  "description": "This series delves into the concepts and applications of Binary Search Trees (BST), covering their properties, operations, and advanced problem-solving techniques for efficient data management.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+     {
+      "subheading": "Introduction to Binary Search Trees",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-bst-introduction",
+          "title": "What is a Binary Search Tree?"
+        }
+      ]
+    }
+  ]
+}

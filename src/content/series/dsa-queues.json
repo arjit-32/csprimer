@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 12,
+  "title": "Queues",
+  "image": "../../assets/images/thumbnails/dsa-queue.png",
+  "subtitle": "Master queue operations and algorithms for efficient data handling.",
+  "description": "This series dives into the fundamentals and advanced concepts of queues, covering types of queues, operations, and problem-solving techniques to tackle real-world challenges effectively.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+    {
+      "subheading": "Introduction to Queues",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-queues-introduction",
+          "title": "What is a Queue?"
+        }
+      ]
+    }
+  ]
+}

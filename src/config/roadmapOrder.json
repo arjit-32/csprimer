@@ -15,8 +15,14 @@
     "dsa-foundations"
   ],
   "Development": [
+    "ui",
     "dev-foundations",
-    "javascript"
+    "javascript",
+    "nodejs",
+    "express",
+    "auth",
+    "mongo",
+    "sql"
   ],
   "System-Design": [
     "git",

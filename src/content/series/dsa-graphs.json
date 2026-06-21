@@ -1,0 +1,23 @@
+{
+  "ongoing": "false",
+  "status": "planned",
+  "weight": 17,
+  "title": "Graphs",
+  "image": "../../assets/images/thumbnails/dsa-graph.png",
+  "subtitle": "Master graph theory and algorithms for solving complex network problems.",
+  "description": "This series explores the fundamentals and advanced concepts of graph theory, covering graph representations, traversal techniques, and algorithms to solve real-world network problems efficiently.",
+  "time": "NaN",
+  "category": "DSA",
+  "navbar": [
+     {
+      "subheading": "Introduction to Graphs",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-graphs-introduction",
+          "title": "What is a Graph?"
+        }
+      ]
+    }
+  ]
+}
