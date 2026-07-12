@@ -53,6 +53,11 @@
         },
         {
           "type": "articles",
+          "url": "cn-ssh",
+          "title": "SSH"
+        },
+        {
+          "type": "articles",
           "url": "cn-dns",
           "title": "DNS"
         }

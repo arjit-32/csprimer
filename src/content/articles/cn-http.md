@@ -124,17 +124,21 @@ HTTP has evolved significantly since its inception, with each version introducin
 
 ### HTTP/1.1:
 - Enabled persistent connections (keep-alive).
-- Added request pipelining (sending multiple requests before receiving responses).
+- Added request pipelining (sending multiple requests before receiving responses). But this still has a problem of Head-of-line blocking (if large request is delayed, subsequent request wait as well)
 - Introduced chunked transfer encoding for streaming data.
 
 ### HTTP/2:
-- Multiplexing: Interleaved multiple requests/responses over a single connection.
+- Multiplexing: Interleaved multiple requests/responses over a single connection. In simple terms, multiple request-response share same TCP connection at same time using independent streams. This also solves Head of Line blocking problem.
 - Header Compression: Reduced overhead using HPACK.
-- Server Push: Allowed servers to send resources proactively (now deprecated).
+- Server Push: Allowed servers to send resources proactively (largely deprecated).
+- Stream Prioritization: Each stream can have priority, server uses this priority to send important items first.
+- The HTTP/2 specification does not strictly mandate encryption at the protocol level (unencrypted HTTP/2 is called h2c). However, all major browsers (such as Chrome, Safari, and Firefox) effectively require SSL/TLS (called h2)
 
 ### HTTP/3:
 - Switched to QUIC (UDP-based transport protocol with built-in TLS 1.3).
-- Eliminated Head-of-Line Blocking at the transport layer.
+- Faster connection setup compared to HTTP/2, because it doesnt have to do TCP handshake, then TLS handshake.
+- Allows a connection to survive network changes(IP address change) without restarting.
+- Eliminated Head-of-Line Blocking at the transport layer. While HTTP/2 streams are logically independent at the application layer and eliminate request-blocking, they share a single, underlying TCP connection, so a dropped packet blocks all streams which is not the case with HTTP/3.
 - Improved performance and reliability.
 
 ---

@@ -7,7 +7,7 @@ series: ["cn"]
 categories: ["Core-CS"]
 ---
 
-Ever needed to upload a file to a server or download a large file from one? That’s where FTP (File Transfer Protocol) ****comes in. It is one of the oldest yet still widely used methods for transferring files over the Internet.
+Ever needed to upload a file to a server or download a large file from one? That’s where FTP (File Transfer Protocol) comes in. It is one of the oldest yet still widely used methods for transferring files over the Internet.
 
 ## What Is FTP?
 
@@ -43,7 +43,7 @@ FTP uses two separate TCP connections -
 
 ## Is FTP Secure?
 
-Classic FTP is not secure, it sends everything in plain text*(including your username, password, and file contents)*.  To solve this, developers now prefer secure alternatives that feel familiar to FTP but offer encryption built-in - 
+Classic FTP is not secure, it sends everything in plain text *(including your username, password, and file contents)*.  To solve this, developers now prefer secure alternatives that feel familiar to FTP but offer encryption built-in - 
 
 **FTPS (FTP Secure) -** Adds **SSL/TLS encryption** to traditional FTP and is ideal when working with legacy systems or hosting providers that still support FTP.
 
@@ -51,13 +51,6 @@ Classic FTP is not secure, it sends everything in plain text*(including your use
 
 ---
 
-## SSH for Developers
+## Conclusion
 
-SSH (Secure Shell) is your Swiss Army knife for remote development. It’s not just for logging into servers - it’s a gateway to automation, deployment, and secure file handling.
-
-**Common Developer Use Cases**
-
-- Remote access:`ssh user@server.com`  log into a remote machine securely.
-- Securely transferring the file.
-- Access remote web server locally or expose your local dev server remotely.
-- Connect to a remote DB securely without exposing it to the internet.
+FTP laid the foundation for transferring files across networks and is still found in many legacy systems today. However, SFTP provide encrypted communication while offering familiar file transfer capabilities. In the next article, we'll explore SSH, the protocol that powers SFTP.
