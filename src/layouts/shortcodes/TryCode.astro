@@ -19,57 +19,89 @@ if (problems[problemPath]) {
 const { starterCode, tests, title } = problem;
 ---
 
-<div class="try-code-container my-8 border border-border rounded-lg overflow-hidden bg-body shadow-sm" 
+<div class="try-code-container my-8 border border-gray-300 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1e1e1e] shadow-sm transition-colors" 
      data-problem-id={problemId} 
      data-starter-code={starterCode}
      data-tests={JSON.stringify(tests)}
      data-status="idle">
   
-  <div class="p-4 border-b border-border bg-theme-light dark:bg-theme-dark flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
-    <h3 class="text-lg font-bold m-0 flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+  <!-- Header -->
+  <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#252526] flex justify-between items-center transition-colors">
+    <h3 class="text-base font-semibold text-gray-800 dark:text-gray-200 m-0 flex items-center gap-2">
+      <svg class="w-4 h-4 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
       {title}
     </h3>
-    <button class="load-editor-btn btn btn-primary px-6 py-2 rounded-full font-bold transition-all hover:scale-105 active:scale-95 shadow-md">
-      Practice this problem
+    <button class="load-editor-btn bg-gray-200 hover:bg-gray-300 dark:bg-[#333333] dark:hover:bg-[#444444] text-gray-700 dark:text-gray-300 text-sm px-4 py-1.5 rounded-lg transition-colors font-medium">
+      Practice
     </button>
   </div>
 
-  <div class="editor-wrapper hidden animate-in fade-in slide-in-from-top-4 duration-500">
-    <div class="monaco-editor-container h-[400px] w-full border-b border-border"></div>
+  <div class="editor-wrapper hidden flex-col animate-in fade-in slide-in-from-top-4 duration-500">
     
-    <div class="p-4 bg-theme-light dark:bg-theme-dark flex justify-between items-center border-b border-border">
-      <div class="flex gap-3">
-        <button class="run-tests-btn btn btn-primary font-bold px-6 py-2 rounded-md flex items-center gap-2" title="Ctrl + Enter">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          Run Tests
-        </button>
-        <button class="reset-code-btn btn text-light hover:text-red-500 transition-colors px-4 py-2 text-sm font-medium">
-          Reset Code
+    <!-- Code Editor -->
+    <div class="monaco-editor-container h-[400px] w-full resize-y overflow-hidden border-b border-gray-200 dark:border-gray-800"></div>
+    
+    <!-- Action Bar -->
+    <div class="flex justify-between items-center px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <button class="reset-code-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Reset to starter code">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Reset
         </button>
       </div>
-      <div class="text-xs text-light font-mono hidden md:block">
-        <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded border border-border">Ctrl</kbd> + <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded border border-border">Enter</kbd> to run
+      <div class="flex items-center gap-3">
+        <div class="text-xs text-gray-400 hidden md:block font-mono">
+          <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Enter</kbd>
+        </div>
+        <button class="run-tests-btn bg-green-600/90 hover:bg-green-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Run
+        </button>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[250px] bg-gray-50 dark:bg-gray-900/20">
-      <div class="p-4 border-b lg:border-b-0 lg:border-r border-border">
-        <h4 class="text-xs font-black mb-3 uppercase tracking-widest text-light flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-          Test Results
-        </h4>
-        <div class="test-results space-y-3 font-mono text-sm max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-          <p class="text-light italic text-xs">Run tests to see results...</p>
-        </div>
-      </div>
-      <div class="p-4 bg-black/95 dark:bg-black/40 text-gray-300 font-mono text-sm flex flex-col">
-        <h4 class="text-xs font-black mb-3 uppercase tracking-widest text-gray-500 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-          Console Output
-        </h4>
-        <pre class="console-output whitespace-pre-wrap flex-grow overflow-y-auto max-h-[300px] text-xs custom-scrollbar"></pre>
-      </div>
+    <!-- Bottom Pane -->
+    <div class="bottom-pane bg-white dark:bg-[#1e1e1e] flex flex-col min-h-[250px] transition-colors">
+       <!-- Tabs -->
+       <div class="flex px-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 pt-2 transition-colors">
+          <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-green-500 text-gray-800 dark:text-gray-200 transition-colors" data-tab="testcases">Testcases</button>
+          <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="custom-input">Custom Input</button>
+          <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="result">Result</button>
+       </div>
+       
+       <!-- Tab Contents -->
+       <div class="tab-content flex-grow p-4 overflow-y-auto max-h-[400px] custom-scrollbar">
+          <!-- Testcases -->
+          <div id="tab-testcases" class="tab-pane block">
+            <div class="flex gap-2 mb-4 testcase-pills flex-wrap"></div>
+            <div class="testcase-detail text-sm font-mono bg-gray-100 dark:bg-[#2d2d2d] p-4 rounded-lg text-gray-800 dark:text-gray-300">
+              <!-- Selected testcase detail -->
+            </div>
+          </div>
+          
+          <!-- Custom Input -->
+          <div id="tab-custom-input" class="tab-pane hidden flex flex-col gap-3">
+             <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Arguments (JSON Array)</label>
+             <textarea class="custom-input-area w-full bg-gray-100 dark:bg-[#2d2d2d] border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-800 dark:text-gray-300 focus:outline-none focus:border-green-500 min-h-[100px] resize-y custom-scrollbar transition-colors" placeholder="e.g. [ [1, 2, 3], 4 ]"></textarea>
+             <p class="text-xs text-gray-400">Enter arguments as a valid JSON array. Each element in the array represents one argument passed to the function.</p>
+          </div>
+          
+          <!-- Result -->
+          <div id="tab-result" class="tab-pane hidden flex flex-col gap-4">
+             <div class="test-results space-y-3 font-mono text-sm">
+               <p class="text-gray-400 italic text-sm">Run tests to see results...</p>
+             </div>
+             
+             <!-- Console Output -->
+             <div class="console-wrapper hidden flex-col gap-2 mt-2 pt-4 border-t border-gray-200 dark:border-gray-800">
+               <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                 Console Output
+               </h4>
+               <pre class="console-output bg-gray-100 dark:bg-[#2d2d2d] rounded-lg p-4 text-xs font-mono text-gray-800 dark:text-gray-300 whitespace-pre-wrap max-h-[250px] overflow-y-auto custom-scrollbar"></pre>
+             </div>
+          </div>
+       </div>
     </div>
   </div>
 </div>
@@ -80,13 +112,11 @@ const { starterCode, tests, title } = problem;
   const WORK_TIMEOUT = 3000;
   const VS_CDN = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs';
 
-  // Configure Monaco loader once globally
   if (typeof window !== 'undefined' && !(window as any)._monacoConfigured) {
     (window as any)._monacoConfigured = true;
     loader.config({ paths: { vs: VS_CDN } });
   }
 
-  // Global set to track active editor instances for cleanup
   const activeInstances = new Set<PracticeUI>();
 
   class PracticeUI {
@@ -99,11 +129,21 @@ const { starterCode, tests, title } = problem;
     resetBtn: HTMLButtonElement;
     resultsEl: HTMLElement;
     consoleEl: HTMLElement;
+    consoleWrapper: HTMLElement;
     editorContainer: HTMLElement;
+    
+    // Tabs
+    tabBtns: NodeListOf<HTMLElement>;
+    tabPanes: NodeListOf<HTMLElement>;
+    testcasePills: HTMLElement;
+    testcaseDetail: HTMLElement;
+    customInputArea: HTMLTextAreaElement;
+
     editor: any;
     monaco: any;
     activeWorker: Worker | null;
     resizeObserver: ResizeObserver | null;
+    selectedTestIndex: number;
 
     constructor(container: HTMLElement) {
       this.container = container;
@@ -116,16 +156,33 @@ const { starterCode, tests, title } = problem;
       this.resetBtn = container.querySelector('.reset-code-btn')!;
       this.resultsEl = container.querySelector('.test-results')!;
       this.consoleEl = container.querySelector('.console-output')!;
+      this.consoleWrapper = container.querySelector('.console-wrapper')!;
       this.editorContainer = container.querySelector('.monaco-editor-container')!;
+
+      this.tabBtns = container.querySelectorAll('.tab-btn')!;
+      this.tabPanes = container.querySelectorAll('.tab-pane')!;
+      this.testcasePills = container.querySelector('.testcase-pills')!;
+      this.testcaseDetail = container.querySelector('.testcase-detail')!;
+      this.customInputArea = container.querySelector('.custom-input-area')!;
 
       this.editor = null;
       this.monaco = null;
       this.activeWorker = null;
       this.resizeObserver = null;
+      this.selectedTestIndex = 0;
 
       this.loadBtn.addEventListener('click', () => this.mountEditor());
       this.runBtn.addEventListener('click', (e) => { e.preventDefault(); this.runTests(); });
       this.resetBtn.addEventListener('click', (e) => { e.preventDefault(); this.resetCode(); });
+
+      // Tab switching logic
+      this.tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.switchTab(btn.dataset.tab!);
+        });
+      });
+
+      this.initTestcases();
 
       activeInstances.add(this);
     }
@@ -146,6 +203,66 @@ const { starterCode, tests, title } = problem;
       activeInstances.delete(this);
     }
 
+    switchTab(tabId: string) {
+      this.tabBtns.forEach(b => {
+        if (b.dataset.tab === tabId) {
+          b.classList.add('border-green-500', 'text-gray-800', 'dark:text-gray-200');
+          b.classList.remove('border-transparent', 'text-gray-500');
+        } else {
+          b.classList.remove('border-green-500', 'text-gray-800', 'dark:text-gray-200');
+          b.classList.add('border-transparent', 'text-gray-500');
+        }
+      });
+
+      this.tabPanes.forEach(p => {
+        if (p.id === `tab-${tabId}`) {
+          p.classList.remove('hidden');
+          p.classList.add('block');
+        } else {
+          p.classList.remove('block');
+          p.classList.add('hidden');
+        }
+      });
+    }
+
+    initTestcases() {
+      this.testcasePills.innerHTML = '';
+      this.tests.forEach((t, i) => {
+        const btn = document.createElement('button');
+        btn.className = `px-3 py-1 rounded-md text-sm font-medium transition-colors ${i === 0 ? 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`;
+        btn.textContent = `Case ${i + 1}`;
+        btn.addEventListener('click', () => {
+          this.selectedTestIndex = i;
+          this.renderTestcaseDetail();
+          // Update pills
+          Array.from(this.testcasePills.children).forEach((c, idx) => {
+            if (idx === i) {
+              c.className = 'px-3 py-1 rounded-md text-sm font-medium transition-colors bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
+            } else {
+              c.className = 'px-3 py-1 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700';
+            }
+          });
+        });
+        this.testcasePills.appendChild(btn);
+      });
+      this.renderTestcaseDetail();
+    }
+
+    renderTestcaseDetail() {
+      if (!this.tests.length) return;
+      const t = this.tests[this.selectedTestIndex];
+      this.testcaseDetail.innerHTML = `
+        <div class="mb-3">
+          <strong class="text-xs text-gray-500 uppercase tracking-wider block mb-1">Input:</strong>
+          <div class="whitespace-pre-wrap">${t.input.map((arg: any) => JSON.stringify(arg)).join(', ')}</div>
+        </div>
+        <div>
+          <strong class="text-xs text-gray-500 uppercase tracking-wider block mb-1">Expected:</strong>
+          <div class="whitespace-pre-wrap">${JSON.stringify(t.expected)}</div>
+        </div>
+      `;
+    }
+
     async mountEditor() {
       if (this.editor) return;
       this.loadBtn.disabled = true;
@@ -153,11 +270,12 @@ const { starterCode, tests, title } = problem;
 
       try {
         this.monaco = await loader.init();
-
+        const isDark = document.documentElement.classList.contains('dark');
+        
         this.editor = this.monaco.editor.create(this.editorContainer, {
           value: this.starterCode,
           language: 'javascript',
-          theme: document.documentElement.classList.contains('dark') ? 'vs-dark' : 'vs',
+          theme: isDark ? 'vs-dark' : 'vs',
           automaticLayout: true,
           minimap: { enabled: false },
           fontSize: 14,
@@ -170,41 +288,37 @@ const { starterCode, tests, title } = problem;
           quickSuggestions: false,
           wordBasedSuggestions: 'off',
           renderLineHighlight: 'all',
-          fixedOverflowWidgets: true, // Helps with layout in certain containers
+          fixedOverflowWidgets: true,
         });
 
-        // Use ResizeObserver for perfect layout sync, even during CSS transitions
+        // Theme sync
+        const observer = new MutationObserver(() => {
+          if (this.editor) {
+            const dark = document.documentElement.classList.contains('dark');
+            this.monaco.editor.setTheme(dark ? 'vs-dark' : 'vs');
+          }
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
         this.resizeObserver = new ResizeObserver(() => {
           if (this.editor) this.editor.layout();
         });
         this.resizeObserver.observe(this.editorContainer);
 
-        // CRITICAL FIX: Use KeyMod.CtrlCmd, NOT KeyMod.Ctrl (which is undefined in Monaco 0.45.0)
-        // KeyMod.Ctrl being undefined caused `undefined | KeyCode.Enter` = just `KeyCode.Enter`,
-        // which hijacked the plain Enter key and broke newline insertion.
         this.editor.addCommand(
           this.monaco.KeyMod.CtrlCmd | this.monaco.KeyCode.Enter,
           () => this.runTests()
         );
 
-        this.editor.onDidChangeModelContent(() => {
-          if (this.container.dataset.status === 'done') {
-            this.container.dataset.status = 'typing';
-            this.resultsEl.innerHTML = '<p class="text-light italic text-xs">Code changed. Run tests again...</p>';
-          }
-        });
-
         this.loadBtn.classList.add('hidden');
         this.wrapper.classList.remove('hidden');
+        this.wrapper.classList.add('flex');
 
-        // Focus and layout after DOM settles
         requestAnimationFrame(() => {
           if (!this.editor) return;
           this.editor.focus();
-          // Force multiple layouts to handle container transitions
           this.editor.layout();
           setTimeout(() => this.editor && this.editor.layout(), 100);
-          setTimeout(() => this.editor && this.editor.layout(), 400);
         });
       } catch (err) {
         console.error('Monaco load failed:', err);
@@ -217,8 +331,10 @@ const { starterCode, tests, title } = problem;
       if (!this.editor) return;
       if (confirm('Reset code to starter template?')) {
         this.editor.setValue(this.starterCode);
-        this.resultsEl.innerHTML = '<p class="text-light italic text-xs">Run tests to see results...</p>';
+        this.resultsEl.innerHTML = '<p class="text-gray-400 italic text-sm">Run tests to see results...</p>';
         this.consoleEl.textContent = '';
+        this.consoleWrapper.classList.add('hidden');
+        this.consoleWrapper.classList.remove('flex');
         this.container.dataset.status = 'idle';
       }
     }
@@ -226,12 +342,32 @@ const { starterCode, tests, title } = problem;
     runTests() {
       if (!this.editor || this.activeWorker) return;
 
+      this.switchTab('result'); // Switch to results tab automatically
+      
       const code = this.editor.getValue();
-      this.resultsEl.innerHTML = '<div class="flex items-center gap-2 text-primary font-bold text-xs"><span class="animate-spin inline-block">⏳</span> Running tests...</div>';
+      this.resultsEl.innerHTML = '<div class="flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold text-sm"><span class="animate-spin inline-block">⏳</span> Running...</div>';
       this.consoleEl.textContent = '';
+      this.consoleWrapper.classList.add('hidden');
+      this.consoleWrapper.classList.remove('flex');
+      
       this.container.dataset.status = 'done';
       this.runBtn.disabled = true;
       this.runBtn.classList.add('opacity-50');
+
+      // Prepare tests including custom input
+      let testsToRun = [...this.tests];
+      const customInputVal = this.customInputArea.value.trim();
+      if (customInputVal) {
+        try {
+          const parsed = JSON.parse(customInputVal);
+          if (!Array.isArray(parsed)) throw new Error("Custom input must be a JSON array.");
+          testsToRun.push({ input: parsed, expected: null, isCustom: true });
+        } catch (e: any) {
+          this.cleanup();
+          this.resultsEl.innerHTML = `<div class="p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-mono text-xs border border-red-200 dark:border-red-800/50"><strong>CUSTOM INPUT ERROR:</strong> ${e.message}</div>`;
+          return;
+        }
+      }
 
       const blob = new Blob([`
         self.onmessage = function(e) {
@@ -252,9 +388,9 @@ const { starterCode, tests, title } = problem;
               try {
                 var input = JSON.parse(JSON.stringify(t.input));
                 var result = fn.apply(null, input);
-                var passed = JSON.stringify(result) === JSON.stringify(t.expected);
-                return { i: i, passed: passed, result: result, input: t.input, expected: t.expected };
-              } catch(err) { return { i: i, error: err.message, input: t.input, expected: t.expected }; }
+                var passed = t.isCustom ? true : JSON.stringify(result) === JSON.stringify(t.expected);
+                return { i: i, passed: passed, result: result, input: t.input, expected: t.expected, isCustom: t.isCustom };
+              } catch(err) { return { i: i, error: err.message, input: t.input, expected: t.expected, isCustom: t.isCustom }; }
             });
             self.postMessage({ ok: true, results: results, logs: logs });
           } catch(err) {
@@ -269,7 +405,7 @@ const { starterCode, tests, title } = problem;
       const timeout = setTimeout(() => {
         w.terminate();
         this.cleanup();
-        this.resultsEl.innerHTML = '<div class="p-4 rounded-lg bg-red-600 text-white font-mono text-xs"><strong>TIMEOUT:</strong> Execution exceeded 3s. Possible infinite loop?</div>';
+        this.resultsEl.innerHTML = '<div class="p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-mono text-xs border border-red-200 dark:border-red-800/50"><strong>TIMEOUT:</strong> Execution exceeded 3s. Possible infinite loop?</div>';
       }, WORK_TIMEOUT);
 
       w.onmessage = (e) => {
@@ -277,29 +413,53 @@ const { starterCode, tests, title } = problem;
         w.terminate();
         this.cleanup();
         const { ok, results, error, logs } = e.data;
-        this.consoleEl.textContent = logs.length ? logs.join('\n') : '';
-        if (!logs.length) this.consoleEl.innerHTML = '<span class="text-gray-600 italic">No console output...</span>';
+        
+        if (logs.length) {
+           this.consoleEl.textContent = logs.join('\n');
+           this.consoleWrapper.classList.remove('hidden');
+           this.consoleWrapper.classList.add('flex');
+        }
 
         if (!ok) {
-          this.resultsEl.innerHTML = `<div class="p-4 rounded-lg bg-red-600 text-white font-mono text-xs"><strong>ERROR:</strong> ${error}</div>`;
+          this.resultsEl.innerHTML = `<div class="p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-mono text-xs border border-red-200 dark:border-red-800/50"><strong>ERROR:</strong> ${error}</div>`;
           return;
         }
 
         this.resultsEl.innerHTML = '';
         let passed = 0;
+        let totalStandard = 0;
+        
         results.forEach((r: any) => {
-          if (r.passed) passed++;
+          if (!r.isCustom) totalStandard++;
+          if (r.passed && !r.isCustom) passed++;
+          
           const el = document.createElement('div');
-          el.className = `p-3 rounded border ${r.passed ? 'bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-400' : 'bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-400'}`;
-          el.innerHTML = r.error
-            ? `<div class="font-bold">✗ Test ${r.i+1} Error</div><div class="text-xs mt-1 font-mono">${r.error}</div>`
-            : `<div class="flex items-center justify-between font-bold mb-1"><span>${r.passed ? '✓' : '✗'} Test ${r.i+1}</span><span class="text-[10px] uppercase">${r.passed ? 'Passed' : 'Failed'}</span></div>${!r.passed ? `<div class="mt-2 text-[11px] space-y-1 opacity-90"><div><strong>Input:</strong> ${JSON.stringify(r.input)}</div><div><strong>Expected:</strong> <span class="text-green-600 dark:text-green-300">${JSON.stringify(r.expected)}</span></div><div><strong>Got:</strong> <span class="text-red-600 dark:text-red-300">${JSON.stringify(r.result)}</span></div></div>` : ''}`;
+          
+          if (r.isCustom) {
+            el.className = 'p-4 rounded-lg border bg-blue-50/50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/50 text-blue-800 dark:text-blue-300';
+            el.innerHTML = `<div class="flex items-center justify-between font-semibold mb-2"><span>Custom Input</span></div>
+              <div class="mt-2 text-xs space-y-1.5 opacity-90">
+                <div><strong>Input:</strong> <span class="font-mono text-gray-700 dark:text-gray-400">${JSON.stringify(r.input)}</span></div>
+                <div><strong>Result:</strong> <span class="font-mono text-gray-900 dark:text-white">${r.error ? `<span class="text-red-500">${r.error}</span>` : JSON.stringify(r.result)}</span></div>
+              </div>`;
+          } else {
+             el.className = `p-4 rounded-lg border ${r.passed ? 'bg-green-50/50 dark:bg-green-900/10 border-green-200 dark:border-green-800/50 text-green-800 dark:text-green-300' : 'bg-red-50/50 dark:bg-red-900/10 border-red-200 dark:border-red-800/50 text-red-800 dark:text-red-300'}`;
+             el.innerHTML = r.error
+               ? `<div class="font-semibold">✗ Test ${r.i+1} Error</div><div class="text-xs mt-1 font-mono">${r.error}</div>`
+               : `<div class="flex items-center justify-between font-semibold mb-2"><span>${r.passed ? '✓' : '✗'} Test ${r.i+1}</span><span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${r.passed ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400'}">${r.passed ? 'Passed' : 'Failed'}</span></div>
+                  ${!r.passed ? `<div class="mt-2 text-xs space-y-1.5 opacity-90">
+                    <div><strong>Input:</strong> <span class="font-mono text-gray-700 dark:text-gray-400">${JSON.stringify(r.input)}</span></div>
+                    <div><strong>Expected:</strong> <span class="font-mono text-green-600 dark:text-green-400">${JSON.stringify(r.expected)}</span></div>
+                    <div><strong>Got:</strong> <span class="font-mono text-red-600 dark:text-red-400">${JSON.stringify(r.result)}</span></div>
+                  </div>` : ''}`;
+          }
           this.resultsEl.appendChild(el);
         });
-        if (passed === results.length) {
+        
+        if (passed === totalStandard && totalStandard > 0) {
           const s = document.createElement('div');
-          s.className = 'text-center p-4 bg-green-500 text-white rounded-lg font-black text-xl animate-bounce shadow-lg shadow-green-500/20';
-          s.textContent = '🎉 All tests passed!';
+          s.className = 'flex items-center justify-between p-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 text-green-800 dark:text-green-400 rounded-lg shadow-sm animate-in zoom-in duration-300';
+          s.innerHTML = `<span class="font-bold flex items-center gap-2"><svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Accepted</span> <span class="text-xs font-mono opacity-80">${totalStandard}/${totalStandard} tests passed</span>`;
           this.resultsEl.prepend(s);
         }
       };
@@ -308,10 +468,10 @@ const { starterCode, tests, title } = problem;
         clearTimeout(timeout);
         w.terminate();
         this.cleanup();
-        this.resultsEl.innerHTML = `<div class="p-4 rounded-lg bg-red-600 text-white font-mono text-xs"><strong>WORKER ERROR:</strong> ${err.message}</div>`;
+        this.resultsEl.innerHTML = `<div class="p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-mono text-xs border border-red-200 dark:border-red-800/50"><strong>WORKER ERROR:</strong> ${err.message}</div>`;
       };
 
-      w.postMessage({ code, tests: this.tests });
+      w.postMessage({ code, tests: testsToRun });
     }
 
     cleanup() {
@@ -334,18 +494,10 @@ const { starterCode, tests, title } = problem;
   document.addEventListener('astro:page-load', mountAll);
   document.addEventListener('astro:after-swap', mountAll);
 
-  // CRITICAL: Cleanup before page swap to prevent memory leaks and editor conflicts
-  // AND preserve Monaco's CSS so the next page's editor renders correctly
   document.addEventListener('astro:before-swap', (e: any) => {
     activeInstances.forEach(instance => instance.destroy());
 
-    // Monaco injects <link> and <style> elements into <head> when loaded via CDN.
-    // Astro View Transitions replaces the <head>, removing these styles.
-    // Since the Monaco loader caches its init promise, it never re-injects them.
-    // We must manually copy them into the new document.
     const newDoc = e.newDocument as Document;
-    
-    // Preserve <link> stylesheets from Monaco CDN
     document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
       const href = link.getAttribute('href') || '';
       if (href.includes('monaco') || href.includes('vs/')) {
@@ -355,7 +507,6 @@ const { starterCode, tests, title } = problem;
       }
     });
 
-    // Preserve <style> elements injected by Monaco
     document.querySelectorAll('style').forEach(style => {
       if (style.textContent && style.textContent.includes('.monaco-editor')) {
         newDoc.head.appendChild(style.cloneNode(true));
@@ -373,9 +524,17 @@ const { starterCode, tests, title } = problem;
     @apply bg-transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400 dark:bg-gray-600;
+    @apply bg-gray-400 dark:bg-gray-500;
+  }
+  
+  /* Monaco Editor Resizer Styling */
+  .monaco-editor-container {
+     position: relative;
+  }
+  .monaco-editor-container::-webkit-resizer {
+     background-color: transparent;
   }
 </style>
