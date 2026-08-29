@@ -155,6 +155,12 @@ from Computer Science fundamentals to real-world systems.
                       imagePath = `/src/assets${imagePath}`;
                     }
 
+                    if (!images[imagePath]) {
+                      const lowercasePath = imagePath.toLowerCase();
+                      const matchedKey = Object.keys(images).find(key => key.toLowerCase() === lowercasePath);
+                      if (matchedKey) imagePath = matchedKey;
+                    }
+
                     return images[imagePath] ? (
                       <Image
                         src={images[imagePath]()}

@@ -27,7 +27,13 @@ if (imagePath.startsWith("../../assets")) {
 }
 
 if (!images[imagePath]) {
-  throw new Error(`"${imagePath}" does not exist in glob: "src/assets/images/**"`);
+  const lowercasePath = imagePath.toLowerCase();
+  const matchedKey = Object.keys(images).find(key => key.toLowerCase() === lowercasePath);
+  if (matchedKey) {
+    imagePath = matchedKey;
+  } else {
+    throw new Error(`"${imagePath}" does not exist in glob: "src/assets/images/**"`);
+  }
 }
 
 const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : null;
