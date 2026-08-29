@@ -46,6 +46,34 @@ testFunction();
 
 ---
 
+
+## Lexical Scope
+
+JavaScript uses lexical scoping (also known as static scoping). This means a function’s access to variables is determined by where the function is physically declared in the source code, not where or when it is invoked.
+
+
+```javascript
+const role = "Admin (Global)";
+
+function manageUser() {
+  const role = "Manager (Local)";
+
+  function displayRole() {
+    console.log(role);
+  }
+
+  return displayRole;
+}
+
+const showRole = manageUser();
+showRole(); // Logs: "Manager (Local)"
+```
+
+- displayRole is physically written inside manageUser().
+- Therefore, displayRole's scope is statically bound to manageUser(), regardless of the fact that showRole() is called from the global level.
+
+---
+
 ## Lexical Environment & Scope Chain
 
 A lexical environment is an internal structure that stores variables and references to outer scopes, allowing JavaScript to resolve variable access. 
@@ -56,7 +84,7 @@ It contains:
 
 ### Why is this important?
 
-JavaScript searches for variables in the current scope, then moves outward through parent scopes until it finds the variable or reaches the global scope. This creates the **scope chain**.
+JavaScript searches for variables in the current scope, then moves outward through parent scopes until it finds the variable or reaches the global scope. This creates the *scope chain*.
 
 ### Example:
 
@@ -65,39 +93,23 @@ function outer() {
   let x = 10;
 
   function inner() {
+    // x is not in inner's Environment Record;
+    // the engine traverses the scope chain to outer's environment to find it.
     console.log(x);
   }
 
   inner();
 }
-outer();
+
+outer(); // Logs: 10
 ```
 
 *inner()* does not have x. So it looks at *outer()* scope.
 
 This behavior forms the basis of closures, where a function retains access to variables from its outer scope even after the outer function has finished executing.
 
----
 
-## Lexical Scope
-
-We've seen how JavaScript builds lexical environments and uses the scope chain to resolve variables. Reiterating this: JavaScript uses lexical scoping, meaning a function's scope is determined by *where it is written, not where it is called*.
-
-
-```javascript
-function outer() {
-  let x = 10;
-
-  return function inner() {
-    console.log(x);
-  };
-}
-
-const fn = outer();
-fn(); // still prints 10
-```
-
-Even after outer() finishes execution, inner() still remembers x.
+> Lexical Scope is the static rulebook decided when you write the code, while the Lexical Environment & Scope Chain is the actual in-memory linked structure the engine creates to follow those rules when the code runs.
 
 ---
 

@@ -80,7 +80,7 @@ document.getElementById("task").addEventListener("keydown", function(e) {
 
 Events in JavaScript follow a specific flow(3 phases) when they are triggered.
 
-- **Event Capturing** - In this phase, the event starts at the root of the DOM (e.g., `document`) and travels down the DOM tree toward the target element. By default, event listeners run in the bubbling phase. To use capturing, pass true as the third argument.
+- **Event Capturing** - In this phase, the event starts at the root of the DOM *(document)* and travels down the DOM tree toward the target element. By default, event listeners run in the bubbling phase. To use capturing, pass true as the third argument.
     
     ```jsx
     element.addEventListener("click", handler, true); // Capturing phase

@@ -15,20 +15,48 @@ In JavaScript, functions are first-class citizens, meaning they can be passed, r
 
 ## Currying
 
-Currying is a technique where a function with multiple arguments is transformed into a sequence of functions, each taking one argument.
+Currying is a functional programming technique where a function with multiple arguments is transformed into a chain of nesting functions, each taking a single argument.
+
+Instead of evaluating *f(a, b, c)* all at once, currying breaks it down into *f(a)(b)(c)*
 
 ```jsx
+// Curried function: Takes argument `a` and returns a new inner function
 function multiply(a) {
+    // Inner function: Closes over `a` via closure and accepts argument `b`
     return function(b) {
         return a * b;
     };
 }
+
+// Arrow function equivalent (shorthand):
+// const multiply = (a) => (b) => a * b;
 
 const double = multiply(2); // returns a new function: b => 2 * b
 console.log(double(5)); // Outputs: 10
 
 const triple = multiply(3); // returns a new function: b => 3 * b
 console.log(triple(5)); // Outputs: 15
+
+// Direct chaining invocation (when passing all arguments at once):
+console.log(multiply(4)(5)); // Output: 20
+```
+
+### Real-world Usage
+
+```jsx
+// Curried base function
+const applyDiscount = (rate) => (price) => price - price * rate;
+
+// Step 1: Pre-configure specialized discount functions
+const blackFridayDiscount = applyDiscount(0.30); // 30% off
+const clearanceDiscount   = applyDiscount(0.50); // 50% off
+
+const cartPrices = [100, 200, 400];
+
+// ✅ Direct: No wrapper needed because `blackFridayDiscount` expects just (price)
+const discountedCart = cartPrices.map(blackFridayDiscount);
+
+console.log(discountedCart); // [70, 140, 280]
 ```
 
 ---
@@ -38,15 +66,23 @@ console.log(triple(5)); // Outputs: 15
 A higher-order function is a function that takes another function as an argument or returns a function as a result.
 
 ```jsx
+// 1. Regular function (the "Callback"):
+// Takes a string and returns a greeting string.
 function greet(name) {
     return "Hello, " + name;
 }
 
+// 2. Higher-Order Function (HOF):
+// It qualifies as an HOF because it accepts another function as a parameter (`callback`).
 function processUserInput(callback) {
     let name = "Arjit";
+
+    // Invokes the callback function, passing `name` to it, and logs the result.
     console.log(callback(name));
 }
 
+// 3. Execution:
+// Pass `greet` by reference (WITHOUT parentheses `()`) into `processUserInput`.
 processUserInput(greet); // Outputs: Hello, Arjit
 ```
 
@@ -54,15 +90,22 @@ processUserInput(greet); // Outputs: Hello, Arjit
 
 ## Pure Functions
 
-A pure function:
-- Always returns the same output for the same input
-- Has no side effects (does not modify external state)
+A function is called pure if it satisfies two core criteria:
+
+- Deterministic: Given the same inputs, it will always return the exact same output.
+- Zero Side Effects: It does not read from or mutate anything outside its own local scope (no modifying external variables, no API calls, no DOM updates, and no I/O operations).
 
 ```javascript
+// Output depends strictly on parameters a and b
+// No external state is read or changed.
 function add(a, b) {
   return a + b;
 }
+
+add(2, 3); // Always 5
 ```
+
+Pure functions are used for core business logic—like calculating prices, formatting API data, and validating forms - because they are 100% predictable, easy to test, and never accidentally break outside state.
 
 ---
 
@@ -71,8 +114,13 @@ function add(a, b) {
 Functional programming avoids modifying existing data. Instead, it creates new data structures.
 
 ```javascript
-const arr = [1, 2, 3];
-const newArr = [...arr, 4]; // original array unchanged
+const list = [1, 2, 3];
+
+// Modifies list directly
+list.push(4);  
+
+// list remains unchanged
+const newList = [...list, 4];              
 ```
 
 ---
@@ -107,13 +155,50 @@ console.log(total); // 60
 
 ---
 
-## Composition
+## Composition and Piping
 
-Function composition means combining multiple functions to build more complex logic.
+Both Composition and Piping combine small, single-purpose functions into a step-by-step assembly line: the output of one function becomes the input of the next.
+
+The only difference is the direction data flows.
+
+### Composition (Right-to-Left)
+
+Evaluates from the inside out (traditional math notation: $f(g(x))$).
 
 ```javascript
-const add = x => x + 2;
-const multiply = x => x * 3;
+const add2 = (x) => x + 2;
+const multiplyBy3 = (x) => x * 3;
 
-const result = multiply(add(5)); // 21
+// Execution order: add2 runs FIRST, multiplyBy3 runs SECOND
+const result = multiplyBy3(add2(5));
+```
+
+`Note - The Problem: As you add more steps, reading inside-out gets messy: wrap(format(sanitize(trim(input))))`
+
+
+### Piping (Modern Approach)
+
+Piping solves the readability issue by running functions in natural reading order (left to right / top to bottom).
+
+```javascript
+// A simple pipe utility using Array.reduce
+const pipe = (...fns) => (initialValue) =>
+  fns.reduce((value, fn) => fn(value), initialValue);
+
+// Single-purpose steps
+const trim = (str) => str.trim();
+const toLowerCase = (str) => str.toLowerCase();
+const toKebabCase = (str) => str.replaceAll(" ", "-");
+const addPrefix = (str) => `post-${str}`;
+
+// ✅ Clear, readable data pipeline
+const createSlug = pipe(
+  trim,
+  toLowerCase,
+  toKebabCase,
+  addPrefix
+);
+
+createSlug("  Hello World from Functional JS  ");
+// Output: "post-hello-world-from-functional-js"
 ```

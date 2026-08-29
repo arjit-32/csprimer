@@ -3,7 +3,7 @@ title: How websites are served
 meta_title: How Websites Work- Servers, DNS, and HTTP
 description: Understand the process of how websites are delivered to users. Learn about web servers, DNS resolution, HTTP requests, and the role of browsers in rendering pages. Build a clear foundation for modern web development.
 author: Arjit Sharma
-series: ["dev-foundations"]
+series: ["html-css"]
 categories: ["Development"]
 draft: false
 year: 2025

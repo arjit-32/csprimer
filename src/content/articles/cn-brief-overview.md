@@ -9,7 +9,10 @@ categories: ["Core-CS"]
 
 A computer network is a collection of interconnected devices *(computers, servers, routers)*, that communicate to exchange data, services and resources across the globe.
 
+
 ## A Brief History
+
+![cn-brief-history](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786263601/brief-history_vkkije.webp)
 
 - **1969 - ARPANET Launches**
 - **1974 - TCP Protocol Proposed**
@@ -24,7 +27,12 @@ First graphical web browser makes the Internet user-friendly and widely accessib
 
 ## Data Communication
 
+
+![cn-introduction](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786263601/cn-introduction_exygvb.webp)
+
 Data communication is the exchange of data between devices over a transmission medium. It relies on:
+
+![cn-data-communication](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786263602/data-communication_rojmen.webp)
 
 - **Sender, Receiver, and Medium**: These entities define the communication setup
 - **Protocols**: Rules that ensure data integrity and order
@@ -61,6 +69,8 @@ Networks can be built with different connection structures:
 ---
 
 ## Network Models
+
+![network-models](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786263603/network-models_phc2d5.webp)
 
 | **OSI Model (7 Layers)** | **TCP/IP Model (4 Layers)** | **Function of the Layer** |
 | --- | --- | --- |

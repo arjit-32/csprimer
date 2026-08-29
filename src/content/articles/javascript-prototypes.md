@@ -9,12 +9,13 @@ draft: false
 year: 2025
 ---
 
-Almost everything in JavaScript is built on top of the prototype system.
+Unlike classical class-based languages (like Java or C++), JavaScript uses a prototypal inheritance model. Lets dive deep into it in this article.
 
 ## Prototypal Inheritance
 
-JavaScript is not class-based (like Java). ES6 introduced class syntax, but under the hood it uses *prototypes*.
-Prototypes are a mechanism by which **objects can inherit properties and methods from other objects**.
+JavaScript uses a prototypal inheritance model, which means **objects can inherit properties and methods from other objects**.
+
+*Note - ES6 class syntax is simply syntactic sugar over this underlying prototype system.*
 
 ### The Prototype Chain
 
@@ -24,9 +25,10 @@ Every object has an internal hidden property:
 [[Prototype]]
 ```
 
-You can access it using __proto__ (legacy and deprecated), but the recommended way is:
+Every JavaScript object contains a hidden internal link called **[[Prototype]]**, which points to either another object or null.
 
 ```jsx
+obj.__proto__ // Legacy way of accessing
 Object.getPrototypeOf(obj) 
 ```
 
@@ -44,7 +46,7 @@ console.log(Object.getPrototypeOf(obj) === Object.prototype); // true
 
 If you try to access a property:
 
-```
+```js
 obj.toString();
 ```
 
@@ -84,6 +86,9 @@ Here, all products inherit *getDetails()* from *Product*.prototype.
 // Both objects share the same function in memory
 const p1 = new Product("Phone", 500);
 const p2 = new Product("Laptop", 1000);
+
+// Verification
+console.log(p1.getDetails === p2.getDetails); // true (same reference in memory)
 ```
 
 Both p1 and p2 share the same getDetails function instead of creating a new copy for each object.

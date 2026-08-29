@@ -7,9 +7,15 @@ series: ["cn"]
 categories: ["Core-CS"]
 ---
 
+As expected because network communication happens over a medium there are performance impacts., so in this write-up we go through them.
+
 ## Performance
 
-Packets experience delays as they travel through the network. Types of delays are →
+Packets experience delays as they travel through the network. 
+
+![delays-during-network](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786641417/delays-during-network-communication_nlezw8.webp)
+
+Types of delays are →
 
 | **Delay Type** | **Meaning** | **Analogy** |
 | --- | --- | --- |
@@ -19,7 +25,9 @@ Packets experience delays as they travel through the network. Types of delays ar
  |
 | Propagation Delay | Time taken for data to travel through the physical medium (fiber optic cable or wireless network) | Time taken for a car to drive from the toll booth to the next checkpoint or destination |
 
-Throughput - The rate at which data is successfully transferred between sender and receiver, measured in bits per second (bps, Mbps, Gbps).
+![network-delay-analogy](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786641417/network-delays-analogy_wskht0.webp)
+
+`NOTE:` Throughput is the rate at which data is successfully transferred between sender and receiver, measured in bits per second (bps, Mbps, Gbps).
 
 ---
 
@@ -37,8 +45,9 @@ Internet’s open nature makes it vulnerable to attacks that disrupt services or
 
 Types of Attacks:
 
+![network-security-attacks](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786641417/network-security_mptxu1.webp)
+
 - Malware: Malicious software (e.g., viruses, worms, ransomware) that infects end systems, often spreading via email, downloads, or network vulnerabilities. Can steal data, delete files, or take control of devices.
 - Denial-of-Service (DoS): Attackers flood a server, router, or network with traffic to overwhelm it, preventing legitimate users from accessing services.
 - Packet Sniffing: Attackers intercept and read packets traveling over unencrypted networks (e.g., public Wi-Fi), capturing sensitive data like passwords.
 - Spoofing: Attackers impersonate a trusted system by forging packet headers (e.g., fake IP addresses) to trick devices into accepting malicious data.
-

@@ -4,7 +4,7 @@ meta_title: Java Methods- Learn Functions | CS Primer
 description: Explore Java methods. Understand functions, parameters, and return types for modular programming in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

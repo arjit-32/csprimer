@@ -4,7 +4,7 @@ meta_title: Java Static Keyword Explained | CS Primer
 description: Learn Java static keyword. Understand static methods and variables for efficient programming in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

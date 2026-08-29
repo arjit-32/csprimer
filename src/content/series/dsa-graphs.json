@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 17,
-  "title": "Graphs",
+  "title": "#15 Graphs",
   "image": "../../assets/images/thumbnails/dsa-graph.png",
   "subtitle": "Master graph theory and algorithms for solving complex network problems.",
   "description": "This series explores the fundamentals and advanced concepts of graph theory, covering graph representations, traversal techniques, and algorithms to solve real-world network problems efficiently.",

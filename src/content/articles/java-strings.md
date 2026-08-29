@@ -4,7 +4,7 @@ meta_title: Java Strings- Programming Guide | CS Primer
 description: Master Java strings. Learn string operations and methods for effective text processing in programming
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

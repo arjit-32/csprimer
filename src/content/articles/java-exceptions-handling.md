@@ -4,7 +4,7 @@ meta_title: Java Exception Handling Guide | CS Primer
 description: Learn Java exception handling. Master try-catch and throw for robust, error-free programming in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

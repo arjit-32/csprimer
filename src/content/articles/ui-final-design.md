@@ -4,7 +4,6 @@ meta_title: Final UI/UX Design Process | CS Primer
 description: Discover the process of refining and finalizing UI/UX designs. Learn how to bring your concepts to life and create intuitive, user-friendly designs. A guide for designers in 2025.
 author: Arjit Sharma
 series: ["ui"]
-categories: ["System-Design"]
 draft: false
 year: 2025
 ---

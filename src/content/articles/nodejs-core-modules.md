@@ -13,20 +13,46 @@ Node.js comes with a rich set of *built-in (core) modules* that let you work wit
 
 | Module | Purpose |
 | --- | --- |
-| `http` | Create web servers |
-| `fs` | File system operations |
-| `path` | Path manipulation |
-| `url` | Parse and format URLs |
-| `os` | Get system info |
-| `events` | Event-driven architecture |
-| `process` | Control runtime & env vars |
-| `crypto` | Hashing and encryption utilities |
+| http | Create web servers |
+| fs , fs/promises | File system operations |
+| path | Path manipulation |
+| url | Parse and format URLs |
+| os | Get system info |
+| events | Event-driven architecture |
+| process | Control runtime & env vars |
+| crypto | Hashing and encryption utilities |
+
+---
+
+
+## Creating a Basic HTTP Server
+
+Node has a built-in module that provides the low-level foundation for creating web servers and processing HTTP requests.
+
+```jsx
+const http = require("http"); // loads Node’s built-in HTTP module
+
+const server = http.createServer((req, res) => { // (req, res) represents the incoming request and outgoing response
+  res.writeHead(200, { "Content-Type": "text/plain" }); // sets the status code and headers
+  res.end("Welcome to Node.js!"); // sends the response
+});
+
+// starts listening for connections
+server.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});
+```
+
+- require() is used to import modules in Node.js (CommonJS module system).
+- The callback passed to createServer runs every time a request is received.
+- Port 3000 is where the server listens.
+- The server keeps running because it keeps the event loop active.
 
 ---
 
 ## Working with File System (fs)
 
-Node’s `fs` module lets you read and write files.
+Node’s fs module allows file I/O operations. Modern Node.js provides a promise-based API (fs/promises) alongside traditional callback APIs.
 
 ```jsx
 const fs = require("node:fs");
@@ -65,15 +91,51 @@ const path = require("path");
 // __dirname gives the absolute path of the current file’s directory.
 const fullPath = path.join(__dirname, "public", "index.html");
 console.log(fullPath);
-console.log(path.extname(fullPath)); // '.html'
+console.log(path.extname(fullPath));  // Output: '.html'
+console.log(path.basename(fullPath)); // Output: 'index.html'
+console.log(path.dirname(fullPath));  // Output: '.../public'
 ```
 
-Commonly used methods:
+---
 
-- `path.join()`
-- `path.resolve()`
-- `path.extname()`
-- `path.basename()`
+## Event-Driven Architecture (events)
+
+Node.js is built around events. The EventEmitter class allows you to create custom pub/sub event channels.
+
+```javascript
+const EventEmitter = require("events");
+
+class OrderProcessor extends EventEmitter {}
+const orderEmitter = new OrderProcessor();
+
+// Listener
+orderEmitter.on("orderPlaced", (order) => {
+  console.log(`Notification sent for order #${order.id}`);
+});
+
+// Trigger event
+orderEmitter.emit("orderPlaced", { id: 101, total: 49.99 });
+```
+
+---
+
+## Streaming Large Data (stream)
+
+Streams process data chunk by chunk as it arrives, keeping memory consumption flat even for multi-gigabyte files.
+
+```javascript
+const fs = require("node:fs");
+
+// Pipe readable stream directly to writable stream
+const readStream = fs.createReadStream("large-log.txt");
+const writeStream = fs.createWriteStream("copy-log.txt");
+
+readStream.pipe(writeStream);
+
+writeStream.on("finish", () => {
+  console.log("File streaming completed.");
+});
+```
 
 ---
 
@@ -123,25 +185,38 @@ console.log(mime.contentType("json"));  // 'application/json'
 Here’s a simple example combining `fs`, `path`, and MIME types:
 
 ```javascript
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const mime = require("mime-types");
+const http = require("node:http");
+const fs = require("node:fs/promises");
+const path = require("node:path");
 
-const server = http.createServer((req, res) => {
-  const filePath = path.join(__dirname, "public", "index.html");
-  const contentType = mime.lookup(filePath);
+// MIME map for common extensions
+const MIME_TYPES = {
+  ".html": "text/html",
+  ".css": "text/css",
+  ".js": "application/javascript",
+  ".json": "application/json",
+  ".png": "image/png"
+};
 
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      res.writeHead(500);
-      res.end("Server Error");
-      return;
-    }
+const server = http.createServer(async (req, res) => {
+  const safePath = path.normalize(req.url === "/" ? "/index.html" : req.url);
+  const filePath = path.join(__dirname, "public", safePath);
+  const ext = path.extname(filePath).toLowerCase();
+  const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
+  try {
+    const content = await fs.readFile(filePath);
     res.writeHead(200, { "Content-Type": contentType });
     res.end(content);
-  });
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      res.writeHead(404, { "Content-Type": "text/plain" });
+      res.end("404 Not Found");
+    } else {
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      res.end("500 Internal Server Error");
+    }
+  }
 });
 
 server.listen(3000, () => {

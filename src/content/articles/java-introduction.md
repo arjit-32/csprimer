@@ -4,7 +4,7 @@ meta_title: Introduction to Java- Learn Basics | CS Primer
 description: Start with Java programming. Learn core concepts, setup, and why Java is key for software development and CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

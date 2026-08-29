@@ -4,7 +4,7 @@ meta_title: Java Arrays- Programming Basics | CS Primer
 description: Learn Java arrays. Explore creation, manipulation, and use in programming for efficient data handling.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

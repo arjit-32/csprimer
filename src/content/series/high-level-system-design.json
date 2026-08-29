@@ -1,8 +1,8 @@
 {
   "ongoing": "false",
   "weight": 3,
-  "title": "System Design", 
-  "image": "../../assets/images/thumbnails/system-design-foundations.png",
+  "title": "High Level Design", 
+  "image": "../../assets/images/thumbnails/high-level-system-design.png",
   "subtitle": "How Modern Systems Scale, Communicate, and Survive",
   "description": "An end-to-end guide for building scalable and resilient systems — from principles and components to full-fledged architectures that power today's software.",
   "time": "14 articles",
@@ -85,58 +85,6 @@
           "type": "articles",
           "url": "systemdesign-capacity-estimation",
           "title": "Capacity Estimation"
-        }
-      ]
-    },
-    {
-      "subheading": "Reliability & Operations",
-      "link": [
-        {
-          "type": "articles",
-          "url": "systemdesign-reliability-resillience",
-          "title": "Reliability and Resillience Pattern",
-          "status": "planned"
-        },
-        {
-          "type": "articles",
-          "url": "systemdesign-observability",
-          "title": "Observability",
-          "status": "planned"
-        }
-      ]
-    },
-    {
-      "subheading": "Low Level Design",
-      "link": [
-        {
-          "type": "articles",
-          "url": "systemdesign-solid",
-          "title": "SOLID Pattern",
-          "status": "planned"
-        },
-        {
-          "type": "articles",
-          "url": "systemdesign-di-ioc",
-          "title": "Dependency Injection",
-          "status": "planned"
-        },
-        {
-          "type": "articles",
-          "url": "systemdesign-strategy-pattern",
-          "title": "Strategy Pattern",
-          "status": "planned"
-        },
-        {
-          "type": "articles",
-          "url": "systemdesign-factory-pattern",
-          "title": "Factory Pattern",
-          "status": "planned"
-        },
-        {
-          "type": "articles",
-          "url": "systemdesign-observer-pattern",
-          "title": "Observer Pattern",
-          "status": "planned"
         }
       ]
     },

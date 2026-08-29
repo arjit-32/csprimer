@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 6,
-  "title": "Searching",
+  "title": "#4 Searching",
   "image": "../../assets/images/thumbnails/dsa-search.png",
   "subtitle": "Master the art of searching algorithms and techniques.",
   "description": "This series delves into various searching algorithms, from basic linear and binary search to advanced search techniques, helping you solve problems efficiently and effectively.",

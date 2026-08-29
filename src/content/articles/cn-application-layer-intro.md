@@ -30,10 +30,14 @@ Here are the main building blocks and design choices behind every network applic
 
 **Application Architecture**
 
+![application-arch](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786642674/client-server-or-p2p-model_ufor5k.webp)
+
 - *Client-Server Model -*  One machine (the server) provides services, and other machines (the clients) request those services. Example - A web browser (client) sends a request to a web server, which responds with the web page.
 - *Peer-to-Peer (P2P) Model -* All participating devices (called peers) both request and provide services to each other. Example - BitTorrent, you download and upload pieces of files from/to other peers.
 
 **Processes Communicating**
+
+![process-communication](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786642673/process-communication_nhveo4.webp)
 
 A process is a program running on a device. When network applications communicate, it's really the processes that are talking and not the computers themselves. Each process is identified by - 
 
@@ -45,6 +49,8 @@ Example: Your web browser might talk to a web server at IP *192.0.2.1* on port
 ---
 
 ## The Role of Sockets
+
+![role-of-sockets](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786642674/role-of-sockets_lvpffp.webp)
 
 A socket is like a door through which data flows in and out of a process. It serves as the interface between the application and the transport layer *(TCP or UDP)*.
 
@@ -65,7 +71,9 @@ Socket is the interface between application and transport layer. All data sent o
 
 ## What Is an Application-Layer Protocol ?
 
-An **application-layer protocol** defines message types and Message format *(what fields are in the message)* and the rules for sending/receiving messages *(when to respond, what happens on error, etc.)*
+![application-layer-protocol](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786642901/Screenshot_2026-08-13_231117_hwzz7x.webp)
+
+An application-layer protocol defines message types and Message format *(what fields are in the message)* and the rules for sending/receiving messages *(when to respond, what happens on error, etc.)*
 
 Examples of Application Protocols - 
 

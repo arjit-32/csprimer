@@ -10,13 +10,11 @@
     "dbms"
   ],
   "DSA": [
-    "java",
-    "dsa-overview",
-    "dsa-foundations"
+    "dsa-for-interviews"
   ],
   "Development": [
     "ui",
-    "dev-foundations",
+    "html-css",
     "javascript",
     "nodejs",
     "express",
@@ -25,10 +23,13 @@
     "sql"
   ],
   "System-Design": [
-    "git",
     "aws",
     "api",
     "distributed",
     "system-design-foundation"
+  ],
+  "Extras": [
+    "git",
+    "java"
   ]
 }

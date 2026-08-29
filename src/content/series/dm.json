@@ -6,7 +6,6 @@
   "subtitle": "Master the mathematical foundations essential for computer science.",
   "description": "This series explores logic, set theory, combinatorics, graph theory, and proofs, building critical reasoning skills for algorithms, cryptography, and theoretical computing.",
   "time": "1 day",
-  "status": "completed",
   "category": "Core-CS",
   "navbar": [
     {

@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 18,
-  "title": "Greedy Algorithms",
+  "title": "#16 Greedy Algorithms",
   "image": "../../assets/images/thumbnails/dsa-greedy.png",
   "subtitle": "Master greedy algorithms for optimal problem-solving.",
   "description": "This series explores the fundamentals and applications of greedy algorithms, covering their principles, problem-solving strategies, and real-world use cases for efficient decision-making.",

@@ -3,7 +3,7 @@ title: Assignment-3 - Forms
 meta_title: Building Accessible and Validated HTML Forms
 description: Practice creating forms with core input types like text, email, password, checkboxes, radio buttons, selects, and textareas. Learn to pair inputs with labels, use placeholders effectively, and apply validation attributes such as required, minlength, and pattern for better user experience.
 author: Arjit Sharma
-series: ["dev-foundations"]
+series: ["html-css"]
 categories: ["Development"]
 draft: false
 year: 2026

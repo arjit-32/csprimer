@@ -1,8 +1,8 @@
 {
   "ongoing": "false",
   "weight": 1,
-  "title": "Dev Foundations",
-  "image": "../../assets/images/thumbnails/dev-foundations.png",
+  "title": "HTMl & CSS",
+  "image": "../../assets/images/thumbnails/html-and-css.png",
   "subtitle": "Build and style the web",
   "description": "This series introduces the fundamentals of HTML and CSS, covering structure, styling, layouts, and responsive design. Learn how to craft clean, accessible, and visually appealing web pages with practical examples.",
   "time": "NaN",
@@ -41,17 +41,17 @@
       "subheading": "Assignments",
       "link": [
         {
-          "type": "assignment",
+          "type": "articles",
           "url": "dev-foundations-assignment-1",
           "title": "Semantic HTML"
         },
           {
-          "type": "assignment",
+          "type": "articles",
           "url": "dev-foundations-assignment-2",
           "title": "Core HTML"
         },
           {
-          "type": "assignment",
+          "type": "articles",
           "url": "dev-foundations-assignment-3",
           "title": "HTML Forms"
         }

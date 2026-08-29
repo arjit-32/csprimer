@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 10,
-  "title": "Linked List",
+  "title": "#8 Linked List",
   "image": "../../assets/images/thumbnails/dsa-linklist.png",
   "subtitle": "Learn the fundamentals and advanced techniques of linked lists.",
   "description": "This series covers the basics and advanced concepts of linked lists, including singly, doubly, and circular linked lists, along with problem-solving techniques and real-world applications.",

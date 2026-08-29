@@ -3,7 +3,7 @@ title: CSS Cheatsheet
 meta_title: Quick Reference Guide to CSS
 description: A concise yet comprehensive guide to CSS fundamentals, properties, selectors, and layouts. Perfect for developers who want a handy reference while building modern, responsive web applications.
 author: Arjit Sharma
-series: ["dev-foundations"]
+series: ["html-css"]
 categories: ["Development"]
 draft: false
 year: 2025

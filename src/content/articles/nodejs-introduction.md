@@ -30,9 +30,7 @@ Node’s design is based on non-blocking I/O and an event-driven architecture, e
 
 Traditional backend servers (like PHP, Java, or Python servers) often use a *multi-threaded models* (such as thread-per-request or thread pools), which can consume more memory under high load.
 
-Node.js takes a completely different approach with **Non-Blocking, Event-Driven Design**.
-
-Node.js is built on:
+Node.js takes a completely different approach, its built on:
    - **Non-blocking I/O**
    - **An event-driven architecture**
 
@@ -50,47 +48,48 @@ Node.js is composed of several key components working together:
 
 | **Component** | **Purpose** |
 | --- | --- |
-| V8 Engine | Executes JavaScript code at high speed |
-| libuv | Provides non-blocking I/O, thread pool, networking |
-| Event Loop | Coordinates asynchronous tasks |
-| Bindings | Bridges JS code with system-level APIs |
+| V8 Engine | Compiles and executes JavaScript into native machine code; manages call stack and memory allocation. |
+| libuv | Implements the Event Loop, asynchronous I/O, and the internal Thread Pool |
+| C++ Bindings | The translation bridge marshaling data between V8 types and native system-level libraries. |
+| Node Standard Library | Provides high-level, user-facing APIs (fs, http, path) and input validation. |
 
 
 ### The V8 JavaScript Engine
 
-V8 is the same engine used by Google Chrome.
+Originally built by Google for Chrome, V8 is responsible for executing JS code directly on the CPU
 
 Its job is to:
 
-- Compile JavaScript into machine code
-- Execute it extremely fast
-- Optimize performance at runtime
+- Just-In-Time (JIT) Compilation: Compiles JavaScript source code straight into native machine code at runtime, bypassing bytecode interpreters for hot code paths.
+- Single Main Thread: Allocates the Memory Heap (object storage) and manages the Call Stack (synchronous execution context).
 
 This is one of the reasons Node.js performs so well compared to older JavaScript runtimes.
 
 
 ### libuv: The Backbone of Asynchronous I/O
 
-**libuv** is a C library that powers Node’s asynchronous behavior.
+libuv is a multi-platform C library that enables Node's non-blocking I/O model:
 
-It provides:
+- Kernel-Level Asynchronous I/O (Non-Blocking): Used for network sockets, HTTP requests, TCP/UDP streams, and timers. Zero extra threads required: The OS kernel notifies Node when data is ready on a socket.
+- Internal Thread Pool: Used for blocking operations where OS kernels lack universal async support(fs, dns lookup,cpu bound crypto, compression). Default size is 4 worker threads.
 
-- Non-blocking file system access
-- Networking
-- Timers
-- A small internal thread pool
 
-When Node.js needs to perform a task that could block execution, like reading a file (libuv handles it behind the scenes).
+### Standard Library vs. C++ Bindings
+
+These are two distinct layers that make system calls possible from JavaScript:
+
+- Node.js Standard Library (lib/*.js): The JavaScript module you import (e.g., const fs = require('fs')). It performs parameter validation, sets defaults, and delegates down to internal bindings.
+- C++ Bindings (src/*.cc): Internal C++ classes that convert JavaScript arguments (V8 types like v8::String) into native C types, then trigger the corresponding libuv or system calls.
 
 ### The Event Loop
 
 Node.js does not create a new thread for every request. Instead, it follows this flow:
 
-1. A request enters Node.js
-2. If the task is non-blocking (network, timer, etc.), it is delegated to the OS or libuv thread pool.
-3. Node.js continues processing other requests.
-4. When the task completes, its callback or promise is placed in the callback queue (or task queue).
-5. The event loop executes it when ready.
+1. Request Intake: A request arrives and synchronous JavaScript executes on the V8 Call Stack.
+2. If the task is non-blocking, it is delegated to the OS(Network I/O) or libuv thread pool(File I/O & heavy crypto tasks).
+3. Non-Blocking Continuity: The single main thread immediately returns to handle other requests.
+4. Queueing Callbacks: When background work completes, its callback is placed into the appropriate queue (Microtask or Phase Task Queue).
+5. Execution: When the Call Stack is clear, the Event Loop picks up queued callbacks and pushes them onto the stack.
 
 This single-threaded model allows Node.js to handle **thousands of concurrent connections** efficiently.
 

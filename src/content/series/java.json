@@ -1,12 +1,12 @@
 {
   "ongoing": "false",
   "weight": 1,
-  "title": "Java for DSA",
+  "title": "Java",
   "image": "../../assets/images/thumbnails/java.png",
-  "subtitle": "Master the essentials of Java to ace Data Structures & Algorithms",
-  "description": "A complete beginner-to-intermediate series that builds your Java fundamentals and dives deep into object-oriented programming and the Collections Framework - tailored specifically for mastering DSA in Java.",
+  "subtitle": "Master the essentials of Java Programming Language",
+  "description": "A complete beginner-to-intermediate series that builds your Java fundamentals and dives deep into object-oriented programming and the Collections Framework.",
   "time": "24 articles",
-  "category": "DSA",
+  "category": "Extras",
   "navbar": [
     {
       "subheading": "Getting Started with Java",

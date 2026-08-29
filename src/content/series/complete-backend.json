@@ -1,0 +1,28 @@
+{
+  "title": "Complete Backend",
+  "subtitle": "",
+  "description": "",
+  "image": "../../assets/images/thumbnails/complete-backend.png",
+  "category": "Development",
+  "ongoing": false,
+  "status": "planned",
+  "time": "18 articles",
+  "weight": 13,
+  "navbar": [
+    {
+      "subheading": "Introduction to Production Grade Engineering",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dasasd",
+          "title": "asdsads"
+        },
+        {
+          "type": "articles",
+          "url": "asdasd",
+          "title": "asdasd"
+        }
+      ]
+    }
+  ]
+}

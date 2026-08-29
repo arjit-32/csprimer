@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 15,
-  "title": "Binary Search Tree (BST)",
+  "title": "#13 Binary Search Tree (BST)",
   "image": "../../assets/images/thumbnails/dsa-bst.png",
   "subtitle": "Master Binary Search Trees for efficient searching and sorting.",
   "description": "This series delves into the concepts and applications of Binary Search Trees (BST), covering their properties, operations, and advanced problem-solving techniques for efficient data management.",

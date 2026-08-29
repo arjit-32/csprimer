@@ -31,6 +31,8 @@ HTTP (HyperText Transfer Protocol) is the protocol used by browsers and web ser
 
 ## HTTP Request-Response Cycle
 
+![http-request-response-cycle](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644248/http-protocol_lnwr9c.webp)
+
 When you load a web page, here's what typically happens -
 
 1. Your browser sends an HTTP request to the web server (e.g., *GET /index.html*)
@@ -45,14 +47,14 @@ When you load a web page, here's what typically happens -
 
 **Request:**
 
-```
+```bash
 GET /index.html HTTP/1.1
 Host: www.csprimer.in
 ```
 
 **Response:**
 
-```
+```bash
 HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Length: 147
@@ -64,9 +66,11 @@ Content-Length: 147
 
 ---
 
-## Persistent vs Non-Persistent HTTP
+## Non-Persistent vs Persistent HTTP
 
 HTTP connections can be either persistent or non-persistent, depending on how they handle multiple requests.
+
+![persistent-and-non-persistent-http](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644248/persistent-and-non-persisten-http_u0b0ah.webp)
 
 **Non-Persistent HTTP**
 
@@ -115,19 +119,23 @@ HTTPS (HyperText Transfer Protocol Secure) is HTTP over TLS (Transport Layer Se
 HTTP has evolved significantly since its inception, with each version introducing new features and improvements.
 
 ### HTTP/0.9:
+![http-0.9](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644249/http-v1_rvabsk.webp)
 - Single-line protocol supporting only the GET method.
 - Responses were raw HTML without headers or status codes.
 
 ### HTTP/1.0:
+![http-1.0](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644249/http-v2_yo4w37.webp)
 - Introduced headers and additional methods (POST, HEAD).
 - Opened a new TCP connection for each request-response pair.
 
 ### HTTP/1.1:
+![http-1.1](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644249/http-v3_qnfpnp.webp)
 - Enabled persistent connections (keep-alive).
 - Added request pipelining (sending multiple requests before receiving responses). But this still has a problem of Head-of-line blocking (if large request is delayed, subsequent request wait as well)
 - Introduced chunked transfer encoding for streaming data.
 
 ### HTTP/2:
+![http-2](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644249/http-v4_ltorms.webp)
 - Multiplexing: Interleaved multiple requests/responses over a single connection. In simple terms, multiple request-response share same TCP connection at same time using independent streams. This also solves Head of Line blocking problem.
 - Header Compression: Reduced overhead using HPACK.
 - Server Push: Allowed servers to send resources proactively (largely deprecated).
@@ -135,6 +143,7 @@ HTTP has evolved significantly since its inception, with each version introducin
 - The HTTP/2 specification does not strictly mandate encryption at the protocol level (unencrypted HTTP/2 is called h2c). However, all major browsers (such as Chrome, Safari, and Firefox) effectively require SSL/TLS (called h2)
 
 ### HTTP/3:
+![http-3](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644249/http-latest-protocol_gcfxck.webp)
 - Switched to QUIC (UDP-based transport protocol with built-in TLS 1.3).
 - Faster connection setup compared to HTTP/2, because it doesnt have to do TCP handshake, then TLS handshake.
 - Allows a connection to survive network changes(IP address change) without restarting.

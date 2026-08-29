@@ -11,13 +11,13 @@ Not every application needs perfect reliability. Sometimes, speed and low lat
 
 ## What Is UDP?
 
-**UDP** is a **connectionless**, **lightweight** transport protocol. It sends data without:
+UDP is a connectionless, lightweight Transport Layer protocol (Layer 4 in the OSI model). Unlike TCP, it adopts a **"fire-and-forget"** approach:
 
-- establishing a connection
-- waiting for acknowledgments
-- retrying when something goes missing
+* **No handshake:** It begins transmitting immediately without establishing a connection.
+* **No acknowledgments (ACKs):** It doesn't check whether packets arrived safely.
+* **No retransmissions:** Lost packets are simply dropped and ignored.
 
-It just fires off the data and hopes for the best, which is perfect when timing is more critical than accuracy.
+By skipping these overheads, UDP trades guaranteed delivery for minimal latency and maximum speed.
 
 ---
 
@@ -28,21 +28,29 @@ It just fires off the data and hopes for the best, which is perfect when timing 
 | Connection setup | ❌ None |
 | Reliability | ❌ No ACKs or retransmissions |
 | Order guarantee | ❌ No sequencing |
-| Speed | ✅ Very fast |
-| Header size | ✅ Only 8 bytes |
+| Speed | ✅ Very fast with near-zero latency |
+| Header size | ✅ Extremely low (8-byte fixed header vs. TCP's 20+ bytes) |
 
 ---
 
-## UDP Segment Format
+## HOW UDP works 
+
+UDP (User Datagram Protocol) works as a minimal, connectionless communication model at the transport layer of the Internet protocol suite. Instead of establishing a dedicated end-to-end connection before transmitting, an application simply packages data into standalone units called datagrams and immediately transmits them over the network ("fire-and-forget")
+
+---
+
+## UDP Header Structure
+
+standard UDP datagram header is only *8 bytes (64 bits)* split into four 2-byte fields:
 
 | Field | Description |
 | --- | --- |
-| Source Port | App sending the data |
-| Destination Port | App receiving the data |
-| Length | Size of header + data |
-| Checksum | Error detection |
+| Source Port | Identifies the sending process/application (optional). |
+| Destination Port | Directs the packet to the receiving process/application. |
+| Length | Total size in bytes of the UDP header plus payload. |
+| Checksum | Verifies packet integrity against corruption during transit. |
 
-UDP doesn’t have sequence numbers or acknowledgment flags, making it much simpler and faster.
+Because UDP omits sequence numbers, acknowledgment counters, and flow control windows, its processing overhead on routers and end devices is practically negligible.
 
 ---
 

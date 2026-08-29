@@ -4,7 +4,7 @@ meta_title: Java Inheritance- this & super | CS Primer
 description: Master Java inheritance. Learn this, super, and code reuse for advanced OOP programming in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 16,
-  "title": "Heaps",
+  "title": "#14 Heaps",
   "image": "../../assets/images/thumbnails/dsa-heap.png",
   "subtitle": "Master heap data structures for efficient priority management.",
   "description": "This series explores the fundamentals and advanced concepts of heaps, covering types of heaps, heap operations, and problem-solving techniques for priority-based data management and optimization.",

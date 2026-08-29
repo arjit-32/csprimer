@@ -77,7 +77,7 @@ Key Events during DOM construction -
 
 ## Node Types in the DOM
 
-DOM represents an HTML document as a hierarchical tree of nodes, where each node corresponds to a part of the page*(tags, text, attributes)*
+DOM represents an HTML document as a hierarchical tree of nodes, where each node corresponds to a part of the page *(tags, text, attributes)*
 
 ```jsx
 <div class="box">

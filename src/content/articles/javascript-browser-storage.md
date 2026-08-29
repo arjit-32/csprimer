@@ -52,7 +52,7 @@ Server sets cookies by sending a *Set-Cookie* header in the HTTP response. The b
 Cookies are often used for authentication, session management, and tracking.
 
 __Types of Cookies -__
-- HttpOnly → not accessible via JavaScript (prevents XSS attacks). You cannot set HttpOnly Cookie from javscript, only server can.
+- HttpOnly → not accessible via JavaScript (prevents XSS attacks). You cannot set HttpOnly Cookie from javascript, only server can.
 - Secure → sent only over HTTPS
 - SameSite → controls cross-site request behavior
 

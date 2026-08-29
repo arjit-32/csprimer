@@ -4,7 +4,7 @@ meta_title: Java Final & Wrapper Classes | CS Primer
 description: Explore Java final, finalize, and wrapper classes. Learn their role in robust programming in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

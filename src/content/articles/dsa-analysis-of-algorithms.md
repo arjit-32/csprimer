@@ -3,7 +3,7 @@ title: Analysis of Algorithm
 meta_title: dsa
 description: dsa
 author: Arjit Sharma
-series: ["dsa-foundations"]
+series: ["dsa-math"]
 categories: ["DSA"]
 featured: false
 draft: false

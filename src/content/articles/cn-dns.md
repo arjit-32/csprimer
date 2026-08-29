@@ -9,13 +9,16 @@ categories: ["Core-CS"]
 
 When you type a website like *www.csprimer.in* into your browser, how does your computer know where to find it? That’s the job of the Domain Name System (DNS). 
 
+![dns-phonebook](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786645382/what-is-dns_az7pgw.webp)
+
 ## What is a DNS ?
 
 It is the Internet’s phonebook that translates human-friendly names into machine-friendly IP addresses. Think of it as a “Distributed Database”.
 
-Computers communicate using **IP addresses** like `142.250.72.196`.
+![dns](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786645382/dns_fa79tm.webp)
 
-But humans prefer easy-to-remember names like `www.csprimer.in`.
+- Computers communicate using IP addresses like `142.250.72.196`.
+- But humans prefer easy-to-remember names like `www.csprimer.in`.
 
 **DNS maps domain names to IP addresses**, so your browser can connect to the right server.
 
@@ -32,12 +35,14 @@ But humans prefer easy-to-remember names like `www.csprimer.in`.
 
 ## How DNS Works (The Lookup Process)
 
+![how-dns-works](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786645381/how-dns-works_xgnbjt.webp)
+
 1. You type *www.csprimer.in* into your browser.
 2. Your computer checks if it already knows the IP (via cache).
 3. If not, it asks a DNS resolver, which queries:
     - Root DNS server → gives the *.in* server
     - TLD DNS server (*.in*) → gives the authoritative server
-    - **Authoritative** DNS server → gives the IP for *www.csprimer.in*
+    - Authoritative DNS server → gives the IP for *www.csprimer.in*
 4. Your browser uses the IP to connect to the website.
 
 ---

@@ -4,7 +4,7 @@ meta_title: Basics of Java- Programming Guide | CS Primer
 description: Master Java basics. Learn variables, data types, and syntax to kickstart your programming journey in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

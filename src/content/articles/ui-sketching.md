@@ -4,7 +4,6 @@ meta_title: Sketching for UI/UX Design | CS Primer
 description: Learn the importance of sketching in UI/UX design. Explore how quick sketches help visualize concepts, user flows, and interface elements. Perfect for designers in 2025.
 author: Arjit Sharma
 series: ["ui"]
-categories: ["System-Design"]
 draft: false
 year: 2025
 ---

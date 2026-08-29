@@ -1,0 +1,28 @@
+{
+  "title": "Production Grade Engineering",
+  "subtitle": "",
+  "description": "",
+  "image": "../../assets/images/thumbnails/production-grade-eng.png",
+  "category": "Development",
+  "ongoing": false,
+  "status": "planned",
+  "time": "18 articles",
+  "weight": 14,
+  "navbar": [
+    {
+      "subheading": "Introduction to Production Grade Engineering",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dasasd",
+          "title": "asdsads"
+        },
+        {
+          "type": "articles",
+          "url": "asdasd",
+          "title": "asdasd"
+        }
+      ]
+    }
+  ]
+}

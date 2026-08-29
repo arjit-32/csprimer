@@ -11,7 +11,9 @@ Every time you send a WhatsApp message, stream a YouTube video, or upload a phot
 
 ## What Is the Transport Layer?
 
-The transport layer is responsible for end-to-end **communication between processes** running on different hosts. 
+The transport layer is responsible for end-to-end *communication between processes* running on different hosts. 
+
+![transport-layer](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786647671/transport-layer_yfaeyh.webp)
 
 Think of it like this:
 
@@ -33,6 +35,8 @@ Think of it like this:
 ---
 
 ## Transport Layer Protocols: TCP vs UDP
+
+![tcp-udp](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786647672/tcp-udp_vuto33.webp)
 
 | **Feature** | **TCP (Transmission Control Protocol)** | **UDP (User Datagram Protocol)** |
 | --- | --- | --- |
@@ -61,9 +65,11 @@ Each application is identified by a socket:
 Socket = IP Address + Port Number
 ```
 
-Examples - HTTP*(Port 80),* HTTPS*(443)*, DNS*(53)*, FTP*(Port 21)*
+*Examples - HTTP (Port 80), HTTPS (443), DNS(53), FTP(Port 21)*
 
-When your browser connects to www.example.com, it uses a socket like → **[Your IP]:[Random Port] = [93.184.216.34]:80**
+When your browser connects to www.example.com, it uses a socket like → 
+
+**[Your IP]:[Random Port] = [93.184.216.34]:80**
 
 Imagine your device is downloading a file via HTTP and sending a message via WhatsApp, both happen simultaneously.
 

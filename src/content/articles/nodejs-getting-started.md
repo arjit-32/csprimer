@@ -1,7 +1,7 @@
 ---
 title: Getting Started with Node.js
 meta_title: Getting Started with Node.js | CS Primer
-description: Set up Node.js, run your first server, manage packages, and understand the basics of backend development.
+description: Set up your first Node.js project, understand execution flow, and explore core built-in modules.
 author: Arjit Sharma
 series: ["nodejs"]
 categories: ["Development"]
@@ -49,44 +49,3 @@ node index.js
 
 If you create a server or set timers, the event loop stays active, keeping your program running.
 
----
-
-## Creating a Basic HTTP Server
-
-Node has a built-in `http` module to create web servers:
-
-```jsx
-const http = require("http"); // loads Node’s built-in HTTP module
-
-const server = http.createServer((req, res) => { // (req, res) represents the incoming request and outgoing response
-  res.writeHead(200, { "Content-Type": "text/plain" }); // sets the status code and headers
-  res.end("Welcome to Node.js!"); // sends the response
-});
-
-// starts listening for connections
-server.listen(3000, () => {
-  console.log("Server running at http://localhost:3000");
-});
-```
-
-- require() is used to import modules in Node.js (CommonJS module system).
-- The callback passed to createServer runs every time a request is received.
-- Port 3000 is where the server listens.
-- The server keeps running because it keeps the event loop active.
-
----
-
-## Built-in Modules
-
-Node.js comes with useful built-in modules:
-- fs → File system operations
-- path → File path utilities
-- os → System info
-- http → Web servers
-
-```javascript
-const fs = require("fs");
-fs.writeFileSync("hello.txt", "Hello World!");
-```
-
-We will learn more about these built-in modules in next article.

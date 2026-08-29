@@ -1,5 +1,5 @@
 ---
-title: Introduction to the Network Layer- Forwarding, Routing & Services
+title: Introduction to the Network Layer - Forwarding, Routing & Services
 author: Arjit Sharma
 meta_title: Network Layer Explained  IP Addressing, Forwarding & Routing in Internet
 description: Discover how the Network Layer enables host-to-host communication across the Internet using IP, routing, and forwarding. Learn about data vs control planes and why best-effort delivery matters.

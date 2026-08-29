@@ -16,7 +16,7 @@ When building web servers with Node.js, you often need to perform common tasks a
 
 Middleware functions are pieces of code that run during the request–response cycle. They sit between the incoming request and the outgoing response, allowing you to process or modify data, enforce rules, or perform side tasks.
 
-**Key Characteristics -** 
+*Key Characteristics :-* 
 
 - Execution order matters: The sequence in which middleware is defined determines how requests flow through them.
 - Control flow: A middleware must either:
@@ -72,27 +72,6 @@ server.listen(3000, () => {
 - next() passes control to the next middleware in the chain. 
 - If next() is not called, the request will hang (no response sent).
 - Nested middleware chains can become messy, which is why frameworks like Express.js provide a cleaner pipeline
-
----
-
-## Cleaner Middleware Execution
-
-Instead of nesting callbacks, you can run middleware functions in sequence using an array.
-
-```javascript
-  const middlewares = [logger, auth, home];
-  
-  function runMiddlewares(index = 0) {
-    if (index >= middlewares.length) return;  
-    const current = middlewares[index];
-    current(req, res, () => runMiddlewares(index + 1));
-  }
-
-  const server = http.createServer((req, res) => {
-    runMiddlewares(req, res);
-  });
-
-```
 
 ---
 

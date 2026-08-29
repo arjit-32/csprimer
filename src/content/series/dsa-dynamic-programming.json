@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 20,
-  "title": "Dynamic Programming",
+  "title": "#18 Dynamic Programming",
   "image": "../../assets/images/thumbnails/dsa-dp.png",
   "subtitle": "Master dynamic programming to solve complex optimization problems.",
   "description": "This series explores the principles and applications of dynamic programming, covering problem-solving techniques, optimization strategies, and real-world use cases for solving complex problems efficiently.",

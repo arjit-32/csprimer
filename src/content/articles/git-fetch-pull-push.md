@@ -4,7 +4,7 @@ meta_title: Fetch, Pull & Push in Git | CS Primer
 description: Master the essential Git commands – fetch, pull, and push – to keep your local and remote repositories synchronized and up to date in 2025.
 author: Arjit Sharma
 series: ["git"]
-categories: ["System-Design"]
+categories: ["Extras"]
 draft: false
 year: 2025
 ---

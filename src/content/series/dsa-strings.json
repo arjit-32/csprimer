@@ -2,7 +2,7 @@
   "ongoing": "false",
   "status": "planned",
   "weight": 9,
-  "title": "Strings",
+  "title": "#7 Strings",
   "image": "../../assets/images/thumbnails/dsa-strings.png",
   "subtitle": "Master string manipulation and algorithms for efficient problem-solving.",
   "description": "This series explores the fundamentals and advanced techniques of string manipulation, covering topics like pattern matching, string searching, and efficient algorithms to solve complex string-related problems.",

@@ -4,7 +4,7 @@ meta_title: Java List Interface- CS Guide | CS Primer
 description: Master Java List interface. Learn ArrayList and LinkedList for dynamic data handling in CS.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

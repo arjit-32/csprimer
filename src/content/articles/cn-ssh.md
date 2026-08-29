@@ -15,6 +15,8 @@ SSH (Secure Shell) is the standard protocol for securely accessing and managing 
 
 SSH (Secure Shell) is a cryptographic network protocol that allows two computers to communicate securely over an untrusted network.
 
+![ssh](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644862/ssh_ictepc.webp)
+
 It provides:
 
 - Secure remote login
@@ -62,7 +64,9 @@ This is why services like GitHub ask you to upload your **public SSH key**, neve
 
 ---
 
-## Common SSH Commands
+## Common SSH Use Cases
+
+![ssh-uses](https://res.cloudinary.com/dwa6rcttw/image/upload/v1786644862/ssh-uses_v6csiw.webp)
 
 - Remote login
 
@@ -95,4 +99,4 @@ ssh server "docker restart nginx"
 
 SSH has become the standard way to securely interact with remote systems. Whether you're deploying applications, managing cloud servers, authenticating with GitHub, or transferring files, chances are SSH is working behind the scenes.
 
-Understanding the basics of SSH—how it establishes secure connections and authenticates users—is an essential skill for every software developer and DevOps engineer.
+Understanding the basics of SSH - how it establishes secure connections and authenticates users—is an essential skill for every software developer and DevOps engineer.

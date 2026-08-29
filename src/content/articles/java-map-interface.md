@@ -4,7 +4,7 @@ meta_title: Java Map Interface- Programming | CS Primer
 description: Understand Java Map interface. Master HashMap and TreeMap for key-value data in programming.
 author: Arjit Sharma
 series: ["java"]
-categories: ["DSA"]
+categories: ["Extras"]
 featured: false
 draft: false
 ---

@@ -20,6 +20,7 @@ const roadmaps = {
   DSA: await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 800 }),
   Development: await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 800 }),
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
+   'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 1200 }),
 };
 
 // Status pill config — defined once in frontmatter so TS generics are safe
@@ -76,17 +77,19 @@ from Computer Science fundamentals to real-world systems.
           <div id="categoryButtons" class="space-y-3">
             {[
               { category: "all", label: "Show All Courses", color: "gray" },
-              { category: "Core-CS", label: "Core Computer Science", color: "yellow" },
-              { category: "DSA", label: "Data Structures & Algorithms", color: "green" },
-              { category: "Development", label: "Development", color: "purple" },
-              { category: "System-Design", label: "System Design & More", color: "red" }
+              { category: "Core-CS", label: "Core Computer Science", color: "blue" },
+              { category: "DSA", label: "Data Structures & Algorithms", color: "red" },
+              { category: "Development", label: "Development", color: "green" },
+              { category: "System-Design", label: "System Design", color: "purple" },
+              { category: "Extras", label: "Extras", color: "orange" },
             ].map(({ category, label, color }) => {
               const bgColor = {
                 gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
-                purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
-                red: "bg-red-50 hover:bg-red-100 text-red-500",
+                blue: "bg-blue-50 hover:bg-blue-100 text-blue-500",
                 green: "bg-green-50 hover:bg-green-100 text-green-500",
-                yellow: "bg-yellow-50 hover:bg-yellow-100 text-yellow-500"
+                red: "bg-red-50 hover:bg-red-100 text-red-500",
+                purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
+                orange: "bg-orange-50 hover:bg-orange-100 text-orange-500"
               }[color];
             
               return (
@@ -138,6 +141,7 @@ from Computer Science fundamentals to real-world systems.
               Development: "bg-purple-100 text-gray-600",
               'Core-CS': "bg-blue-50 text-blue-500",
               'System-Design': "bg-red-50 text-red-500",
+              'Extras': "bg-orange-50 text-orange-500"
             };
             const categoryColor = categoryColorMap[series.category] || "bg-gray-50 text-gray-500"; 
 

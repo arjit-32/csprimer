@@ -3,7 +3,7 @@ title: The Web - History & Evolution
 meta_title: The Web's Evolution - From ARPANET to the Modern MERN Stack
 description: Dive into the origin and growth of the internet from early protocols like TCP/IP to modern web technologies. Learn how the Web works behind the scenes and build a solid foundation for MERN stack development.
 author: Arjit Sharma
-series: ["dev-foundations"]
+series: ["html-css"]
 categories: ["Development"]
 draft: false
 year: 2025

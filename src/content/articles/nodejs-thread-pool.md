@@ -9,7 +9,7 @@ draft: false
 year: 2025
 ---
 
-Even though Node.js executes JavaScript on a *single main thread*, it is **not limited to one thread overall**. Node.js uses a single-threaded event loop for JavaScript execution, but leverages multiple threads internally (via libuv and worker threads).
+Even though Node.js executes JavaScript on a single main thread, it is **not limited to one thread overall**. Node.js uses a single-threaded event loop for JavaScript execution, but leverages multiple threads internally (via libuv and worker threads).
 
 Understanding how these mechanisms work is essential for handling both I/O-bound and CPU-bound tasks efficiently.
 
@@ -17,10 +17,13 @@ Understanding how these mechanisms work is essential for handling both I/O-bound
 
 JavaScript execution in Node.js is single-threaded, but Node.js itself is multi-threaded internally. Work is divided into two broad categories:
 
-- I/O Bound Tasks: Network requests, File system Access, DNS lookup
-- CPU Bound Tasks: Encryption, Hashing, Compression, Heavy Computations
+### 1. I/O-Bound Tasks
+- *Network Operations (`http`, `net`, `sockets`):* Handled asynchronously by the OS kernel without using worker threads.
+- *File System (`fs`) & DNS Lookups (`dns.lookup`):* Offloaded to the libuv thread pool (default: 4 worker threads) to prevent blocking the main thread.
 
-I/O tasks are handled asynchronously via libuv and the event loop. CPU-bound tasks, however, can block the main thread. To address this, Node.js uses the libuv thread pool for certain built-in operations and worker threads for custom JavaScript computations.
+### 2. CPU-Bound Tasks
+- *Built-in Operations (Crypto, Compression):* Methods like `crypto.pbkdf2()`, `crypto.scrypt()`, and `zlib` automatically run in the *libuv thread pool*.
+- *Custom Heavy Calculations:* Complex loops, data parsing, or image processing will block the main event loop unless explicitly offloaded using Node.js `worker_threads` or child processes.
 
 ---
 
@@ -33,22 +36,24 @@ Many built-in asynchronous operations that could block the main thread are autom
 - Compression (zlib module)
 - DNS lookup (dns.lookup)
 
-These threads handle native operations, not JavaScript execution. By default, the thread pool size is 4, but it can be increased via the UV_THREADPOOL_SIZE environment variable.
+These worker threads handle native C/C++ operations, not user JavaScript execution. By default, the thread pool size is 4, but it can be adjusted (up to 1024 or 128 depending on the OS/version) via the **UV_THREADPOOL_SIZE** environment variable before the process starts.
 
-_Note - Network I/O (HTTP servers/clients, TCP/UDP sockets) does not use the thread pool. it is handled non-blockingly by the operating system kernel._
+> Note: Network I/O (HTTP servers/clients, TCP/UDP sockets) does not use the thread pool. It is handled directly and non-blockingly by the operating system kernel via event notification mechanisms (epoll, kqueue, IOCP).
 
 
 ### Example: Offloading Crypto to the Thread Pool
 
 ```javascript
-const crypto = require("crypto");
+const crypto = require("node:crypto");
+
+const start = Date.now();
 
 crypto.pbkdf2("pass", "salt", 100000, 64, "sha512", () => {
-  console.log("Done");
+  console.log(`Hash 1 complete: ${Date.now() - start}ms`);
 });
 ```
 
-This computation runs in the thread pool, not the main thread. If multiple such operations exceed the pool size, excess tasks queue up and execute sequentially.
+This computation runs on a worker thread in the libuv thread pool rather than blocking the main event loop. If you launch more concurrent operations than available threads (e.g., 5 calls with the default pool size of 4), the fifth operation will wait in queue until one of the initial four threads finishes.
 
 ---
 
@@ -57,16 +62,17 @@ This computation runs in the thread pool, not the main thread. If multiple such 
 The thread pool only helps with specific built-in operations. Pure JavaScript CPU-bound tasks (e.g., sorting massive arrays, complex mathematical computations) run entirely on the main thread and block the event loop. This is where worker threads come in.
 
 
-**Key Features of Worker Threads**
+*Key Features of Worker Threads :-*
 
 - Run JavaScript code in parallel on separate threads.
 - Each worker has its own V8 instance and event loop.
 - Threads share the same process memory space, enabling direct memory sharing via SharedArrayBuffer.
 - Ideal for CPU-intensive tasks like image processing, cryptography, or large-scale data parsing
 
-### Example: Using Wroker Threads
+### Example: Using Worker Threads
 
 ```javascript
+// FILE main.js
 const { Worker } = require("worker_threads");
 
 // Create a new worker running task.js
@@ -85,9 +91,9 @@ worker.on("exit", code => {
 });
 ```
 
-And inside **task.js**
 
 ```javascript
+// FILE task.js
 const { parentPort } = require("worker_threads");
 
 // Perform heavy computation here
