@@ -5,12 +5,14 @@ interface Props {
 
 const { problemId } = Astro.props;
 
-// Scalable dynamic import: Only loads the specific problem data needed for this article
+// Scalable problem loading: import.meta.glob with eager: true avoids chunk explosion
+const problems = import.meta.glob("../../problems/*.ts", { eager: true });
+const problemPath = `../../problems/${problemId}.ts`;
+
 let problem;
-try {
-  const problemModule = await import(`../../problems/${problemId}.ts`);
-  problem = problemModule.default;
-} catch (e) {
+if (problems[problemPath]) {
+  problem = (problems[problemPath] as any).default;
+} else {
   throw new Error(`Problem with id "${problemId}" not found in src/problems/${problemId}.ts`);
 }
 

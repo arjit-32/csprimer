@@ -7,6 +7,7 @@ import Footer from "@/partials/Footer.astro";
 import Header from "@/partials/Header.astro";
 import QuestionDialog from "@/components/QuestionDialog.astro";
 import "@/styles/main.scss";
+import "nprogress/nprogress.css";
 import { ViewTransitions } from "astro:transitions";
 import { getImage } from "astro:assets";
 
@@ -78,9 +79,9 @@ if (imgStr && !imgStr.startsWith('http')) {
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-    <!-- Google Analytics (async - lightweight, no Partytown worker conflicts) -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-    <script set:html={scriptContent}></script>
+    <!-- Google Analytics (Partytown) -->
+    <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+    <script type="text/partytown" set:html={scriptContent}></script>
 
     <meta
       name="theme-color"
@@ -168,6 +169,19 @@ if (imgStr && !imgStr.startsWith('http')) {
     <!-- twitter-image -->
     <meta name="twitter:image" content={finalOgImage} />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <script>
+      import NProgress from "nprogress";
+      
+      NProgress.configure({ showSpinner: false, speed: 400 });
+
+      document.addEventListener("astro:before-preparation", () => {
+        NProgress.start();
+      });
+      document.addEventListener("astro:page-load", () => {
+        NProgress.done();
+      });
+    </script>
   </head>
   <body>
     <TwSizeIndicator />
