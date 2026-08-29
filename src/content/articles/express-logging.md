@@ -3,7 +3,7 @@ title: Logging in Express.js
 meta_title: Logging in Express.js Applications | CS Primer
 description: Understand logging strategies in Express.js for debugging, monitoring, observability, and production troubleshooting.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

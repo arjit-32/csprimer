@@ -3,7 +3,7 @@ title: CPU Timing and Pipelining Explained
 author: Arjit Sharma
 meta_title: Clock Cycles and Pipelining in COA Explained
 description: Learn how clock cycles drive CPU execution, why instructions take different cycles, and how pipelining improves processor throughput.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

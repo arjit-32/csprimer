@@ -3,7 +3,7 @@ title: The Transport Layer- Connecting Applications Across the Internet
 author: Arjit Sharma
 meta_title: Transport Layer in Internet Explained  TCP, UDP, Sockets & Services
 description: Learn how the transport layer enables reliable app-to-app communication over the Internet. Explore protocols like TCP and UDP, multiplexing, port numbers, and how sockets route data to the right process.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

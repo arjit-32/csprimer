@@ -3,7 +3,7 @@ title: HTTP Requests & Error Handling in Javascript
 meta_title: JavaScript HTTP Requests & Error Handling | CS Primer
 description: Learn JavaScript HTTP requests, Fetch API, async networking, try-catch, and effective error handling techniques.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

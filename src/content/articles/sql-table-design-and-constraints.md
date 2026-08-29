@@ -3,7 +3,7 @@ title: Table Design and Constraints
 meta_title: MySQL Table Design & Constraints | CS Primer
 description: Learn table design principles, primary keys, unique constraints, defaults, and data integrity in MySQL.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Boolean Expressions
 author: Arjit Sharma
 meta_title: Boolean Expressions- Digital Logic | CS Primer
 description: Understand Boolean expressions in digital logic. Learn to create and simplify expressions for efficient circuit design.
-series: ["dl"]
+series: dl
 categories: ["Core-CS"]
 draft: false
 year: 2025

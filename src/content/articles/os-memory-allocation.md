@@ -3,7 +3,7 @@ title: Memory Allocation Strategies and Challenges
 author: Arjit Sharma
 meta_title: Memory Allocation in Operating Systems  Contiguous, Paging & Fragmentation Explained
 description: Explore memory allocation strategies in OS—from contiguous allocation and space-fit methods to handling fragmentation with paging and segmentation. Learn how modern systems optimize performance and efficiency.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

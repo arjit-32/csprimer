@@ -3,7 +3,7 @@ title: Transactions and Isolation Levels
 meta_title: MySQL Transactions & Isolation Levels | CS Primer
 description: Learn database transactions, ACID properties, concurrency control, and isolation levels in MySQL.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

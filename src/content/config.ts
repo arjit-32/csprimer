@@ -9,7 +9,7 @@ const blogCollection = defineCollection({
     description: z.string().optional(),        
     image: z.string().optional(),
     author: z.string().optional(),
-    series: z.array(z.string()).default(["others"]),
+    series: z.string().optional(),
     categories: z.array(z.string()).default(["others"]),
     draft: z.boolean().optional(),
     year: z.number().optional(),
@@ -25,8 +25,9 @@ const pagesCollection = defineCollection({
   }),
 });
 
-// Shared status enum for courses and articles
-const statusEnum = z.enum(['completed', 'in-progress', 'proofreading', 'planned', 'draft']).optional();
+// Status enums - separate for courses and articles
+const courseStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
+const articleStatusEnum = z.enum(['planned', 'draft', 'done', 're-visiting']).optional();
 
 // Series collection schema
 const seriesCollection = defineCollection({
@@ -38,16 +39,16 @@ const seriesCollection = defineCollection({
     image: z.string().optional(),
     category: z.string().default('Course'),
     ongoing: z.union([z.boolean(), z.string()]).transform(val => val === true || val === 'On-going' || val === 'true'), // Normalize legacy data
-    status: statusEnum,
+    status: courseStatusEnum,
     time: z.string().optional(),
     weight: z.number().default(100),
     navbar: z.array(z.object({
       subheading: z.string(),
       link: z.array(z.object({
-        type: z.enum(['articles', 'video', 'external', 'assignment', 'book', 'youtube', 'github']),
+        type: z.enum(['articles', 'external']),
         url: z.string(),
         title: z.string(),
-        status: statusEnum,
+        status: articleStatusEnum,
       })),
     })),
   }),

@@ -3,7 +3,7 @@ title: Other essential building blocks in System Design
 meta_title: System Design Building Blocks  DNS, Sequencers, Monitoring, KV & Blob Stores
 description: Explore essential components in system design beyond databases—learn how DNS, sequencers, distributed monitoring, key-value stores, and blob storage support scalable, reliable applications.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Process Synchronization
 author: Arjit Sharma
 meta_title: Process Synchronization in Operating Systems  Critical Sections & Race Conditions
 description: Understand how operating systems handle process synchronization to avoid race conditions, deadlocks, and data inconsistency. Learn key concepts like critical sections and mutual exclusion with practical examples.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

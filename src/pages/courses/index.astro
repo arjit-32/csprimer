@@ -2,6 +2,7 @@
 import Shape from "@/components/Shape.astro";
 import Base from "@/layouts/Base.astro";
 import Cta from "@/partials/Cta.astro";
+import { STATUS_CONFIG } from "@/lib/statusConfig";
 import { getCollection } from "astro:content";
 import { Image, getImage } from "astro:assets";
 
@@ -23,14 +24,6 @@ const roadmaps = {
    'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 1200 }),
 };
 
-// Status pill config — defined once in frontmatter so TS generics are safe
-const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
-  'completed':    { label: '✅ Completed',    cls: 'status-pill--completed'    },
-  'in-progress':  { label: '🔄 In Progress',  cls: 'status-pill--in-progress'  },
-  'proofreading': { label: '🔍 Proofreading', cls: 'status-pill--proofreading' },
-  'planned':      { label: '🕐 Planned',      cls: 'status-pill--planned'      },
-  'draft':        { label: '✏️ Draft',         cls: 'status-pill--draft'        },
-};
 ---
 <Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
   <!-- Hero Banner -->

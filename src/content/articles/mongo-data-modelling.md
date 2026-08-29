@@ -3,7 +3,7 @@ title: MongoDB Data Modelling and Performance
 meta_title: MongoDB Data Modelling and Performance
 description: Learn how MongoDB data modelling, indexing, query planning, and aggregation affect performance and scalability.
 author: Arjit Sharma
-series: ["mongo"]
+series: mongo
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Modularity in Express.js
 meta_title: Modular Express.js Architecture | CS Primer
 description: Build maintainable Express.js applications using modular architecture, separation of concerns, and scalable project structures.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Data Types in MySQL
 meta_title: MySQL Data Types Explained | CS Primer
 description: Understand MySQL data types including numeric, string, date, and JSON types for effective database design.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

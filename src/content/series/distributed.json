@@ -21,7 +21,7 @@
           "url": "distributed-data-management",
           "title": "Data Management"
         },
-         {
+        {
           "type": "articles",
           "url": "distributed-communication-patterns",
           "title": "Communication Patterns"
@@ -31,7 +31,7 @@
     {
       "subheading": "Coordination & Consistency",
       "link": [
-         {
+        {
           "type": "articles",
           "url": "distributed-transactions",
           "title": "Distributed Transactions"
@@ -72,7 +72,7 @@
       "subheading": "Further Learnings",
       "link": [
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A",
           "title": "Distributed Systems Playlist"
         }

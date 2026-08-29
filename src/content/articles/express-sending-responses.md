@@ -3,7 +3,7 @@ title: Sending Response in Express.js
 meta_title: Sending Responses in Express.js | CS Primer
 description: Learn how Express.js sends JSON, text, files, redirects, and HTTP status codes to clients efficiently.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

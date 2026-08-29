@@ -3,7 +3,7 @@ title: Introduction to Automata Theory
 author: Arjit Sharma
 meta_title: Introduction to Automata Theory- Core CS Concepts | CS Primer
 description: Explore automata theory with our beginner-friendly guide. Learn key concepts like Turing Machines, regular expressions, and the Chomsky hierarchy to master compilers and programming languages.
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

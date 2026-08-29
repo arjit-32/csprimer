@@ -3,7 +3,7 @@ title: What Is UDP? The Fast but Unreliable Protocol
 author: Arjit Sharma
 meta_title: Understanding UDP  Fast, Lightweight & Unreliable Transport Protocol
 description: Explore how UDP trades reliability for speed. Learn its segment structure, use cases in gaming, VoIP, and video streaming, and why connectionless communication suits low-latency applications.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

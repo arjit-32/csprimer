@@ -3,7 +3,7 @@ title: Serving Static Files
 meta_title: Serving Static Files with Express.js | CS Primer
 description: Learn how to serve HTML, CSS, JavaScript, images, and other static assets using Express.js middleware.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

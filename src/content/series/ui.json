@@ -72,12 +72,12 @@
           "title": "Udemy Course"
         },
         {
-          "type": "assignment",
+          "type": "external",
           "url": "https://www.dailyui.co/",
           "title": "100 Daily UI challenges"
         },
         {
-          "type": "book",
+          "type": "external",
           "url": "https://www.practical-ui.com/",
           "title": "Practical-UI book"
         }

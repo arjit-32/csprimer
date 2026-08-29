@@ -3,7 +3,7 @@ title: Prisma Cheatsheet
 meta_title: Prisma ORM Cheatsheet | CS Primer
 description: A practical Prisma cheatsheet covering schema design, migrations, CRUD operations, relations, and query patterns.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

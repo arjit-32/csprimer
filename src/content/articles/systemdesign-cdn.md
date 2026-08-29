@@ -3,7 +3,7 @@ title: Content-Delivery Networks
 meta_title: Content Delivery Networks (CDN) Explained  GeoDNS, Anycast & Caching Strategies
 description: Discover how CDNs accelerate web content using global edge servers, DNS-based routing, and caching models like pull vs push. Learn how Anycast and GeoDNS optimize performance for static websites and modern apps.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Semantic Analysis
 author: Arjit Sharma
 meta_title: Semantic Analysis in Compilers | CS Primer
 description: Dive into semantic analysis in compilers. Understand type checking and error detection for robust programming systems.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

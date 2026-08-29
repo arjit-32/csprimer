@@ -3,7 +3,7 @@ title: Control Unit Explained
 author: Arjit Sharma
 meta_title: Control Unit in COA Explained | CS Primer
 description: Learn how the Control Unit (CU) controls CPU operations using control signals, instruction decoding, and clock synchronization.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

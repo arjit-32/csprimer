@@ -3,7 +3,7 @@ title: Assignment-1 - HTML Structure & Semantics
 meta_title: Building Meaningful Webpages with Semantic HTML
 description: Learn how to properly structure webpages using semantic HTML tags
 author: Arjit Sharma
-series: ["html-css"]
+series: html-css
 categories: ["Development"]
 draft: false
 year: 2026

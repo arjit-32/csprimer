@@ -3,7 +3,7 @@ title: Graph Theory
 author: Arjit Sharma
 meta_title: Graph Theory- Discrete Math Essentials | CS Primer
 description: Master graph theory in discrete math. Learn graphs, trees, and algorithms for networking, AI, and computer science.
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

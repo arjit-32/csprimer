@@ -3,7 +3,7 @@ title: How the Program Counter Controls Execution Flow
 author: Arjit Sharma
 meta_title: Program Counter and Flow Control Explained | COA
 description: Learn how the Program Counter (PC) controls execution flow using jumps, branches, loops, and function calls in Computer Organization and Architecture.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

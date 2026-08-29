@@ -3,7 +3,7 @@ title: SELECT Queries in MySQL
 meta_title: MySQL SELECT Queries Explained | CS Primer
 description: Master MySQL SELECT statements, filtering, sorting, limiting, and retrieving data efficiently from tables.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

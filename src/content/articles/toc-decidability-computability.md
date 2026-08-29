@@ -3,7 +3,7 @@ title: Decidability and Computability
 author: Arjit Sharma
 meta_title: Decidability & Computability in CS | CS Primer
 description: Master decidability and computability. Understand what computers can and cannot solve, with insights into algorithms and theoretical CS
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

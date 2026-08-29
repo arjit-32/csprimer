@@ -3,7 +3,7 @@ title: MySQL Setup and CLI Basics
 meta_title: MySQL Setup Guide | CS Primer
 description: Set up MySQL on your system, connect to databases, and prepare a development environment for SQL learning.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

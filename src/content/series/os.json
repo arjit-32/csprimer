@@ -107,7 +107,7 @@
           "title": "OS Handwritten Notes"
         },
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkReZHXWY9yJvTwLJWYYPcKEqK",
           "title": "MIT course"
         }

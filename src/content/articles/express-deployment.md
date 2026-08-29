@@ -3,7 +3,7 @@ title: Deployment Basics for Express.js Applications
 meta_title: Express.js Deployment Basics | CS Primer
 description: Learn how to deploy Express.js applications, configure production environments, and prepare APIs for real-world usage.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

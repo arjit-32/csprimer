@@ -3,7 +3,7 @@ title: Publisher and Subscriber Model
 meta_title: Publisher-Subscriber Model Explained  Async Messaging & Loose Coupling in System Design
 description: Understand how the Pub-Sub model enables scalable, decoupled microservices communication. Explore its architecture, real-world e-commerce use case, and benefits like asynchronous messaging and fault tolerance.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

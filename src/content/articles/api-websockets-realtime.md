@@ -3,7 +3,7 @@ title: WebSockets - For Real-Time APIs
 meta_title: WebSockets for Real-Time APIs | CS Primer
 description: Explore WebSockets for real-time APIs. Learn bidirectional communication for dynamic web apps in CS.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Deadlock
 author: Arjit Sharma
 meta_title: Deadlock in Operating Systems  Conditions, Detection & Prevention Explained
 description: Learn what causes deadlocks in multi-process systems and how operating systems prevent, detect, and recover from them. Discover real-world examples and strategies for avoiding resource conflicts.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

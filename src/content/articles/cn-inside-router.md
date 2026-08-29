@@ -3,7 +3,7 @@ title: Inside a Router- How Packets Are Actually Moved
 author: Arjit Sharma
 meta_title: How Routers Work  Inside a Packet’s Journey Through Networking Devices
 description: Explore the inner workings of Internet routers from input ports and switching fabric to queuing and packet forwarding. Learn how routers process, schedule, and transmit data efficiently across networks.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

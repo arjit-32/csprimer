@@ -3,7 +3,7 @@ title: Functions
 author: Arjit Sharma
 meta_title: Functions in Discrete Math- CS Basics | CS Primer
 description: Dive into functions in discrete math. Master injective, surjective, and bijective functions for algorithms and programming
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

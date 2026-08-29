@@ -3,7 +3,7 @@ title: Introduction to Node.js
 meta_title: Introduction to Node.js | CS Primer
 description: Learn Node.js fundamentals, architecture, use cases, and how JavaScript powers scalable backend applications.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

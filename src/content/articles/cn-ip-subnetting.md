@@ -3,7 +3,7 @@ title: Understanding IP and Subnetting- From Global Allocation to Local Networks
 author: Arjit Sharma
 meta_title: IP Addressing & Subnetting Explained  Global Allocation to Private Networks
 description: Dive into how IPv4 addresses are structured and allocated globally. Learn classful vs classless addressing, subnetting strategies, and how ISPs distribute IPs efficiently using CIDR and private ranges.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

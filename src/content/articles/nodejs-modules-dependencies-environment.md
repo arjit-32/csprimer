@@ -3,7 +3,7 @@ title: Modules, Dependencies and Environment Variables
 meta_title: Node.js Modules, Dependencies & Environment | CS Primer
 description: Learn Node.js modules, npm dependencies, environment variables, package management, and project configuration.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

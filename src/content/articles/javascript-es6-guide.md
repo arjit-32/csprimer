@@ -3,7 +3,7 @@ title: Javascript ES6 Essentials
 meta_title: JavaScript ES6 Guide | CS Primer
 description: Learn modern JavaScript ES6 features including let, const, arrow functions, promises, modules, and destructuring.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

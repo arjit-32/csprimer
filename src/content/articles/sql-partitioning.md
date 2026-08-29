@@ -3,7 +3,7 @@ title: Partitioning in MySQL
 meta_title: MySQL Table Partitioning Guide | CS Primer
 description: Learn MySQL partitioning techniques to improve scalability, manage large datasets, and optimize performance.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

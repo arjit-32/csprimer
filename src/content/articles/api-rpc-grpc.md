@@ -3,7 +3,7 @@ title: RPC and gRPC - Function Oriented APIs
 meta_title: RPC & gRPC APIs- CS Guide | CS Primer
 description: Understand RPC and gRPC. Learn function-oriented APIs for high-performance app development in CS.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

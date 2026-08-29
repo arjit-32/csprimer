@@ -3,7 +3,7 @@ title: Advanced Routing in Express.JS
 meta_title: Advanced Express.js Routing | CS Primer
 description: Explore advanced Express.js routing techniques including route grouping, routers, nested routes, and modular APIs.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

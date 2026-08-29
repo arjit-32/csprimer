@@ -3,7 +3,7 @@ title: Performance Optimization Techniques
 meta_title: JavaScript Performance Optimization | CS Primer
 description: Learn JavaScript performance optimization techniques including debouncing, throttling, lazy loading, and efficient rendering.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

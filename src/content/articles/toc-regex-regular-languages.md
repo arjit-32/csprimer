@@ -3,7 +3,7 @@ title: Regular Expressions & Regular Languages
 author: Arjit Sharma
 meta_title: Regex & Regular Languages- CS Essentials | CS Primer
 description: Master regular expressions and regular languages. Learn how they power pattern matching and lexical analysis in programming and compiler design.
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

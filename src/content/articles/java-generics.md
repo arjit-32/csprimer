@@ -3,7 +3,7 @@ title: Generics in Java
 meta_title: Java Generics- Programming Guide | CS Primer
 description: Learn Java generics. Master type-safe collections for efficient and flexible programming in CS.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

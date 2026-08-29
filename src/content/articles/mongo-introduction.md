@@ -3,7 +3,7 @@ title: Introduction to MongoDB
 meta_title: Introduction to MongoDB | CS Primer
 description: Learn MongoDB fundamentals, document databases, collections, and how NoSQL databases differ from traditional relational systems.
 author: Arjit Sharma
-series: ["mongo"]
+series: mongo
 categories: ["Development"]
 draft: false
 year: 2025

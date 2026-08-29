@@ -3,7 +3,7 @@ title: Architecture Patterns for dummies
 meta_title: Architecture Patterns Explained  Centralized, MVC, Microservices & More
 description: Discover common architecture patterns used in system design—from client-server and P2P to layered, broker, and microservices. Learn how systems are structured for scale, flexibility, and resilience.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

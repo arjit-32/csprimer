@@ -3,7 +3,7 @@ title: Relational Model in Databases
 author: Arjit Sharma
 meta_title: ss
 description: ss
-series: ["dbms"]
+series: dbms
 categories: ["Core-CS"]
 ---
 

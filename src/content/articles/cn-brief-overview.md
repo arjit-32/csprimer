@@ -3,7 +3,7 @@ title: A Brief Overview of Computer Networks
 author: Arjit Sharma
 meta_title: Introduction to Computer Networks  History, Models & Data Communication
 description: Learn the foundations of computer networking—from ARPANET to the Internet. Explore transmission modes, network types, and OSI vs TCP/IP models in this beginner-friendly Core-CS guide.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

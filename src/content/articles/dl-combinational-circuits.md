@@ -3,7 +3,7 @@ title: Combinational Circuits
 author: Arjit Sharma
 meta_title: Combinational Circuits in CS | CS Primer
 description: Dive into combinational circuits in digital logic. Learn how to design logic gates and circuits for computer systems.
-series: ["dl"]
+series: dl
 categories: ["Core-CS"]
 draft: false
 year: 2025

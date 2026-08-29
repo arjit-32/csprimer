@@ -3,7 +3,7 @@ title: What Is DNS? How the Internet Finds What You’re Looking For
 author: Arjit Sharma
 meta_title: DNS Explained  How the Internet Translates Domains to IPs
 description: Learn how the Domain Name System (DNS) converts human-readable domain names into machine-readable IP addresses. Explore DNS components, lookup steps, and key record types in this Core-CS guide.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

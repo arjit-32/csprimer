@@ -3,7 +3,7 @@ title: Number Systems and Binary Arithmetic
 author: Arjit Sharma
 meta_title: Number System in Digital Logic | CS Primer
 description: Explore number systems in digital logic. Learn binary, hexadecimal, and conversions for computing and circuit design.
-series: ["dl"]
+series: dl
 categories: ["Core-CS"]
 draft: false
 year: 2025

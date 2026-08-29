@@ -3,7 +3,7 @@ title: Introduction to Javascript
 meta_title: JavaScript Introduction | CS Primer
 description: Learn JavaScript fundamentals, history, use cases, and how JavaScript powers modern web development for beginners.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

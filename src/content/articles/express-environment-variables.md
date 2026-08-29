@@ -3,7 +3,7 @@ title: Managing Environment Variables
 meta_title: Environment Variables in Express.js | CS Primer
 description: Learn how to manage configuration, secrets, and environment variables securely in Express.js applications.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

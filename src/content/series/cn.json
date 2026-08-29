@@ -122,7 +122,7 @@
       "subheading": "Further Learnings",
       "link": [
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
           "title": "Jim Kurose Playlist"
         }

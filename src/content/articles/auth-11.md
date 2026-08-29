@@ -3,7 +3,7 @@ title: Principles of Least Privelage
 meta_title: js
 description: js
 author: Arjit Sharma
-series: ["auth"]
+series: auth
 categories: ["Development"]
 draft: false
 year: 2025

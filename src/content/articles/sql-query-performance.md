@@ -3,7 +3,7 @@ title: Query Performance and EXPLAIN
 meta_title: MySQL Query Performance Optimization | CS Primer
 description: Understand query optimization techniques, execution plans, and performance tuning strategies in MySQL.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

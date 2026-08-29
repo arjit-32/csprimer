@@ -3,7 +3,7 @@ title: Introduction to Git
 meta_title: Introduction to Git | CS Primer
 description: Understand the basics of Git, the distributed version control system, and learn why it’s essential for modern development workflows. Perfect for beginners in 2025.
 author: Arjit Sharma
-series: ["git"]
+series: git
 categories: ["Extras"]
 draft: false
 year: 2025

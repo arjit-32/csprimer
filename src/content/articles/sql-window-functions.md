@@ -3,7 +3,7 @@ title: Window Functions in MySQL
 meta_title: MySQL Window Functions Guide | CS Primer
 description: Master MySQL window functions including RANK, ROW_NUMBER, LEAD, LAG, and analytical query techniques.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

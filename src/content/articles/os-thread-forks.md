@@ -3,7 +3,7 @@ title: Threads and Fork
 author: Arjit Sharma
 meta_title: Threads vs Fork in Operating Systems  Concepts, Use Cases & Differences
 description: Learn how operating systems use threads and fork to manage multitasking. Explore differences in memory, execution speed, and use cases with examples from web servers to system processes.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

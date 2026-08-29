@@ -3,7 +3,7 @@ title: AWS SNS - Sending Notifications the Smart Way
 meta_title: Send Notifications with AWS SNS | CSPrimer
 description: Key to microservices application, learn about notification systems in AWS using Simple Notification Service.
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

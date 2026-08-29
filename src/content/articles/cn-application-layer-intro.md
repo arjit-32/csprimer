@@ -3,7 +3,7 @@ title: The Application Layer of Internet
 author: Arjit Sharma
 meta_title: Application Layer in Internet  Network Apps, Protocols & Architecture Explained
 description: Discover how network applications like browsers, email clients, and messaging apps work. Learn about sockets, protocols, transport services, and client-server vs P2P models in this Core-CS guide.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

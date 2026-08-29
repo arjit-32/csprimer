@@ -3,7 +3,7 @@ title: Message Queues
 meta_title: Message Queues Explained  Decoupling, Asynchronous Workflows & Ordering Models
 description: Learn how message queues enable decoupled, fault-tolerant communication between microservices. Explore ordering models and real-world examples like signup workflows using RabbitMQ, Kafka, and Amazon SQS.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

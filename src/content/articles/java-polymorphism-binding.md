@@ -3,7 +3,7 @@ title: Polymorphism in Java
 meta_title: Java Polymorphism- CS Guide | CS Primer
 description: Understand Java polymorphism. Master dynamic binding for adaptable and scalable programming in CS.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

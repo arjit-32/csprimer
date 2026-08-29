@@ -3,7 +3,7 @@ title: this keyword
 meta_title: JavaScript this Keyword Explained | CS Primer
 description: Learn how the JavaScript this keyword works in functions, objects, classes, arrow functions, and event handlers.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

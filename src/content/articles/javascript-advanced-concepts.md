@@ -3,7 +3,7 @@ title: Advanced JS Concepts
 meta_title: Advanced JavaScript Concepts | CS Primer
 description: Master advanced JavaScript concepts including hoisting, currying, memoization, deep cloning, and design patterns.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

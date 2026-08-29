@@ -3,7 +3,7 @@ title: Getting Started with Node.js
 meta_title: Getting Started with Node.js | CS Primer
 description: Set up your first Node.js project, understand execution flow, and explore core built-in modules.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

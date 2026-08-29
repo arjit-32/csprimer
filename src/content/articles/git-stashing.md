@@ -3,7 +3,7 @@ title: Stashing in Git
 meta_title: Stashing Changes in Git | CS Primer
 description: Learn how to use Git stash to temporarily save your uncommitted changes, allowing you to switch tasks without losing your progress in 2025.
 author: Arjit Sharma
-series: ["git"]
+series: git
 categories: ["Extras"]
 draft: false
 year: 2025

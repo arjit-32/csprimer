@@ -3,7 +3,7 @@ title: Formal Grammars & Chomsky Hierarchy
 author: Arjit Sharma
 meta_title: Formal Grammars & Chomsky Hierarchy | CS Primer
 description: Understand formal grammars and the Chomsky hierarchy. Learn how they define language complexity and drive syntax analysis in compilers
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

@@ -18,7 +18,7 @@ const blogIndex = (await getEntryBySlug<any, string>(
 const posts = await getSinglePage(blog_folder);
 const sortedPosts = sortByDate(posts);
 const featuredPost = sortedPosts.filter((item) => item.data.featured);
-const recentPost = sortedPosts.filter((item) => !item.data.featured && (!item.data.series || item.data.series.length === 0));
+const recentPost = sortedPosts.filter((item) => !item.data.featured && !item.data.series);
 const totalPages = Math.ceil(recentPost.length / config.settings.pagination);
 const currentPosts = recentPost.slice(0, config.settings.pagination);
 ---

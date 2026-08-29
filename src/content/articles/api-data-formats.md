@@ -3,7 +3,7 @@ title: Common Data Formats for Web APIs
 meta_title: API Data Formats- JSON & More | CS Primer
 description: Learn API data formats like JSON and XML. Master data exchange for efficient web API design in CS.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

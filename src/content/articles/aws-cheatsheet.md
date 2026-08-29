@@ -3,7 +3,7 @@ title: AWS Service Cheat Sheet for Developers
 meta_title: AWS Services Cheat Sheet | CS Primer
 description: Comprehensive guide to AWS services covering security, compute, storage, databases, networking, DevOps, AI/ML, and media services. Essential reference for cloud developers with detailed service descriptions and practical use cases.
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

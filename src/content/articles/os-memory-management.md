@@ -3,7 +3,7 @@ title: Fundamentals of Memory Management
 author: Arjit Sharma
 meta_title: Fundamentals of Memory Management  Hierarchy, Locality & Allocation in OS
 description: Explore memory management in operating systems—from hierarchy and locality of reference to allocation strategies. Learn how efficient memory handling improves performance and system reliability.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

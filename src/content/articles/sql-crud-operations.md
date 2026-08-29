@@ -3,7 +3,7 @@ title: CRUD Operations in MySQL
 meta_title: MySQL CRUD Operations Guide | CS Primer
 description: Learn Create, Read, Update, and Delete operations in MySQL with practical examples and best practices.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

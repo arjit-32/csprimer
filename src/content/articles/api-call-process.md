@@ -3,7 +3,7 @@ title: What Happens During an API Call?
 meta_title: API Call Explained- CS Guide | CS Primer
 description: Understand API calls. Learn the request-response cycle and how APIs connect apps in software development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

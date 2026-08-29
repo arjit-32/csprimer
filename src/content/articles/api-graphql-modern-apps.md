@@ -3,7 +3,7 @@ title: GraphQL - Flexible APIs for Modern Apps
 meta_title: GraphQL APIs- Modern CS Guide | CS Primer
 description: Explore GraphQL for flexible APIs. Learn query-based data fetching for modern web apps in CS.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

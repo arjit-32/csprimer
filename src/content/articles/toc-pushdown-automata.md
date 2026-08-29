@@ -3,7 +3,7 @@ title: Pushdown Automata (PDA)
 author: Arjit Sharma
 meta_title: Pushdown Automata (PDA)- Learn CS Theory | CS Primer
 description: Explore pushdown automata and their role in parsing context-free languages. Build skills for compiler design and advanced CS concepts.
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

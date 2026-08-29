@@ -3,7 +3,7 @@ title: REST - Representational State Transfer
 meta_title: REST API Design- CS Guide | CS Primer
 description: Master REST APIs. Learn Representational State Transfer principles for scalable web app development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Capacity Estimation in System Design
 meta_title: Capacity Estimation in System Design  Metrics, Latency & Real-World Calculation
 description: Learn how to estimate system capacity using traffic patterns, QPS, latency benchmarks, and resource modeling. Explore request types, concurrency, and a real-world app scenario to guide scalable architecture.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

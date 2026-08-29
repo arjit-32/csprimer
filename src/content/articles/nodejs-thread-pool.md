@@ -3,7 +3,7 @@ title: Node.js Thread Pool, Worker Threads & CPU-Bound Tasks
 meta_title: Node.js Thread Pool Explained | CS Primer
 description: Learn how the Node.js thread pool works, handles background tasks, and improves asynchronous performance.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

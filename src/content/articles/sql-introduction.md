@@ -3,7 +3,7 @@ title: Introduction to SQL
 meta_title: Introduction to MySQL | CS Primer
 description: Learn MySQL fundamentals, relational database concepts, and how SQL databases store, organize, and manage data efficiently.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

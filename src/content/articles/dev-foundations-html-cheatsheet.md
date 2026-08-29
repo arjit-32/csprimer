@@ -3,7 +3,7 @@ title: HTML Cheatsheet
 meta_title: Quick Reference Guide to HTML Tags
 description: A handy HTML cheatsheet covering essential tags, attributes, and examples. Perfect for developers and learners who need a fast reference to build and structure web pages.
 author: Arjit Sharma
-series: ["html-css"]
+series: html-css
 categories: ["Development"]
 draft: false
 year: 2025

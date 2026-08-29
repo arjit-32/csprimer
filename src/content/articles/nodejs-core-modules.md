@@ -3,7 +3,7 @@ title: Essential Core Modules in Node.js
 meta_title: Node.js Core Modules Explained | CS Primer
 description: Explore essential Node.js core modules including fs, path, http, os, events, and stream with practical examples.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

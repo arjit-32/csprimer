@@ -4,7 +4,7 @@ subtitle: Lets create RESTful API in springboot
 meta_title: Lets create RESTful API in springboot
 description: Lets create RESTful API in springboot
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

@@ -3,7 +3,7 @@ title: Testing Express.js Applications (Jest + Supertest)
 meta_title: Testing Express.js APIs with Jest & Supertest | CS Primer
 description: Learn how to test Express.js applications using Jest and Supertest for reliable, maintainable, and bug-free APIs.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

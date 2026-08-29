@@ -3,7 +3,7 @@ title: Assignment-2 - Core HTML elements
 meta_title: Practicing Essential HTML Building Blocks
 description: Strengthen your foundation in HTML by working with core elements like headings, paragraphs, lists, links, images, and multimedia. Learn how to use semantic tags such as <figure> and <figcaption> to give content proper meaning and accessibility.
 author: Arjit Sharma
-series: ["html-css"]
+series: html-css
 categories: ["Development"]
 draft: false
 year: 2026

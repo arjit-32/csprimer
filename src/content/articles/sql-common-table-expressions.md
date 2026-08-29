@@ -3,7 +3,7 @@ title: Common Table Expressions
 meta_title: MySQL Common Table Expressions (CTEs) | CS Primer
 description: Learn Common Table Expressions in MySQL for writing readable, reusable, and recursive SQL queries.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Storage Engines in MySQL (InnoDB vs MyISAM)
 meta_title: MySQL Storage Engines Explained | CS Primer
 description: Learn MySQL storage engines including InnoDB and MyISAM, and understand their features and use cases.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

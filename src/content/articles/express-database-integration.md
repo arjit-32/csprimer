@@ -3,7 +3,7 @@ title: Database Integration in Express.js
 meta_title: Database Integration with Express.js | CS Primer
 description: Learn how to connect Express.js applications to databases, perform CRUD operations, and manage data effectively.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

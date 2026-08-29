@@ -3,7 +3,7 @@ title: Introduction to Computer Architecture
 author: Arjit Sharma
 meta_title: Introduction to COA- Learn CS Basics | CS Primer
 description: Explore computer organization and architecture (COA). Learn core concepts of hardware and system design for CS and engineering.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

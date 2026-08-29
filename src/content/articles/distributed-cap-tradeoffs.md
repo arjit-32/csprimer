@@ -3,7 +3,7 @@ title: Distributed System Trade-offs (CAP & Beyond)
 meta_title: Distributed System Trade-offs and the CAP Theorem | CS Primer
 description: Understand the trade-offs in distributed systems, focusing on the CAP theorem and its implications for system design. Learn how to make informed decisions in 2025.
 author: Arjit Sharma
-series: ["distributed"]
+series: distributed
 categories: ["System-Design"]
 draft: false
 year: 2025

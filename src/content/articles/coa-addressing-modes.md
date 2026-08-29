@@ -3,7 +3,7 @@ title: Addressing Modes
 author: Arjit Sharma
 meta_title: Addressing Modes in COA Guide | CS Primer
 description: Master addressing modes in COA. Learn how CPUs access memory and optimize programs for better system performance.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

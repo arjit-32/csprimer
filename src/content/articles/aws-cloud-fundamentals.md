@@ -3,7 +3,7 @@ title: Fundamentals of Cloud Computing
 meta_title: AWS Cloud Computing Fundamentals | CS Primer
 description: Learn cloud computing basics with AWS - explore service models (IaaS, PaaS, FaaS, SaaS), deployment options, global infrastructure, and AWS Well-Architected Framework principles for building robust cloud solutions.
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

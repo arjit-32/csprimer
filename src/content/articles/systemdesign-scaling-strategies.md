@@ -3,7 +3,7 @@ title: Vertical and Horizontal Scaling
 meta_title: Vertical vs Horizontal Scaling  System Design Explained with Netflix Case Study
 description: Understand the difference between vertical and horizontal scaling in system architecture. Learn how Netflix overcame scaling challenges using distributed servers, microservices, and AWS cloud migration.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

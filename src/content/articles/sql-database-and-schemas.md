@@ -3,7 +3,7 @@ title: Databases and Schemas in MySQL
 meta_title: MySQL Databases & Schemas | CS Primer
 description: Learn how databases and schemas work in MySQL, and organize data structures for scalable applications.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

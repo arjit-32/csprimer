@@ -3,7 +3,7 @@ title: Other utility classes
 meta_title: Java Utility Classes- CS Guide | CS Primer
 description: Discover Java utility classes. Learn tools like Math and Date for efficient programming and CS tasks.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

@@ -3,7 +3,7 @@ title: Closures
 meta_title: JavaScript Closures Explained | CS Primer
 description: Understand JavaScript closures, lexical scoping, private variables, and real-world closure use cases in depth.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

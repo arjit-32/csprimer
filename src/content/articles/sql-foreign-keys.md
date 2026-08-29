@@ -3,7 +3,7 @@ title: Foreign Keys & Relationships in SQL Databases
 meta_title: MySQL Foreign Keys & Relationships | CS Primer
 description: Understand one-to-one, one-to-many, and many-to-many relationships using foreign keys in MySQL.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

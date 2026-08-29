@@ -3,7 +3,7 @@ title: Views in MySQL
 meta_title: MySQL Views Explained | CS Primer
 description: Understand MySQL views, virtual tables, query abstraction, and simplifying complex database operations.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

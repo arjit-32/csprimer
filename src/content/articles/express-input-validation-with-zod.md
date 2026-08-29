@@ -3,7 +3,7 @@ title: Input Validation in ExpressJS
 meta_title: Input Validation with Zod in Express.js | CS Primer
 description: Learn request validation using Zod in Express.js to build secure, type-safe, and reliable backend APIs.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

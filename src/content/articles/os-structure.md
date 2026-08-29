@@ -3,7 +3,7 @@ title: Structure of Operating System
 author: Arjit Sharma
 meta_title: Structure of Operating Systems Explained  Kernel, Memory & System Calls
 description: Learn how an Operating System functions—from kernel management and system calls to user vs kernel modes. Explore core OS components with practical insights for developers.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

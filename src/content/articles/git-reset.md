@@ -3,7 +3,7 @@ title: Reset in Git
 meta_title: Understanding Git Reset | CS Primer
 description: Dive into the powerful Git reset command to undo changes and manage your commit history in 2025. A must-know for every developer working with version control.
 author: Arjit Sharma
-series: ["git"]
+series: git
 categories: ["Extras"]
 draft: false
 year: 2025

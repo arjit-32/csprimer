@@ -3,7 +3,7 @@ title: Linking & Execution
 author: Arjit Sharma
 meta_title: Linking & Execution in Compilers | CS Primer
 description: Understand linking and execution in compilers. Learn how programs are finalized and run on hardware in CS.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

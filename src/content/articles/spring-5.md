@@ -4,7 +4,7 @@ subtitle: Learn about Spring JDBC, JPA and Spring Data JPA
 meta_title: Learn about Spring JDBC, JPA and Spring Data JPA
 description: Learn about Spring JDBC, JPA and Spring Data JPA
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

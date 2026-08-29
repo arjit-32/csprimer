@@ -3,7 +3,7 @@ title: Selection Sort
 meta_title: Selection Sort & Data Structures Made Simple  DSA Explained
 description: Learn the basics of Arrays, Linked Lists, and the Selection Sort algorithm with easy-to-grasp analogies and Java examples. Ideal for DSA beginners and coding enthusiasts.
 author: Arjit Sharma
-series: ["dsa-for-interviews"]
+series: dsa-for-interviews
 categories: ["DSA"]
 featured: false
 draft: false

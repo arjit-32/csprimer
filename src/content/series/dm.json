@@ -67,7 +67,7 @@
           "title": "Coursera Specialization"
         },
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS",
           "title": "Trefor Bazett's Playlist"
         }

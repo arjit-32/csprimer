@@ -3,7 +3,7 @@ title: Deploy a Node.js App on EC2
 meta_title: Deploy Node.js Server on AWS EC2 | CS Primer
 description: Learn how to set up and deploy a Node.js server on AWS EC2, including SSH connection, Node.js installation, server configuration, and process management with PM2. Complete guide for running production-ready Node.js applications on EC2
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

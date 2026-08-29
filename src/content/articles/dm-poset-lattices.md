@@ -3,7 +3,7 @@ title: POSETs & Lattices
 author: Arjit Sharma
 meta_title: POSET & Lattices- Discrete Math Guide | CS Primer
 description: Learn about partially ordered sets (POSET) and lattices. Discover their role in discrete math and applications in CS theory.
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

@@ -3,7 +3,7 @@ title: Introduction to DOM
 meta_title: JavaScript DOM Introduction | CS Primer
 description: Learn the JavaScript DOM, document structure, node traversal, and how web pages are represented in browsers.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

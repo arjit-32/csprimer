@@ -3,7 +3,7 @@ title: Process Management
 author: Arjit Sharma
 meta_title: Process Management in Operating Systems  Scheduling, IPC & States Explained
 description: Understand how operating systems manage processes—from lifecycle stages and scheduling to inter-process communication. Discover real-world examples and developer insights for mastering OS fundamentals.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

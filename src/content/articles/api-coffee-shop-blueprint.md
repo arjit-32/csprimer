@@ -3,7 +3,7 @@ title: Designing the Coffee Shop API - A Practical Blueprint
 meta_title: Coffee Shop API Design Guide | CS Primer
 description: Design a Coffee Shop API. Follow this practical blueprint to build real-world APIs for web apps.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

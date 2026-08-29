@@ -3,7 +3,7 @@ title: Introduction to UI/UX Development
 meta_title: Introduction to UI/UX Development | CS Primer
 description: Discover the fundamentals of UI/UX development, from user interface design to user experience principles. Perfect for product designers and developers looking to enhance their understanding of UI/UX in 2025.
 author: Arjit Sharma
-series: ["ui"]
+series: ui
 draft: false
 year: 2025
 ---

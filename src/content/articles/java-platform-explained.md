@@ -3,7 +3,7 @@ title: The Java Platform Explained
 meta_title: Java Platform Explained- CS Guide | CS Primer
 description: Explore the Java platform. Understand JVM, JRE, and JDK for building robust applications in programming.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

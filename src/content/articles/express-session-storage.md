@@ -3,7 +3,7 @@ title: Sessions in Express.js
 meta_title: Session Storage in Express.js | CS Primer
 description: Understand session management, storage strategies, authentication sessions, and user state handling in Express.js.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

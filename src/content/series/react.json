@@ -101,7 +101,7 @@
       "subheading": "Further Learnings",
       "link": [
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://youtu.be/dGcsHMXbSOA",
           "title": "ReactJS Crash Course (Traversy Media)"
         },

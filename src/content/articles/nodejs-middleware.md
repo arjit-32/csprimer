@@ -3,7 +3,7 @@ title: Understanding the Middleware Pattern in Node.js
 meta_title: Node.js Middleware Pattern | CS Primer
 description: Learn the middleware pattern in Node.js, request processing flow, chaining, and reusable backend architecture.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

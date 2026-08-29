@@ -3,7 +3,7 @@ title: Introduction to System Design
 meta_title: System Design Introduction | Scalable Architecture Explained with Pizza Analogy
 description: Explore the fundamentals of system design through a relatable pizza shop analogy—covering scaling strategies, resilience, microservices, distributed systems, and agile architecture principles.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Lexical Analysis
 author: Arjit Sharma
 meta_title: Lexical Analysis in Compilers | CS Primer
 description: Understand lexical analysis in compilers. Learn how tokenization works and its role in building efficient programming tools.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

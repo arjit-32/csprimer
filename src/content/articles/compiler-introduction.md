@@ -3,7 +3,7 @@ title: Introduction to Compilers
 author: Arjit Sharma
 meta_title: Introduction to Compilers- CS Basics | CS Primer
 description: Explore compilers in this beginner guide. Learn how they translate code and their role in programming and computer science.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Scalable design for an EdTech Platform
 meta_title: Scalable EdTech Platform Design  Streaming, Code Execution & Student Progress Tracking
 description: Design a scalable EdTech system with cloud-based video streaming, containerized code execution, student data management, and static content delivery. Learn how to handle traffic, latency, caching, and monitoring for optimal performance.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

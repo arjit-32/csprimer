@@ -4,7 +4,7 @@ subtitle: Learn what is a bean and its lifecycle
 meta_title: Learn what is a bean and its lifecycle
 description: Learn what is a bean and its lifecycle
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

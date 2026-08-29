@@ -3,7 +3,7 @@ title: Userflows and Sitemaps
 meta_title: Userflows and Sitemaps for UI/UX Design | CS Primer
 description: Master the creation of userflows and sitemaps to plan and structure user interfaces effectively. A must-read guide for UI/UX designers in 2025.
 author: Arjit Sharma
-series: ["ui"]
+series: ui
 draft: false
 year: 2025
 ---

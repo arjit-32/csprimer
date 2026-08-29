@@ -57,12 +57,12 @@
           "title": "A cool tool"
         },
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://www.youtube.com/watch?v=nB6724G3b3E",
           "title": "Build Logic Gates"
         },
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://youtube.com/playlist?list=PLNpQfWftj0-f0K1GLAGNnlhCGNFy4MM8F&si=Bg04i30yjKnq-JG5",
           "title": "Arjit's Crash Course"
         }

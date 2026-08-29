@@ -3,7 +3,7 @@ title: Process Synchronization Solutions
 author: Arjit Sharma
 meta_title: Process Synchronization Solutions  Peterson’s Algorithm, Semaphores & Hardware Locks
 description: Explore proven methods for process synchronization—from two-process algorithms like Peterson’s to OS-level semaphores and hardware-based atomic operations. Learn how systems avoid race conditions and ensure data consistency.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

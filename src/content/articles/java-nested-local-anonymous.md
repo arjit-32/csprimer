@@ -3,7 +3,7 @@ title: Nested, Local and Anonymous Classes
 meta_title: Java Nested & Anonymous Classes | CS Primer
 description: Master Java nested and anonymous classes. Learn their use for advanced programming in CS.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

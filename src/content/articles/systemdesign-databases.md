@@ -3,7 +3,7 @@ title: Databases
 meta_title: Database Design & Distributed Systems  Relational, NoSQL, Sharding & Replication
 description: Explore database fundamentals and scaling strategies—from SQL vs NoSQL to indexing, denormalization, and sharding. Dive into distributed systems, replication types, migration techniques, and the CAP theorem.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

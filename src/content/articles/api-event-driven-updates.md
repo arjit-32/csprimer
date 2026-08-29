@@ -3,7 +3,7 @@ title: Event-Driven Protocols for Asynchronous Updates
 meta_title: Event-Driven APIs- CS Guide | CS Primer
 description: Understand event-driven protocols. Learn asynchronous updates for scalable API design in web development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

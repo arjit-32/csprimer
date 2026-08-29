@@ -3,7 +3,7 @@ title: Intermediate Code Generation
 author: Arjit Sharma
 meta_title: Intermediate Code in Compilers | CS Primer
 description: Learn intermediate code generation in compilers. Discover how it bridges high-level code to machine code in CS.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Data Management in Distributed Systems
 meta_title: Data Management in Distributed Systems | CS Primer
 description: Learn the techniques and challenges of managing data in distributed systems, including replication, sharding, and fault tolerance. Essential for developers in 2025.
 author: Arjit Sharma
-series: ["distributed"]
+series: distributed
 categories: ["System-Design"]
 draft: false
 year: 2025

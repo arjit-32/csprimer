@@ -3,7 +3,7 @@ title: Reliability and Resilience Pattern
 meta_title: Reliability and Resilience in System Design- Patterns, Techniques, and Best Practices
 description: Explore the principles of reliability and resilience in system design. Learn about fault tolerance, graceful degradation, circuit breakers, retries, and chaos engineering to build robust systems.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Processor Organization
 author: Arjit Sharma
 meta_title: Processor Organization in COA | CS Primer
 description: Understand processor organization in COA. Learn CPU components, registers, and data paths for computer architecture and CS
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

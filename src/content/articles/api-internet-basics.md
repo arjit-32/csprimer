@@ -3,7 +3,7 @@ title: Crash course on Internet Basics
 meta_title: Internet Basics- Crash Course | CS Primer
 description: Learn internet basics in this crash course. Understand networks and protocols for API design and web development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: What Is TCP? The Reliable Backbone of the Internet
 author: Arjit Sharma
 meta_title: TCP Explained  Reliable Communication, Flow Control & Congestion Management
 description: Understand why TCP is the Internet’s reliable backbone. Learn about connection setup, reliable data transfer, flow control, and congestion handling techniques like slow start and AIMD in this Core-CS guide.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

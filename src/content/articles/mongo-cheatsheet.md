@@ -3,7 +3,7 @@ title: MongoDB Cheatsheet
 meta_title: MongoDB Cheatsheet | CS Primer
 description: A practical MongoDB cheatsheet covering CRUD operations, queries, aggregation, indexing, and commonly used commands.
 author: Arjit Sharma
-series: ["mongo"]
+series: mongo
 categories: ["Development"]
 draft: false
 year: 2025

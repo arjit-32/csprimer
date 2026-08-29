@@ -3,7 +3,7 @@ title: Code Optimization
 author: Arjit Sharma
 meta_title: Code Optimization in Compilers | CS Primer
 description: Master code optimization in compilers. Learn techniques to improve program efficiency and performance in computer science.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

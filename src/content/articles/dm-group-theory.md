@@ -3,7 +3,7 @@ title: Group Theory
 author: Arjit Sharma
 meta_title: Algebraic Structures in CS Math | CS Primer
 description: Explore algebraic structures like groups and rings in discrete math. Learn their role in cryptography and CS theory.
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

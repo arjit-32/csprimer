@@ -3,7 +3,7 @@ title: Computer Network- A Complete Picture
 author: Arjit Sharma
 meta_title: How a URL Loads a Website  DNS, TCP/IP Stack & HTTP Request Explained
 description: Explore how browsers fetch websites step by step—from DNS resolution and TCP handshake to protocol stacks and server responses. A complete journey through modern computer networking.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

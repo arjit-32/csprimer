@@ -3,7 +3,7 @@ title: Stored Procedures, Triggers & Events
 meta_title: MySQL Stored Procedures, Triggers & Events | CS Primer
 description: Master MySQL automation using stored procedures, triggers, and scheduled events for advanced database workflows.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

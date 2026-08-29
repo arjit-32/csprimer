@@ -3,7 +3,7 @@ title: Context-Sensitive and Turing Machines
 author: Arjit Sharma
 meta_title: Context-Sensitive & Turing Machines | CS Primer
 description: Learn context-sensitive languages and Turing Machines. Discover their power in modeling computation and solving complex CS problems
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

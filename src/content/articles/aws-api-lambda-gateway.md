@@ -3,7 +3,7 @@ title: Build an API with Lambda and API Gateway
 meta_title: Build an API with Lambda and API Gateway | CSPrimer
 description: Learn how to build a API using Lambda and API Gateway
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

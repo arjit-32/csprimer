@@ -3,7 +3,7 @@ title: Introduction to Digital Electronics
 author: Arjit Sharma
 meta_title: Introduction to Digital Logic- CS Basics | CS Primer
 description: Explore digital logic in this beginner guide. Learn core concepts of digital systems for computer science and engineering.
-series: ["dl"]
+series: dl
 categories: ["Core-CS"]
 draft: false
 year: 2025

@@ -67,7 +67,7 @@
           "title": "Princeton Course"
         },
         {
-          "type": "youtube",
+          "type": "external",
           "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR",
           "title": "Make your own CPU"
         }

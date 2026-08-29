@@ -3,7 +3,7 @@ title: Introduction to APIs
 meta_title: Introduction to APIs- CS Basics | CS Primer
 description: Start with APIs. Learn what APIs are, their role in software, and how they power modern applications in CS.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

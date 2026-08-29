@@ -3,7 +3,7 @@ title: Advanced Memory Management & Virtual Memory
 author: Arjit Sharma
 meta_title: Advanced Memory Management in OS  Virtual Memory, Page Replacement & Thrashing
 description: Explore advanced memory management in operating systems—learn how virtual memory, page replacement algorithms, and thrashing prevention enhance performance and support multitasking in modern computing.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

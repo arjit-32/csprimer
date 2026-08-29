@@ -3,7 +3,7 @@ title: Load Balancing
 meta_title: Load Balancing in System Design  Algorithms, Consistent Hashing & OSI Layers
 description: Master load balancing techniques—from Round Robin and IP Hash to Consistent Hashing and Layer 4 vs Layer 7 models. Learn how systems scale and stay resilient by distributing traffic intelligently.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

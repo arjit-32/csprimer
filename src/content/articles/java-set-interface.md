@@ -3,7 +3,7 @@ title: Set Interface
 meta_title: Java Set Interface- CS Guide | CS Primer
 description: Explore Java Set interface. Learn HashSet and TreeSet for unique data management in programming.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

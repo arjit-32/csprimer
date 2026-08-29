@@ -3,7 +3,7 @@ title: Middleware in Express.Js
 meta_title: Express.js Middleware Explained | CS Primer
 description: Understand Express.js middleware, request-response lifecycle, middleware chaining, and building reusable application logic.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

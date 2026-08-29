@@ -3,7 +3,7 @@ title: Communication Patterns in Distributed Systems
 meta_title: Communication Patterns in Distributed Systems | CS Primer
 description: Discover the communication patterns used in distributed systems. Learn how synchronous and asynchronous communication plays a role in system design in 2025.
 author: Arjit Sharma
-series: ["distributed"]
+series: distributed
 categories: ["System-Design"]
 draft: false
 year: 2025

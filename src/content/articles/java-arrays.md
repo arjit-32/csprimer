@@ -3,7 +3,7 @@ title: Working with Arrays in Java
 meta_title: Java Arrays- Programming Basics | CS Primer
 description: Learn Java arrays. Explore creation, manipulation, and use in programming for efficient data handling.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

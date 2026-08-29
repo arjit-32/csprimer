@@ -3,7 +3,7 @@ title: Theory of Logic
 author: Arjit Sharma
 meta_title: Theory of Logic- Discrete Math Core | CS Primer
 description: Understand the theory of logic in discrete math. Learn propositions, predicates, and proofs to excel in CS and reasoning
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

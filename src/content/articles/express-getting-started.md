@@ -3,7 +3,7 @@ title: Getting Started with Express.js
 meta_title: Getting Started with Express.js | CS Primer
 description: Set up your first Express.js application, create routes, handle requests, and build a basic web server from scratch.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

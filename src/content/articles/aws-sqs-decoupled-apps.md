@@ -3,7 +3,7 @@ title: AWS SQS - Reliable Messaging Between Services
 meta_title: Messaging Service using AWS SQS | CSPrimer
 description: Build your own distributed and scalable application using SQS and Lambda.
 author: Arjit Sharma
-series: ["aws"]
+series: aws
 categories: ["System-Design"]
 draft: false
 year: 2025

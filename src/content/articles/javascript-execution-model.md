@@ -3,7 +3,7 @@ title: Javascript Execution Model
 meta_title: JavaScript Execution Model Explained | CS Primer
 description: Understand the JavaScript execution model including execution context, call stack, memory allocation, and runtime behavior.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

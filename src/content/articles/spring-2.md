@@ -4,7 +4,7 @@ subtitle: Learn how dependencies are managed in Springboot
 meta_title: Learn how dependencies are managed in Springboot
 description: Learn how dependencies are managed in Springboot
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

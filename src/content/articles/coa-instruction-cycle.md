@@ -3,7 +3,7 @@ title: The Instruction Cycle
 author: Arjit Sharma
 meta_title: Instruction Cycle in COA Explained | CS Primer
 description: Dive into the instruction cycle in COA. Master fetch-decode-execute steps to understand CPU operations and system design
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

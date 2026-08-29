@@ -3,7 +3,7 @@ title: SQL Aggregations
 meta_title: MySQL Aggregation Functions | CS Primer
 description: Learn MySQL aggregation functions such as COUNT, SUM, AVG, MIN, MAX, GROUP BY, and HAVING clauses.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

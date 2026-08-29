@@ -3,7 +3,7 @@ title: Dynamic Programming
 meta_title: Dynamic Programming Made Easy  Knapsack Problem & Step-by-Step Strategy
 description: Master the concept of Dynamic Programming with a visual walkthrough of the Knapsack Problem. Learn how breaking problems into subparts speeds up solutions—perfect for building a solid foundation in DSA.
 author: Arjit Sharma
-series: ["dsa-for-interviews"]
+series: dsa-for-interviews
 categories: ["DSA"]
 featured: false
 draft: false

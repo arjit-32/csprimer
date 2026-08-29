@@ -3,7 +3,7 @@ title: Finite Automata
 author: Arjit Sharma
 meta_title: Finite Automata Explained- Learn CS Basics | CS Primer
 description: Dive into finite automata, the foundation of computation. Understand deterministic and non-deterministic automata to build skills for compilers and algorithms
-series: ["toc"]
+series: toc
 categories: ["Core-CS"]
 draft: false
 year: 2025

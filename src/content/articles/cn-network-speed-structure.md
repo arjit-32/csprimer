@@ -3,7 +3,7 @@ title: Network Speed, Structure, and Safety
 author: Arjit Sharma
 meta_title: Network Speed, Protocol Stack & Cybersecurity Explained 
 description: Explore how network performance is impacted by delay types and layering in protocol stacks. Learn about threats like malware, DoS, and packet sniffing—and how internet security protects modern communication.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

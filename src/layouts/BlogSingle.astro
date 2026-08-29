@@ -2,6 +2,7 @@
 import readingTime from "@/lib/utils/readingTime";
 import { getEntry } from "astro:content";
 import { humanize, slugify } from "@/lib/utils/textConverter";
+import { STATUS_CONFIG, isLocked } from "@/lib/statusConfig";
 import {
   FaRegClock,
   FaRegFolder,
@@ -20,17 +21,33 @@ const courseData = seriesEntry ? seriesEntry.data : null;
 
 const siteBaseUrl = config.site.base_url;
 
-// Status pill config
-const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
-  'completed':    { label: '✅ Completed',    cls: 'status-pill--completed'    },
-  'in-progress':  { label: '🔄 In Progress',  cls: 'status-pill--in-progress'  },
-  'proofreading': { label: '🔍 Proofreading', cls: 'status-pill--proofreading' },
-  'planned':      { label: '🕐 Planned',      cls: 'status-pill--planned'      },
-  'draft':        { label: '✏️ Draft',         cls: 'status-pill--draft'        },
-};
+// Helper to get navigation link URL
+function getCourseLinkHref(link: any): string {
+  return link.type === 'articles' ? `/articles/${link.url}` : link.url;
+}
 
-function isLocked(status?: string) {
-  return status === 'planned' || status === 'draft';
+// Helper to determine if current article matches this link
+function isCurrentArticle(link: any, currentSlug: string): boolean {
+  return link.type === 'articles' && link.url === currentSlug;
+}
+
+// Helper to check if section contains current article
+function sectionContainsCurrentArticle(section: any, currentSlug: string): boolean {
+  return section.link.some((link: any) => isCurrentArticle(link, currentSlug));
+}
+
+// Get Previous/Next link objects with full data
+function getPreviousNextLinks(navbar: any[], currentSlug: string) {
+  const courseArticles = navbar
+    .flatMap(section => section.link)
+    .filter(link => link.type === 'articles' && !isLocked(link.status));
+  
+  const currentIndex = courseArticles.findIndex(link => link.url === currentSlug);
+  
+  return {
+    previous: currentIndex > 0 ? courseArticles[currentIndex - 1] : null,
+    next: currentIndex < courseArticles.length - 1 ? courseArticles[currentIndex + 1] : null,
+  };
 }
 
 ---
@@ -44,119 +61,105 @@ function isLocked(status?: string) {
       {courseData && courseData.navbar.length > 0 && (
         <div class="hidden lg:block w-64 shrink-0">
           <div class="sticky top-20 space-y-3">
-            {courseData.navbar.map((section, index) => (
-              <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                <button
-                  class="w-full flex items-center justify-between p-3 hover:bg-gray-50 transition-colors cursor-pointer group"
-                  id={`nav-button-${index}`}
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#fb7299]/10 text-[#fb7299] font-medium text-sm">
-                      {index + 1}
-                    </span>
-                    <span class="font-semibold text-gray-900 text-sm group-hover:text-[#fb7299] transition-colors">
-                      {section.subheading}
-                    </span>
-                  </div>
-                  <svg 
-                    class="w-4 h-4 text-gray-400 transform transition-transform duration-200" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
+            {courseData.navbar.map((section, index) => {
+              const currentSlug = post.slug || post.data.slug || "";
+              const sectionActive = sectionContainsCurrentArticle(section, currentSlug);
+              
+              return (
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                  <button
+                    class="w-full flex items-center justify-between p-3 hover:bg-gray-50 transition-colors cursor-pointer group"
+                    id={`nav-button-${index}`}
+                    data-expanded={sectionActive}
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                <div
-                  class="hidden border-t border-gray-100"
-                  id={`nav-content-${index}`}
-                >
-                  <div class="p-3 space-y-1">
-                    {section.link.map((link) => {
-                      const locked = isLocked(link.status);
-                      const articleStatusCfg = link.status ? STATUS_CONFIG[link.status] : null;
-                      const href = link.type !== 'articles' ? link.url : `/articles/${link.url}`;
-                      const target = link.type !== 'articles' && link.type !== 'assignment' ? '_blank' : '_self';
+                    <div class="flex items-center gap-2">
+                      <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#fb7299]/10 text-[#fb7299] font-medium text-sm">
+                        {index + 1}
+                      </span>
+                      <span class="font-semibold text-gray-900 text-sm group-hover:text-[#fb7299] transition-colors">
+                        {section.subheading}
+                      </span>
+                    </div>
+                    <svg 
+                      class={`w-4 h-4 text-gray-400 transform transition-transform duration-200 ${sectionActive ? 'rotate-180' : ''}`}
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  
+                  <div
+                    class={`border-t border-gray-100 ${!sectionActive ? 'hidden' : ''}`}
+                    id={`nav-content-${index}`}
+                  >
+                    <div class="p-3 space-y-1">
+                      {section.link.map((link) => {
+                        const currentSlug = post.slug || post.data.slug || "";
+                        const locked = isLocked(link.status);
+                        const isActive = isCurrentArticle(link, currentSlug);
+                        const articleStatusCfg = link.status ? STATUS_CONFIG[link.status] : null;
+                        const href = getCourseLinkHref(link);
+                        const target = link.type === 'articles' ? '_self' : '_blank';
+                        const rel = link.type === 'articles' ? undefined : 'noopener noreferrer';
 
-                      const icon = (
-                        <>
-                          {link.type === 'youtube' && (
-                            <svg class="w-4 h-4 shrink-0 text-red-600" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        return locked ? (
+                          <span class="nav-link-locked flex items-center gap-2 p-2 rounded-md text-sm">
+                            <svg class="w-4 h-4 shrink-0 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
                             </svg>
-                          )}
-                          {link.type === 'book' && (
-                            <svg class="w-4 h-4 shrink-0 text-blue-700" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M6 2C4.895 2 4 2.895 4 4V20C4 21.105 4.895 22 6 22H18C19.105 22 20 21.105 20 20V4C20 2.895 19.105 2 18 2H6ZM6 4H18V20H6V4ZM8 6H16V8H8V6ZM8 10H16V12H8V10ZM8 14H13V16H8V14Z"/>
-                            </svg>
-                          )}
-                          {link.type === 'external' && (
-                            <svg class="w-4 h-4 shrink-0 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                          )}
-                          {link.type === 'assignment' && (
-                            <svg class="w-4 h-4 shrink-0 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                            </svg>
-                          )}
-                          {link.type === 'github' && (
-                            <svg class="w-4 h-4 shrink-0 text-gray-900" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                          )}
-                          {!['youtube','book','external','assignment','github'].includes(link.type) && (
-                            locked ? (
-                              <svg class="w-4 h-4 shrink-0 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
-                              </svg>
-                            ) : (
+                            <span class="text-gray-400 italic truncate">
+                              {link.title}
+                            </span>
+                            {articleStatusCfg && (
+                              <span class={`sidebar-status-pill ${articleStatusCfg.cls} ml-auto shrink-0`}>
+                                {articleStatusCfg.label}
+                              </span>
+                            )}
+                          </span>
+                        ) : (
+                          <a
+                            href={href}
+                            target={target}
+                            rel={rel}
+                            class={`flex items-center gap-2 p-2 rounded-md transition-colors group text-sm ${
+                              isActive 
+                                ? 'bg-[#fb7299]/10 text-[#fb7299] font-medium' 
+                                : 'text-gray-700 hover:bg-gray-50 hover:text-[#fb7299]'
+                            }`}
+                          >
+                            {link.type === 'articles' && (
                               <svg class="w-4 h-4 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                               </svg>
-                            )
-                          )}
-                        </>
-                      );
-
-                      const inner = (
-                        <>
-                          {icon}
-                          <span class={`transition-colors truncate ${locked ? 'text-gray-400 italic' : 'text-gray-700 group-hover:text-[#fb7299]'}`}>
-                            {link.title}
-                          </span>
-                          {articleStatusCfg && (
-                            <span class={`sidebar-status-pill ${articleStatusCfg.cls} ml-auto shrink-0`}>
-                              {articleStatusCfg.label}
+                            )}
+                            {link.type === 'external' && (
+                              <svg class="w-4 h-4 shrink-0 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            )}
+                            <span class="truncate">
+                              {link.title}
                             </span>
-                          )}
-                          {!locked && link.type !== 'articles' && link.type !== 'assignment' && (
-                            <svg class="w-3 h-3 shrink-0 text-gray-400 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                          )}
-                        </>
-                      );
-
-                      return locked ? (
-                        <span class="nav-link-locked flex items-center gap-2 p-2 rounded-md text-sm">
-                          {inner}
-                        </span>
-                      ) : (
-                        <a
-                          href={href}
-                          target={target}
-                          class="flex items-center gap-2 p-2 rounded-md hover:bg-gray-50 transition-colors group text-sm"
-                        >
-                          {inner}
-                        </a>
-                      );
-                    })}
+                            {articleStatusCfg && (
+                              <span class={`sidebar-status-pill ${articleStatusCfg.cls} ml-auto shrink-0`}>
+                                {articleStatusCfg.label}
+                              </span>
+                            )}
+                            {link.type === 'external' && (
+                              <svg class="w-3 h-3 shrink-0 text-gray-400 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            )}
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
@@ -252,36 +255,40 @@ function isLocked(status?: string) {
             </div>
 
             {courseData && courseData.navbar.length > 0 && (() => {
-              const flatArticles = courseData.navbar
-                .flatMap(section => section.link)
-                .filter(link => link.type === "articles" && !isLocked(link.status))
-                .map(link => link.url);
-            
               const currentSlug = post.slug || post.data.slug || "";
-              const currentIndex = flatArticles.indexOf(currentSlug);
-            
-              const prevSlug = currentIndex > 0 ? flatArticles[currentIndex - 1] : null;
-              const nextSlug = currentIndex < flatArticles.length - 1 ? flatArticles[currentIndex + 1] : null;
+              const { previous, next } = getPreviousNextLinks(courseData.navbar, currentSlug);
             
               return (
-                <div class="mt-6 flex justify-between pt-6 text-sm font-medium border-t border-gray-100 text-[#fb7299]">
-                  <div>
-                    {prevSlug && (
+                <div class="mt-6 flex justify-between pt-6 text-sm font-medium border-t border-gray-100">
+                  <div class="text-[#fb7299]">
+                    {previous && (
                       <a
-                        href={`/articles/${prevSlug}`}
-                        class="inline-flex items-center hover:underline"
+                        href={`/articles/${previous.url}`}
+                        class="inline-flex items-center gap-2 hover:underline"
                       >
-                        ← Previous
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <div class="text-left">
+                          <div class="text-xs text-gray-500">Previous</div>
+                          <div>{previous.title}</div>
+                        </div>
                       </a>
                     )}
                   </div>
-                  <div class="ml-auto">
-                    {nextSlug && (
+                  <div class="ml-auto text-[#fb7299]">
+                    {next && (
                       <a
-                        href={`/articles/${nextSlug}`}
-                        class="inline-flex items-center hover:underline"
+                        href={`/articles/${next.url}`}
+                        class="inline-flex items-center gap-2 hover:underline"
                       >
-                        Next →
+                        <div class="text-right">
+                          <div class="text-xs text-gray-500">Next</div>
+                          <div>{next.title}</div>
+                        </div>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                       </a>
                     )}
                   </div>
@@ -304,51 +311,14 @@ function isLocked(status?: string) {
 
 <script>
   function initNavHandlers() {
-    setTimeout(() => {
-      // Get the current page's slug from the URL
-      const currentPath = window.location.pathname;
-      const currentSlug = currentPath.split('/').pop() || '';
-
-      // Find all nav buttons and content sections
-      document.querySelectorAll('[id^="nav-button-"]').forEach((button, index) => {
-        // Remove existing listeners to prevent duplicates
-        button.removeEventListener("click", toggleNav);
-        button.addEventListener("click", toggleNav);
-
-        const content = document.getElementById(`nav-content-${index}`);
-        if (!content) return;
-
-        // Check if this section contains the current blog post
-        const links = content.querySelectorAll('a');
-        let isActiveSection = false;
-
-        links.forEach(link => {
-          const href = link.getAttribute('href');
-          if (!href) return;
-          const linkUrl = href.split('/').pop() || '';
-          // Highlight the link if it matches the current slug
-          if (linkUrl === currentSlug) {
-            link.classList.add('active-link');
-            isActiveSection = true;
-          } else {
-            link.classList.remove('active-link');
-          }
-        });
-
-        // Expand the section if it contains the current blog post
-        const icon = button.querySelector(".transform");
-        if (isActiveSection) {
-          content.classList.remove("hidden");
-          if (icon) icon.classList.add("rotate-180");
-        } else {
-          content.classList.add("hidden");
-          if (icon) icon.classList.remove("rotate-180");
-        }
-      });
-    }, 100); // Slight delay to ensure DOM is ready
+    // Handle expand/collapse button clicks
+    document.querySelectorAll('[id^="nav-button-"]').forEach((button) => {
+      button.removeEventListener("click", handleToggle);
+      button.addEventListener("click", handleToggle);
+    });
   }
 
-  function toggleNav(event: Event) {
+  function handleToggle(event: Event) {
     const button = event.currentTarget as HTMLElement;
     const index = button.id.split("-").pop();
     const content = document.getElementById(`nav-content-${index}`);
@@ -386,10 +356,10 @@ function isLocked(status?: string) {
     updateUI(!!progress[lessonId]);
 
     // Handle click
-    btn.removeEventListener('click', handleToggle);
-    btn.addEventListener('click', handleToggle);
+    btn.removeEventListener('click', handleComplete);
+    btn.addEventListener('click', handleComplete);
 
-    function handleToggle() {
+    function handleComplete() {
       let currentProgress: Record<string, boolean> = {};
       try { currentProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}'); } catch(e) {}
       

@@ -3,7 +3,7 @@ title: Scheduling Algorithms
 author: Arjit Sharma
 meta_title: CPU Scheduling Algorithms Explained  FCFS, SJF, Round Robin & More
 description: Explore how operating systems manage multitasking using scheduling algorithms like FCFS, SJF, Round Robin, and Priority Scheduling. Learn real-world applications and performance trade-offs.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

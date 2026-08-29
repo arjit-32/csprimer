@@ -3,7 +3,7 @@ title: Recursion
 meta_title: Understanding Recursion & Call Stack in DSA  Simple Analogies + Code
 description: Discover recursion through intuitive analogies and real-world examples. Learn how call stacks work in programming with Java code samples, perfect for grasping DSA fundamentals
 author: Arjit Sharma
-series: ["dsa-for-interviews"]
+series: dsa-for-interviews
 categories: ["DSA"]
 featured: false
 draft: false

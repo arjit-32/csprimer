@@ -3,7 +3,7 @@ title: What Is FTP? A Simple Guide to File Transfer Protocol
 author: Arjit Sharma
 meta_title: FTP Explained for Beginners  File Transfer, Security & SSH Essentials
 description: Learn how FTP transfers files over networks and how secure alternatives like SFTP and FTPS protect your data. Explore SSH’s powerful role in file handling, remote access, and deployment workflows.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

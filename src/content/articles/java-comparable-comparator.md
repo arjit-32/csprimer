@@ -3,7 +3,7 @@ title: Comparable and Comparators
 meta_title: Java Comparable & Comparator | CS Primer
 description: Master Java Comparable and Comparator. Learn sorting collections for efficient programming in CS.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

@@ -3,7 +3,7 @@ title: Error Handling in Express.jS
 meta_title: Express.js Error Handling Guide | CS Primer
 description: Learn Express.js error handling patterns, custom error middleware, exception management, and API reliability practices.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

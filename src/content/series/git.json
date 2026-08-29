@@ -117,7 +117,7 @@
       "subheading": "Further Learnings",
       "link": [
         {
-          "type": "book",
+          "type": "external",
           "url": "https://leanpub.com/learngitthehardway",
           "title": "Learn Git the Hard Way"
         },

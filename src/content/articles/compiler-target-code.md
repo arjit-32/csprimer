@@ -3,7 +3,7 @@ title: Target Code Generation
 author: Arjit Sharma
 meta_title: Target Code Generation- Compilers | CS Primer
 description: Explore target code generation in compilers. Learn how to produce machine code for hardware in programming and CS.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

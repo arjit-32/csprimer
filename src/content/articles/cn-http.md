@@ -3,7 +3,7 @@ title: A Beginner’s Guide to HTTP and Web Pages
 author: Arjit Sharma
 meta_title: HTTP & Web Page Basics Explained  Request-Response, Caching & HTTPS
 description: Explore how HTTP powers the modern web—from request-response cycles and cookies to caching and secure connections. Learn about persistent vs non-persistent HTTP and the evolution of HTTP/1.0 to HTTP/3.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

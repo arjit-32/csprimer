@@ -3,7 +3,7 @@ title: Understanding Distributed Transactions Beyond ACID
 meta_title: Transactions in Distributed Systems | CS Primer
 description: Explore how transactions are handled in distributed systems. Understand ACID properties, distributed transactions, and the challenges of ensuring consistency across systems.
 author: Arjit Sharma
-series: ["distributed"]
+series: distributed
 categories: ["System-Design"]
 draft: false
 year: 2025

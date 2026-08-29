@@ -3,7 +3,7 @@ title: SQL Joins
 meta_title: MySQL Joins Explained | CS Primer
 description: Understand INNER JOIN, LEFT JOIN, RIGHT JOIN, and other join operations for combining data across tables.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Introduction to DBMS
 author: Arjit Sharma
 meta_title: ss
 description: ss
-series: ["dbms"]
+series: dbms
 categories: ["Core-CS"]
 ---
 

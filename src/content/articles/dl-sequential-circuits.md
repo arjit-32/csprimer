@@ -3,7 +3,7 @@ title: Sequential Circuits
 author: Arjit Sharma
 meta_title: Sequential Circuits- Digital Logic | CS Primer
 description: Master sequential circuits in digital logic. Learn flip-flops and state machines for designing memory-based systems.
-series: ["dl"]
+series: dl
 categories: ["Core-CS"]
 draft: false
 year: 2025

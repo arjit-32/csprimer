@@ -3,7 +3,7 @@ title: Syntax Analysis (Parsing)
 author: Arjit Sharma
 meta_title: Syntax Analysis- Parsing in Compilers | CS Primer
 description: Master syntax analysis in compilers. Learn parsing techniques to check code structure for programming and compiler design.
-series: ["compiler"]
+series: compiler
 categories: ["Core-CS"]
 draft: false
 year: 2025

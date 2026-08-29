@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from "@/layouts/Base.astro";
+import { STATUS_CONFIG , isLocked } from "@/lib/statusConfig";
 import { Image } from "astro:assets";
 
 // Dynamically import all images from the assets folder
@@ -29,15 +30,13 @@ if (!images[imagePath]) {
   throw new Error(`"${imagePath}" does not exist in glob: "src/assets/images/**"`);
 }
 
-// Status pill config (shared)
-const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
-  'completed':    { label: '✅ Completed',    cls: 'status-pill--completed'    },
-  'in-progress':  { label: '🔄 In Progress',  cls: 'status-pill--in-progress'  },
-  'proofreading': { label: '🔍 Proofreading', cls: 'status-pill--proofreading' },
-  'planned':      { label: '🕐 Planned',      cls: 'status-pill--planned'      },
-  'draft':        { label: '✏️ Draft',         cls: 'status-pill--draft'        },
-};
 const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : null;
+
+// Helper to get navigation link URL
+function getCourseLinkHref(link: any): string {
+  return link.type === 'articles' ? `/articles/${link.url}` : link.url;
+}
+
 ---
 
 <Base title={seriesData.title || (course as string)} description={seriesData.description}>
@@ -116,46 +115,25 @@ const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : n
               <div class="p-4 space-y-2">
                 {section.link.map((link: any) => {
                   const articleStatusCfg = link.status ? STATUS_CONFIG[link.status] : null;
-                  const isLocked = link.status === 'planned' || link.status === 'draft';
-                  const isArticle = link.type === 'articles' || link.type === 'assignment';
-                  const href = isArticle ? `/articles/${link.url}` : link.url;
+                  const locked = isLocked(link.status);
+                  const isArticle = link.type === 'articles';
+                  const href = getCourseLinkHref(link);
                   const target = isArticle ? '_self' : '_blank';
+                  const rel = isArticle ? undefined : 'noopener noreferrer';
 
-                  const linkIcon = (
+                  const linkContent = (
                     <>
-                      {link.type === "youtube" ? (
-                        <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                        </svg>
-                      ) : link.type === "book" ? (
-                      <svg class="w-5 h-5 text-blue-700" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path d="M6 2C4.895 2 4 2.895 4 4V20C4 21.105 4.895 22 6 22H18C19.105 22 20 21.105 20 20V4C20 2.895 19.105 2 18 2H6ZM6 4H18V20H6V4ZM8 6H16V8H8V6ZM8 10H16V12H8V10ZM8 14H13V16H8V14Z"/>
-</svg>
-
-                      ) : link.type === "external" ? (
-                        <svg class="w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      ) : link.type === "assignment" ? (
-                        <svg class="w-5 h-5 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>
-                      ) : link.type === "github" ? (
-                        <svg class="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                      ) : (
+                      {isArticle && (
                         <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       )}
-                    </>
-                  );
-
-                  const linkContent = (
-                    <>
-                      {linkIcon}
-                      <span class={`flex-1 lesson-title transition-colors ${isLocked ? 'text-gray-400 italic' : 'text-gray-700 group-hover:text-[#fb7299]'}`}>
+                      {!isArticle && (
+                        <svg class="w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      )}
+                      <span class={`flex-1 lesson-title transition-colors ${locked ? 'text-gray-400 italic' : 'text-gray-700 group-hover:text-[#fb7299]'}`}>
                         {link.title}
                       </span>
                       <div class="flex items-center gap-2 ml-auto pr-2">
@@ -164,9 +142,9 @@ const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : n
                             {articleStatusCfg.label}
                           </span>
                         )}
-                        {!isLocked && (
+                        {!locked && (
                           <>
-                            <svg class="w-4 h-4 text-yellow-400 opacity-0 transition-opacity star-indicator" viewBox="0 0 24 24" fill="currentColor" data-star-id={link.type === "articles" ? `article-${link.url}` : ""}>
+                            <svg class="w-4 h-4 text-yellow-400 opacity-0 transition-opacity star-indicator" viewBox="0 0 24 24" fill="currentColor" data-star-id={isArticle ? `article-${link.url}` : ""}>
                               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                             </svg>
                             <div class="relative flex items-center justify-center w-5 h-5 completion-indicator opacity-0 transition-opacity" data-lesson-id={link.url}>
@@ -176,14 +154,14 @@ const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : n
                                 </svg>
                               </div>
                             </div>
-                            {(!isArticle) && (
+                            {!isArticle && (
                               <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                               </svg>
                             )}
                           </>
                         )}
-                        {isLocked && (
+                        {locked && (
                           <svg class="w-4 h-4 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
                           </svg>
@@ -192,7 +170,7 @@ const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : n
                     </>
                   );
 
-                  return isLocked ? (
+                  return locked ? (
                     <span class="article-locked flex items-center gap-3 p-1 rounded-md">
                       {linkContent}
                     </span>
@@ -200,6 +178,7 @@ const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : n
                     <a 
                       href={href}
                       target={target}
+                      rel={rel}
                       class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-50 transition-colors group"
                     >
                       {linkContent}

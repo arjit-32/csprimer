@@ -3,7 +3,7 @@ title: Routing in Express.js
 meta_title: Express.js Routing Guide | CS Primer
 description: Learn Express.js routing fundamentals, route methods, URL matching, and organizing application endpoints effectively.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

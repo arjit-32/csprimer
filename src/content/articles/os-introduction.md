@@ -3,7 +3,7 @@ title: Introduction to Operating System
 author: Arjit Sharma
 meta_title: Introduction to Operating Systems  History, Role & Developer Tools Explained
 description: Explore the evolution of Operating Systems from punch cards to cloud computing. Learn how OS tools help developers optimize and troubleshoot real-world web applications.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

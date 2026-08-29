@@ -3,7 +3,7 @@ title: Disk Management
 author: Arjit Sharma
 meta_title: Disk Management in Operating Systems  Scheduling, Allocation & RAID Explained
 description: Discover how operating systems manage disks—from scheduling algorithms and space allocation methods to RAID levels for fault tolerance. Learn how SSDs, HDDs, and file systems ensure fast, reliable data access.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

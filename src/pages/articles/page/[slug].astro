@@ -30,7 +30,7 @@ const blogIndex = (await getEntryBySlug<any, string>(
 const { slug } = Astro.params;
 const posts = await getSinglePage(config.settings.blog_folder);
 const sortedPosts = sortByDate(posts);
-const recentPost = sortedPosts.filter((item) => !item.data.featured && (!item.data.series || item.data.series.length === 0));
+const recentPost = sortedPosts.filter((item) => !item.data.featured && !item.data.series);
 const totalPages = Math.ceil(recentPost.length / config.settings.pagination);
 const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
 const indexOfLastPost = currentPage * config.settings.pagination;

@@ -3,7 +3,7 @@ title: Understanding Network Performance - A Simple Guide
 meta_title: Network Performance Guide- APIs | CS Primer
 description: Explore network performance. Learn latency, bandwidth, and optimization for efficient API design and web apps.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

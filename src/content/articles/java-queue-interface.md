@@ -3,7 +3,7 @@ title: Queue Interface
 meta_title: Java Queue Interface Explained | CS Primer
 description: Learn Java Queue interface. Understand FIFO and priority queues for programming in CS.
 author: Arjit Sharma
-series: ["java"]
+series: java
 categories: ["Extras"]
 featured: false
 draft: false

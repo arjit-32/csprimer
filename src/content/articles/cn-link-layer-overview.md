@@ -3,7 +3,7 @@ title: From IP to MAC- What Happens Just Below the Internet Layer
 author: Arjit Sharma
 meta_title: From IP to MAC  Link Layer, ARP & Local Frame Delivery Explained
 description: Explore what happens beneath the network layer as devices use MAC addresses, ARP, and Ethernet-style framing for local data transfer. Learn how your phone connects to the router before reaching the Internet.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

@@ -3,7 +3,7 @@ title: Indexing in MySQL
 meta_title: MySQL Indexing Explained | CS Primer
 description: Learn MySQL indexing strategies, index types, and how indexes improve query performance and scalability.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

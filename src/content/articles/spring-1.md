@@ -4,7 +4,7 @@ subtitle: Learn about Spring and Springboot framework
 meta_title: Overview of Spring framework
 description: Overview of Spring framework
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

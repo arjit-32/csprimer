@@ -3,7 +3,7 @@ title: Mongoose Cheatsheet
 meta_title: Mongoose Cheatsheet | CS Primer
 description: Learn Mongoose essentials including schemas, models, validation, queries, population, and MongoDB integration patterns.
 author: Arjit Sharma
-series: ["mongo"]
+series: mongo
 categories: ["Development"]
 draft: false
 year: 2025

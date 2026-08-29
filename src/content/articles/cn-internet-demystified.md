@@ -3,7 +3,7 @@ title: The Internet Demystified-  Core Concepts
 author: Arjit Sharma
 meta_title: Internet Demystified  Core Concepts, Network Edge & Routing Explained
 description: Understand the building blocks of the Internet—from access networks and packet switching to routing and protocols. Learn how data travels from your browser to global servers in this Core-CS primer.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

@@ -3,7 +3,7 @@ title: Complete Guide to API Design
 meta_title: API Design- Complete Guide | CS Primer
 description: Master API design. Learn best practices for creating scalable, user-friendly APIs in software development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

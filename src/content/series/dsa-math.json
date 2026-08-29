@@ -45,7 +45,8 @@
         {
           "type": "articles",
           "url": "dsa-problem-4-armstrong-number",
-          "title": "Armstrong Number"
+          "title": "Armstrong Number",
+          "status": "re-visiting"
         }
       ]
     },

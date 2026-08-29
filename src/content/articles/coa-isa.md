@@ -3,7 +3,7 @@ title: Instruction Set Architecture (ISA)
 author: Arjit Sharma
 meta_title: ISA- Instruction Set Architecture | CS Primer
 description: Explore ISA in COA. Understand instruction set architecture and its role in bridging hardware and software in CS.
-series: ["coa"]
+series: coa
 categories: ["Core-CS"]
 draft: false
 year: 2025

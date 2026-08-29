@@ -3,7 +3,7 @@ title: Scoping and Lexical Behavior
 meta_title: JavaScript Scope & Lexical Environment | CS Primer
 description: Learn JavaScript scope, lexical environments, scope chaining, and variable accessibility with practical examples.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

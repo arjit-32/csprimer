@@ -3,7 +3,7 @@ title: Node.js Clustering - Scaling across multiple cores
 meta_title: Node.js Clustering & Scalability | CS Primer
 description: Learn Node.js clustering, multi-core scaling, load balancing, and techniques for high-performance applications.
 author: Arjit Sharma
-series: ["nodejs"]
+series: nodejs
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Browser Storage
 meta_title: JavaScript Browser Storage APIs | CS Primer
 description: Understand browser storage in JavaScript including localStorage, sessionStorage, cookies, and client-side persistence.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: What Is QUIC? The Modern Replacement for TCP + TLS
 author: Arjit Sharma
 meta_title: QUIC Explained  Faster, Secure Alternative to TCP & TLS for HTTP/3
 description: Explore how QUIC transforms internet transport with faster handshakes, built-in encryption, and multiplexed streams. Learn how it solves TCP’s limitations and powers modern web protocols like HTTP/3.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

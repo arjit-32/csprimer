@@ -3,7 +3,7 @@ title: Git Submodules
 author: Arjit Sharma
 meta_title: Git Submodules | CS Primer
 description: Learn about submodules in Git and how to include other repositories in your project.
-series: ["git"]
+series: git
 categories: ["Extras"]
 featured: false
 draft: false

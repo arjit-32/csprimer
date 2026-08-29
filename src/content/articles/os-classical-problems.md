@@ -3,7 +3,7 @@ title: Classical Process Synchronization Problems
 author: Arjit Sharma
 meta_title: Classic Synchronization Problems Explained  Producer-Consumer, Reader-Writer & More
 description: Learn how operating systems handle process synchronization with real-world problems like Producer-Consumer, Reader-Writer, and Dining Philosophers. Explore deadlock prevention and resource management using semaphores and locks.
-series: ["os"]
+series: os
 categories: ["Core-CS"]
 ---
 

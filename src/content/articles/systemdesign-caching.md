@@ -3,7 +3,7 @@ title: Caching in Databases
 meta_title: Caching in System Design  Strategies, Eviction Policies & Bloom Filters
 description: Learn how caching boosts performance in modern systems. Explore cache placement, write and eviction policies, popular strategies like Cache Aside, and Bloom filters for efficient cache lookups.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

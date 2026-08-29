@@ -3,7 +3,7 @@ title: Combinatorics- The Art of Counting and Arranging
 author: Arjit Sharma
 meta_title: Combinatorics in Discrete Math | CS Primer
 description: Explore combinatorics in discrete math. Master counting, permutations, and combinations for algorithms and problem-solving
-series: ["dm"]
+series: dm
 categories: ["Core-CS"]
 draft: false
 ---

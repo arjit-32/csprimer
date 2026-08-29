@@ -3,7 +3,7 @@ title: Microservices Architecture
 meta_title: Microservices Architecture Explained  Design, Communication & Fault Handling
 description: Learn how microservices break applications into scalable, independent units. Explore migration strategies, inter-service communication, service discovery, fault tolerance, and monitoring in modern system design.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

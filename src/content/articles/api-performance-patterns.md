@@ -3,7 +3,7 @@ title: API Optimization & Performance Patterns
 meta_title: API Optimization- CS Patterns | CS Primer
 description: Learn API optimization. Master performance patterns for fast, scalable APIs in web development.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

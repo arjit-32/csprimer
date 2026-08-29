@@ -3,7 +3,7 @@ title: Introduction to Distributed Systems
 meta_title: Introduction to Distributed Systems | CS Primer
 description: Understand the foundational concepts of distributed systems. Explore the architecture, components, and challenges of building distributed systems in 2025.
 author: Arjit Sharma
-series: ["distributed"]
+series: distributed
 categories: ["System-Design"]
 draft: false
 year: 2025

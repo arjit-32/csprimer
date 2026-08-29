@@ -3,7 +3,7 @@ title: What Is SSH? A Developer's Guide to Secure Remote Access
 author: Arjit Sharma
 meta_title: SSH Explained for Beginners | Remote Login, Keys, Tunneling & Port Forwarding
 description: Learn how SSH works, why developers use it for remote servers, Git, deployment, port forwarding, and secure authentication with SSH keys.
-series: ["cn"]
+series: cn
 categories: ["Core-CS"]
 ---
 

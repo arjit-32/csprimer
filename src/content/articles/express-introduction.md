@@ -3,7 +3,7 @@ title: Introduction to Express.js
 meta_title: Introduction to Express.js | CS Primer
 description: Learn what Express.js is, why it is popular for Node.js development, and how it simplifies backend web application development.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

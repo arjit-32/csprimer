@@ -3,7 +3,7 @@ title: Code Quality with ESLint
 meta_title: Linting Express.js Applications | CS Primer
 description: Learn code linting best practices for Express.js using ESLint to improve code quality, consistency, and maintainability.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

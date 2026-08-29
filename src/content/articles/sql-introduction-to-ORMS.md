@@ -3,7 +3,7 @@ title: Introduction to ORMs
 meta_title: Introduction to ORMs | CS Primer
 description: Learn what Object Relational Mappers are, their benefits, trade-offs, and how they simplify database development.
 author: Arjit Sharma
-series: ["sql"]
+series: sql
 categories: ["Development"]
 draft: false
 year: 2025

@@ -3,7 +3,7 @@ title: Prototypes
 meta_title: JavaScript Prototypes & Inheritance | CS Primer
 description: Understand JavaScript prototypes, prototype chaining, inheritance, and how objects share methods and properties.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025

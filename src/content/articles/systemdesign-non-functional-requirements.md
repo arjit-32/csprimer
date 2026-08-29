@@ -3,7 +3,7 @@ title: Non-Functional Requirements
 meta_title: Non-Functional Requirements in System Design  Security, Scalability & Performance
 description: Explore key non-functional requirements like security, availability, fault tolerance, and scalability. Learn how system architecture meets quality goals under load, failure, and evolving demands.
 author: Arjit Sharma
-series: ["system-design-foundation"]
+series: system-design-foundation
 categories: ["System-Design"]
 draft: false
 year: 2025

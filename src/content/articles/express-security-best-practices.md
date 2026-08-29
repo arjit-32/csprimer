@@ -3,7 +3,7 @@ title: Security Best Practices in Express.js
 meta_title: Express.js Security Best Practices | CS Primer
 description: Learn how to secure Express.js applications against common vulnerabilities using proven security techniques and middleware.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

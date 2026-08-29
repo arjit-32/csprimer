@@ -3,7 +3,7 @@ title: Client-Server Communication in APIs
 meta_title: Client-Server in APIs- CS Guide | CS Primer
 description: Master client-server communication in APIs. Learn how clients and servers interact for web applications.
 author: Arjit Sharma
-series: ["api"]
+series: api
 categories: ["System-Design"]
 draft: false
 year: 2025

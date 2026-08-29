@@ -3,7 +3,7 @@ title: Route & Query parameters in Express.js
 meta_title: Express.js Route & Query Parameters | CS Primer
 description: Understand route parameters, query strings, and how to handle dynamic user input in Express.js applications.
 author: Arjit Sharma
-series: ["express"]
+series: express
 categories: ["Development"]
 draft: false
 year: 2025

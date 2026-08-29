@@ -4,7 +4,7 @@ subtitle: Learn about testing in java
 meta_title: Learn about testing in java
 description: Learn about testing in java
 author: Arjit Sharma
-series: ["springboot"]
+series: springboot
 categories: ["Development"]
 
 featured: false

@@ -3,7 +3,7 @@ title: Javascript Syntax Guide
 meta_title: JavaScript Syntax Guide | CS Primer
 description: Master JavaScript syntax including variables, operators, loops, functions, and basic programming concepts with examples.
 author: Arjit Sharma
-series: ["javascript"]
+series: javascript
 categories: ["Development"]
 draft: false
 year: 2025
