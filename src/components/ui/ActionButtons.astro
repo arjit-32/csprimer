@@ -85,19 +85,33 @@ const { id, shareUrl, shareTitle } = Astro.props;
     }
   }
 
-  function initStarButtons() {
+  function renderStarState() {
     const starred = getStarred();
     document.querySelectorAll('.star-btn').forEach(btn => {
       const el = btn as HTMLElement;
       const id = el.dataset.id;
       if (!id) return;
       el.classList.toggle('is-starred', starred.includes(id));
+    });
+  }
 
-      const clickHandler = () => {
+  function handleDocumentClick(e: Event) {
+    const target = e.target as HTMLElement;
+    
+    // Handle Share Dropdown Close
+    if (!target.closest('.share-container')) {
+      document.querySelectorAll('.share-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+
+    // Handle Star Button Click
+    const starBtn = target.closest('.star-btn') as HTMLElement;
+    if (starBtn) {
+      const id = starBtn.dataset.id;
+      if (id) {
         const current = getStarred();
         const idx = current.indexOf(id);
-        if (idx === -1) { current.push(id); el.classList.add('is-starred'); }
-        else { current.splice(idx, 1); el.classList.remove('is-starred'); }
+        if (idx === -1) { current.push(id); starBtn.classList.add('is-starred'); }
+        else { current.splice(idx, 1); starBtn.classList.remove('is-starred'); }
         saveStarred(current);
         syncStarredFilter();
 
@@ -109,97 +123,67 @@ const { id, shareUrl, shareTitle } = Astro.props;
             itemEl.style.display = nowStarred.includes(itemEl.dataset.questionId || '') ? '' : 'none';
           });
         }
-      };
+      }
+      return;
+    }
 
-      // Ensure no duplicate listener
-      el.removeEventListener('click', (el as any)['__starClickHandler'] || clickHandler);
-      (el as any)['__starClickHandler'] = clickHandler;
-      el.addEventListener('click', clickHandler);
-    });
-  }
-
-
-
-  /* ── Share Dropdowns ── */
-  function initShareDropdowns() {
-    document.querySelectorAll('.share-container').forEach(container => {
-      const c = container as HTMLElement;
-      const shareBtn = c.querySelector('.share-btn') as HTMLElement;
-      const dropdown = c.querySelector('.share-dropdown') as HTMLElement;
-      const url = c.dataset.url;
-      const title = c.dataset.title;
-
-      if (!shareBtn || !dropdown) return;
-
-      const btnHandler = (e: Event) => {
+    // Handle Share Button Click
+    const shareBtn = target.closest('.share-btn') as HTMLElement;
+    if (shareBtn) {
+      const container = shareBtn.closest('.share-container');
+      const dropdown = container?.querySelector('.share-dropdown');
+      if (dropdown) {
         e.stopPropagation();
         document.querySelectorAll('.share-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
         dropdown.classList.toggle('open');
-      };
-      shareBtn.removeEventListener('click', (shareBtn as any)['__btnHandler'] || btnHandler);
-      (shareBtn as any)['__btnHandler'] = btnHandler;
-      shareBtn.addEventListener('click', btnHandler);
-
-      const twitterBtn = c.querySelector('.share-twitter') as HTMLElement;
-      if (twitterBtn) {
-        const tHandler = () => {
-          const text = encodeURIComponent(`💡 "${title}"\n\nCheck it out on CSPrimer → ${url}`);
-          window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-          dropdown.classList.remove('open');
-        };
-        twitterBtn.removeEventListener('click', (twitterBtn as any)['__tHandler'] || tHandler);
-        (twitterBtn as any)['__tHandler'] = tHandler;
-        twitterBtn.addEventListener('click', tHandler);
       }
+      return;
+    }
 
-      const waBtn = c.querySelector('.share-whatsapp') as HTMLElement;
-      if (waBtn) {
-        const waHandler = () => {
-          const text = encodeURIComponent(`💡 *${title}*\n\nCheck it out on CSPrimer → ${url}`);
-          window.open(`https://wa.me/?text=${text}`, '_blank');
-          dropdown.classList.remove('open');
-        };
-        waBtn.removeEventListener('click', (waBtn as any)['__waHandler'] || waHandler);
-        (waBtn as any)['__waHandler'] = waHandler;
-        waBtn.addEventListener('click', waHandler);
+    // Handle Share Options
+    const shareOption = target.closest('.share-option') as HTMLElement;
+    if (shareOption) {
+      const container = shareOption.closest('.share-container') as HTMLElement;
+      if (!container) return;
+      const url = container.dataset.url;
+      const title = container.dataset.title;
+      const dropdown = container.querySelector('.share-dropdown');
+      
+      if (shareOption.classList.contains('share-twitter')) {
+        const text = encodeURIComponent(`💡 "${title}"\n\nCheck it out on CSPrimer → ${url}`);
+        window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        dropdown?.classList.remove('open');
+      } else if (shareOption.classList.contains('share-whatsapp')) {
+        const text = encodeURIComponent(`💡 *${title}*\n\nCheck it out on CSPrimer → ${url}`);
+        window.open(`https://wa.me/?text=${text}`, '_blank');
+        dropdown?.classList.remove('open');
+      } else if (shareOption.classList.contains('share-copy')) {
+        navigator.clipboard.writeText(url || '').then(() => {
+          const original = shareOption.innerHTML;
+          shareOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+          setTimeout(() => { shareOption.innerHTML = original; }, 2000);
+        });
+        dropdown?.classList.remove('open');
       }
-
-      const copyBtn = c.querySelector('.share-copy') as HTMLElement;
-      if (copyBtn) {
-        const copyHandler = () => {
-          navigator.clipboard.writeText(url || '').then(() => {
-            const original = copyBtn.innerHTML;
-            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-            setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
-          });
-          dropdown.classList.remove('open');
-        };
-        copyBtn.removeEventListener('click', (copyBtn as any)['__copyHandler'] || copyHandler);
-        (copyBtn as any)['__copyHandler'] = copyHandler;
-        copyBtn.addEventListener('click', copyHandler);
-      }
-    });
-
-    const docHandler = () => {
-      document.querySelectorAll('.share-dropdown.open').forEach(d => d.classList.remove('open'));
-    };
-    document.removeEventListener('click', (document as any)['__docHandler'] || docHandler);
-    (document as any)['__docHandler'] = docHandler;
-    document.addEventListener('click', docHandler);
+    }
   }
 
   function init() {
-    initStarButtons();
-    initShareDropdowns();
+    renderStarState();
+    
+    // Remove previous listener if it exists to avoid duplicates in Astro ViewTransitions
+    document.removeEventListener('click', (document as any)['__actionButtonsClickHandler']);
+    (document as any)['__actionButtonsClickHandler'] = handleDocumentClick;
+    document.addEventListener('click', handleDocumentClick);
   }
 
-  (window as any).initActionButtons = init;
+  (window as any).initActionButtons = renderStarState;
 
   init();
   document.addEventListener('astro:page-load', init);
 </script>
 
-<style lang="scss">
+<style lang="scss" is:global>
   /* ── Action Buttons ── */
   .item-actions {
     display: flex;
