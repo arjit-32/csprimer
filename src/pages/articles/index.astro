@@ -1,10 +1,10 @@
 ---
-import Blogs from "@/components/Blogs.astro";
-import FeaturedBlog from "@/components/FeaturedBlog.astro";
+import Blogs from "@/components/features/blog/Blogs.astro";
+import FeaturedBlog from "@/components/features/blog/FeaturedBlog.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
-import Pagination from "@/layouts/components/Pagination.astro";
-import Cta from "@/layouts/partials/Cta.astro";
+import Pagination from "@/components/ui/Pagination.astro";
+import Cta from "@/components/layout/Cta.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 import type { TIndexData } from "@/types";

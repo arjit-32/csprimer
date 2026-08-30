@@ -6,8 +6,8 @@ interface Props {
 const { problemId } = Astro.props;
 
 // Scalable problem loading: dynamically import the specific problem to avoid eager bundling of all problems
-const problems = import.meta.glob("../../problems/*.ts");
-const problemPath = `../../problems/${problemId}.ts`;
+const problems = import.meta.glob("../../../problems/*.ts");
+const problemPath = `../../../problems/${problemId}.ts`;
 
 let problem;
 if (problems[problemPath]) {

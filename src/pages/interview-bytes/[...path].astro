@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import { markdownify } from "@/lib/utils/textConverter";
-import Pagination from "@/layouts/components/Pagination.astro";
+import Pagination from "@/components/ui/Pagination.astro";
 import config from "@/config/config.json";
-import ActionButtons from "@/components/ActionButtons.astro";
+import ActionButtons from "@/components/ui/ActionButtons.astro";
 
 export async function getStaticPaths() {
   const allTopicsData = await getCollection('interview-questions');
@@ -223,6 +223,8 @@ const siteBaseUrl = config.site.base_url;
     catch { return []; }
   }
 
+  let originalQuestionsHtml = '';
+
   /* ── Starred Filter Button ── */
   function syncStarredFilter() {
     const starred = getStarred();
@@ -235,22 +237,153 @@ const siteBaseUrl = config.site.base_url;
     } else {
       btn.classList.add('hidden');
       btn.classList.remove('active-starred');
-      document.querySelectorAll('.question-item').forEach(el => { (el as HTMLElement).style.display = ''; });
+      
+      const listContainer = document.getElementById('question-list');
+      if (listContainer && originalQuestionsHtml) {
+        listContainer.innerHTML = originalQuestionsHtml;
+        const paginationContainer = document.querySelector('.mt-20');
+        const listingInfo = document.querySelector('.listing-info');
+        if (paginationContainer) (paginationContainer as HTMLElement).style.display = '';
+        if (listingInfo) (listingInfo as HTMLElement).style.display = '';
+        if ((window as any).initActionButtons) (window as any).initActionButtons();
+      }
     }
   }
 
   function initStarredFilterBtn() {
     const btn = document.getElementById('starred-filter-btn');
     if (!btn) return;
-    let active = false;
-    btn.addEventListener('click', () => {
-      active = !active;
-      btn.classList.toggle('active-starred', active);
-      const starred = getStarred();
-      document.querySelectorAll('.question-item').forEach(el => {
-        const id = (el as HTMLElement).dataset.questionId;
-        (el as HTMLElement).style.display = (!active || starred.includes(id || '')) ? '' : 'none';
-      });
+
+    // Prevent multiple listeners due to Astro View Transitions
+    if ((btn as any).__listenerAttached) return;
+    (btn as any).__listenerAttached = true;
+
+    btn.addEventListener('click', async () => {
+      const isActive = btn.classList.contains('active-starred');
+      const listContainer = document.getElementById('question-list');
+      const paginationContainer = document.querySelector('.mt-20');
+      const listingInfo = document.querySelector('.listing-info');
+      
+      if (!listContainer) return;
+
+      if (!isActive) {
+        // Toggling ON
+        btn.classList.add('active-starred');
+        const starred = getStarred();
+        
+        // Save original HTML
+        if (!originalQuestionsHtml) {
+          originalQuestionsHtml = listContainer.innerHTML;
+        }
+
+        // Show loading state
+        listContainer.innerHTML = '<div class="text-center py-12 text-gray-500 font-medium">Fetching starred questions...</div>';
+        if (paginationContainer) (paginationContainer as HTMLElement).style.display = 'none';
+        if (listingInfo) (listingInfo as HTMLElement).style.display = 'none';
+
+        try {
+          const res = await fetch('/api/questions.json');
+          const allQuestions = await res.json();
+          const starredQuestions = allQuestions.filter((q: any) => starred.includes(String(q.id)));
+          
+          if (starredQuestions.length === 0) {
+            listContainer.innerHTML = '<div class="text-center py-12 text-gray-500 font-medium">No starred questions found.</div>';
+            return;
+          }
+
+          // Generate HTML
+          let newHtml = '';
+          const siteBaseUrl = window.location.origin;
+
+          starredQuestions.forEach((q: any, i: number) => {
+            const answerHtml = Array.isArray(q.answer) 
+              ? q.answer.map((ans: string) => `<p class="mb-4">${ans}</p>`).join('')
+              : `<p class="mb-4">${q.answer}</p>`;
+
+            const codeHtml = q.code ? `
+              <div class="item-code mb-10 rounded-2xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/40 bg-[#0d1117]">
+                <div class="flex items-center justify-between px-6 py-3 bg-[#161b22] border-b border-gray-800">
+                  <div class="flex gap-1.5">
+                    <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40"></div>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Code Instance</span>
+                </div>
+                <pre class="p-8 text-sm font-mono text-gray-100 overflow-x-auto"><code>${q.code}</code></pre>
+              </div>` : '';
+
+            const imagesHtml = (q.related_images && q.related_images.length > 0) ? `
+              <div class="item-images mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                ${q.related_images.map((img: string) => `
+                  <div class="image-wrapper rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-transform hover:scale-[1.02] duration-500">
+                    <img src="/${img}" alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+                  </div>
+                `).join('')}
+              </div>` : '';
+
+            const tagsHtml = q.tags.map((tag: string) => `
+              <a href="/interview-bytes/${tag}" class="px-3 py-1 bg-gray-50 text-gray-400 text-[10px] rounded-lg capitalize font-black tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                #${tag}
+              </a>
+            `).join('');
+
+            newHtml += `
+              <div class="question-item group" id="q-${q.id}" data-question-id="${q.id}">
+                <div class="item-header">
+                  <div class="item-number"><span>${i + 1}</span></div>
+                  <h2 class="item-question">${q.question}</h2>
+                </div>
+                <div class="item-main">
+                  <div class="item-answer prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed mb-8">
+                    ${answerHtml}
+                  </div>
+                  ${codeHtml}
+                  ${imagesHtml}
+                  <div class="item-footer">
+                    <div class="item-tags flex flex-wrap gap-2">${tagsHtml}</div>
+                    <div class="item-actions">
+                      <button class="action-btn star-btn is-starred" data-id="${q.id}" title="Save to starred" aria-label="Star this content">
+                        <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <span class="action-label">Star</span>
+                      </button>
+                      <div class="share-container" data-url="${siteBaseUrl}/interview-bytes#q-${q.id}" data-title="${q.question.replace(/"/g, '&quot;')}">
+                        <button class="action-btn share-btn" title="Share" aria-label="Share">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                          <span class="action-label">Share</span>
+                        </button>
+                        <div class="share-dropdown">
+                          <button class="share-option share-twitter">Share on X</button>
+                          <button class="share-option share-whatsapp">Share on WhatsApp</button>
+                          <button class="share-option share-copy">Copy Link</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          listContainer.innerHTML = newHtml;
+          if ((window as any).initActionButtons) (window as any).initActionButtons();
+
+        } catch (e) {
+          listContainer.innerHTML = '<div class="text-center py-12 text-red-500 font-medium">Failed to load starred questions.</div>';
+        }
+
+      } else {
+        // Toggling OFF
+        btn.classList.remove('active-starred');
+        if (originalQuestionsHtml) {
+          listContainer.innerHTML = originalQuestionsHtml;
+          if (paginationContainer) (paginationContainer as HTMLElement).style.display = '';
+          if (listingInfo) (listingInfo as HTMLElement).style.display = '';
+          if ((window as any).initActionButtons) (window as any).initActionButtons();
+        }
+      }
     });
   }
 

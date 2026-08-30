@@ -193,6 +193,8 @@ const { id, shareUrl, shareTitle } = Astro.props;
     initShareDropdowns();
   }
 
+  (window as any).initActionButtons = init;
+
   init();
   document.addEventListener('astro:page-load', init);
 </script>
