@@ -72,7 +72,24 @@ export async function getStaticPaths() {
 }
 
 const { page, currentTag, allTags, tagCounts } = Astro.props;
-const questions = page.data;
+import { getImage } from 'astro:assets';
+const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,svg}', { eager: true });
+
+const questions = await Promise.all(page.data.map(async (q: any) => {
+  let optimizedImages = q.related_images || [];
+  if (optimizedImages.length > 0) {
+    optimizedImages = await Promise.all(optimizedImages.map(async (img: string) => {
+      const path = `/src/assets/${img}`;
+      if (allImages[path]) {
+        const resolved = await getImage({ src: allImages[path].default, format: 'webp' });
+        return resolved.src;
+      }
+      return `/${img}`;
+    }));
+  }
+  return { ...q, related_images: optimizedImages };
+}));
+
 const siteBaseUrl = config.site.base_url;
 ---
 
@@ -174,7 +191,7 @@ const siteBaseUrl = config.site.base_url;
               <div class="item-images mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {question.related_images.map((img: string) => (
                   <div class="image-wrapper rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-transform hover:scale-[1.02] duration-500">
-                    <img src={`/${img}`} alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+                    <img src={img} alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
                   </div>
                 ))}
               </div>
@@ -317,7 +334,7 @@ const siteBaseUrl = config.site.base_url;
               <div class="item-images mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                 ${q.related_images.map((img: string) => `
                   <div class="image-wrapper rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-transform hover:scale-[1.02] duration-500">
-                    <img src="/${img}" alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+                    <img src="${img}" alt="Illustration" class="w-full h-auto object-cover" loading="lazy" decoding="async" />
                   </div>
                 `).join('')}
               </div>` : '';

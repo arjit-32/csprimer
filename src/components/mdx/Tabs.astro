@@ -1,0 +1,82 @@
+---
+const rawHTML = await Astro.slots.render('default');
+// Split the HTML safely at the start of each tab div, avoiding brittle regex on closing tags
+const panes = rawHTML.split(/(?=<div\s+data-name="[^"]+"[^>]*>)/);
+const validPanes = panes.filter(pane => pane.trim().startsWith('<div'));
+
+const tabData = validPanes.map(pane => {
+  const match = pane.match(/data-name="([^"]+)"/);
+  return {
+    name: match ? match[1] : "Tab",
+    html: pane
+  };
+});
+const id = Math.random().toString(36).substring(7);
+---
+
+<div class="tab astro-tab" data-tab-id={id}>
+  <ul class="tab-nav">
+    {tabData.map((item, index) => (
+      <li
+        class={`tab-nav-item ${index === 0 ? "active" : ""}`}
+        role="tab"
+        tabindex={index === 0 ? 0 : -1}
+        data-index={index}
+      >
+        {item.name}
+      </li>
+    ))}
+  </ul>
+  {tabData.map((item, index) => (
+    <div
+      class={`tab-content ${index === 0 ? "block px-5" : "hidden"}`}
+      data-index={index}
+      set:html={item.html}
+    />
+  ))}
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.astro-tab').forEach(tabGroup => {
+      if ((tabGroup as any)._initialized) return;
+      (tabGroup as any)._initialized = true;
+      const navItems = tabGroup.querySelectorAll('.tab-nav-item');
+      const contentItems = tabGroup.querySelectorAll('.tab-content');
+      
+      navItems.forEach((navItem, index) => {
+        navItem.addEventListener('click', () => {
+          navItems.forEach(n => {
+            n.classList.remove('active');
+            n.setAttribute('tabindex', '-1');
+          });
+          contentItems.forEach(c => {
+            c.classList.remove('block', 'px-5');
+            c.classList.add('hidden');
+          });
+          
+          navItem.classList.add('active');
+          navItem.setAttribute('tabindex', '0');
+          contentItems[index].classList.remove('hidden');
+          contentItems[index].classList.add('block', 'px-5');
+        });
+        
+        navItem.addEventListener('keydown', (e: Event) => {
+          const keyboardEvent = e as KeyboardEvent;
+          let newIndex = -1;
+          if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
+            navItem.dispatchEvent(new Event('click'));
+          } else if (keyboardEvent.key === "ArrowRight") {
+             newIndex = (index + 1) % navItems.length;
+          } else if (keyboardEvent.key === "ArrowLeft") {
+             newIndex = (index - 1 + navItems.length) % navItems.length;
+          }
+          if (newIndex > -1) {
+             (navItems[newIndex] as HTMLElement).focus();
+             navItems[newIndex].dispatchEvent(new Event('click'));
+          }
+        });
+      });
+    });
+  });
+</script>

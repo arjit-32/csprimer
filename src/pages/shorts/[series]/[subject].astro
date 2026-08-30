@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
-import YoutubeShorts from "@/components/mdx/YoutubeShorts.jsx";
+import YoutubeShorts from "@/components/mdx/YoutubeShorts.astro";
 
 export async function getStaticPaths() {
   const allShorts = await getCollection("shorts");
@@ -106,7 +106,6 @@ const currentIndex = seriesItems.findIndex(item => item.slug.split('/').pop() ==
           <div class="video-section">
             <div class="video-container">
               <YoutubeShorts 
-                client:load
                 id={short.data.youtubeId} 
                 title={short.data.title} 
               />

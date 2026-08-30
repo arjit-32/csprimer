@@ -1,0 +1,8 @@
+---
+import "./YoutubeShorts.css";
+const { id, title, ...rest } = Astro.props;
+---
+<lite-youtube videoid={id} playlabel={title} class="yt-lite yt-shorts"></lite-youtube>
+<script>
+  import 'https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube-embed@0.3.1/+esm';
+</script>
