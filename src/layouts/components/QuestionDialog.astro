@@ -1,17 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
-
-// Import questions data at the Astro component level
-const allQuestions = await getCollection('interview-questions');
-const questions = allQuestions.map(q => ({
-    question: q.data.question,
-    tags: q.data.tags,
-    answer: q.body.split('\n\n'), // Split by double newline to simulate paragraphs
-    code: null, // Code is embedded in body now, might need extraction if we want to show it separately, but simple view for now.
-    images: q.data.related_images
-}));
-const totalQuestions = questions.length;
+// Fetch questions dynamically on the client-side to improve performance.
 ---
+
 
 <!-- Modal Button -->
 <button 
@@ -30,7 +20,7 @@ const totalQuestions = questions.length;
 <div class="fixed inset-0 bg-black/50 z-50 p-6 hidden items-end justify-end" id="modalOverlay">
   <div class="bg-white rounded-lg shadow-xl w-full max-w-[28rem] max-h-[80vh] flex flex-col animate-[slideUp_0.3s_ease-out]">
     <div class="bg-[#fee140] text-black p-3 rounded-t-lg flex justify-between items-center">
-      <div id="questionCounter">Question 1/{totalQuestions}</div>
+      <div id="questionCounter">Loading...</div>
       <div class="flex gap-2">
         <button 
           class="p-2 hover:bg-black/10 rounded-full transition-colors duration-200 flex items-center justify-center" 
@@ -84,10 +74,30 @@ const totalQuestions = questions.length;
   </div>
 </div>
 
-<script define:vars={{ questions, totalQuestions }}>
+<script>
+  let questions = [];
+  let totalQuestions = 0;
   let currentQuestionIndex = 0;
   let modalInitialized = false;
-  let questionOrder = [...Array(totalQuestions).keys()]; // Array of indices [0, 1, 2, ...]
+  let questionOrder = [];
+
+  async function loadQuestions() {
+    if (questions.length > 0) return true;
+    try {
+      const modalContent = document.getElementById('modalContent');
+      if (modalContent) {
+        modalContent.innerHTML = '<div class="flex justify-center items-center h-full text-gray-500">Loading questions...</div>';
+      }
+      const res = await fetch('/api/questions.json');
+      questions = await res.json();
+      totalQuestions = questions.length;
+      questionOrder = [...Array(totalQuestions).keys()];
+      return true;
+    } catch (e) {
+      console.error("Failed to load questions", e);
+      return false;
+    }
+  }
 
   function shuffleQuestions() {
     // Fisher-Yates shuffle algorithm
@@ -148,10 +158,14 @@ const totalQuestions = questions.length;
     if (!questionBtn || !modalOverlay || !closeBtn || !prevBtn || !nextBtn || !randomizeBtn) return;
 
     // Reset question order on modal open
-    questionBtn.addEventListener('click', () => {
+    questionBtn.addEventListener('click', async () => {
       modalOverlay.classList.remove('hidden');
       modalOverlay.classList.add('flex');
-      renderQuestion();
+      
+      const loaded = await loadQuestions();
+      if (loaded) {
+        renderQuestion();
+      }
     });
 
     closeBtn.addEventListener('click', () => {
@@ -211,7 +225,7 @@ const totalQuestions = questions.length;
   // Reset everything when page loads
   document.addEventListener('astro:page-load', () => {
     currentQuestionIndex = 0;
-    questionOrder = [...Array(totalQuestions).keys()];
+    // Don't reset questions to avoid refetching on SPA navigation
     modalInitialized = false;
     initializeModal();
   });

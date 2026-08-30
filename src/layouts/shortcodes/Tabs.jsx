@@ -1,67 +1,64 @@
-import { marked } from "marked";
 import React, { useEffect, useRef, useState } from "react";
-
-marked.use({
-  mangle: false,
-  headerIds: false,
-});
 
 const Tabs = ({ children }) => {
   const [active, setActive] = useState(0);
   const [defaultFocus, setDefaultFocus] = useState(false);
-
   const tabRefs = useRef([]);
+
   useEffect(() => {
     if (defaultFocus) {
-      //@ts-ignore
       tabRefs.current[active]?.focus();
     } else {
       setDefaultFocus(true);
     }
   }, [active]);
 
-  const tabLinks = Array.from(
-    children.props.value.matchAll(
-      /<div\s+data-name="([^"]+)"[^>]*>(.*?)<\/div>/gs,
-    ),
-    (match) => ({ name: match[1], children: match[0] }),
-  );
+  const rawHTML = children?.props?.value || "";
+  
+  // Split the HTML safely at the start of each tab div, avoiding brittle regex on closing tags
+  const panes = rawHTML.split(/(?=<div\s+data-name="[^"]+"[^>]*>)/);
+  const validPanes = panes.filter(pane => pane.trim().startsWith('<div'));
+
+  const tabData = validPanes.map(pane => {
+    const match = pane.match(/data-name="([^"]+)"/);
+    return {
+      name: match ? match[1] : "Tab",
+      html: pane
+    };
+  });
 
   const handleKeyDown = (event, index) => {
     if (event.key === "Enter" || event.key === " ") {
       setActive(index);
     } else if (event.key === "ArrowRight") {
-      setActive((active + 1) % tabLinks.length);
+      setActive((active + 1) % tabData.length);
     } else if (event.key === "ArrowLeft") {
-      setActive((active - 1 + tabLinks.length) % tabLinks.length);
+      setActive((active - 1 + tabData.length) % tabData.length);
     }
   };
 
   return (
     <div className="tab">
       <ul className="tab-nav">
-        {tabLinks.map((item, index) => (
+        {tabData.map((item, index) => (
           <li
             key={index}
-            className={`tab-nav-item ${index === active && "active"}`}
+            className={`tab-nav-item ${index === active ? "active" : ""}`}
             role="tab"
             tabIndex={index === active ? 0 : -1}
             onKeyDown={(event) => handleKeyDown(event, index)}
             onClick={() => setActive(index)}
-            //@ts-ignore
             ref={(ref) => (tabRefs.current[index] = ref)}
           >
             {item.name}
           </li>
         ))}
       </ul>
-      {tabLinks.map((item, i) => (
+      {tabData.map((item, i) => (
         <div
-          className={active === i ? "tab-content block px-5" : "hidden"}
           key={i}
-          dangerouslySetInnerHTML={{
-            __html: marked.parse(item.children),
-          }}
+          className={active === i ? "tab-content block px-5" : "hidden"}
+          dangerouslySetInnerHTML={{ __html: item.html }}
         />
       ))}
     </div>

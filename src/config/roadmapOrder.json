@@ -13,7 +13,6 @@
     "dsa-for-interviews"
   ],
   "Development": [
-    "ui",
     "html-css",
     "javascript",
     "nodejs",
@@ -23,13 +22,14 @@
     "sql"
   ],
   "System-Design": [
-    "aws",
-    "api",
     "distributed",
-    "system-design-foundation"
+    "api",
+    "high-level-system-design",
+    "aws"
   ],
   "Extras": [
     "git",
-    "java"
+    "java",
+    "ui"
   ]
 }
