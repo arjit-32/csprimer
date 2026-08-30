@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 4,
   "title": "Express.js",
-  "image": "../../assets/images/thumbnails/express-js.png",
+  "image": "../../assets/images/thumbnails/express-js.webp",
   "subtitle": "Build scalable backend APIs with Express.js",
   "description": "Learn Express.js from routing basics to production-ready backend systems.",
-  "time": "NaN",
   "category": "Development",
   "navbar": [
     {
@@ -96,7 +95,6 @@
     {
       "subheading": "Production & Best Practices",
       "link": [
-        
         {
           "type": "articles",
           "url": "express-linting",

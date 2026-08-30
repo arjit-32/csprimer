@@ -3,13 +3,12 @@
   "status": "planned",
   "weight": 13,
   "title": "#11 Recursion",
-  "image": "../../assets/images/thumbnails/dsa-recursion.png",
+  "image": "../../assets/images/thumbnails/dsa-recursion.webp",
   "subtitle": "Master the art of solving problems with recursion.",
   "description": "This series explores the fundamentals and advanced concepts of recursion, covering its principles, applications, and problem-solving techniques to tackle complex computational challenges effectively.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
-     {
+    {
       "subheading": "Introduction to Recursion",
       "link": [
         {

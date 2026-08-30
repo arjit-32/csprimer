@@ -2,10 +2,9 @@
   "ongoing": "false",
   "weight": 2,
   "title": "DSA for Interviews",
-  "image": "../../assets/images/thumbnails/dsa-for-interviews.png",
+  "image": "../../assets/images/thumbnails/dsa-for-interviews.webp",
   "subtitle": "Introduction to DSA and then pattern based questions",
   "description": "Inspired by Grokking Algorithms, this series provides a friendly introduction to core data structures and algorithms and then Neetcode 150 most common interview questions.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
     {

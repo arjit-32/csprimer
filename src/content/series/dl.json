@@ -2,10 +2,9 @@
   "ongoing": "false",
   "weight": 2,
   "title": "Digital Electronics",
-  "image": "../../assets/images/thumbnails/digital-logic.png",
+  "image": "../../assets/images/thumbnails/digital-logic.webp",
   "subtitle": "Understand how computers process binary data through logic circuits.",
   "description": "Learn Boolean algebra, logic gates, combinational and sequential circuits, and flip-flops. This series lays the groundwork for understanding computer hardware and microprocessor design.",
-  "time": "1 day",
   "category": "Core-CS",
   "navbar": [
     {

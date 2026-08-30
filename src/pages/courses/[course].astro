@@ -5,7 +5,7 @@ import { STATUS_CONFIG , isLocked } from "@/lib/statusConfig";
 import { Image } from "astro:assets";
 
 // Dynamically import all images from the assets folder
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.webp');
 
 export async function getStaticPaths() {
   const seriesEntries = await getCollection("series");
@@ -19,7 +19,7 @@ const { course } = Astro.params;
 const { seriesData } = Astro.props;
 
 // Reconstruct the full path
-let imagePath = seriesData.image || "../../assets/images/collaboration.png";
+let imagePath = seriesData.image || "../../assets/images/collaboration.webp";
 if (imagePath.startsWith("../../assets")) {
   imagePath = imagePath.replace("../../assets", "/src/assets");
 } else if (imagePath.startsWith("/images/")) {

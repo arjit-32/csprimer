@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 7,
   "title": "MySQL & Prisma",
-  "image": "../../assets/images/thumbnails/sql.png",
+  "image": "../../assets/images/thumbnails/sql.webp",
   "subtitle": "Master relational databases and modern ORM workflows",
   "description": "Learn MySQL from schema design to advanced queries, and use Prisma to build production-ready database layers.",
-  "time": "NaN",
   "category": "Development",
   "navbar": [
     {

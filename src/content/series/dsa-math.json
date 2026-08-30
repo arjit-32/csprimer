@@ -3,10 +3,9 @@
   "status": "in-progress",
   "weight": 3,
   "title": "#1 DSA Math",
-  "image": "../../assets/images/thumbnails/dsa-math.png",
+  "image": "../../assets/images/thumbnails/dsa-math.webp",
   "subtitle": "Starting with math concepts, building foundations for more advance topics.",
   "description": "This series builds a strong foundation in DSA by focusing on essential math concepts.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
     {

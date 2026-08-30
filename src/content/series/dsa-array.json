@@ -3,10 +3,9 @@
   "status": "planned",
   "weight": 5,
   "title": "#3 Arrays",
-  "image": "../../assets/images/thumbnails/dsa-array.png",
+  "image": "../../assets/images/thumbnails/dsa-array.webp",
   "subtitle": "Master the fundamentals and advanced techniques of array manipulation.",
   "description": "This series explores the core concepts and problem-solving techniques using arrays, covering everything from basic operations to complex algorithms.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
     {

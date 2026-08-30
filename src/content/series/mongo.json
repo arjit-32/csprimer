@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 6,
   "title": "MongoDB & Mongoose",
-  "image": "../../assets/images/thumbnails/mongodb.png",
+  "image": "../../assets/images/thumbnails/mongodb.webp",
   "subtitle": "Learn NoSQL database design and querying with MongoDB",
   "description": "Understand MongoDB fundamentals, data modeling, and practical usage with Mongoose for backend development.",
-  "time": "NaN",
   "category": "Development",
   "navbar": [
     {

@@ -2,11 +2,10 @@
   "title": "ReactJS",
   "subtitle": "Learn ReactJS from scratch and build dynamic web applications",
   "description": "A comprehensive course designed to teach you the fundamentals of ReactJS, including components, state management, hooks, and advanced concepts like context and performance optimization.",
-  "image": "../../assets/images/thumbnails/reactjs.png",
+  "image": "../../assets/images/thumbnails/reactjs.webp",
   "category": "Development",
   "ongoing": false,
   "status": "planned",
-  "time": "18 articles",
   "weight": 15,
   "navbar": [
     {

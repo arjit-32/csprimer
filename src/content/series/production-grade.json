@@ -2,11 +2,10 @@
   "title": "Production Grade Engineering",
   "subtitle": "",
   "description": "",
-  "image": "../../assets/images/thumbnails/production-grade-eng.png",
+  "image": "../../assets/images/thumbnails/production-grade-eng.webp",
   "category": "Development",
   "ongoing": false,
   "status": "planned",
-  "time": "18 articles",
   "weight": 14,
   "navbar": [
     {

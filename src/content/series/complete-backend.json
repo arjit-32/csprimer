@@ -2,11 +2,10 @@
   "title": "Complete Backend",
   "subtitle": "",
   "description": "",
-  "image": "../../assets/images/thumbnails/complete-backend.png",
+  "image": "../../assets/images/thumbnails/complete-backend.webp",
   "category": "Development",
   "ongoing": false,
   "status": "planned",
-  "time": "18 articles",
   "weight": 13,
   "navbar": [
     {

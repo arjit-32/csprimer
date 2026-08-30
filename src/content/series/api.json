@@ -2,10 +2,9 @@
   "ongoing": "false",
   "weight": 2,
   "title": "API Design",
-  "image": "../../assets/images/thumbnails/api-design.png",
+  "image": "../../assets/images/thumbnails/api-design.webp",
   "subtitle": "From Network Basics to Advanced API Design",
   "description": "A comprehensive guide covering network fundamentals, API concepts, protocols, architectures, and practical implementation",
-  "time": "15 articles",
   "category": "System-Design",
   "navbar": [
     {

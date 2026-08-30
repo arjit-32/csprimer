@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 2,
   "title": "JavaScript",
-  "image": "../../assets/images/thumbnails/javascript.png",
+  "image": "../../assets/images/thumbnails/javascript.webp",
   "subtitle": "Learn the language of the web (and servers)",
   "description": "A structured path to mastering JavaScript from fundamentals to real-world practice.",
-  "time": "NaN",
   "category": "Development",
   "navbar": [
     {

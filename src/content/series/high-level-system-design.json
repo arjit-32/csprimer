@@ -1,11 +1,10 @@
 {
   "ongoing": "false",
   "weight": 3,
-  "title": "High Level Design", 
-  "image": "../../assets/images/thumbnails/high-level-system-design.png",
+  "title": "High Level Design",
+  "image": "../../assets/images/thumbnails/high-level-system-design.webp",
   "subtitle": "How Modern Systems Scale, Communicate, and Survive",
-  "description": "An end-to-end guide for building scalable and resilient systems — from principles and components to full-fledged architectures that power today's software.",
-  "time": "14 articles",
+  "description": "An end-to-end guide for building scalable and resilient systems \u2014 from principles and components to full-fledged architectures that power today's software.",
   "category": "System-Design",
   "navbar": [
     {

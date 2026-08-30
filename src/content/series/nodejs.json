@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 3,
   "title": "Node.js",
-  "image": "../../assets/images/thumbnails/nodejs.png",
+  "image": "../../assets/images/thumbnails/nodejs.webp",
   "subtitle": "Learn server-side JavaScript and backend fundamentals",
   "description": "A structured path to mastering Node.js from basics to scalability and performance.",
-  "time": "NaN",
   "category": "Development",
   "navbar": [
     {
@@ -51,7 +50,7 @@
     {
       "subheading": "Building Nodejs Apps",
       "link": [
-         {
+        {
           "type": "articles",
           "url": "nodejs-middleware",
           "title": "Middleware Pattern"

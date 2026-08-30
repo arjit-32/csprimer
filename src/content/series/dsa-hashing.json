@@ -1,15 +1,14 @@
 {
- "ongoing": "false",
+  "ongoing": "false",
   "status": "planned",
   "weight": 8,
   "title": "#6 Hashing",
-  "image": "../../assets/images/thumbnails/dsa-hashing.png",
+  "image": "../../assets/images/thumbnails/dsa-hashing.webp",
   "subtitle": "Unlock the power of hashing for efficient data retrieval.",
   "description": "This series dives into the fundamentals and advanced concepts of hashing, exploring hash functions, collision resolution techniques, and their applications in solving real-world problems.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
-  {
+    {
       "subheading": "Introduction to Hashing",
       "link": [
         {

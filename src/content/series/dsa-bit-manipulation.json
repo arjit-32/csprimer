@@ -3,10 +3,9 @@
   "status": "planned",
   "weight": 4,
   "title": "#2 Bit Manipulation",
-  "image": "../../assets/images/thumbnails/dsa-bit-manipulation.png",
+  "image": "../../assets/images/thumbnails/dsa-bit-manipulation.webp",
   "subtitle": "Master the art of solving problems using bitwise operations.",
   "description": "This series dives deep into bit manipulation techniques, providing a solid understanding of how to use bitwise operations to solve complex problems efficiently.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
     {

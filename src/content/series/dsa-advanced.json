@@ -3,13 +3,12 @@
   "status": "planned",
   "weight": 21,
   "title": "#19 Advanced Topics",
-  "image": "../../assets/images/thumbnails/dsa-advanced.png",
+  "image": "../../assets/images/thumbnails/dsa-advanced.webp",
   "subtitle": "Master advanced data structures and algorithms for cutting-edge problem-solving.",
   "description": "This series dives into advanced topics in data structures and algorithms, covering specialized techniques, complex problem-solving strategies, and their applications in real-world scenarios.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
-     {
+    {
       "subheading": "Introduction",
       "link": [
         {

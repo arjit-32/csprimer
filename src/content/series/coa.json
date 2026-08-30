@@ -2,10 +2,9 @@
   "ongoing": "false",
   "weight": 3,
   "title": "Computer Architecture",
-  "image": "../../assets/images/thumbnails/COA.png",
+  "image": "../../assets/images/thumbnails/COA.webp",
   "subtitle": "Understand how computer hardware and software interact to execute programs.",
   "description": "This series covers instruction sets, memory hierarchy, pipelining, and processor design, helping you grasp the fundamental working of modern computer systems.",
-  "time": "1 day",
   "category": "Core-CS",
   "navbar": [
     {

@@ -2,10 +2,9 @@
   "ongoing": false,
   "weight": 3,
   "title": "Typescript",
-  "image": "../../assets/images/thumbnails/typescript.png",
+  "image": "../../assets/images/thumbnails/typescript.webp",
   "subtitle": "Typescript in depth",
   "description": "Typescript is a superset of Javascript that adds static typing to the language. It is a statically typed language that is compiled to Javascript. It is a statically typed language that is compiled to Javascript.",
-  "time": "NaN",
   "category": "Development",
   "status": "planned",
   "navbar": [

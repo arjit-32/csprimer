@@ -3,13 +3,12 @@
   "status": "planned",
   "weight": 7,
   "title": "#5 Sorting",
-  "image": "../../assets/images/thumbnails/dsa-sort.png",
+  "image": "../../assets/images/thumbnails/dsa-sort.webp",
   "subtitle": "Master sorting algorithms to organize data efficiently.",
   "description": "This series covers a wide range of sorting algorithms, from basic techniques like Bubble Sort and Selection Sort to advanced methods like Quick Sort and Merge Sort, enabling you to handle data with precision and speed.",
-  "time": "NaN",
   "category": "DSA",
   "navbar": [
-   {
+    {
       "subheading": "Introduction to Sorting",
       "link": [
         {

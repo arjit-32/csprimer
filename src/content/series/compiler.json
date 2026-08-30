@@ -2,10 +2,9 @@
   "ongoing": "false",
   "weight": 5,
   "title": "Compiler Design",
-  "image": "../../assets/images/thumbnails/compiler.png",
+  "image": "../../assets/images/thumbnails/compiler.webp",
   "subtitle": "Learn how programming languages are translated into machine code.",
   "description": "Understand the phases of compilation, from lexical and syntax analysis to optimization and code generation. This series provides insight into how compilers and interpreters work behind the scenes.",
-  "time": "1 day",
   "category": "Core-CS",
   "navbar": [
     {

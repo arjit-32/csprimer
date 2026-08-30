@@ -12,16 +12,16 @@ const seriesCollection = (await getCollection("series")).sort((a, b) => {
   if (weightA !== weightB) return weightA - weightB;
   return a.data.title.localeCompare(b.data.title);
 });
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.webp');
 
 // Pre-resolve roadmap images for the client-side switcher
 const roadmaps = {
-  all: await getImage({ src: (await images['/src/assets/images/categories/roadmap.png']()).default, width: 800 }),
-  'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.png']()).default, width: 800 }),
-  DSA: await getImage({ src: (await images['/src/assets/images/categories/2.png']()).default, width: 800 }),
-  Development: await getImage({ src: (await images['/src/assets/images/categories/3.png']()).default, width: 800 }),
-  'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 800 }),
-   'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.png']()).default, width: 1200 }),
+  all: await getImage({ src: (await images['/src/assets/images/categories/roadmap.webp']()).default, width: 800 }),
+  'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.webp']()).default, width: 800 }),
+  DSA: await getImage({ src: (await images['/src/assets/images/categories/2.webp']()).default, width: 800 }),
+  Development: await getImage({ src: (await images['/src/assets/images/categories/3.webp']()).default, width: 800 }),
+  'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 800 }),
+   'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
 };
 
 ---
@@ -148,7 +148,7 @@ from Computer Science fundamentals to real-world systems.
                 )}
                 <div class="p-4">
                   {(() => {
-                    let imagePath = series.image || "../../assets/images/collaboration.png";
+                    let imagePath = series.image || "../../assets/images/collaboration.webp";
                     if (imagePath.startsWith("../../assets")) {
                       imagePath = imagePath.replace("../../assets", "/src/assets");
                     } else if (imagePath.startsWith("/images/")) {
