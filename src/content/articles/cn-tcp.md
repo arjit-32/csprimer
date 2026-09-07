@@ -7,7 +7,7 @@ series: cn
 categories: ["Core-CS"]
 ---
 
-While UDP is fast but unreliable, TCP (Transmission Control Protocol) is all about reliability, order, and control. It powers most of the Internet’s critical applications from web browsing to file transfers by ensuring that data arrives accurately and in order.
+While UDP is fast but unreliable, TCP (Transmission Control Protocol) is all about reliability, order, and control. It powers most of the Internet's critical applications from web browsing to file transfers by ensuring that data arrives accurately and in order.
 
 ## Why TCP?
 
@@ -22,17 +22,30 @@ TCP is a *connection-oriented, reliable* Transport Layer protocol (Layer 4 in th
 
 ## Connection Lifecycle: The 3-Way Handshake
 
+![tcp-3-way-handshake](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775949/3-way-handshake-in-tcp_yp7bdn.webp)
+
 Before transmitting application data, TCP synchronizes sequence numbers between client and server via a *3-Way Handshake*:
 
-1. **SYN** → Client sends a connection request.
-2. **SYN-ACK** → Server acknowledges and replies.
-3. **ACK** → Client acknowledges the reply.
+- *SYN* → Client sends a connection request.
+- *SYN-ACK* → Server acknowledges and replies.
+- *ACK* → Client acknowledges the reply.
 
-> Once the 3-way handshake completes, a full-duplex byte stream connection is established, and application data begins to flow. When terminating the connection, TCP uses a **4-way handshake** using **FIN** flags.
+Once established, the session transitions into active full-duplex data transfer. Both endpoints stream and acknowledge byte ranges until either side initiates termination using a 4-Way Handshake with FIN flags:
+
+1. Connection Establishment: The client and server complete the 3-way handshake to negotiate sequence numbers and establish state.
+
+2. Reliable Data Transfer: The sender segments the application stream into byte offsets (e.g., bytes 1–1460, 1461–2920), and the receiver confirms each block via cumulative acknowledgments (ACK 1461, ACK 2921).
+
+3. Connection Termination: Either host initiates teardown by sending a FIN. The remote peer acknowledges it (ACK), delivers any remaining outbound bytes, and sends its own FIN, which is then acknowledged with a final ACK to safely release socket resources.
+
+
+![tcp-connection-in-detail](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775949/tcp-connection-detailed_um5src.webp)
 
 ---
 
 ## TCP Segment Structure
+
+![tcp-segment-structure](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775949/tcp-segment-structure_ziubdo.webp)
 
 Unlike UDP's fixed 8-byte header, a standard TCP header is at least 20 bytes (up to 60 bytes with options):
 
@@ -51,6 +64,8 @@ Unlike UDP's fixed 8-byte header, a standard TCP header is at least 20 bytes (up
 
 TCP converts an unreliable underlying network (IP) into a dependable channel using four core mechanisms:
 
+![how-tcp-gurantees-reliability](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775949/how-tcp-gurantees-reliability_rjg4og.webp)
+
 * **Byte-Level Sequencing:** Every byte of payload is indexed so the receiver can detect missing gaps or duplicate segments.
 * **Cumulative ACKs:** The receiver explicitly tells the sender which byte sequence it expects next.
 * **Retransmission Timers (RTO):** If an acknowledgment is not received within a calculated timeout window, the segment is resent.
@@ -63,9 +78,15 @@ TCP converts an unreliable underlying network (IP) into a dependable channel usi
 A common point of confusion is distinguishing between protecting the *receiver* versus protecting the *network*:
 
 ### 1. Flow Control (Receiver-Side Protection)
+
+![tcp-flow-control](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775948/tcp-flow-control_anqo8a.webp)
+
 Flow control prevents receiver buffer overflow. It uses the *Sliding Window Protocol*. The receiver continuously advertises its available buffer space *(rwnd)*. The sender restricts the amount of unacknowledged in-flight data so it never exceeds `rwnd`.
 
 ### 2. Congestion Control (Network-Side Protection)
+
+![tcp-congestion-control](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788775948/tcp-congestion-control_rf2c2x.webp)
+
 Congestion control prevents network router queue overflow and packet drops. It regulates traffic to prevent router buffers inside the Internet from overflowing using a dynamic congestion window *(cwnd)*:
 
 - Slow Start: Begins with a small `cwnd` and doubles it exponentially every Round Trip Time (RTT) to probe network capacity.

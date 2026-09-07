@@ -11,13 +11,16 @@ Not every application needs perfect reliability. Sometimes, speed and low lat
 
 ## What Is UDP?
 
+
+![udp-protocol](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788774831/udp_q82aug.webp)
+
 UDP is a connectionless, lightweight Transport Layer protocol (Layer 4 in the OSI model). Unlike TCP, it adopts a **"fire-and-forget"** approach:
 
-* **No handshake:** It begins transmitting immediately without establishing a connection.
-* **No acknowledgments (ACKs):** It doesn't check whether packets arrived safely.
-* **No retransmissions:** Lost packets are simply dropped and ignored.
+- **No handshake:** It begins transmitting immediately without establishing a connection.
+- **No acknowledgments (ACKs):** It doesn't check whether packets arrived safely.
+- **No retransmissions:** Lost datagrams are not retransmitted by UDP.
 
-By skipping these overheads, UDP trades guaranteed delivery for minimal latency and maximum speed.
+By skipping these overheads, UDP trades guaranteed delivery for lower latency and less protocol overhead.
 
 ---
 
@@ -35,22 +38,38 @@ By skipping these overheads, UDP trades guaranteed delivery for minimal latency 
 
 ## HOW UDP works 
 
-UDP (User Datagram Protocol) works as a minimal, connectionless communication model at the transport layer of the Internet protocol suite. Instead of establishing a dedicated end-to-end connection before transmitting, an application simply packages data into standalone units called datagrams and immediately transmits them over the network ("fire-and-forget")
+![how-udp-works](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788774831/how-udp-works_ajfvfs.webp)
+
+UDP (User Datagram Protocol) provides a minimal, connectionless communication model at the transport layer of the Internet protocol suite.
+
+- Application Data Generation: The sender application (such as video streaming, audio, or messaging) generates the payload data.
+
+- UDP Segment Creation: The transport layer appends an 8-byte UDP header to the data.
+
+- IP Packet Encapsulation: The entire UDP segment is passed down to the network layer, where an IP Header (containing source and destination IP addresses) is prepended to form an IP packet.
+
+- Network Transit: The packet routes across intermediate network hops without sequence tracking, connection state, or guaranteed delivery.
+
+- Receiver Decapsulation: The destination server strips the IP and UDP headers and delivers the raw application data directly to the listening port.
+
+Because UDP skips connection setup, packet acknowledgment, and retransmission, it minimizes overhead and latency, making it ideal for real-time applications.
 
 ---
 
 ## UDP Header Structure
 
-standard UDP datagram header is only *8 bytes (64 bits)* split into four 2-byte fields:
+![udp-header-structure](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788774831/udp-header-structure_lgb15p.webp)
+
+A standard UDP datagram header has an *8 byte (64 bits) header*, split into four 2-byte fields:
 
 | Field | Description |
 | --- | --- |
 | Source Port | Identifies the sending process/application (optional). |
 | Destination Port | Directs the packet to the receiving process/application. |
-| Length | Total size in bytes of the UDP header plus payload. |
+| Length | Total size in bytes of the UDP header and payload. |
 | Checksum | Verifies packet integrity against corruption during transit. |
 
-Because UDP omits sequence numbers, acknowledgment counters, and flow control windows, its processing overhead on routers and end devices is practically negligible.
+Because UDP omits sequence numbers, acknowledgment counters, and flow control windows, it has less processing and protocol overhead than TCP.
 
 ---
 
@@ -60,7 +79,7 @@ UDP is chosen for applications where **speed and low latency** are more importan
 
 | **Use Case** | **Why UDP Is Used** |
 | --- | --- |
-| 🎥 **Live video/audio streaming** | No time to retransmit lost packets — smooth playback is the priority |
+| 🎥 **Live video/audio streaming** | No time to retransmit lost packets - smooth playback is the priority |
 | 🎮 **Online gaming** | Real-time movement updates need speed, not packet perfection |
-| 🌐 **DNS queries** | Quick request-response cycles — usually just one short exchange |
+| 🌐 **DNS queries** | Quick request-response cycles - usually just one short exchange |
 | ☎️ **Voice over IP (VoIP)** | Timely audio delivery matters more than getting every word right |

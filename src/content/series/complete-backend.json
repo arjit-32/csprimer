@@ -1,5 +1,5 @@
 {
-  "title": "Complete Backend",
+  "title": "Complete REST API",
   "subtitle": "",
   "description": "",
   "image": "../../assets/images/thumbnails/complete-backend.webp",
@@ -9,7 +9,7 @@
   "weight": 13,
   "navbar": [
     {
-      "subheading": "Introduction to Production Grade Engineering",
+      "subheading": "Ints",
       "link": [
         {
           "type": "articles",
