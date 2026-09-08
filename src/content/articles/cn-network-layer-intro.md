@@ -9,6 +9,8 @@ categories: ["Core-CS"]
 
 The Network Layer is like the postal service of the Internet its mission is to deliver data packets from one device to another, even if they’re separated by continents and multiple networks. 
 
+![network-layer-intro](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788896741/network-layer_gtryma.webp)
+
 At its core, this layer is responsible for *host-to-host communication across interconnected networks*.
 
 ## What Does the Network Layer Do?
@@ -26,26 +28,53 @@ The **Internet Protocol (IP)** is the backbone protocol, with two major versions
 
 ## Forwarding vs Routing
 
-These two terms are often confused, but they describe different operations:
+While often used interchangeably, routing and forwarding represent two distinct network layer functions: the Control Plane (planning) and the Data Plane (action).
 
-| **Term** | **Meaning** |
-| --- | --- |
-| **Forwarding** | Moving a packet from a router's input interface to the appropriate output interface |
-| **Routing** | Determining the paths that packets should take through the network |
-
-**Forwarding is a local, per-packet operation.** A router examines a packet's destination IP address and uses its forwarding table to determine where to send it next.
-
-**Routing is a network-wide process.** Routing protocols exchange information and calculate paths so that routers can build the forwarding information they need.
-
-A simple way to remember it:
+A simple way to summarize is:
 
 > Routing decides the path. Forwarding moves the packet along that path.
+
+### Routing 
+
+**Routing is a network-wide process.** 
+
+![routing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788897004/routing_dzxy5g.webp)
+
+Determining the paths that packets should take through the network. Routing protocols exchange information and calculate paths so that routers can build the forwarding information they need.
+
+*How Routing Works -*
+
+1. Information Exchange: Routers communicate using routing protocols (such as OSPF or BGP) to share link states, reachability, and network topology.
+2. Path Computation: Each router runs an algorithm (e.g., Dijkstra's shortest path) to determine the best paths and next hops for all remote destinations.
+3. Table Construction: The computed paths are compiled into a Routing Table, which is subsequently used to populate the router's local forwarding table.
+
+
+### Forwarding 
+
+**Forwarding is a local, per-packet operation.**
+
+![forwarding](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788897004/forwarding_kook67.webp)
+
+Moving a packet from a router's input interface to the appropriate output interface. A router examines a packet's destination IP address and uses its forwarding table to determine where to send it next.
+
+*How Forwarding Works -*
+
+1. Packet Arrival: A packet arrives at an input interface, and the router reads the destination IP header.
+2. Table Lookup: The router searches its Forwarding Table for the longest prefix match corresponding to that destination address.
+3. Packet Transmission: The packet is switched across the internal fabric and sent out onto the matched physical output interface toward the next hop.
 
 ---
 
 ## Data Plane vs Control Plane - Inside the Router
 
-Routers aren’t just dumb traffic directors. They can be thought of as having two major functional planes:
+Router performs two different kinds of work: *figuring out where packets should go* and *actually moving them*. These are commonly described as the **control plane** and **data plane**.
+
+![data-and-control-plane](https://res.cloudinary.com/dwa6rcttw/image/upload/v1788896740/data-plane-vs-control-plane_qwmgdt.webp)
+
+A simple way to summarize is:
+
+> Control plane: figure out where packets should go.
+> Data plane: actually move the packets.
 
 ### Data Plane 
 
@@ -69,11 +98,6 @@ It runs routing protocols such as:
 
 The control plane learns about network topology and routes, then uses that information to build the routing and forwarding information used by the data plane.
 
-
-In simple terms:
-
-> Control plane: figure out where packets should go.
-> Data plane: actually move the packets.
 
 ---
 
