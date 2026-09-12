@@ -1,7 +1,7 @@
 ---
 title: Dijkstra's Algorithm
-meta_title: Dijkstra’s Algorithm Explained  Weighted Graphs, Shortest Paths & Code
-description: Explore Dijkstra’s Algorithm for finding the shortest paths in weighted graphs. Learn how it works with intuitive examples, tables, and Python code—perfect for mastering DSA concepts.
+meta_title: Dijkstra’s Algorithm Explained - Weighted Graphs, Shortest Paths & Code
+description: Learn Dijkstra's Algorithm with intuitive examples, weighted graphs, and JavaScript. Understand how Dijkstra finds the shortest path and why it works with non-negative edge weights.
 author: Arjit Sharma
 series: dsa-for-interviews
 categories: ["DSA"]
@@ -9,9 +9,13 @@ featured: false
 draft: false
 ---
 
-## What is a Weighted Graph?
+## Weighted Graphs
 
-A weighted graph is a graph where each edge has a weight or cost associated with it. This weight can represent distances, time, or any cost metric depending on the problem domain. 
+A weighted graph is a graph where each edge has a weight associated with it. The weight can represent something like: *Distance, Time, Cost or Network latency*
+
+![weighted-graph](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210096/weighted-graph_d1dh44.webp)
+
+For example, in a map, cities can be represented as nodes and the distance between them as edge weights.
 
 ---
 
@@ -19,115 +23,90 @@ A weighted graph is a graph where each edge has a weight or cost associated with
 
 Breadth-First Search (BFS) finds the path with the fewest segments, but it does not consider weights that’s where Dijkstra Algo is used. 
 
-**Steps of Dijkstra’s Algorithm:**
+> BFS asks: “Which path has the fewest steps?”
+> Dijkstra asks: “Which path has the lowest total cost?”
 
-1. **Find the cheapest node** (i.e., the node with the lowest cost from the starting node).
-2. **Update the cost of its neighbors** if a cheaper path is found.
-3. **Mark the node as processed** and repeat until all nodes have been processed.
-4. **Calculate the final shortest path** by backtracking the parent nodes.
 
-### Example 1
+**How Dijkstra's Work ?**
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163469/dijkstra_tun4p6.png)
+- Dijkstra keeps track of the cheapest known cost to reach every node.
+- It starts at the source node with a cost of 0. Every other node initially has an infinite cost because we do not know how to reach it yet.
+- Repeatedly
+    - First, find the unprocessed node with the lowest known cost.
+    - Second, look at all of its neighbors and check whether going through this node gives us a cheaper path.
+    - Third, mark the node as processed and continue with the next cheapest node.
 
-| Node | Cost | Parent |
-| --- | --- | --- |
-| Start | 0 | - |
-| A | 6 | Start |
-| B | 2 | Start |
-| Fin | Inf. | - |
-
-Step 1: B is the cheapest node from start
-
-Step 2: Update cost of B’s neighbours
-
-- A(cost = 2+3=5) and since 5<6, update A’s cost and change parent to B.
-- Fin. (cost=2+5=7) and since 7<Inf., update Fin. cost and change parent to B.
-
-| Node | Cost | Parent |
-| --- | --- | --- |
-| Start | 0 | - |
-| A | 5 | B |
-| B | 2 | Start |
-| Fin | 7 | B |
-
-Step 1(Second Time): Cheapest node is A
-
-Step 2(Second Time): Update cost of A’s neighbours
-
-- Fin. (cost=5+1=6) and since 6<7, update Fin’s cost and change parent to A
-
-| Node | Cost | Parent |
-| --- | --- | --- |
-| Start | 0 | - |
-| A | 5 | B |
-| B | 2 | Start |
-| Fin | 6 | A |
-
-Since **FINISH** has no outgoing edges, **Dijkstra’s Algorithm is complete**.
-Finish → Parent is A → Parent is B → Parent is Start. 
-
-Final Shortest Path: Start → B → A → Finish
+We also keep track of the parent of each node. The parent allows us to reconstruct the final path once we reach the destination.
 
 ---
 
-### Example 2
+## Example of Dijkstra: Travel from Mumbai to Chennai
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163469/dijkstra-2_bhb2c2.png)
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210096/dijkstra-graph-example_ikwudi.webp)
 
-| City | Cost | Parent |
-| --- | --- | --- |
-| Mumbai | 0 | - |
-| Pune | 600 | Mumbai |
+Let's find the shortest path from Mumbai to Chennai using the graph above.
+
+
+### Initial State
+
+Start at Mumbai with distance 0. Set all other unvisited cities to their direct edge cost or infinity.
+
+| City      | Cost | Parent |
+| --------- | ---: | ------ |
+| Mumbai    |    0 | —      |
+| Pune      |  600 | Mumbai |
 | Hyderabad | 1200 | Mumbai |
-| Bangalore | ∞ | - |
-| Chennai | ∞ | - |
+| Bangalore |    ∞ | —      |
+| Chennai   |    ∞ | —      |
 
-Step 1: Pune is cheapest
 
-Step 2: Update neighbours of Pune
+### Iteration 1: Process Pune
 
-- Bangalore (600 + 700 = 1300 km)
-- Hyderabad (600 + 200 = 800 km, updated from 1200 km)
+- Pick smallest node: Pune (cost: 600 km). Mark Pune as processed.
 
-| City | Distance from Mumbai | Parent |
-| --- | --- | --- |
-| Mumbai | 0 | - |
-| Pune | 600 | Mumbai |
-| Hyderabad | 800 | Pune |
-| Bangalore | 1300 | Pune |
-| Chennai | ∞ | - |
+- Update neighbors:
+    - Bangalore: 600 + 700 = 1300 km *(better than infinity so Update)*
+    - Hyderabad: 600 + 200 = 800 km *(better than 1200km so Update)*
 
-Step 1(Second Time): Hyderabad is cheapest
+| City      | Cost | Parent |
+| --------- | ---: | ------ |
+| Mumbai    |    0 | —      |
+| Pune      |  600 | Mumbai |
+| Hyderabad |  800 | Pune   |
+| Bangalore | 1300 | Pune   |
+| Chennai   |    ∞ | —      |
 
-Step 2(Second Time): Update neighbours of Hyderabad
 
-- Pune(800 + 200 = 1000 km ), Discarded as 1000km >600Km
-- Bangalore (800 + 800 = 1600 km, Discarded as 1600Km>1300km
+### Iteration 2: Process Hyderabad
 
-| City | Distance from Mumbai | Parent |
-| --- | --- | --- |
-| Mumbai | 0 | - |
-| Pune | 600 | Mumbai |
-| Hyderabad | 800 | Pune |
-| Bangalore | 1300 | Pune |
-| Chennai | ∞ | - |
+- Pick smallest node: Hyderabad (cost: 800 km). Mark Hyderabad as processed.
 
-Step 1(ThirdTime): Bangalore is cheapest
+- Update neighbors:
+    - Pune: 800 + 200 = 1000km *(Discarded as 1000km > 600Km)*
+    - Bangalore: 800 + 800 = 1600km *(Discarded as 1600Km > 1300km)*
 
-Step 2(Third Time): Update neighbours of Bangalore
+*(No values change in the table during this iteration)*
 
-- Chennai(1300 + 350 = 1650 km )
 
-| City | Distance from Mumbai | Parent |
-| --- | --- | --- |
-| Mumbai | 0 | - |
-| Pune | 600 | Mumbai |
-| Hyderabad | 800 | Pune |
-| Bangalore | 1300 | Pune |
-| Chennai | 1650 | Bangalore |
+### Iteration 3: Process Bangalore
 
-Since Chennai is last city, no new updates
+- Pick smallest node: Bangalore (cost: 1300 km). Mark Bangalore as processed.
+- Update neighbors:
+    - Chennai: 1300 + 350 = 1650km *(better than infinity so Update)*
+
+| City      | Cost | Parent    |
+| --------- | ---: | --------- |
+| Mumbai    |    0 | —         |
+| Pune      |  600 | Mumbai    |
+| Hyderabad |  800 | Pune      |
+| Bangalore | 1300 | Pune      |
+| Chennai   | 1650 | Bangalore |
+
+
+### Result: Path Reconstruction
+
+
+Because Chennai is reached with no remaining cheaper paths to explore, we stop. Trace the parents backwards to reconstruct the route: Chennai → Bangalore → Pune → Mumbai 
 
 Final shortest path : Mumbai → Pune → Bangalore → Chennai ( Total dist = 1650km)
 
@@ -135,39 +114,86 @@ Final shortest path : Mumbai → Pune → Bangalore → Chennai ( Total dist = 1
 
 ## Dijkstra's Implementation
 
-```python
-function Dijkstra(graph, start):
-    costs = {}  # Stores shortest known distance to each node
-    parents = {}  # Stores the previous node for shortest path tracking
-    processed = []  # List to track processed nodes
+```javascript
 
-    # Initialize costs and parents
-    for each node in graph:
-        costs[node] = infinity  # Initially, all nodes are unreachable
-        parents[node] = None  # No known parent yet
-    costs[start] = zero  # Distance to start node is zero
+function dijkstra(graph, start, destination) {
+    const costs = {};
+    const parents = {};
+    const processed = new Set();
 
-    # Process the graph
-    node = find_lowest_cost_node(costs, processed)
-    while node is not None:
-        cost = costs[node]  # Get the current node's cost
-        neighbors = graph[node]  # Get all neighbors of this node
+    // Initialize costs
+    for (const node in graph) {
+        costs[node] = Infinity;
+        parents[node] = null;
+    }
 
-        for each neighbor in neighbors:
-            new_cost = cost + neighbors[neighbor]  # Calculate new cost
-            if new_cost < costs[neighbor]:  # If new path is shorter, update
-                costs[neighbor] = new_cost
-                parents[neighbor] = node
+    costs[start] = 0;
 
-        processed.append(node)  # Mark the node as processed
-        node = find_lowest_cost_node(costs, processed)  # Get next node
+    while (true) {
+        // Find the cheapest unprocessed node
+        let currentNode = null;
+        let lowestCost = Infinity;
 
-    return costs, parents  # Shortest paths from start node
+        for (const node in costs) {
+            if (!processed.has(node) && costs[node] < lowestCost) {
+                currentNode = node;
+                lowestCost = costs[node];
+            }
+        }
+
+        // No more reachable nodes
+        if (currentNode === null) {
+            break;
+        }
+
+        // Destination reached
+        if (currentNode === destination) {
+            break;
+        }
+
+        // Update neighbors
+        for (const edge of graph[currentNode]) {
+            const newCost = costs[currentNode] + edge.weight;
+
+            if (newCost < costs[edge.node]) {
+                costs[edge.node] = newCost;
+                parents[edge.node] = currentNode;
+            }
+        }
+
+        processed.add(currentNode);
+    }
+
+    // Destination cannot be reached
+    if (costs[destination] === Infinity) {
+        return null;
+    }
+
+    // Reconstruct shortest path
+    const path = [];
+    let currentNode = destination;
+
+    while (currentNode !== null) {
+        path.push(currentNode);
+        currentNode = parents[currentNode];
+    }
+
+    path.reverse();
+
+    return {
+        path,
+        cost: costs[destination]
+    };
+}
 ```
 
-Running Time - 
-The algorithm processes **each node once** and updates neighbors, making its time complexity:
+**Time Complexity**
 
-- **O(V²) using a simple array**
-- **O((V + E) log V) using a priority queue (Heap)**
+In our implementation, we scan all nodes to find the cheapest unprocessed node.
 
+- Time: O(V²)
+- Space: O(V)
+
+Where V is the number of nodes.
+
+A more optimized implementation using a priority queue (min-heap) can achieve O((V + E) log V).

@@ -9,100 +9,131 @@ featured: false
 draft: false
 ---
 
-A greedy algorithm is simple: at each step, pick the most optimal move without considering future consequences. While greedy algorithms are efficient, they don’t always produce the best solution.
+A greedy algorithm makes the best-looking choice at each step, hoping that these local choices lead to the best overall solution.
 
-## Example 1: Scheduling Classes
+The key idea is simple:
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163723/greedy_l4arxl.png)
+> Make the best choice you can right now, without worrying too much about future choices.
 
-Problem asks us to hold as many classes as possible in this classroom.
+Greedy algorithms are often simple and efficient, but there is an important catch: *A greedy choice does not always produce the optimal solution.*
 
-A Greedy approach to solve this is -
-
-- Select the class that ends earliest
-- Pick next class that starts after previous class ends
-- Repeat until no more classes can fit
+Let's look at two examples.
 
 ---
 
-## Example 2: Knapsack problem
+## Problem: Scheduling Classes
 
-You have a **knapsack** that can hold **35 kg**. A shop offers the following items:
+Suppose we have one classroom and several classes.
 
-| Item | Price ($) | Weight (kg) |
-| --- | --- | --- |
-| Stereo | 3000 | 30 |
-| Laptop | 2000 | 20 |
-| Guitar | 1500 | 15 |
+![greedy-scheduling-classes](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210097/greedy-algorithm-class-scheduling_bfuowb.webp)
 
-Greedy approach - 
+Each class has a start time and an end time, and we want to schedule as many classes as possible without overlapping them.
 
-- Pick heaviest valuable item first.
-- Repeat until sack is full
+For example:
 
-Note - Check how here Greedy approach fails. If we pick 30KG, we only get $3000, but if we would have picked Laptop(20KG) and Guitar(15KG) - $3500
+| Class | Start | End |
+| --- | ---: | ---: |
+| A | 1 | 4 |
+| B | 3 | 5 |
+| C | 0 | 6 |
+| D | 5 | 7 |
+| E | 3 | 9 |
+| F | 5 | 9 |
+| G | 6 | 10 |
+| H | 8 | 11 |
 
----
 
-## Example 3: The Set Covering Problem
+*Which class should we choose first?*
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163722/set-covering-2_z5heex.png)
+A good greedy choice is: **Always choose the class that finishes earliest.**
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163722/set-covering_rkwhj4.png)
+Why?
 
-Each station covers a region, and there’s overlap. How do you figure out the smallest set of stations you can play on to cover all 50 states ?
+Because finishing early leaves as much room as possible for the remaining classes.
 
-Solution 1: Brute Force - 
+The algorithm becomes:
 
-Generate all possible subsets of stations (2^n combinations). Choose smallest subset that covers all states. Time complexity it’ll take is O(2^n) so too slow for large datasets.
+1. Sort all classes by their end time.
+2. Select the class that finishes earliest.
+3. Select the next class whose start time is greater than or equal to the previous class's end time.
+4. Repeat until no more classes can be selected.
 
-Solution 2: Greedy - 
+For our example, the selection is:
 
-1. Pick the station that covers the most uncovered states.
-2. Repeat until all the states are covered
+*A → D → H*
 
-Time complexity - O(n^2)
+So we can schedule *3 classes*.
 
-Implementation - 
 
-```java
-import java.util.*;
+**JavaScript Implementation**
 
-public class StationSelection {
+```javascript
+function scheduleClasses(classes) {
+  // Sort by end time
+  classes.sort((a, b) => a.end - b.end);
 
-    public static void main(String[] args) {
-        Set<String> statesNeeded = new HashSet<>(List.of("mt", "wa", "or", "id", "nv", "ut", "ca", "az"));
+  const selected = [];
+  let lastEndTime = -Infinity;
 
-        Map<String, Set<String>> stations = Map.of(
-                "kone", Set.of("id", "nv", "ut"),
-                "ktwo", Set.of("wa", "id", "mt"),
-                "kthree", Set.of("or", "nv", "ca"),
-                "kfour", Set.of("nv", "ut"),
-                "kfive", Set.of("ca", "az")
-        );
-
-        Set<String> finalStations = new HashSet<>();
-
-        while (!statesNeeded.isEmpty()) {
-            String bestStation = null;
-            Set<String> statesCovered = new HashSet<>();
-
-            for (Map.Entry<String, Set<String>> entry : stations.entrySet()) {
-                Set<String> covered = new HashSet<>(statesNeeded);
-                covered.retainAll(entry.getValue()); // retain only the elements that are common between covered and the set of states covered by the current station
-
-                if (covered.size() > statesCovered.size()) {
-                    bestStation = entry.getKey();
-                    statesCovered = covered;
-                }
-            }
-
-            statesNeeded.removeAll(statesCovered);
-            finalStations.add(bestStation);
-        }
-
-        System.out.println("Final selected stations: " + finalStations);
+  for (const cls of classes) {
+    if (cls.start >= lastEndTime) {
+      selected.push(cls);
+      lastEndTime = cls.end;
     }
+  }
+
+  return selected;
 }
+
+const classes = [
+  { name: "A", start: 1, end: 4 },
+  { name: "B", start: 3, end: 5 },
+  { name: "C", start: 0, end: 6 },
+  { name: "D", start: 5, end: 7 },
+  { name: "E", start: 3, end: 9 },
+  { name: "F", start: 5, end: 9 },
+  { name: "G", start: 6, end: 10 },
+  { name: "H", start: 8, end: 11 }
+];
+
+console.log(scheduleClasses(classes));
 ```
 
+The important part is not the code itself, but the greedy choice: *Choose the class that finishes earliest*. For this problem, that choice is enough to produce an optimal solution.
+
+**Time Complexity**
+
+Sorting takes: O(n log n)
+
+The single pass through the classes takes: O(n)
+
+Therefore, the overall complexity is: O(n log n)
+
+---
+
+## Problem: Knapsack Problem
+
+Now let's look at a problem where a greedy approach doesn't always work.
+
+Suppose you have a knapsack that can hold 35 kg. Your goal is to maximize the total value of the items you put into the bag.
+
+![greedy-knapsack](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210097/greedy-algorithm-knapsack_xkaksu.webp)
+
+A shop has these items:
+
+| Item   | Price ($) | Weight (kg) |
+| ------ | --------: | ----------: |
+| Stereo |      3000 |          30 |
+| Laptop |      2000 |          20 |
+| Guitar |      1500 |          15 |
+
+Imagine we use the following greedy strategy: *Pick the most valuable item first.*
+
+The Stereo is worth $3000, so we pick it. The bag now has only 5 kg of capacity left. Neither the Laptop nor the Guitar fits.
+
+So the greedy solution gives us Value: $3000
+
+Instead there did exist a better solution if we would have picked:
+- Laptop  → 20 kg → $2000
+- Guitar  → 15 kg → $1500
+Making a total of 35 Kg and $3500

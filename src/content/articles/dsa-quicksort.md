@@ -13,17 +13,22 @@ draft: false
 
 Divide and Conquer is a fundamental algorithmic technique that breaks a problem into smaller subproblems, solves them independently, and then combines the results to obtain the final solution.
 
-### Example: Sum of Array using Divide and Conquer
+### Problem: Sum of Array using Divide and Conquer
 
-![Quiksort](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750162834/quiksort_raf4mq.png)
+```javascript
 
-```java
-public static int arrsum(int[] arr){
-    if(arr.length == 0 )
-        return 0; // Base case
-    return arr[0] + arrsum(Arrays.copyOfRange(arr, 1, arr.length));
+function arraySum(arr) {
+    if (arr.length === 0) {
+       return 0; 
+    }
+    return arr[0] + arraySum(arr.slice(1)); 
 }
+
+console.log(arraySum([1, 2, 3, 4])); // 10
 ```
+
+
+![Quiksort](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210097/divide-and-conquer-array-sum_e7joez.webp)
 
 ---
 
@@ -36,20 +41,36 @@ public static int arrsum(int[] arr){
     - Elements greater than or equal to the pivot.
 4. **Recursion**: Recursively apply Quicksort on both sub-arrays and then combine them.
 
-```java
-public static ArrayList<Integer> quickSort(ArrayList<Integer> list){
-    if(list.size() < 2) return list; // Base case
-    int pivot = list.get(0);
-    ArrayList<Integer> less = new ArrayList<Integer>();
-    ArrayList<Integer> high = new ArrayList<Integer>();
-    for(int i = 1; i < list.size(); ++i){
-        if(list.get(i) < pivot) less.add(list.get(i));
-        else high.add(list.get(i));
+
+![quick-sort-example](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210123/quick-sort_bvt6cd.webp)
+
+```javascript
+function quickSort(arr) {
+  // Base case: arrays of length 0 or 1 are already sorted
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  // 1. Recurrence (Divide): Pick the first element as pivot
+  const pivot = arr[0];
+  const left = [];
+  const right = [];
+
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
     }
-    ArrayList<Integer> sortedList = quickSort(less);
-    sortedList.add(pivot);
-    sortedList.addAll(quickSort(high));
-    return sortedList;
+  }
+
+  // 2. Backtracking (Combine): left + pivot + right
+  return [...quickSort(left), pivot, ...quickSort(right)];
 }
+
+// Test with the diagram's exact array:
+const input = [7, 2, 9, 4, 3, 8, 1];
+console.log(quickSort(input)); 
+// Output: [1, 2, 3, 4, 7, 8, 9]
 ```
 

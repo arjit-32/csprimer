@@ -1,7 +1,7 @@
 ---
 title: Breadth-First Search
-meta_title: Breadth-First Search (BFS) Made Simple  Graphs, Queues & Java Examples
-description: Understand how Breadth-First Search works with intuitive examples like social networks and graphs. Explore its implementation in Java and learn BFS’s role in shortest path finding with O(V + E) efficiency.
+meta_title: Breadth-First Search (BFS) Made Simple - Graphs, Queues & JavaScript Examples
+description: Understand Breadth-First Search with intuitive examples, graphs, queues, and JavaScript. Learn how BFS explores nodes level by level and finds shortest paths in unweighted graphs.
 author: Arjit Sharma
 series: dsa-for-interviews
 categories: ["DSA"]
@@ -9,103 +9,146 @@ featured: false
 draft: false
 ---
 
+Before we do BFS, we have to learn 2 more data structures - Graphs and Queues. 
+
 ## Graphs
 
-A **graph** is a data structure made up of **nodes** (also called vertices) and **edges**. It is used to model relationships and connections between different entities.
-Example - Maps and Navigation ( Cities as nodes, Roads as edges )
+![graphs](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210097/graphs_ftfrfp.webp)
 
+A graph is a data structure made up of **nodes** (also called vertices) and **edges**. Graphs are useful for representing relationships and connections.
 
-## Breadth-First Search (BFS)
+**Graph Representation in Javascript**
 
-**BFS** is a graph traversal algorithm that answers two key questions:
+A graph can be represented using a *JavaScript object*, where each node maps to an array of its neighboring nodes.
 
-1. **Is there a path from Node A to Node B?**
-    
-    Imagine you are looking for a **mango seller** in your social network. BFS starts with your immediate friends and checks if any of them are mango sellers. If not, it adds their friends to the search list and continues.
-    
+```javascript
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163257/graph_w7k7wi.png)
+const graph = {
+  you: ["amit", "neha"],
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163255/bfs_jc6eyq.png)
+  amit: ["pooja", "ravi"],
 
-2.  **What is the shortest path from Node A to Node B?**
-    
-    BFS finds the shortest path in an **unweighted graph**, meaning it finds the closest mango seller with minimal steps.
-    
+  neha: ["karan", "zara"],
+
+  pooja: [],
+  ravi: [],
+
+  karan: ["john", "rohan"],
+
+  zara: ["maya"],
+
+  john: ["tom"],
+  rohan: [],
+
+  maya: [],
+  tom: []
+};
+```
+
+This representation is called an adjacency list.
 
 ---
+
 
 ## Queues
 
-A queue is like a line at a store. People (or items) join at the back and leave from the front.
+![queues](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789214175/queues_glk1lv.webp)
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163255/queue_d08tqi.png)
+A queue is like a line of people waiting to buy movie tickets.New people join at the back of the line, and the person at the front gets served and leaves first. It follows the FIFO rule: First In, First Out.
 
-
----
-
-## Implementing a Graph
-
-A **hash table (map)** can be used to represent a graph, where each node maps to a list of its neighbors.
-
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/graph-implement_uyrbnn.png)
-
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/graph-implement-2_slv2xu.png)
-
-```java
-Map<String, List<String>> graph = new HashMap<>();
-graph.put("you", Arrays.asList("alice", "bob", "claire"));
-```
+- **Advantage:** Predictable and fair order O(1) add and remove. Elements are processed strictly in the exact order they arrive.
+- **Disadvantage:** Slow search O(n). You cannot jump directly to a person in the middle without serving everyone ahead of them first.
 
 ---
 
-## BFS Algorithm Implementation
+## Breadth-First Search (BFS)
 
-![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/bfs-algo_uf1mox.png)
+Breadth-First Search (BFS) is a graph traversal algorithm that explores nodes *level by level*.
+
+![bfs-representation](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163256/bfs-algo_uf1mox.png)
+
+My favourite way to understand is just like how gossip spreads. You tell your immediate friend group a secret. Naturally, each of them immediately tells all of their friends, and those friends tell everyone they know. Anyways that's a dumb way to think of it. 
+
+It fundamentally answers 2 things ? 
+
+1. *Is there a path from Node A to Node B?*
+    
+    Imagine you are looking for a Mango Seller in your social network. BFS starts with your immediate friends and checks if any of them are mango sellers. If not, it adds their friends to the search list and continues.
+
+2.  *What is the shortest path from Node A to Node B?*
+    
+    BFS finds the shortest path in an *unweighted graph*, meaning it finds the closest Mango Seller in your network with minimal steps.
+    
 
 ---
 
-![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1750163257/bfs-implement_m8om0s.png)
+## BFS Algorithm Implementation in Javascript
 
-```java
-public static boolean isMangoSeller(Map<String, List<String>> graph, String startPerson) {
-        Queue<String> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
+The basic BFS algorithm is:
 
-        queue.add(startPerson);
+- Add the starting node to a queue.
+- Remove a node from the front of the queue.
+- Check whether it is the node we are looking for.
+- Add its unvisited neighbors to the queue.
+- Repeat until the queue is empty.
 
-        while (!queue.isEmpty()) {
-            String person = queue.poll();
-            
-            // Replace this condition with logic for mango seller
-            if (person.endsWith("mango")) {
-                System.out.println(person + " is a mango seller!");
-                return true;
-            }
+A visited set prevents us from processing the same node repeatedly.
 
-            // Mark the person as visited to avoid cycles
-            visited.add(person);
+![bfs-representation](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789210097/bfs-algorithm_agqpbt.webp)
 
-            // Add unvisited neighbors to the queue
-            List<String> neighbors = graph.get(person);
-            for (String neighbor : neighbors) {
-                if (!visited.contains(neighbor)) {
-                    queue.add(neighbor);
-                }
-            }
-        }
+```javascript
+// Graph representation from the image
+const network = {
+  You: ["Amit", "Neha"],
+  Amit: ["Pooja", "Ravi"],
+  Neha: ["Karan", "Zara"],
+  Pooja: [],
+  Ravi: [],
+  Karan: ["John", "Rohan"],
+  Zara: ["Maya"],
+  John: ["Tom"],
+  Rohan: [],
+  Maya: [],
+  Tom: []
+};
 
-        System.out.println("No mango seller found in the network.");
-        return false;
+// In the image, Maya ("mayamango") and Tom ("tommango") sell mangoes
+function isMangoSeller(name) {
+  return name === "Maya" || name === "Tom";
+}
+
+function findClosestMangoSeller(graph, startPerson) {
+  const queue = [startPerson];
+  const visited = new Set([startPerson]);
+
+  let index = 0;
+
+  while (index < queue.length) {
+    const person = queue[index++];
+
+    // If this person sells mangoes, return them immediately
+    if (isMangoSeller(person)) {
+      return person;
     }
+
+    for (const friend of graph[person] || []) {
+      if (!visited.has(friend)) {
+        visited.add(friend);
+        queue.push(friend);
+      }
+    }
+  }
+
+  return null;
+}
+
+console.log(findClosestMangoSeller(network, "You"));
+// Output: "Maya"
 ```
 
-The running time of BFS depends on:
+With an adjacency-list representation, BFS visits each vertex and examines each edge at most once.
 
-- **Adding all vertices to the queue (V)**
-- **Traversing all edges (E)**
-
-Time Complexity: **O(V + E)**
+Time Complexity: **O(V + E)** , Space Complexity: **O(V)**
 
 BFS is efficient for finding shortest paths and ensuring all nodes are visited in the least number of steps.
 
