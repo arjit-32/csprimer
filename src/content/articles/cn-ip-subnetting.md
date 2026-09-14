@@ -7,7 +7,9 @@ series: cn
 categories: ["Core-CS"]
 ---
 
-The IP protocol(specifically IPv4) is the backbone of the Internet. It gives every device a unique logical address and ensures packets find their destination.
+The IP protocol(specifically IPv4) is the backbone of the Internet. 
+
+It provides "logical addresses" that allow hosts and interfaces to be identified and packets to be routed across interconnected networks.
 
 IPv4 addresses are limited, so networks need ways to divide address space efficiently. Concepts such as *subnetting, CIDR, private IP addresses, and NAT* help networks make better use of the available address space.
 
@@ -18,9 +20,11 @@ An IPv4 packet, often called an *IPv4 datagram*, contains:
 
 - **Source and Destination IP addresses** - identify the sender and intended destination
 - **Header information** -  contains fields used for forwarding, lifetime control, fragmentation, and other IP functions
-- **Payload** - arries data from an upper-layer protocol such as TCP or UDP
+- **Payload** - carries data from an upper-layer protocol such as TCP or UDP
 
-Routers examine the destination IP address and *forward the datagram hop by hop* toward its destination.
+Routers examine the destination IP address use their routing tables to decide where to forward the datagram next.
+
+The packet can therefore travel through multiple routers, or hops, before reaching its destination network.
 
 ---
 
@@ -32,19 +36,17 @@ IPv4 addresses is 32 bits long and is usually written as four decimal octets:
 192.168.1.18
 ```
 
-
-Every IP address is split into two logical segments:
+An IPv4 address by itself does not specify where the network portion ends and the host portion begins. Every address is divided into two distinct components:
 - Network Prefix: Identifies the specific network or subnet.
 - Host Identifier: Identifies the specific device on that subnet.
 
-Using CIDR notation (slash notation), the network boundary is defined explicitly:
+To define this boundary, we use a subnet mask or CIDR prefix length (slash notation):
 
-For example:
 ```text
 192.168.1.18/24
 ```
 
-Here, /24 indicates that the first 24 bits represent the network prefix, leaving 32 - 24 = 8 bits for host assignments *(2^8 = 256 total addresses)*.
+In this example, /24 indicates that the first 24 bits represent the network prefix, leaving 32 - 24 = 8 bits for host assignments *(2^8 = 256 total addresses)*.
 
 ---
 
@@ -60,61 +62,99 @@ In the early days of IPv4, addresses were divided into fixed classes.
 | B | /16 | Medium networks |
 | C | /24 | Small networks (256 IPs) |
 
-The problem: This rigid allocation caused massive address waste. If an organization needed 500 IP addresses, a Class C network (/24 with 256 addresses) was too small, forcing them to acquire a Class B network (/16 with 65,536 addresses)—wasting over 65,000 addresses in the process.
+This rigid structure led to rapid address exhaustion. If an organization needed 500 IP addresses, a Class C network (256 addresses) was insufficient, forcing them to claim an entire Class B block (65,536 addresses) - wasting over 65,000 usable IPs.
+
+This was one of the problems that classless addressing was designed to solve.
 
 ### Classless Inter-Domain Routing (CIDR)
 
 Introduced in 1993, CIDR eliminated fixed classes entirely. 
 
-CIDR allows networks to use flexible prefix lengths such as: */26, /20,* or */12*. Instead of being restricted to fixed classes, networks can be allocated address blocks that better match their requirements.
+Instead of restricting networks to /8, /16, or /24, CIDR allows networks to use arbitrary prefix lengths such as: */26, /20 or anything else*. 
 
 Example - 
+
 ```text
 192.168.1.18/24
 ```
 
-CIDR also enables Route Aggregation (Supernetting), allowing routers to combine multiple contiguous subnets into a single advertised routing prefix, dramatically shrinking global routing tables.
+Above IP, contains: 32 - 26 = 6 host bits and 2^6 = 64 total addresses
+
+CIDR also enables route aggregation, sometimes called supernetting. Multiple contiguous networks can be represented by a shorter common prefix, allowing routers to advertise a single route instead of many individual routes.
+
+This helps keep Internet routing tables more manageable.
 
 ---
 
 ## Subnetting
 
-Subnetting is the practice of taking an assigned network block and splitting it internally into smaller, distinct subnets. This is done by "borrowing" bits from the host portion of an address and assigning them to the network prefix.
+Subnetting is the practice of dividing an existing network block into smaller, distinct networks called subnets. This is achieved by extending the network prefix (subnet mask) and borrowing bits previously allocated to the host portion.
 
-For example, a single /24 block can be partitioned into four /26 subnets:
+### Example
 
-```text
-Base Network: 192.168.1.0/24 (256 addresses)
+A single /24 block can be partitioned into four /26 subnets. Lets walk through it for better understanding.
+
+Consider the network: **192.168.1.0/24**
+
+- Original host bits: IPv4 addresses contain 32 bits, leaving 32 - 24 = 8 host bits *(2^8 = 256 total addresses)*.
+- Borrowing bits: Borrowing 2 bits for the prefix turns /24 into /26, creating 2^2 = 4 new subnets.
+- Remaining host bits: 32 - 26 = 6 bits per subnet. Total addresses oer subnet 2^6 = 64 total addresses.
 
 Subnet 1: 192.168.1.0/26   (Range: .0   to .63)
 Subnet 2: 192.168.1.64/26  (Range: .64  to .127)
 Subnet 3: 192.168.1.128/26 (Range: .128 to .191)
 Subnet 4: 192.168.1.192/26 (Range: .192 to .255)
-```
+
 
 ### The 2^n - 2 Rule 
 
-In every IPv4 subnet, two addresses are reserved and cannot be assigned to hosts
+For a traditional IPv4 subnet, if there are n host bits: Total addresses = 2^n
 
-- First Address (All host bits 0): The Network ID (e.g., 192.168.1.0).
-- Last Address (All host bits 1): The Subnet Directed Broadcast address (e.g., 192.168.1.63).
+Two addresses are normally not assigned to hosts:
+- Network address - all host bits are 0 (identifies the subnet itself).
+- Directed broadcast address - all host bits are 1 (used to send packets to all devices on that subnet).
 
-Therefore, a /26 block yields 62 usable host addresses.
+Therefore: **Usable host addresses = 2^n - 2**
+
+What it means in a subnet ? Lets take our /26 network
+
+| Subnet | Network Address | Broadcast Address | Total Range |
+| :--- | :--- | :--- | :--- |
+| Subnet 1 | 192.168.1.0/26 | 192.168.1.63 | 192.168.1.0 – 192.168.1.63 |
+| Subnet 2 | 192.168.1.64/26 | 192.168.1.127 | 192.168.1.64 – 192.168.1.127 |
+| Subnet 3 | 192.168.1.128/26 | 192.168.1.191 | 192.168.1.128 – 192.168.1.191 |
+| Subnet 4 | 192.168.1.192/26 | 192.168.1.255 | 192.168.1.192 – 192.168.1.255 |
+
+
+### Practical Usage in AWS
+
+In AWS, subnetting is used to divide a VPC into smaller networks for different parts of an application.
+
+Each component can be placed in separate subnets, with routing and security rules controlling communication between them. Subnets can also be distributed across different Availability Zones for high availability.
+
+*A Example Architecture*
+- User accesses the application.
+- Request goes through Internet -> Internet Gateway -> Load Balancer (public subnet).
+- Load Balancer forwards traffic to application servers (private subnet).
+- Application servers access the database (provate subnet).
+- For outbound internet access (e.g. software updates), private subnets use a NAT Gateway.
+
+> Subnetting helps organize, isolate, and control communication between different parts of an application.
 
 ---
 
-## Private IP Ranges (RFC 1918)
+## Private IP Ranges
 
-To combat global IPv4 depletion, three ranges were reserved exclusively for private internal use. These addresses are non-routable on the public Internet and can be freely reused inside private networks worldwide:
+To conserve the limited 32-bit IPv4 address pool, the Internet Engineering Task Force reserved three specific address blocks under RFC 1918 for internal networking. These addresses cannot be routed across the public Internet; edge routers automatically drop incoming or outgoing packets with private destination or source addresses.
 
 
-| **CIDR Prefix** | **Total Capacity** |
-| --- | --- |
-| 10.0.0.0/8 | ~16 million |
-| 172.16.0.0/12 | ~1 million |
-| 192.168.0.0/16 | ~65,000 |
+| CIDR Block | IPv4 Address Range | Usable Addresses | Typical Use Case |
+| :--- | :--- | :--- | :--- |
+| 10.0.0.0/8 | 10.0.0.0 - 10.255.255.255 | 16,777,216 | Large enterprise networks, data centers |
+| 172.16.0.0/12 | 172.16.0.0 - 172.31.255.255 | 1,048,576 | Mid-sized business networks |
+| 192.168.0.0/16 | 192.168.0.0 - 192.168.255.255 | 65,536 | Home networks, small offices |
 
-Because millions of homes simultaneously use 192.168.1.0/24, these addresses never enter public ISP routing tables directly.
+Because these subnets exist only on private local networks, millions of organizations and homes can reuse the exact same ranges *(such as 192.168.1.0/24)* without IP conflict.
 
 ---
 

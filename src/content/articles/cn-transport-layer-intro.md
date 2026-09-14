@@ -67,7 +67,7 @@ Socket = IP Address + Port Number
 
 *Examples - HTTP (Port 80), HTTPS (443), DNS(53), FTP(Port 21)*
 
-When your browser connects to www.example.com, it uses a socket like → 
+When your browser connects www.csprimer.org, it uses a socket like → 
 
 **[Your IP]:[Random Port] = [93.184.216.34]:80**
 
@@ -75,5 +75,3 @@ Imagine your device is downloading a file via HTTP and sending a message via Wha
 
 - HTTP might use port 80, WhatsApp might use port 5222
 - The transport layer uses these port numbers to keep data streams separate
-
-Note - *I know what you are thinking, how does chrome or edge having multiple tabs identify from which website data was sent. There comes the concept of source port to distinguish each connection behind the scenes.*

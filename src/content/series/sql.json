@@ -132,7 +132,7 @@
       "link": [
         {
           "type": "articles",
-          "url": "sql-introduction-to-ORMS",
+          "url": "sql-object-relation-mapping",
           "title": "Introduction to ORMs"
         },
         {
