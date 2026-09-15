@@ -16,11 +16,15 @@ IPv4 addresses are limited, so networks need ways to divide address space effici
 
 ## The IPv4 Datagram
 
+![ip-datagram-packet-structure](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/ipv4-datagram_ij7bnj.webp)
+
 An IPv4 packet, often called an *IPv4 datagram*, contains:
 
 - **Source and Destination IP addresses** - identify the sender and intended destination
 - **Header information** -  contains fields used for forwarding, lifetime control, fragmentation, and other IP functions
 - **Payload** - carries data from an upper-layer protocol such as TCP or UDP
+
+![ip-packet-moving-on-router](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/ip-packet-moving-on-router_nfozgo.webp)
 
 Routers examine the destination IP address use their routing tables to decide where to forward the datagram next.
 
@@ -29,6 +33,8 @@ The packet can therefore travel through multiple routers, or hops, before reachi
 ---
 
 ## IP Address Structure
+
+![ip-address-structure](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/ip-address-structure_dqzxzn.webp)
 
 IPv4 addresses is 32 bits long and is usually written as four decimal octets:
 
@@ -51,6 +57,8 @@ In this example, /24 indicates that the first 24 bits represent the network pref
 ---
 
 ## Classful vs Classless Addressing
+
+![classful-classless-addressing](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/classful-vs-classless-adressing_xphbrl.webp)
 
 ### Classful Addressing
 
@@ -90,6 +98,8 @@ This helps keep Internet routing tables more manageable.
 
 Subnetting is the practice of dividing an existing network block into smaller, distinct networks called subnets. This is achieved by extending the network prefix (subnet mask) and borrowing bits previously allocated to the host portion.
 
+![subnetting-infographic](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488654/subnetting_dmsulg.webp)
+
 ### Example
 
 A single /24 block can be partitioned into four /26 subnets. Lets walk through it for better understanding.
@@ -126,7 +136,9 @@ What it means in a subnet ? Lets take our /26 network
 | Subnet 4 | 192.168.1.192/26 | 192.168.1.255 | 192.168.1.192 – 192.168.1.255 |
 
 
-### Practical Usage in AWS
+### Practical Usage of Subnetting in AWS
+
+![subnets-in-aws-vpc](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488653/subnetting-in-aws_y1fcsf.webp)
 
 In AWS, subnetting is used to divide a VPC into smaller networks for different parts of an application.
 
@@ -159,6 +171,8 @@ Because these subnets exist only on private local networks, millions of organiza
 ---
 
 ## NAT - Connecting Private Networks to the Internet
+
+![nat-gateway](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488654/Nat-gateway_alpel2.webp)
 
 Because private RFC 1918 addresses cannot traverse public Internet transit, how does a laptop with IP 192.168.1.15 fetch a webpage from an external server?
 

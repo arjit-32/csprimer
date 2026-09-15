@@ -9,6 +9,8 @@ categories: ["Core-CS"]
 
 When you tap a video inside the YouTube app on your phone, your device doesn't broadcast directly to Google’s data center.
 
+![link-layer-overview](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/link-layer_e8ckma.webp)
+
 Before that request can cross autonomous systems on the public internet, it must complete its single most critical hop: leaving your local network.
 
 While the Internet Protocol (IP) handles global logical routing, it cannot physically modulate signals onto copper wire, glass fiber, or radio waves. That responsibility belongs to the Link Layer.
@@ -58,6 +60,8 @@ Why? Because a device may know the destination's IP address, but Ethernet/Wi-Fi 
 ---
 
 ## The Ethernet Frame: Packaging for Local Travel
+
+![ethernet-frame](https://res.cloudinary.com/dwa6rcttw/image/upload/v1789488652/ethernet-frame_i8dqoj.webp)
 
 Once the phone knows the router's MAC address, it puts the IP packet inside an Ethernet frame so it can travel across the local network.
 

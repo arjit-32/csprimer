@@ -105,7 +105,7 @@ if (compare_and_swap(value, expected, new_value)) {
 }
 ```
 
-🔹 Used in:* Atomic operations in high-performance systems like database indexing and OS scheduling.
+🔹 *Used in:* Atomic operations in high-performance systems like database indexing and OS scheduling.
 
 ---
 
