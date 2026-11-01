@@ -16,7 +16,7 @@ const resolvedRoadmaps = {
   'DSA': await getImage({ src: (await images['/src/assets/images/categories/2.webp']()).default, width: 1200 }),
   'Development': await getImage({ src: (await images['/src/assets/images/categories/3.webp']()).default, width: 1200 }),
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
-  'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
+  'AI-Engineering': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
 };
 
 const dynamicRoadmapData = await getAllRoadmapCourses();
@@ -27,7 +27,7 @@ const categories = [
   { category: "DSA", label: "Data Structures & Algorithms", color: "red" },
   { category: "Development", label: "Development", color: "green" },
   { category: "System-Design", label: "System Design & More", color: "purple" },
-  { category: "Extras", label: "Extras", color: "orange" },
+  { category: "AI-Engineering", label: "AI Engineering", color: "pink" },
 ];
 ---
 
@@ -94,7 +94,8 @@ const categories = [
                   'Core-CS': resolvedRoadmaps['Core-CS'].src,
                   'DSA': resolvedRoadmaps['DSA'].src,
                   'Development': resolvedRoadmaps['Development'].src,
-                  'System-Design': resolvedRoadmaps['System-Design'].src
+                  'System-Design': resolvedRoadmaps['System-Design'].src,
+                  'AI-Engineering': resolvedRoadmaps['AI-Engineering'].src
                 })}
                 alt="Roadmap"
                 class="max-w-full h-auto rounded-2xl shadow-xl mx-auto"
@@ -148,6 +149,7 @@ const categories = [
     --theme-green: #22c55e;
     --theme-blue: #08bdea;
     --theme-orange: #eaa208;
+    --theme-pink: #ec4899;
   }
 
   .mode-active {

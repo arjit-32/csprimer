@@ -5,7 +5,7 @@
   "image": "../../assets/images/thumbnails/git.webp",
   "subtitle": "Manage multiple versions of your codebase and collaborate with others.",
   "description": "This series covers Git fundamentals, branching, merging, rebasing, conflict resolution, and collaboration using GitHub. Master workflows, best practices, and advanced techniques to streamline development and team collaboration.",
-  "category": "Extras",
+  "category": "Development",
   "navbar": [
     {
       "subheading": "Introduction to Git",

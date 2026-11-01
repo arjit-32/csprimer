@@ -5,12 +5,12 @@
       "url": "/"
     },
     {
-      "name": "Articles",
-      "url": "/articles"
-    },
-    {
       "name": "Courses",
       "url": "/courses"
+    },
+    {
+      "name": "Projects",
+      "url": "/articles"
     },
     {
       "name": "Interview-Bytes",

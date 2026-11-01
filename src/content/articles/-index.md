@@ -1,12 +1,32 @@
 ---
-title: Articles
-subtitle: Editorial Guide
+title: Projects
+subtitle: Hands-on builds and assignments
 author: Arjit Sharma
 date: 2024-10-02T05:00:00Z
-categories: ["DSA", "Development", "Core-CS", "System-Design"]
+categories: ["DSA", "Development", "Core-CS", "System-Design", "AI-Engineering"]
 image: /images/og-image.jpg
 featured: false
 draft: false
+---
+
+## Content Structure Rules
+
+Use this structure consistently whenever creating a new series or article.
+
+### Supported categories
+
+- `Core-CS`
+- `DSA`
+- `Development`
+- `System-Design`
+- `AI-Engineering`
+
+If a new topic does not fit an existing category, add a new category here and also add it to:
+
+1. `src/config/roadmapOrder.json`
+2. the course filter list in `src/pages/courses/index.astro`
+3. the roadmap filter list in `src/pages/roadmaps.astro`
+
 ---
 
 ## Adding a New Article
@@ -16,11 +36,45 @@ draft: false
 - Required frontmatter:
   ```yaml
   title: Article Title
-  series: course-id  # Link to course (optional for standalone)
+  series: course-id  # Link to the owning course; optional for standalone
   draft: false       # true = hidden
   year: 2025
   author: Name
+  categories: ["Development"]
   ```
+
+### 2. Choose the correct category
+- Use the series category when the article belongs to a course/series.
+- Use a standalone category when it is not part of a series.
+- The category must match one of the supported categories above.
+
+Example:
+```yaml
+categories: ["DSA"]
+```
+
+For Git tutorials, use:
+```yaml
+categories: ["Development"]
+```
+
+For Java fundamentals, use:
+```yaml
+categories: ["DSA"]
+```
+
+### 3. Link it to a series (if part of a course)
+- Location: `src/content/series/{course-id}.json`
+- Add to `navbar` section:
+  ```json
+  {
+    "type": "articles",
+    "url": "your-slug",
+    "title": "Article Title",
+    "status": "completed"
+  }
+  ```
+- **Order matters**: Position in JSON = order in sidebar & Previous/Next
 
 ### TryCode usage rules
 - `TryCode` is reserved for JavaScript/TypeScript frontend interview practice only.
@@ -34,20 +88,61 @@ Example:
 <TryCode problemId="array-unique" />
 ```
 
-This will resolve to `src/problems/frontend/array-unique.ts`.
+This resolves to `src/problems/frontend/array-unique.ts`.
 
-### 2. Add to Course (if part of series)
-- Location: `src/content/series/{course-id}.json`
-- Add to `navbar` section:
-  ```json
-  {
-    "type": "articles",
-    "url": "your-slug",
-    "title": "Article Title",
-    "status": "completed"
-  }
-  ```
-- **Order matters**: Position in JSON = order in sidebar & Previous/Next
+---
+
+## Adding a New Course / Series
+
+### Files to Create/Modify:
+
+1. **Create series JSON**: `src/content/series/{course-id}.json`
+   ```json
+   {
+     "title": "Course Title",
+     "subtitle": "Brief description",
+     "description": "Full description",
+     "category": "Development",
+     "image": "../../assets/images/thumbnails/image.png",
+     "navbar": [
+       {
+         "subheading": "Section Name",
+         "link": [
+           { "type": "articles", "url": "slug", "title": "Title" }
+         ]
+       }
+     ]
+   }
+   ```
+
+2. **Add the course to the roadmap**: `src/config/roadmapOrder.json`
+   ```json
+   {
+     "Development": [
+       "html-css",
+       "javascript",
+       "git",
+       "ui"
+     ],
+     "AI-Engineering": []
+   }
+   ```
+
+3. **Add the category to the UI**: update the filter lists in:
+   - `src/pages/courses/index.astro`
+   - `src/pages/roadmaps.astro`
+
+4. **Link articles**: add `series: course-id` and `categories: ["<matching-category>"]` in article frontmatter.
+
+### Category-to-roadmap rule
+
+- Core CS series go under `Core-CS`
+- DSA series go under `DSA`
+- Full-stack/web engineering series go under `Development`
+- System design and infra series go under `System-Design`
+- LLM / AI / agentic engineering content goes under `AI-Engineering`
+
+The series should always match the category used in the article metadata and the roadmapOrder entry.
 
 ---
 
@@ -69,33 +164,6 @@ Only 2 types supported:
 | `in-progress` | ✅ Yes | ✅ Yes | 🔄 Blue |
 | `re-visiting` | ✅ Yes | ✅ Yes | 🔁 Orange |
 | `planned` | ✅ Yes | ❌ Locked | 🕐 Gray |
-
----
-
-## Adding a New Course
-
-### Files to Create/Modify:
-
-1. **Create series JSON**: `src/content/series/{course-id}.json`
-   ```json
-   {
-     "title": "Course Title",
-     "subtitle": "Brief description",
-     "description": "Full description",
-     "category": "Core-CS",
-     "image": "../../assets/images/thumbnails/image.png",
-     "navbar": [
-       {
-         "subheading": "Section Name",
-         "link": [
-           { "type": "articles", "url": "slug", "title": "Title" }
-         ]
-       }
-     ]
-   }
-   ```
-
-2. **Link articles**: Add `series: course-id` to article frontmatter
 
 ---
 

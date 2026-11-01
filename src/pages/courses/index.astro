@@ -21,7 +21,7 @@ const roadmaps = {
   DSA: await getImage({ src: (await images['/src/assets/images/categories/2.webp']()).default, width: 800 }),
   Development: await getImage({ src: (await images['/src/assets/images/categories/3.webp']()).default, width: 800 }),
   'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 800 }),
-   'Extras': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
+  'AI-Engineering': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1200 }),
 };
 
 ---
@@ -74,7 +74,7 @@ from Computer Science fundamentals to real-world systems.
               { category: "DSA", label: "Data Structures & Algorithms", color: "red" },
               { category: "Development", label: "Development", color: "green" },
               { category: "System-Design", label: "System Design", color: "purple" },
-              { category: "Extras", label: "Extras", color: "orange" },
+              { category: "AI-Engineering", label: "AI Engineering", color: "pink" },
             ].map(({ category, label, color }) => {
               const bgColor = {
                 gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
@@ -82,7 +82,7 @@ from Computer Science fundamentals to real-world systems.
                 green: "bg-green-50 hover:bg-green-100 text-green-500",
                 red: "bg-red-50 hover:bg-red-100 text-red-500",
                 purple: "bg-purple-50 hover:bg-purple-100 text-purple-500",
-                orange: "bg-orange-50 hover:bg-orange-100 text-orange-500"
+                pink: "bg-pink-50 hover:bg-pink-100 text-pink-500"
               }[color];
             
               return (
@@ -113,7 +113,8 @@ from Computer Science fundamentals to real-world systems.
                 'Core-CS': roadmaps['Core-CS'].src,
                 DSA: roadmaps.DSA.src,
                 Development: roadmaps.Development.src,
-                'System-Design': roadmaps['System-Design'].src
+                'System-Design': roadmaps['System-Design'].src,
+                'AI-Engineering': roadmaps['AI-Engineering'].src
               })}
               alt="Roadmap"
               class="max-w-full h-auto rounded-lg shadow-md object-contain"
@@ -134,7 +135,7 @@ from Computer Science fundamentals to real-world systems.
               Development: "bg-purple-100 text-gray-600",
               'Core-CS': "bg-blue-50 text-blue-500",
               'System-Design': "bg-red-50 text-red-500",
-              'Extras': "bg-orange-50 text-orange-500"
+              'AI-Engineering': "bg-pink-50 text-pink-500"
             };
             const categoryColor = categoryColorMap[series.category] || "bg-gray-50 text-gray-500"; 
 
@@ -273,7 +274,7 @@ from Computer Science fundamentals to real-world systems.
           noResults.id = "no-results";
           noResults.className = "col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10";
           noResults.innerHTML = `
-            <p class="text-lg text-gray-600">No courses found in the "${category}" category.</p>
+            <p class="text-lg text-gray-600">Courses coming soon for "${category}" category.</p>
             <button id="showAllBtn" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
               Show All Courses
             </button>`;

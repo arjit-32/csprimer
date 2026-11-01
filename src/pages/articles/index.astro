@@ -29,13 +29,22 @@ const currentPosts = recentPost.slice(0, config.settings.pagination);
   description={blogIndex.data.description}
   image={blogIndex.data.image}
 >
-  <section class="py-4 bg-gradient-to-br from-white via-pink-50 to-yellow-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900">Articles</h2>
-     
-    <div class="container">
-      <FeaturedBlog posts={featuredPost} />
-      <!-- <h2 class="h4 mb-4">Recent Articles</h2> -->
+  <div class="projects-index-container">
+    <div class="projects-hero">
+      <div class="container">
+        <div class="projects-hero-inner">
+          <div class="hero-badge">⚡ Hands-on learning</div>
+          <h1 class="hero-title">Projects</h1>
+          <p class="hero-sub">
+            Build real-world frontend, React, AWS, and practical coding challenges from scratch.
+          </p>
+        </div>
+      </div>
+      <div class="hero-glow"></div>
+    </div>
+
+    <div class="projects-section container">
+      {featuredPost.length > 0 && <FeaturedBlog posts={featuredPost} />}
       <Blogs posts={currentPosts} />
       <Pagination
         section={blog_folder}
@@ -43,7 +52,69 @@ const currentPosts = recentPost.slice(0, config.settings.pagination);
         totalPages={totalPages}
       />
     </div>
-    </div>
-  </section>
+  </div>
+
   <Cta />
 </Base>
+
+<style lang="scss">
+  .projects-index-container {
+    min-height: 100vh;
+    background: #fafafa;
+  }
+
+  .projects-hero {
+    position: relative;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    padding: 100px 0 90px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .projects-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(254, 96, 25, 0.15);
+    color: #fe6019;
+    border: 1px solid rgba(254, 96, 25, 0.4);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 660px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .projects-section {
+    padding: 64px 16px 100px;
+  }
+</style>

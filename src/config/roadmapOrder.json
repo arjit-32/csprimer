@@ -10,6 +10,7 @@
     "dbms"
   ],
   "DSA": [
+    "java",
     "dsa-for-interviews"
   ],
   "Development": [
@@ -19,7 +20,9 @@
     "express",
     "auth",
     "mongo",
-    "sql"
+    "sql",
+    "git",
+    "ui"
   ],
   "System-Design": [
     "distributed",
@@ -27,9 +30,5 @@
     "high-level-system-design",
     "aws"
   ],
-  "Extras": [
-    "git",
-    "java",
-    "ui"
-  ]
+  "AI-Engineering": []
 }

@@ -1,73 +1,78 @@
 ---
 import config from "@/config/config.json";
 import readingTime from "@/lib/utils/readingTime";
-import { humanize, plainify, slugify } from "@/lib/utils/textConverter";
+import { humanize, plainify } from "@/lib/utils/textConverter";
 const { summary_length } = config.settings;
 const { posts } = Astro.props;
 ---
 
 <div class="row">
   {
-    posts.map((item: any) => (
-      <div class="mb-8 md:col-6 lg:col-4">
-        <div class="card">
-          <div class="card-content">
-            <h3 class="h4 card-title">
-              <a href={`/articles/${item.slug}`}>{item.data.title}</a>
-            </h3>
-            <span class="card-tags space-x-1" style="">
-              {item.data.categories.map((categories: any) => (
-                <span class="bg-[#f7e26bd8] border-[#f7e26b] border-2 rounded text-black px-1 text-sm">
-                  {humanize(categories)}
-                </span>
-              ))}
-              
-            </span>
-            <p class="mb-4 text-text">
-              {plainify(item.data.subtitle?.slice(0, Number(summary_length)))}
-            </p>
-            <div class="card-footer mt-6 flex space-x-4">
-              
-              <span class="inline-flex items-center text-xs text-[#666]">
-                <svg
-                  class="mr-1.5"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7.65217 0C3.42496 0 0 3.58065 0 8C0 12.4194 3.42496 16 7.65217 16C11.8794 16 15.3043 12.4194 15.3043 8C15.3043 3.58065 11.8794 0 7.65217 0ZM7.65217 14.4516C4.24264 14.4516 1.48107 11.5645 1.48107 8C1.48107 4.43548 4.24264 1.54839 7.65217 1.54839C11.0617 1.54839 13.8233 4.43548 13.8233 8C13.8233 11.5645 11.0617 14.4516 7.65217 14.4516ZM9.55905 11.0839L6.93941 9.09355C6.84376 9.01935 6.78822 8.90323 6.78822 8.78065V3.48387C6.78822 3.27097 6.95484 3.09677 7.15849 3.09677H8.14586C8.34951 3.09677 8.51613 3.27097 8.51613 3.48387V8.05484L10.5773 9.62258C10.7439 9.74839 10.7778 9.99032 10.6575 10.1645L10.0774 11C9.95708 11.171 9.72567 11.2097 9.55905 11.0839Z"
-                    fill="#939393"
-                  />
-                </svg>
-                {readingTime(item.body)}
+    posts.map((item: any) => {
+      const description = plainify(item.data.description || item.data.subtitle || "");
+      const trimmedDescription = description.length > Number(summary_length)
+        ? `${description.slice(0, Number(summary_length))}...`
+        : description;
+
+      return (
+        <div class="mb-8 md:col-6 lg:col-4">
+          <div class="card">
+            <div class="card-content">
+              <h3 class="h4 card-title">
+                <a href={`/articles/${item.slug}`}>{item.data.title}</a>
+              </h3>
+              <span class="card-tags space-x-1" style="">
+                {item.data.categories.map((categories: any) => (
+                  <span class="bg-[#f7e26bd8] border-[#f7e26b] border-2 rounded text-black px-1 text-sm">
+                    {humanize(categories)}
+                  </span>
+                ))}
               </span>
-              <span class="inline-flex items-center text-xs text-[#666]">
-  <svg
-    class="mr-1.5"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#939393"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-    <line x1="16" y1="2" x2="16" y2="6"></line>
-    <line x1="8" y1="2" x2="8" y2="6"></line>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-  </svg>
-  {item.data.year}
-</span>
+              <p class="mb-4 text-text">
+                {trimmedDescription}
+              </p>
+              <div class="card-footer mt-6 flex space-x-4">
+                <span class="inline-flex items-center text-xs text-[#666]">
+                  <svg
+                    class="mr-1.5"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.65217 0C3.42496 0 0 3.58065 0 8C0 12.4194 3.42496 16 7.65217 16C11.8794 16 15.3043 12.4194 15.3043 8C15.3043 3.58065 11.8794 0 7.65217 0ZM7.65217 14.4516C4.24264 14.4516 1.48107 11.5645 1.48107 8C1.48107 4.43548 4.24264 1.54839 7.65217 1.54839C11.0617 1.54839 13.8233 4.43548 13.8233 8C13.8233 11.5645 11.0617 14.4516 7.65217 14.4516ZM9.55905 11.0839L6.93941 9.09355C6.84376 9.01935 6.78822 8.90323 6.78822 8.78065V3.48387C6.78822 3.27097 6.95484 3.09677 7.15849 3.09677H8.14586C8.34951 3.09677 8.51613 3.27097 8.51613 3.48387V8.05484L10.5773 9.62258C10.7439 9.74839 10.7778 9.99032 10.6575 10.1645L10.0774 11C9.95708 11.171 9.72567 11.2097 9.55905 11.0839Z"
+                      fill="#939393"
+                    />
+                  </svg>
+                  {readingTime(item.body)}
+                </span>
+                <span class="inline-flex items-center text-xs text-[#666]">
+                  <svg
+                    class="mr-1.5"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#939393"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  {item.data.year}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ))
+      );
+    })
   }
 </div>
