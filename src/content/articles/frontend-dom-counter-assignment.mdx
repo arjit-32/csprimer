@@ -1,0 +1,38 @@
+---
+title: "DOM Assignment: Product Search Filter"
+meta_title: "DOM Assignment: Product Search Filter"
+description: "A realistic frontend DOM assignment that mirrors product filtering in an e-commerce dashboard."
+author: Arjit Sharma
+categories: ["JavaScript", "Frontend", "Assignments"]
+featured: false
+draft: false
+---
+
+## Assignment
+
+Build a product search UI that filters a list of products in real time as the user types.
+
+The page should hide products that do not match the search string and keep matching products visible. This is a common pattern in e-commerce and marketplace interfaces.
+
+---
+
+<TryCode problemId="dom-counter" mode="dom" />
+
+---
+
+## Starter idea
+
+```js
+const searchInput = document.getElementById('search');
+const cards = [...document.querySelectorAll('[data-name]')];
+
+searchInput.addEventListener('input', (event) => {
+  const query = event.target.value.trim().toLowerCase();
+
+  cards.forEach((card) => {
+    const name = card.dataset.name.toLowerCase();
+    const matches = name.includes(query);
+    card.style.display = matches ? 'flex' : 'none';
+  });
+});
+```

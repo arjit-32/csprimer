@@ -27,7 +27,7 @@ const pagesCollection = defineCollection({
 
 // Status enums - separate for courses and articles
 const courseStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
-const articleStatusEnum = z.enum(['planned', 'draft', 'done', 're-visiting']).optional();
+const articleStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
 
 // Series collection schema
 const seriesCollection = defineCollection({

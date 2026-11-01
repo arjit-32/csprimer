@@ -11,7 +11,7 @@ year: 2025
 
 Most backend applications need to store and retrieve data from a database. Express.js can integrate with different database systems such as MongoDB, MySQL, PostgreSQL, and more.
 
-In this article, we explore two popular approaches:
+This guide walks through setting up production-ready database connections for two standard stacks:
 
 - MongoDB with Mongoose
 - MySQL with Prisma ORM
@@ -36,8 +36,16 @@ Mongoose is an ODM (Object Data Modeling) library for MongoDB that provides:
 ---
 
 ### Installing Dependencies
-```bash id="jlwm4v"
-npm install mongoose dotenv
+
+```bash
+npm install express mongoose dotenv
+```
+
+### Configure the Environment (.env)
+
+```text
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/myapp
 ```
 
 ### Creating a Mongoose Model
@@ -45,11 +53,26 @@ npm install mongoose dotenv
 // models/User.js
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, required: true, unique: true },
-  age: Number,
-});
+const userSchema = new mongoose.Schema(
+  {
+    name: { 
+      type: String, 
+      trim: true 
+    },
+    email: { 
+      type: String, 
+      required: [true, 'Email is required'], 
+      unique: true, 
+      lowercase: true,
+      trim: true 
+    },
+    age: { 
+      type: Number, 
+      min: [0, 'Age cannot be negative'] 
+    }
+  },
+  { timestamps: true }
+);
 
 export default mongoose.model('User', userSchema);
 ```
@@ -62,25 +85,15 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/myapp', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('MongoDB connected');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/myapp');
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
-    console.error('MongoDB connection error:', err.message);
-    process.exit(1); // Exit process if DB fails
+    console.error(`MongoDB Connection Error: ${err.message}`);
+    process.exit(1); // Terminate process on connection failure
   }
 };
 
 export default connectDB;
-```
-
-The database connection string is usually stored inside environment variables.
-
-Example: .env file
-```text
-MONGODB_URI=mongodb://localhost:27017/myapp
 ```
 
 ### Creating Express Routes
@@ -92,22 +105,28 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
-// Get all users
+// GET /users - Retrieve users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().select('name email age');
-    res.json(users);
+    const users = await User.find().select('name email age createdAt');
+    res.status(200).json(users);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch users' });
+    res.status(500).json({ error: 'Failed to retrieve users' });
   }
 });
 
-// Create user
+// POST /users - Create user with explicit field whitelisting
 router.post('/', async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const { name, email, age } = req.body;
+
+    const user = await User.create({ name, email, age });
     res.status(201).json(user);
   } catch (err) {
+    // 11000 is MongoDB's duplicate key error code
+    if (err.code === 11000) {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
     res.status(400).json({ error: err.message });
   }
 });
@@ -127,23 +146,26 @@ import userRoutes from './routes/users.routes.js';
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Middlewares
 app.use(express.json());
-
-// Routes
+// Route Middleware
 app.use('/users', userRoutes);
 
-// Connect DB and start server
-connectDB();
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// Await database connection before binding to network port
+try {
+  await connectDB();
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+} catch (error) {
+  console.error('Server failed to start:', error.message);
+  process.exit(1);
+}
 ```
 
 ---
 
-## MySQL with Prisma
+## MySQL with Prisma ORM
 
 MySQL is a relational database that stores data in structured tables.
 
@@ -161,17 +183,25 @@ Prisma supports:
 
 ---
 
-### Installing Prisma
+### Install Dependencies
+
 
 ```bash
-npm install prisma @prisma/client
+npm install @prisma/client
+npm install -D prisma
 
-# Initialize Prisma
+# Initialize your Prisma configuration:
 npx prisma init
 ```
 
+### Configure the Environment
 
-### Defining the Prisma Schema
+```text
+PORT=5000
+DATABASE_URL="mysql://username:password@localhost:3306/myapp"
+```
+
+### Define the Schema
 
 ```javascript
 // prisma/schema.prisma
@@ -194,62 +224,83 @@ model User {
 }
 ```
 
-### Creating the Prisma Client
+
+### Run Migrations & Generate Client
+
+After updating the Prisma schema:
+
+```bash
+npx prisma migrate dev --name init_users_table
+```
+This creates database tables based on your schema.
+
+
+### Instantiate the Prisma Client
 
 ```javascript
 // db.js
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error']
+});
 
 export default prisma;
 ```
 
 
-### Creating Routes with Prisma
+### Create Express Routes with Prisma
 
 ```javascript
 // routes/users.routes.js
-import express from "express";
-import prisma from "../db.js";
+import express from 'express';
+import prisma from '../db.js';
 
 const router = express.Router();
 
-// Get users
-router.get("/", async (req, res) => {
-    try {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                age: true,
-            },
-        });
-
-        res.json(users);
-
-    } catch (err) {
-        res.status(500).json({
-            error: "Failed to fetch users",
-        });
-    }
+// GET /users
+router.get('/', async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        age: true,
+        createdAt: true
+      }
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
 });
 
-// Create user
-router.post("/", async (req, res) => {
-    try {
-        const user = await prisma.user.create({
-            data: req.body,
-        });
+// POST /users
+router.post('/', async (req, res) => {
+  try {
+    const { name, email, age } = req.body;
 
-        res.status(201).json(user);
-
-    } catch (err) {
-        res.status(400).json({
-            error: err.message,
-        });
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
     }
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        age: age ? Number(age) : null
+      }
+    });
+
+    res.status(201).json(user);
+  } catch (err) {
+    // P2002 is the Prisma error code for unique constraint violation
+    if (err.code === 'P2002') {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    res.status(400).json({ error: err.message });
+  }
 });
 
 export default router;
@@ -261,27 +312,27 @@ export default router;
 // server.js
 import express from 'express';
 import dotenv from 'dotenv';
+import prisma from './db.js';
 import userRoutes from './routes/users.routes.js';
 
 dotenv.config();
+
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(express.json());
-
-// Routes
 app.use('/users', userRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+try {
+  // Test connection to MySQL prior to opening the port
+  await prisma.$connect();
+  console.log('✅ Connected to MySQL database via Prisma');
+
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+} catch (error) {
+  console.error('❌ Database connection failed:', error.message);
+  await prisma.$disconnect();
+  process.exit(1);
+}
 ```
 
-
-### Running Database Migrations
-
-After updating the Prisma schema:
-
-```bash
-npx prisma migrate dev --name init
-```
-This creates database tables based on your schema.

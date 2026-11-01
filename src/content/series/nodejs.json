@@ -27,8 +27,8 @@
         },
         {
           "type": "articles",
-          "url": "nodejs-modules-dependencies-environment",
-          "title": "Modules, Dependencies & Environment"
+          "url": "nodejs-modules-dependencies",
+          "title": "Modules & Dependencies"
         }
       ]
     },

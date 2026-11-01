@@ -1,0 +1,49 @@
+---
+title: "JavaScript Interview Practice: Deduplicate Cart Items"
+meta_title: "JavaScript Interview Practice: Deduplicate Cart Items"
+description: "A frontend-focused JavaScript interview problem that mirrors real product and cart logic in browser-based apps."
+author: Arjit Sharma
+categories: ["JavaScript", "Frontend", "Interview"]
+featured: false
+draft: false
+---
+
+## Problem Statement
+
+A storefront receives a feed of product IDs from a cart or recommendation system. We need to keep only the first-seen item for each product while preserving the original order.
+
+This is common in frontend work when deduplicating API payloads, shopping cart events, or repeated user actions before rendering.
+
+Examples:
+
+- Input: `["sku-1", "sku-2", "sku-1", "sku-3", "sku-2", "sku-4"]` → Output: `["sku-1", "sku-2", "sku-3", "sku-4"]`
+- Input: `["sku-9", "sku-9", "sku-9"]` → Output: `["sku-9"]`
+- Input: `["p-1", "p-2", "p-1", "p-3", "p-2", "p-4"]` → Output: `["p-1", "p-2", "p-3", "p-4"]`
+
+---
+
+<TryCode problemId="array-unique" />
+
+---
+
+## Solution
+
+Use a `Set` to track seen IDs and push only unseen values into the output array.
+
+```js
+function solution(cartItems) {
+  const seen = new Set();
+  const unique = [];
+
+  for (const item of cartItems) {
+    if (!seen.has(item)) {
+      seen.add(item);
+      unique.push(item);
+    }
+  }
+
+  return unique;
+}
+```
+
+This runs in $O(n)$ time and uses $O(n)$ extra space, which is usually the right tradeoff for frontend data cleanup and UI rendering.

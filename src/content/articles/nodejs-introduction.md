@@ -34,11 +34,7 @@ Node.js takes a completely different approach, its built on:
    - **Non-blocking I/O**
    - **An event-driven architecture**
 
-Instead of waiting for tasks like database queries or network requests to finish, Node.js delegates these tasks to the operating system or libuv and continues handling other requests.
-
-This makes Node extremely efficient under heavy load.
-
-It is suitable for applications that require high concurrency, low latency and real-time communication.
+Instead of waiting for tasks like database queries or network requests to finish, Node.js delegates these tasks to the operating system or libuv and continues handling other requests. This makes Node extremely efficient under heavy load and ideal for applications requiring high concurrency, low latency, and real-time communication.
 
 ---
 
@@ -85,19 +81,21 @@ These are two distinct layers that make system calls possible from JavaScript:
 
 Node.js does not create a new thread for every request. Instead, it follows this flow:
 
-1. Request Intake: A request arrives and synchronous JavaScript executes on the V8 Call Stack.
-2. If the task is non-blocking, it is delegated to the OS(Network I/O) or libuv thread pool(File I/O & heavy crypto tasks).
-3. Non-Blocking Continuity: The single main thread immediately returns to handle other requests.
+1. Request Intake: A request arrives, and synchronous JavaScript executes on the V8 Call Stack. If the task is non-blocking, it is delegated to the OS (for Network I/O) or the libuv thread pool (for File I/O and heavy tasks).
+2. Non-Blocking Continuity: The single main thread immediately returns to handle other incoming requests instead of idling.
 4. Queueing Callbacks: When background work completes, its callback is placed into the appropriate queue (Microtask or Phase Task Queue).
-5. Execution: When the Call Stack is clear, the Event Loop picks up queued callbacks and pushes them onto the stack.
+5. Execution: Once the Call Stack is completely clear, the Event Loop picks up queued callbacks and pushes them onto the stack for execution.
 
 This single-threaded model allows Node.js to handle **thousands of concurrent connections** efficiently.
 
 ---
 
-## Comparison with Browser JS
+## Comparison with Browser JavaScript
 
-Node.js does not have DOM APIs like document or window, instead it provides system-level APIs (file system, networking).
-Node.js is great for I/O-heavy apps (APIs, real-time apps).
+While Node.js shares the V8 engine with the browser, it operates in a distinct environment:
 
-⚠️ Not ideal for CPU-heavy tasks (like image processing or large computations), as they block the event loop.
+Node.js lacks browser globals like document or window. Instead, it provides system-level APIs for interacting with the file system, network, and operating system.
+
+It excels at I/O-bound applications (such as APIs and real-time chat servers).
+
+When to avoid it: Node.js is not ideal for heavy CPU-bound tasks (like heavy image processing, video encoding, or massive numerical computations), because intensive calculations will block the single-threaded event loop and stall requests for all other users.

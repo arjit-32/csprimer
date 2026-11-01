@@ -14,18 +14,25 @@ year: 2025
 
 var, let, and const are used to declare variables in JavaScript.
 
-- var → function-scoped (older, avoid in modern code)
-- let → block-scoped, reassignable
-- const → block-scoped, not reassignable
+- var → function-scoped, hoisted and initialized with undefined *(older, avoid in modern code)*
+- let → block-scoped, reassignable, hoisted into a Temporal Dead Zone (TDZ) without initialization.
+- const → block-scoped, not reassignable, also subject to the TDZ.
 
 _Note - Scope defines where a variable is accessible (block, function, or global)._
 
-```jsx
+```javascript
 let a = 0; // Reassignable, block-scoped
 a = 5; // Works
 
 const b = 2; // Non-reassignable, block-scoped
 b = 6; // Error: Cannot reassign const
+
+// Hoisting & TDZ example:
+console.log(hoistedVar); // undefined (var is hoisted)
+var hoistedVar = "hello";
+
+// console.log(hoistedLet); // ReferenceError: Cannot access 'hoistedLet' before initialization
+let hoistedLet = "world";
 ```
 
 ---
@@ -37,7 +44,7 @@ JavaScript has 7 primitive types and 1 non-primitive type (object). JavaScript i
 
 - Primitive: *string, number, boolean, null, undefined, symbol, bigint.*
     
-    ```jsx
+    ```javascript
     const name = "Arjit Sharma"; // String
     const age = 18; // Number
     const isValid = true; // Boolean
@@ -50,7 +57,7 @@ JavaScript has 7 primitive types and 1 non-primitive type (object). JavaScript i
     
 - Non-primitive: These are objects. This includes arrays, functions, and built-in objects.
     
-    ```jsx
+    ```javascript
     // Common Objects
     const names = ['Arjit','Adam'] // "0": "Arjit", "1":"Adam"
     const person = { name:"Arjit", age:19} // Object Literals
@@ -81,7 +88,7 @@ JavaScript has 7 primitive types and 1 non-primitive type (object). JavaScript i
 
 Log messages to the console for debugging
 
-```jsx
+```javascript
 console.log("Hello, " + name); // Concatenation
 console.log(`Hello, ${name}!`); // Template literal (ES6)
 console.table({ name, age }); // Tabular output
@@ -89,9 +96,9 @@ console.table({ name, age }); // Tabular output
 
 ---
 
-## Conditional Statements
+## Conditional Statements & Logical Operators (Truthy/Falsy)
 
-```jsx
+```javascript
 if (loggedIn) {
     console.log("User is logged in");
 } else {
@@ -102,11 +109,41 @@ if (loggedIn) {
 const status = loggedIn ? "Active" : "Inactive";
 ```
 
+
+JavaScript evaluates expressions in conditional contexts as either Truthy or Falsy.
+
+Apart from the following Falsy Values, everything else in javascript is truthsy values: 
+- false
+- 0 , -0 and 0n (BigInt)
+- "" (empty string)
+- null
+- undefined
+- NaN
+
+```javascript
+if ("Hello") {
+    console.log("Truthy!"); // Runs because non-empty string is truthy
+}
+```
+
+### Logical Operators & Short-Circuit Evaluation
+
+- Logical OR (||): Returns the first truthy value. If all are falsy, returns the last value
+- Logical AND (&&): Returns the first falsy value. If all are truthy, returns the last value.
+
+```javascript
+let result = undefined || 0; // 0 (because undefined is falsy)
+let name = userInput || "Guest"; // Fallback to "Guest" if userInput is falsy
+
+let x = true && "Ready"; // "Ready"
+let y = false && "Ready"; // false
+```
+
 ---
 
 ## Loops
 
-```jsx
+```javascript
 // For loop
 for (let i = 0; i < 3; i++) {
     console.log(i); // 0, 1, 2
@@ -136,7 +173,7 @@ Functions in JavaScript are first-class citizens, meaning they can be:
 - Passed as arguments
 - Returned from other functions
 
-```jsx
+```javascript
 function name(p1, p2, p3) {
     //Code
 }
@@ -201,7 +238,7 @@ multiply(10,10);
 
 ## Strings
 
-```jsx
+```javascript
 let a = "10";//double quotes 
 let b = '10';//single quotes
 let c = `Hello, ${a}`;
@@ -257,7 +294,7 @@ text.split("");// Splits in Charachters
 Some array methods mutate the original array (push, pop, splice), while others return a new array (map, filter, slice).
 
 
-```jsx
+```javascript
 let names = [
   "Arjit",
   "Ananay",
@@ -265,6 +302,10 @@ let names = [
 ];
 
 let names = new Array("Arjit", "Ananay", "Samay");
+
+// Spread Syntax (...) to copy or combine arrays
+const arr1 = [1, 2];
+const arr2 = [...arr1, 3, 4]; // [1, 2, 3, 4]
 
 // Length of Array            
 let x = names.length; 
@@ -306,6 +347,15 @@ names.unshift("NewItem");//Adds to 1st position and shifts rest
 names.toString(); //Arjit,Ananay,Samay,Monty
 names.join(" # "); //Arjit#Ananay#Samay#Monty
 
+// find() -> Returns the first element that satisfies the condition
+const found = names.find(name => name.startsWith("A"));
+
+// some() -> Checks if AT LEAST ONE element passes the test (returns boolean)
+const hasLongName = names.some(name => name.length > 5);
+
+// every() -> Checks if ALL elements pass the test (returns boolean)
+const allValid = names.every(name => name.length > 0);
+
 // Slicing Array (Extracts a portion of the array)
 const slicedNames = names.slice(1, 3); // Extracts elements from index 1 to 2 (not including 3)
 
@@ -338,7 +388,7 @@ const flatArray = nestedArray.flat(); // Flattens one level: ["Arjit", "Ananay",
 
 Objects store data as key-value pairs, where keys are strings (or symbols).
 
-```jsx
+```javascript
 const person={
 		firstName: 'Arjit',
 		lastName: 'Sharma',
@@ -371,6 +421,10 @@ for (const property in person) {
 const {firstName, lastName, address: {city}} = person;
 console.log(firstName); // Arjit
 console.log(city); // Dehradun
+
+// Optional Chaining (?.) -> Prevents runtime crashes if property is missing
+console.log(person.address?.city); // "Dehradun"
+console.log(person.contact?.email); // undefined (doesn't throw an error!)
 ```
 
 ---
@@ -379,7 +433,7 @@ console.log(city); // Dehradun
 
 - Implicit(Type Coercion): Automatic conversion
 
-```jsx
+```javascript
 // String + Number = String
 "3" + 2 //32
 
@@ -398,7 +452,7 @@ null == undefined // true
 
 - Explicit: Manually convert one to another
 
-```jsx
+```javascript
 let a;
 // Number to String:
 a = String(89);
@@ -408,6 +462,13 @@ a = (90).toString();
 a = Number('5');
 a = Number("Hello");//NaN = Not a Number
 a = parseInt('100.30');//100
+
+// Explicit Conversion to Boolean
+let truthyNum = Boolean(1); // true
+let falsyZero = Boolean(0); // false
+
+// Double-bang operator (quick boolean conversion)
+let isTrue = !!("hello"); // true
 
 // Date to String
 a = String(new Date());
@@ -421,7 +482,7 @@ console.log(a.toFixed(2));//100.30
 
 ## Dates
 
-```jsx
+```javascript
 const curDate = new Date(); // Current date
 const anotherDate = new Date(2024, 1, 29); // 2024-02-29
 curDate.getDate(); // Day of month
@@ -436,7 +497,7 @@ curDate.getTime(); // Milliseconds since 1970
 
 JSON is a string format, not a JavaScript object. One of the most common piece of code we write is to convert between objects and JSON.
 
-```jsx
+```javascript
 const obj = { name: "Arjit", age: 25 };
 const jsonString = JSON.stringify(obj); // '{"name":"Arjit","age":25}'
 const parsedObj = JSON.parse(jsonString); // { name: "Arjit", age: 25 }
@@ -448,7 +509,7 @@ const parsedObj = JSON.parse(jsonString); // { name: "Arjit", age: 25 }
 
 Try / Catch
 
-```jsx
+```javascript
 try {
   throw new Error("Something broke!"); // can create and throw your own errors using the throw keyword.
 } catch (e) {
@@ -465,7 +526,7 @@ try {
 
 Turns sloppy JavaScript into safer code. It helps catch silent errors and prevents unsafe behaviors.
 
-```jsx
+```javascript
 "use strict";
 ```
 
@@ -483,7 +544,7 @@ Shallow: Copies only the **top-level properties**. Nested objects/arrays still r
 
 Deep: Creates a **full independent clone**, including all nested objects/arrays.
 
-```jsx
+```javascript
 const obj = {
   name: "Arjit",
   address: { city: "Bengaluru" }
@@ -511,7 +572,7 @@ JavaScript stores numbers using **floating‑point (IEEE 754)** format. This rep
 
 This is not a bug in JavaScript, but a limitation of the IEEE 754 standard used by most programming languages.
 
-```jsx
+```javascript
 0.1 + 0.2 // 0.30000000000000004
 
 // Simple Fix for this is

@@ -1,8 +1,15 @@
 ---
 import "./YoutubeShorts.css";
 const { id, title, ...rest } = Astro.props;
+const embedUrl = `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1`; 
 ---
-<lite-youtube videoid={id} playlabel={title} class="yt-lite yt-shorts"></lite-youtube>
-<script>
-  import 'https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube-embed@0.3.1/+esm';
-</script>
+<div class="youtube-embed youtube-shorts" {...rest}>
+  <iframe
+    src={embedUrl}
+    title={title}
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>

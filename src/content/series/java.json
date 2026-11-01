@@ -5,7 +5,7 @@
   "image": "../../assets/images/thumbnails/java.webp",
   "subtitle": "Master the essentials of Java Programming Language",
   "description": "A complete beginner-to-intermediate series that builds your Java fundamentals and dives deep into object-oriented programming and the Collections Framework.",
-  "category": "Extras",
+  "category": "DSA",
   "navbar": [
     {
       "subheading": "Getting Started with Java",

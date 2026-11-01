@@ -22,6 +22,20 @@ draft: false
   author: Name
   ```
 
+### TryCode usage rules
+- `TryCode` is reserved for JavaScript/TypeScript frontend interview practice only.
+- Do not use it for DSA articles, algorithmic problem walkthroughs, or Java/C++ solutions.
+- The runner must load a file from `src/problems/frontend/*.ts`.
+- For DSA articles, keep the content as normal markdown/MDX with code blocks and prose.
+- For frontend interview practice, create a standalone article and a matching problem under `src/problems/frontend/`.
+
+Example:
+```mdx
+<TryCode problemId="array-unique" />
+```
+
+This will resolve to `src/problems/frontend/array-unique.ts`.
+
 ### 2. Add to Course (if part of series)
 - Location: `src/content/series/{course-id}.json`
 - Add to `navbar` section:
@@ -92,3 +106,34 @@ Only 2 types supported:
 - **Order**: Determined by JSON navbar position (left-to-right, top-to-bottom)
 - **Standalone articles**: No `series` field → article listing only, no sidebar
 - **Lock**: `status: planned` or `draft` → visible but not clickable
+
+## Frontend TryCode Pattern
+
+Use this only for browser-oriented JavaScript interview work:
+
+```mdx
+---
+title: "JavaScript Interview Practice: Remove Duplicates"
+author: Arjit Sharma
+categories: ["JavaScript", "Frontend", "Interview"]
+draft: false
+---
+
+<TryCode problemId="array-unique" />
+```
+
+Then add the problem file:
+
+```ts
+// src/problems/frontend/array-unique.ts
+const problem = {
+  id: "array-unique",
+  title: "Remove Duplicates While Preserving Order",
+  starterCode: `function solution(nums) {\n  // Your code here\n}`,
+  tests: [{ input: [[1, 2, 2, 3, 1, 4]], expected: [1, 2, 3, 4] }],
+};
+
+export default problem;
+```
+
+This keeps the interactive code runner focused on frontend/JS interview tasks rather than DSA exercises.

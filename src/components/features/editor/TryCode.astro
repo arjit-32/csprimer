@@ -1,29 +1,39 @@
 ---
 interface Props {
   problemId: string;
+  mode?: "function" | "dom";
 }
 
-const { problemId } = Astro.props;
+const { problemId, mode = "function" } = Astro.props;
 
-// Scalable problem loading: dynamically import the specific problem to avoid eager bundling of all problems
-const problems = import.meta.glob("../../../problems/*.ts");
-const problemPath = `../../../problems/${problemId}.ts`;
+// TryCode is reserved for frontend/JavaScript interview exercises.
+// DSA articles should not mount this editor; they should use plain prose and code blocks instead.
+const problems = import.meta.glob("../../../problems/frontend/*.ts");
+const problemPath = `../../../problems/frontend/${problemId}.ts`;
 
 let problem;
 if (problems[problemPath]) {
   const problemModule = await problems[problemPath]();
   problem = (problemModule as any).default;
 } else {
-  throw new Error(`Problem with id "${problemId}" not found in src/problems/${problemId}.ts`);
+  throw new Error(
+    `TryCode is only available for frontend JavaScript interview problems. Missing file: src/problems/frontend/${problemId}.ts`
+  );
 }
 
-const { starterCode, tests, title } = problem;
+const resolvedMode = problem.mode || mode;
+if (!['function', 'dom'].includes(resolvedMode)) {
+  throw new Error(`TryCode only supports "function" and "dom" modes. Received: ${resolvedMode}`);
+}
+const { starterCode, tests = [], title, html = "" } = problem;
 ---
 
 <div class="try-code-container my-8 border border-gray-300 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1e1e1e] shadow-sm transition-colors" 
      data-problem-id={problemId} 
+     data-problem-mode={resolvedMode}
      data-starter-code={starterCode}
      data-tests={JSON.stringify(tests)}
+     data-problem-html={JSON.stringify(html)}
      data-status="idle">
   
   <!-- Header -->
@@ -38,72 +48,117 @@ const { starterCode, tests, title } = problem;
   </div>
 
   <div class="editor-wrapper hidden flex-col animate-in fade-in slide-in-from-top-4 duration-500">
-    
-    <!-- Code Editor -->
-    <div class="monaco-editor-container h-[400px] w-full resize-y overflow-hidden border-b border-gray-200 dark:border-gray-800"></div>
-    
-    <!-- Action Bar -->
-    <div class="flex justify-between items-center px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 transition-colors">
-      <div class="flex items-center gap-2">
-        <button class="reset-code-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Reset to starter code">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-          Reset
-        </button>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="text-xs text-gray-400 hidden md:block font-mono">
-          <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Enter</kbd>
-        </div>
-        <button class="run-tests-btn bg-green-600/90 hover:bg-green-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          Run
-        </button>
-      </div>
-    </div>
+    {resolvedMode === "function" ? (
+      <>
+        <div class="monaco-editor-container h-[400px] w-full resize-y overflow-hidden border-b border-gray-200 dark:border-gray-800"></div>
 
-    <!-- Bottom Pane -->
-    <div class="bottom-pane bg-white dark:bg-[#1e1e1e] flex flex-col min-h-[250px] transition-colors">
-       <!-- Tabs -->
-       <div class="flex px-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 pt-2 transition-colors">
-          <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-green-500 text-gray-800 dark:text-gray-200 transition-colors" data-tab="testcases">Testcases</button>
-          <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="custom-input">Custom Input</button>
-          <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="result">Result</button>
-       </div>
-       
-       <!-- Tab Contents -->
-       <div class="tab-content flex-grow p-4 overflow-y-auto max-h-[400px] custom-scrollbar">
-          <!-- Testcases -->
-          <div id="tab-testcases" class="tab-pane block">
-            <div class="flex gap-2 mb-4 testcase-pills flex-wrap"></div>
-            <div class="testcase-detail text-sm font-mono bg-gray-100 dark:bg-[#2d2d2d] p-4 rounded-lg text-gray-800 dark:text-gray-300">
-              <!-- Selected testcase detail -->
+        <div class="flex justify-between items-center px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 transition-colors">
+          <div class="flex items-center gap-2">
+            <button class="reset-code-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Reset to starter code">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              Reset
+            </button>
+            <button class="toggle-maximize-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Maximize editor">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5"></path></svg>
+              <span class="toggle-text">Maximize</span>
+            </button>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-gray-400 hidden md:block font-mono">
+              <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Enter</kbd>
+            </div>
+            <button class="run-tests-btn bg-green-600/90 hover:bg-green-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run
+            </button>
+          </div>
+        </div>
+
+        <div class="bottom-pane bg-white dark:bg-[#1e1e1e] flex flex-col min-h-[250px] transition-colors">
+          <div class="flex px-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 pt-2 transition-colors sticky top-0 z-10">
+            <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-green-500 text-gray-800 dark:text-gray-200 transition-colors" data-tab="testcases">Testcases</button>
+            <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="custom-input">Custom Input</button>
+            <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="result">Result</button>
+          </div>
+
+          <div class="tab-content flex-grow p-4 overflow-y-auto max-h-[400px] custom-scrollbar">
+            <div id="tab-testcases" class="tab-pane block">
+              <div class="flex gap-2 mb-4 testcase-pills flex-wrap"></div>
+              <div class="testcase-detail text-sm font-mono bg-gray-100 dark:bg-[#2d2d2d] p-4 rounded-lg text-gray-800 dark:text-gray-300"></div>
+            </div>
+
+            <div id="tab-custom-input" class="tab-pane hidden">
+              <div class="flex flex-col gap-3 p-3">
+                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Arguments (JSON Array)</label>
+                <textarea class="custom-input-area w-full bg-gray-100 dark:bg-[#2d2d2d] border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-800 dark:text-gray-300 focus:outline-none focus:border-green-500 min-h-[100px] resize-y custom-scrollbar transition-colors" placeholder="e.g. [ [1, 2, 3], 4 ]"></textarea>
+                <p class="text-xs text-gray-400">Enter arguments as a valid JSON array. Each element in the array represents one argument passed to the function.</p>
+              </div>
+            </div>
+
+            <div id="tab-result" class="tab-pane hidden">
+              <div class="flex flex-col gap-4 p-4">
+                <div class="test-results space-y-3 font-mono text-sm">
+                  <p class="text-gray-400 italic text-sm">Run tests to see results...</p>
+                </div>
+
+                <div class="console-wrapper hidden flex-col gap-2 mt-2 pt-4 border-t border-gray-200 dark:border-gray-800">
+                  <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                    Console Output
+                  </h4>
+                  <pre class="console-output bg-gray-100 dark:bg-[#2d2d2d] rounded-lg p-4 text-xs font-mono text-gray-800 dark:text-gray-300 whitespace-pre-wrap max-h-[250px] overflow-y-auto custom-scrollbar"></pre>
+                </div>
+              </div>
             </div>
           </div>
-          
-          <!-- Custom Input -->
-          <div id="tab-custom-input" class="tab-pane hidden flex flex-col gap-3">
-             <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Arguments (JSON Array)</label>
-             <textarea class="custom-input-area w-full bg-gray-100 dark:bg-[#2d2d2d] border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-800 dark:text-gray-300 focus:outline-none focus:border-green-500 min-h-[100px] resize-y custom-scrollbar transition-colors" placeholder="e.g. [ [1, 2, 3], 4 ]"></textarea>
-             <p class="text-xs text-gray-400">Enter arguments as a valid JSON array. Each element in the array represents one argument passed to the function.</p>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="flex justify-between items-center px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 transition-colors">
+          <div class="flex items-center gap-2">
+            <button class="reset-code-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Reset to starter code">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              Reset
+            </button>
+            <button class="toggle-maximize-btn text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 px-3 py-1 text-sm rounded transition-colors flex items-center gap-1" title="Maximize editor">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5"></path></svg>
+              <span class="toggle-text">Maximize</span>
+            </button>
           </div>
-          
-          <!-- Result -->
-          <div id="tab-result" class="tab-pane hidden flex flex-col gap-4">
-             <div class="test-results space-y-3 font-mono text-sm">
-               <p class="text-gray-400 italic text-sm">Run tests to see results...</p>
-             </div>
-             
-             <!-- Console Output -->
-             <div class="console-wrapper hidden flex-col gap-2 mt-2 pt-4 border-t border-gray-200 dark:border-gray-800">
-               <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                 Console Output
-               </h4>
-               <pre class="console-output bg-gray-100 dark:bg-[#2d2d2d] rounded-lg p-4 text-xs font-mono text-gray-800 dark:text-gray-300 whitespace-pre-wrap max-h-[250px] overflow-y-auto custom-scrollbar"></pre>
-             </div>
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-gray-400 hidden md:block font-mono">
+              <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300">Enter</kbd>
+            </div>
+            <button class="run-tests-btn bg-green-600/90 hover:bg-green-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run Preview
+            </button>
           </div>
-       </div>
-    </div>
+        </div>
+
+        <div class="dom-playground-shell flex flex-col gap-3 p-3">
+          <div class="dom-editor-panel border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1e1e1e]">
+            <div class="flex px-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 transition-colors">
+              <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-green-500 text-gray-800 dark:text-gray-200 transition-colors" data-tab="html">HTML</button>
+              <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="css">CSS</button>
+              <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors" data-tab="js">JS</button>
+            </div>
+            <div class="monaco-editor-container h-[320px] w-full resize-y overflow-hidden border-b-0"></div>
+          </div>
+
+          <div class="dom-preview-panel border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50 dark:bg-[#1e1e1e]">
+            <div class="flex items-center justify-between px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800 text-xs uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">
+              <span>Preview</span>
+              <span class="text-[10px] font-mono text-gray-400">Live</span>
+            </div>
+            <div class="playground-preview-pane min-h-[260px] bg-white dark:bg-[#1e1e1e] p-3">
+              <div class="flex items-center justify-center h-full min-h-[220px] text-sm text-gray-400 italic">Run the preview to see your result.</div>
+            </div>
+          </div>
+        </div>
+      </>
+    )}
   </div>
 </div>
 
@@ -115,16 +170,21 @@ const { starterCode, tests, title } = problem;
 
   class PracticeUI {
     container: HTMLElement;
+    mode: string;
     starterCode: string;
+    problemHtml: string;
     tests: any[];
     loadBtn: HTMLButtonElement;
     wrapper: HTMLElement;
     runBtn: HTMLButtonElement;
     resetBtn: HTMLButtonElement;
+    toggleMaximizeBtn: HTMLButtonElement;
+    toggleText: HTMLElement;
     resultsEl: HTMLElement;
     consoleEl: HTMLElement;
     consoleWrapper: HTMLElement;
     editorContainer: HTMLElement;
+    previewPane: HTMLElement;
     
     // Tabs
     tabBtns: NodeListOf<HTMLElement>;
@@ -138,26 +198,47 @@ const { starterCode, tests, title } = problem;
     activeWorker: Worker | null;
     resizeObserver: ResizeObserver | null;
     selectedTestIndex: number;
+    isPlayground: boolean;
+    activePlaygroundTab: string;
+    playgroundFiles: {
+      html: string;
+      css: string;
+      js: string;
+    };
 
     constructor(container: HTMLElement) {
       this.container = container;
+      this.mode = container.dataset.problemMode || 'function';
       this.starterCode = container.dataset.starterCode!;
-      this.tests = JSON.parse(container.dataset.tests!);
+      this.problemHtml = container.dataset.problemHtml ? JSON.parse(container.dataset.problemHtml) : '';
+      this.tests = JSON.parse(container.dataset.tests || '[]');
+      this.isPlayground = this.mode === 'dom';
+      this.activePlaygroundTab = 'html';
+      this.playgroundFiles = {
+        html: this.problemHtml || '<div id="app"></div>',
+        css: '',
+        js: this.starterCode,
+      };
 
-      this.loadBtn = container.querySelector('.load-editor-btn')!;
-      this.wrapper = container.querySelector('.editor-wrapper')!;
-      this.runBtn = container.querySelector('.run-tests-btn')!;
-      this.resetBtn = container.querySelector('.reset-code-btn')!;
-      this.resultsEl = container.querySelector('.test-results')!;
-      this.consoleEl = container.querySelector('.console-output')!;
-      this.consoleWrapper = container.querySelector('.console-wrapper')!;
-      this.editorContainer = container.querySelector('.monaco-editor-container')!;
+      this.loadBtn = container.querySelector('.load-editor-btn') as HTMLButtonElement;
+      this.wrapper = container.querySelector('.editor-wrapper') as HTMLElement;
+      this.runBtn = container.querySelector('.run-tests-btn') as HTMLButtonElement;
+      this.resetBtn = container.querySelector('.reset-code-btn') as HTMLButtonElement;
+      this.toggleMaximizeBtn = container.querySelector('.toggle-maximize-btn') as HTMLButtonElement;
+      this.toggleText = container.querySelector('.toggle-text') as HTMLElement;
+      this.resultsEl = container.querySelector('.test-results') as HTMLElement;
+      this.consoleEl = container.querySelector('.console-output') as HTMLElement;
+      this.consoleWrapper = container.querySelector('.console-wrapper') as HTMLElement;
+      this.editorContainer = container.querySelector('.monaco-editor-container') as HTMLElement;
+      this.previewPane = container.querySelector('.playground-preview-pane') as HTMLElement;
 
-      this.tabBtns = container.querySelectorAll('.tab-btn')!;
-      this.tabPanes = container.querySelectorAll('.tab-pane')!;
-      this.testcasePills = container.querySelector('.testcase-pills')!;
-      this.testcaseDetail = container.querySelector('.testcase-detail')!;
-      this.customInputArea = container.querySelector('.custom-input-area')!;
+      if (this.runBtn) this.runBtn.textContent = this.isPlayground ? 'Run Preview' : 'Run';
+
+      this.tabBtns = container.querySelectorAll('.tab-btn') as NodeListOf<HTMLElement>;
+      this.tabPanes = container.querySelectorAll('.tab-pane') as NodeListOf<HTMLElement>;
+      this.testcasePills = container.querySelector('.testcase-pills') as HTMLElement;
+      this.testcaseDetail = container.querySelector('.testcase-detail') as HTMLElement;
+      this.customInputArea = container.querySelector('.custom-input-area') as HTMLTextAreaElement;
 
       this.editor = null;
       this.monaco = null;
@@ -168,6 +249,12 @@ const { starterCode, tests, title } = problem;
       this.loadBtn.addEventListener('click', () => this.mountEditor());
       this.runBtn.addEventListener('click', (e) => { e.preventDefault(); this.runTests(); });
       this.resetBtn.addEventListener('click', (e) => { e.preventDefault(); this.resetCode(); });
+      if (this.toggleMaximizeBtn) {
+        this.toggleMaximizeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.toggleMaximize();
+        });
+      }
 
       // Tab switching logic
       this.tabBtns.forEach(btn => {
@@ -176,7 +263,9 @@ const { starterCode, tests, title } = problem;
         });
       });
 
-      this.initTestcases();
+      if (!this.isPlayground && this.testcasePills) {
+        this.initTestcases();
+      }
 
       activeInstances.add(this);
     }
@@ -197,7 +286,45 @@ const { starterCode, tests, title } = problem;
       activeInstances.delete(this);
     }
 
+    toggleMaximize() {
+      const isMaximized = this.container.classList.toggle('is-maximized');
+      if (this.toggleText) {
+        this.toggleText.textContent = isMaximized ? 'Minimize' : 'Maximize';
+      }
+      if (this.toggleMaximizeBtn) {
+        this.toggleMaximizeBtn.title = isMaximized ? 'Minimize editor' : 'Maximize editor';
+      }
+
+      if (this.editor) {
+        requestAnimationFrame(() => {
+          this.editor.layout();
+          setTimeout(() => this.editor && this.editor.layout(), 150);
+        });
+      }
+    }
+
     switchTab(tabId: string) {
+      if (this.isPlayground) {
+        const fileMap = ['html', 'css', 'js'];
+        const isFileTab = fileMap.includes(tabId);
+
+        if (!isFileTab) return;
+
+        this.saveActivePlaygroundFile();
+        this.activePlaygroundTab = tabId;
+        this.syncEditorWithPlaygroundFile();
+
+        this.tabBtns.forEach(b => {
+          const active = b.dataset.tab === tabId;
+          b.classList.toggle('border-green-500', active);
+          b.classList.toggle('text-gray-800', active);
+          b.classList.toggle('dark:text-gray-200', active);
+          b.classList.toggle('border-transparent', !active);
+          b.classList.toggle('text-gray-500', !active);
+        });
+        return;
+      }
+
       this.tabBtns.forEach(b => {
         if (b.dataset.tab === tabId) {
           b.classList.add('border-green-500', 'text-gray-800', 'dark:text-gray-200');
@@ -208,7 +335,7 @@ const { starterCode, tests, title } = problem;
         }
       });
 
-      this.tabPanes.forEach(p => {
+      this.tabPanes?.forEach(p => {
         if (p.id === `tab-${tabId}`) {
           p.classList.remove('hidden');
           p.classList.add('block');
@@ -217,6 +344,44 @@ const { starterCode, tests, title } = problem;
           p.classList.add('hidden');
         }
       });
+    }
+
+    syncEditorWithPlaygroundFile() {
+      if (!this.editor || !this.monaco || !this.isPlayground) return;
+      const value = this.playgroundFiles[this.activePlaygroundTab as keyof typeof this.playgroundFiles] || '';
+      this.editor.setValue(value);
+
+      const languageMap = {
+        html: 'html',
+        css: 'css',
+        js: 'javascript',
+      };
+      const model = this.editor.getModel();
+      if (model) {
+        this.monaco.editor.setModelLanguage(model, languageMap[this.activePlaygroundTab as keyof typeof languageMap] || 'javascript');
+      }
+    }
+
+    saveActivePlaygroundFile() {
+      if (!this.editor || !this.isPlayground) return;
+      this.playgroundFiles[this.activePlaygroundTab as keyof typeof this.playgroundFiles] = this.editor.getValue();
+    }
+
+    initPlaygroundTabs() {
+      if (!this.isPlayground) return;
+
+      this.tabBtns.forEach((btn) => {
+        const tabName = btn.dataset.tab;
+        if (tabName && !['html', 'css', 'js'].includes(tabName)) {
+          btn.remove();
+        }
+      });
+
+      this.tabBtns = this.container.querySelectorAll('.tab-btn') as NodeListOf<HTMLElement>;
+      this.tabBtns.forEach((btn) => {
+        btn.onclick = () => this.switchTab(btn.dataset.tab || 'html');
+      });
+      this.switchTab('html');
     }
 
     initTestcases() {
@@ -264,7 +429,10 @@ const { starterCode, tests, title } = problem;
 
       try {
         if (!(window as any)._monacoInstance) {
-          const { default: loader } = await import('https://cdn.jsdelivr.net/npm/@monaco-editor/loader@1.4.0/+esm');
+          const loaderModule = await (new Function(
+            'return import("https://cdn.jsdelivr.net/npm/@monaco-editor/loader@1.4.0/+esm")'
+          )() as Promise<any>);
+          const loader = loaderModule.default || loaderModule;
           loader.config({ paths: { vs: VS_CDN } });
           (window as any)._monacoInstance = await loader.init();
         }
@@ -272,8 +440,8 @@ const { starterCode, tests, title } = problem;
         const isDark = document.documentElement.classList.contains('dark');
         
         this.editor = this.monaco.editor.create(this.editorContainer, {
-          value: this.starterCode,
-          language: 'javascript',
+          value: this.isPlayground ? this.playgroundFiles.html : this.starterCode,
+          language: this.isPlayground ? 'html' : 'javascript',
           theme: isDark ? 'vs-dark' : 'vs',
           automaticLayout: true,
           minimap: { enabled: false },
@@ -309,6 +477,12 @@ const { starterCode, tests, title } = problem;
           () => this.runTests()
         );
 
+        if (this.isPlayground) {
+          this.initPlaygroundTabs();
+          this.syncEditorWithPlaygroundFile();
+          this.switchTab('html');
+        }
+
         this.loadBtn.classList.add('hidden');
         this.wrapper.classList.remove('hidden');
         this.wrapper.classList.add('flex');
@@ -329,19 +503,100 @@ const { starterCode, tests, title } = problem;
     resetCode() {
       if (!this.editor) return;
       if (confirm('Reset code to starter template?')) {
-        this.editor.setValue(this.starterCode);
-        this.resultsEl.innerHTML = '<p class="text-gray-400 italic text-sm">Run tests to see results...</p>';
-        this.consoleEl.textContent = '';
-        this.consoleWrapper.classList.add('hidden');
-        this.consoleWrapper.classList.remove('flex');
+        if (this.isPlayground) {
+          this.playgroundFiles = {
+            html: this.problemHtml || '<div id="app"></div>',
+            css: '',
+            js: this.starterCode,
+          };
+          this.syncEditorWithPlaygroundFile();
+        } else {
+          this.editor.setValue(this.starterCode);
+        }
+
+        if (this.isPlayground) {
+          if (this.previewPane) {
+            this.previewPane.innerHTML = '<div class="flex items-center justify-center h-full min-h-[220px] text-sm text-gray-400 italic">Run the preview to see your result.</div>';
+          } else {
+            this.resultsEl.innerHTML = '<p class="text-gray-400 italic text-sm">Run the preview to see your result.</p>';
+          }
+        } else {
+          this.resultsEl.innerHTML = '<p class="text-gray-400 italic text-sm">Run tests to see results...</p>';
+        }
+        if (this.consoleEl) {
+          this.consoleEl.textContent = '';
+          this.consoleWrapper.classList.add('hidden');
+          this.consoleWrapper.classList.remove('flex');
+        }
         this.container.dataset.status = 'idle';
+      }
+    }
+
+    runDomSandbox() {
+      if (this.isPlayground) {
+        this.saveActivePlaygroundFile();
+      }
+      const html = this.isPlayground ? (this.playgroundFiles.html || '<div id="app"></div>') : this.problemHtml || '<div id="app"></div>';
+      const css = this.isPlayground ? (this.playgroundFiles.css || '') : '';
+      const js = this.isPlayground ? (this.playgroundFiles.js || '') : this.editor.getValue();
+
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      iframe.style.width = '100%';
+      iframe.style.height = '260px';
+      iframe.style.border = '0';
+      iframe.style.borderRadius = '12px';
+
+      const srcDoc = `<!doctype html>
+        <html>
+          <head>
+            <style>
+              body { font-family: system-ui, sans-serif; padding: 20px; }
+              * { box-sizing: border-box; }
+              ${css}
+            </style>
+          </head>
+          <body>
+            ${html}
+            <script>
+              try {
+                ${js}
+              } catch (error) {
+                document.body.innerHTML = '<pre style="color:crimson; white-space: pre-wrap;">' + (error && error.message ? error.message : String(error)) + '</pre>';
+              }
+            <\/script>
+          </body>
+        </html>`;
+
+      iframe.srcdoc = srcDoc;
+      if (this.previewPane) {
+        this.previewPane.innerHTML = '';
+        this.previewPane.appendChild(iframe);
+      } else {
+        this.resultsEl.innerHTML = '';
+        this.resultsEl.appendChild(iframe);
+      }
+
+      if (this.consoleEl) {
+        this.consoleEl.textContent = 'Live preview rendered.';
+        this.consoleWrapper.classList.remove('hidden');
+        this.consoleWrapper.classList.add('flex');
       }
     }
 
     runTests() {
       if (!this.editor || this.activeWorker) return;
 
-      this.switchTab('result'); // Switch to results tab automatically
+      if (this.mode === 'dom') {
+        this.container.dataset.status = 'done';
+        this.runBtn.disabled = true;
+        this.runBtn.classList.add('opacity-50');
+        this.runDomSandbox();
+        this.cleanup();
+        return;
+      }
+
+      this.switchTab('result');
       
       const code = this.editor.getValue();
       this.resultsEl.innerHTML = '<div class="flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold text-sm"><span class="animate-spin inline-block">⏳</span> Running...</div>';
@@ -355,7 +610,7 @@ const { starterCode, tests, title } = problem;
 
       // Prepare tests including custom input
       let testsToRun = [...this.tests];
-      const customInputVal = this.customInputArea.value.trim();
+      const customInputVal = this.customInputArea ? this.customInputArea.value.trim() : '';
       if (customInputVal) {
         try {
           const parsed = JSON.parse(customInputVal);
@@ -535,5 +790,87 @@ const { starterCode, tests, title } = problem;
   }
   .monaco-editor-container::-webkit-resizer {
      background-color: transparent;
+  }
+
+  .dom-playground-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dom-editor-panel,
+  .dom-preview-panel {
+    min-height: 120px;
+  }
+
+  .playground-preview-pane iframe {
+    display: block;
+    width: 100%;
+    min-height: 260px;
+    border: 0;
+    background: #fff;
+  }
+
+  .try-code-container.is-maximized {
+    position: fixed;
+    inset: 1rem;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 2rem);
+    overflow: hidden;
+    box-shadow: 0 24px 60px -28px rgba(15, 23, 42, 0.62);
+  }
+
+  .try-code-container.is-maximized .editor-wrapper {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .try-code-container.is-maximized .monaco-editor-container {
+    height: 52vh !important;
+    min-height: 280px;
+    max-height: 70vh;
+  }
+
+  .try-code-container.is-maximized .bottom-pane {
+    flex: 1;
+    min-height: 220px;
+    max-height: 40vh;
+  }
+
+  .try-code-container.is-maximized .dom-playground-shell {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .try-code-container.is-maximized .dom-editor-panel,
+  .try-code-container.is-maximized .dom-preview-panel {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .try-code-container.is-maximized .dom-editor-panel {
+    flex-basis: 58%;
+  }
+
+  .try-code-container.is-maximized .dom-preview-panel {
+    flex-basis: 42%;
+  }
+
+  .try-code-container.is-maximized .playground-preview-pane {
+    min-height: 220px;
+    height: 100%;
+  }
+
+  body:has(.try-code-container.is-maximized) {
+    overflow: hidden;
   }
 </style>
