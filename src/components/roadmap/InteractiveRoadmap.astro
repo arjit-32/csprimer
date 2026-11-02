@@ -4,304 +4,674 @@ import RoadmapNode from "./RoadmapNode.astro";
 interface Props {
   roadmap?: any;
   title: string;
+  categoryId?: string;
 }
 
-const { roadmap, title } = Astro.props;
-const layout = roadmap?.layout || "linear";
+const { roadmap, title, categoryId = "roadmap" } = Astro.props;
+const uid = (categoryId || title || "default").replace(/[^a-zA-Z0-9_-]/g, "-");
+
 const normalizedPaths = Array.isArray(roadmap?.paths) && roadmap.paths.length > 0
   ? roadmap.paths
-  : [{ id: `${title}-default`, title: "Learning path", courses: roadmap?.courses || [] }];
+  : [{ id: `${uid}-default`, title: "Learning Path", courses: roadmap?.courses || [] }];
+
+const allCourses = roadmap?.courses || [];
+const edges = roadmap?.edges || [];
+
+let totalLessonsAll = 0;
+allCourses.forEach((c: any) => {
+  (c.sections || []).forEach((sec: any) => {
+    totalLessonsAll += (sec.lessons || []).length;
+  });
+});
 ---
 
-<div class="interactive-roadmap-wrapper w-full max-w-5xl mx-auto py-12 px-4 animate-in fade-in duration-700">
-  <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 bg-white/80 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-blue-50/50 shadow-xl shadow-blue-900/5">
-    <div class="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
-      <span class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-blue-700">Roadmap</span>
-      <h3 class="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight leading-tight">{title}</h3>
+<div class="neetcode-roadmap-wrapper w-full select-none" data-roadmap-id={uid}>
+  <!-- Top Header & Stats Bar (Consistent with CS Primer Theme) -->
+  <div class="canvas-header-bar mb-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white border border-zinc-200 rounded-2xl p-4 md:px-6 md:py-4 shadow-sm transition-colors">
+    
+    <!-- Title & Status -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 text-[#FE6019] shrink-0 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h3 class="canvas-header-title text-lg md:text-xl font-bold font-secondary text-zinc-900 tracking-tight leading-none">{title}</h3>
+          <span class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-600 border border-zinc-200">
+            {allCourses.length} Topics
+          </span>
+        </div>
+        <p class="canvas-header-sub text-xs text-zinc-500 mt-1">Click any node to explore lessons and track progress</p>
+      </div>
     </div>
 
-    <div class="progress-stats flex items-center gap-6">
-      <div class="relative w-28 h-28 flex items-center justify-center">
-        <svg class="w-full h-full transform -rotate-90 filter drop-shadow-sm">
-          <circle cx="56" cy="56" r="50" stroke="currentColor" stroke-width="8" fill="transparent" class="text-zinc-100" />
-          <circle
-            id={`roadmap-progress-circle-${title.replace(/\s+/g, '-')}`}
-            cx="56"
-            cy="56"
-            r="50"
-            stroke="currentColor"
-            stroke-width="8"
-            stroke-dasharray="314"
-            stroke-dashoffset="314"
-            fill="transparent"
-            stroke-linecap="round"
-            class="text-blue-600 transition-all duration-1000 ease-out category-progress-circle"
-          />
-        </svg>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <span id={`roadmap-progress-percent-${title.replace(/\s+/g, '-')}`} class="text-2xl font-black text-zinc-900 leading-none category-progress-text">0%</span>
-          <span class="text-[9px] text-zinc-400 uppercase font-black tracking-widest mt-1">Done</span>
+    <!-- Progress Counter & Bar (CS Primer Brand Colors) -->
+    <div class="flex items-center justify-between md:justify-end gap-4 md:gap-6">
+      <div class="flex flex-col gap-1 min-w-[150px] md:min-w-[190px]">
+        <div class="flex items-center justify-between text-xs">
+          <span class="canvas-progress-label text-zinc-500 font-medium">Completed</span>
+          <span class="canvas-progress-text text-zinc-900 font-mono font-bold">
+            <span id={`progress-completed-${uid}`}>0</span> / {totalLessonsAll} (<span id={`progress-percent-${uid}`}>0%</span>)
+          </span>
         </div>
+        <div class="w-full bg-zinc-100 h-2 rounded-full overflow-hidden border border-zinc-200">
+          <div
+            id={`progress-bar-${uid}`}
+            class="h-full bg-gradient-to-r from-[#FE6019] via-orange-400 to-[#fb7299] rounded-full transition-all duration-700 ease-out"
+            style="width: 0%;"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Canvas Controls Toolbar -->
+      <div class="canvas-toolbar flex items-center bg-zinc-100 border border-zinc-200 rounded-xl p-1 shadow-inner shrink-0">
+        <button
+          type="button"
+          id={`zoom-out-${uid}`}
+          class="p-2 text-zinc-500 hover:text-zinc-900 hover:bg-white rounded-lg transition-colors focus:outline-none"
+          title="Zoom Out"
+          aria-label="Zoom Out"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          id={`zoom-reset-${uid}`}
+          class="px-2.5 py-1 text-xs font-mono font-semibold text-zinc-600 hover:text-zinc-900 hover:bg-white rounded-lg transition-colors focus:outline-none"
+          title="Reset Zoom & Pan"
+          aria-label="Reset View"
+        >
+          <span id={`zoom-level-${uid}`}>100%</span>
+        </button>
+        <button
+          type="button"
+          id={`zoom-in-${uid}`}
+          class="p-2 text-zinc-500 hover:text-zinc-900 hover:bg-white rounded-lg transition-colors focus:outline-none"
+          title="Zoom In"
+          aria-label="Zoom In"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+
+        <div class="w-px h-4 bg-zinc-300 mx-1"></div>
+
+        <!-- Canvas Theme Switcher (Light / Dark) -->
+        <button
+          type="button"
+          id={`theme-toggle-${uid}`}
+          class="p-2 text-zinc-500 hover:text-[#FE6019] hover:bg-white rounded-lg transition-colors focus:outline-none"
+          title="Toggle Canvas Dark/Light Theme"
+          aria-label="Toggle Canvas Theme"
+        >
+          <svg class="theme-icon-moon h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg class="theme-icon-sun h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button
+          type="button"
+          id={`fullscreen-btn-${uid}`}
+          class="p-2 text-zinc-500 hover:text-zinc-900 hover:bg-white rounded-lg transition-colors focus:outline-none"
+          title="Toggle Fullscreen"
+          aria-label="Toggle Fullscreen"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+        </button>
       </div>
     </div>
   </div>
 
-  {layout === "linear" && (
-    <div class="roadmap-path relative flex flex-col items-center gap-12 roadmap-track" data-roadmap-layout="linear" data-roadmap-id={normalizedPaths[0]?.id || `${title}-default`}>
-      <div class="absolute left-1/2 top-0 bottom-0 w-1.5 bg-zinc-100 transform -translate-x-1/2 hidden md:block rounded-full z-0">
-        <div class="path-progress-fill w-full bg-blue-500 rounded-full transition-all duration-1000 origin-top h-0"></div>
-      </div>
+  <!-- Canvas Viewport -->
+  <div
+    id={`roadmap-viewport-${uid}`}
+    class="roadmap-viewport relative w-full h-[640px] md:h-[720px] overflow-hidden rounded-2xl border border-zinc-200/90 bg-[#f8fafc] shadow-sm cursor-grab transition-all"
+    data-viewport-id={uid}
+  >
+    <!-- Background Dot Grid Pattern (Slate dots on light background) -->
+    <div
+      class="canvas-grid-pattern absolute inset-0 pointer-events-none opacity-60 transition-opacity"
+      style="background-image: radial-gradient(circle, #cbd5e1 1.2px, transparent 1.2px); background-size: 24px 24px;"
+    ></div>
 
-      {(normalizedPaths[0]?.courses || []).map((course: any, idx: number) => (
-        <div class="w-full relative flex justify-center pb-8 last:pb-0 z-10" data-course-container={course.id}>
-          <div class="w-full max-w-md flex justify-center">
-            <RoadmapNode course={course} />
-          </div>
-          {idx < (normalizedPaths[0]?.courses || []).length - 1 && (
-            <div class="absolute left-1/2 bottom-[-16px] w-4 h-4 rounded-full bg-zinc-200 border-4 border-white shadow-sm transform -translate-x-1/2 z-10 hidden md:block"></div>
-          )}
-        </div>
-      ))}
-
-      {!(normalizedPaths[0]?.courses || []).length && (
-        <div class="w-full rounded-2xl border border-dashed border-zinc-200 bg-zinc-50 px-6 py-12 text-center text-zinc-500">
-          No courses are available in this roadmap yet.
-        </div>
-      )}
+    <!-- Canvas Pan/Zoom Notification Hint -->
+    <div class="canvas-hint absolute bottom-3 left-4 pointer-events-none z-20 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 backdrop-blur-md border border-zinc-200 text-[11px] text-zinc-500 shadow-sm transition-colors">
+      <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+      </svg>
+      <span>Drag to pan &bull; Scroll to zoom</span>
     </div>
-  )}
 
-  {layout === "branching" && (
-    <div class="roadmap-branch-board-wrapper rounded-3xl border border-zinc-200/80 bg-gradient-to-br from-zinc-50 via-white to-blue-50/40 p-3">
-      <div class="roadmap-branch-board relative min-h-[360px]" style="height: 420px;">
-        {normalizedPaths.map((path: any, index: number) => {
-          const isSinglePath = normalizedPaths.length === 1;
+    <!-- Pannable & Scalable Content Plane -->
+    <div
+      id={`roadmap-board-${uid}`}
+      class="roadmap-board absolute top-0 left-0 p-12 md:p-16 min-w-full min-h-full origin-top-left"
+      data-edges={JSON.stringify(edges)}
+    >
+      <!-- SVG Connectors Layer -->
+      <svg
+        id={`roadmap-svg-${uid}`}
+        class="roadmap-svg absolute inset-0 w-full h-full pointer-events-none"
+        style="z-index: 1;"
+      >
+        <defs>
+          <!-- Normal Arrow Marker (Slate) -->
+          <marker
+            id={`arrow-${uid}`}
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8" class="arrow-path-default" />
+          </marker>
 
-          return (
-            <div
-              class="roadmap-branch-card absolute rounded-2xl border border-zinc-200 bg-white/90 p-4 shadow-sm transition-transform duration-200 ease-out"
-              data-roadmap-layout="branching"
-              data-path-id={path.id}
-              data-path-index={index}
-              style={isSinglePath ? "left: 16px; top: 16px; width: calc(100% - 32px);" : ""}
-            >
-              <div class="mb-3 flex items-center justify-between gap-3">
-                <span class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-blue-700 break-words">{path.title}</span>
-              </div>
+          <!-- Active / Hover Arrow Marker (Brand Orange) -->
+          <marker
+            id={`arrow-active-${uid}`}
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#FE6019" />
+          </marker>
 
-              <div class="relative flex flex-col gap-3 pb-1">
-                {(path.courses || []).map((course: any, courseIndex: number) => (
-                  <div class="relative z-10" data-course-container={course.id}>
-                    <RoadmapNode course={course} />
-                    {courseIndex < (path.courses || []).length - 1 && (
-                      <div class="mx-auto mt-2 h-4 w-px bg-zinc-200"></div>
-                    )}
-                  </div>
-                ))}
+          <!-- Completed Arrow Marker (Emerald Green) -->
+          <marker
+            id={`arrow-completed-${uid}`}
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+          </marker>
+        </defs>
+      </svg>
 
-                {!(path.courses || []).length && (
-                  <div class="rounded-xl border border-dashed border-zinc-200 bg-zinc-50 px-3 py-6 text-center text-sm text-zinc-500">
-                    No courses in this path yet.
-                  </div>
-                )}
-              </div>
+      <!-- Flowchart Nodes (Arranged in Stage/Path Columns) -->
+      <div class="relative z-10 flex flex-row items-start gap-16 md:gap-24 w-max">
+        {normalizedPaths.map((path: any) => (
+          <div class="roadmap-column flex flex-col items-center gap-10 min-w-[240px] md:min-w-[260px]">
+            <!-- Column / Stage Header -->
+            <div class="column-header-pill flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-zinc-200/90 shadow-sm transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#FE6019]"></span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-800">{path.title}</span>
+              <span class="text-[10px] text-zinc-400 font-mono font-semibold">({(path.courses || []).length})</span>
             </div>
-          );
-        })}
+
+            <!-- Nodes in this column -->
+            <div class="flex flex-col gap-10 items-center w-full">
+              {(path.courses || []).map((course: any) => (
+                <div class="relative node-anchor" data-course-container={course.id}>
+                  <RoadmapNode course={course} stageTitle={path.title} />
+                </div>
+              ))}
+
+              {!(path.courses || []).length && (
+                <div class="empty-track-card w-[280px] rounded-2xl border border-zinc-200 bg-white/90 p-8 text-center shadow-sm">
+                  <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#FE6019]">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h4 class="text-sm font-bold text-zinc-900 mb-1.5 font-secondary">Track in Active Development</h4>
+                  <p class="text-xs text-zinc-500 leading-relaxed">
+                    Modules for LLMs, RAG Architecture, and Agent Workflows will be available soon.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
+                    <span class="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded border border-zinc-200">LLM Basics</span>
+                    <span class="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded border border-zinc-200">Vector DBs</span>
+                    <span class="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded border border-zinc-200">Fine-Tuning</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  )}
+  </div>
 </div>
 
+<style>
+  .roadmap-viewport.cursor-grabbing {
+    cursor: grabbing !important;
+  }
+  .roadmap-viewport.is-fullscreen {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    border-radius: 0 !important;
+  }
+  .roadmap-edge {
+    transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+  }
+  .roadmap-edge.active-edge {
+    stroke: #FE6019 !important;
+    stroke-width: 2.5px !important;
+    filter: drop-shadow(0 0 5px rgba(254, 96, 25, 0.5)) !important;
+  }
+  .roadmap-edge.completed-edge {
+    stroke: #10b981 !important;
+  }
+
+  /* Dark Canvas Option Styles */
+  .roadmap-viewport.dark-canvas {
+    background-color: #0c0f17 !important;
+    border-color: rgba(63, 63, 70, 0.8) !important;
+  }
+  .roadmap-viewport.dark-canvas .canvas-grid-pattern {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.18) 1.2px, transparent 1.2px) !important;
+  }
+  .roadmap-viewport.dark-canvas .column-header-pill {
+    background-color: rgba(24, 24, 27, 0.9) !important;
+    border-color: rgba(63, 63, 70, 0.8) !important;
+    color: #f4f4f5 !important;
+  }
+  .roadmap-viewport.dark-canvas .column-header-pill span {
+    color: #f4f4f5 !important;
+  }
+  .roadmap-viewport.dark-canvas .canvas-hint {
+    background-color: rgba(24, 24, 27, 0.9) !important;
+    border-color: rgba(63, 63, 70, 0.8) !important;
+    color: #a1a1aa !important;
+  }
+  .roadmap-viewport.dark-canvas .empty-track-card {
+    background-color: #141822 !important;
+    border-color: rgba(63, 63, 70, 0.8) !important;
+  }
+  .roadmap-viewport.dark-canvas .empty-track-card h4 {
+    color: #ffffff !important;
+  }
+  .roadmap-viewport.dark-canvas .empty-track-card p {
+    color: #a1a1aa !important;
+  }
+  .roadmap-viewport.dark-canvas .empty-track-card span {
+    background-color: #27272a !important;
+    color: #a1a1aa !important;
+    border-color: #3f3f46 !important;
+  }
+</style>
+
 <script>
-  function calculateProgressForTrack(track: Element, savedProgress: Record<string, boolean>) {
-    let totalLessons = 0;
-    let completedLessons = 0;
+  function setupNeetcodeRoadmap() {
+    document.querySelectorAll('.neetcode-roadmap-wrapper').forEach((wrapper) => {
+      const uid = (wrapper as HTMLElement).dataset.roadmapId;
+      if (!uid) return;
 
-    track.querySelectorAll('[data-course-container]').forEach(container => {
-      const btn = container.querySelector('.course-node-btn') as HTMLButtonElement | null;
-      if (!btn) return;
+      const viewport = document.getElementById(`roadmap-viewport-${uid}`) as HTMLDivElement | null;
+      const board = document.getElementById(`roadmap-board-${uid}`) as HTMLDivElement | null;
+      const svg = document.getElementById(`roadmap-svg-${uid}`) as SVGSVGElement | null;
+      const zoomInBtn = document.getElementById(`zoom-in-${uid}`);
+      const zoomOutBtn = document.getElementById(`zoom-out-${uid}`);
+      const zoomResetBtn = document.getElementById(`zoom-reset-${uid}`);
+      const zoomLevelText = document.getElementById(`zoom-level-${uid}`);
+      const fullscreenBtn = document.getElementById(`fullscreen-btn-${uid}`);
+      const themeToggleBtn = document.getElementById(`theme-toggle-${uid}`);
 
-      const courseData = JSON.parse(btn.dataset.course || '{}');
-      let courseLessons = 0;
-      let courseCompleted = 0;
+      if (!viewport || !board || !svg) return;
 
-      courseData.sections?.forEach((section: any) => {
-        section.lessons?.forEach((lesson: any) => {
-          courseLessons += 1;
-          if (savedProgress[lesson.id]) {
-            courseCompleted += 1;
+      let scale = 1;
+      let panX = 40;
+      let panY = 40;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+
+      // Theme preference on canvas
+      const savedTheme = localStorage.getItem('canvas_theme') || 'light';
+      if (savedTheme === 'dark') {
+        viewport.classList.add('dark-canvas');
+        themeToggleBtn?.querySelector('.theme-icon-moon')?.classList.add('hidden');
+        themeToggleBtn?.querySelector('.theme-icon-sun')?.classList.remove('hidden');
+      }
+
+      themeToggleBtn?.addEventListener('click', () => {
+        viewport.classList.toggle('dark-canvas');
+        const isDark = viewport.classList.contains('dark-canvas');
+        localStorage.setItem('canvas_theme', isDark ? 'dark' : 'light');
+        if (isDark) {
+          themeToggleBtn.querySelector('.theme-icon-moon')?.classList.add('hidden');
+          themeToggleBtn.querySelector('.theme-icon-sun')?.classList.remove('hidden');
+        } else {
+          themeToggleBtn.querySelector('.theme-icon-moon')?.classList.remove('hidden');
+          themeToggleBtn.querySelector('.theme-icon-sun')?.classList.add('hidden');
+        }
+        drawConnections();
+      });
+
+      function applyTransform() {
+        if (!board) return;
+        board.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${scale})`;
+        if (zoomLevelText) {
+          zoomLevelText.textContent = `${Math.round(scale * 100)}%`;
+        }
+      }
+
+      function zoom(delta: number) {
+        const newScale = Math.min(Math.max(scale + delta, 0.45), 1.6);
+        scale = Number(newScale.toFixed(2));
+        applyTransform();
+      }
+
+      function resetView() {
+        scale = 1;
+        panX = 40;
+        panY = 40;
+        applyTransform();
+      }
+
+      // Pan Drag Listeners (Mouse)
+      viewport.addEventListener('mousedown', (e) => {
+        if ((e.target as HTMLElement).closest('.course-node-btn')) return;
+
+        isDragging = true;
+        startX = e.clientX - panX;
+        startY = e.clientY - panY;
+        viewport.classList.add('cursor-grabbing');
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        panX = e.clientX - startX;
+        panY = e.clientY - startY;
+        applyTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          viewport.classList.remove('cursor-grabbing');
+        }
+      });
+
+      // Touch Drag Listeners (Mobile / Tablet)
+      viewport.addEventListener('touchstart', (e) => {
+        if ((e.target as HTMLElement).closest('.course-node-btn')) return;
+        if (e.touches.length === 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX - panX;
+          startY = e.touches[0].clientY - panY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        panX = e.touches[0].clientX - startX;
+        panY = e.touches[0].clientY - startY;
+        applyTransform();
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+
+      // Mouse wheel zoom
+      viewport.addEventListener(
+        'wheel',
+        (e) => {
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 0.08 : -0.08;
+          zoom(delta);
+        },
+        { passive: false }
+      );
+
+      // Buttons
+      zoomInBtn?.addEventListener('click', () => zoom(0.12));
+      zoomOutBtn?.addEventListener('click', () => zoom(-0.12));
+      zoomResetBtn?.addEventListener('click', resetView);
+
+      // Fullscreen Toggle
+      fullscreenBtn?.addEventListener('click', () => {
+        viewport.classList.toggle('is-fullscreen');
+        setTimeout(() => {
+          drawConnections();
+        }, 150);
+      });
+
+      // Escape key exits fullscreen
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && viewport.classList.contains('is-fullscreen')) {
+          viewport.classList.remove('is-fullscreen');
+          setTimeout(() => {
+            drawConnections();
+          }, 150);
+        }
+      });
+
+      // Draw SVG Bezier Connections
+      function drawConnections() {
+        if (!board || !svg) return;
+        const edges = JSON.parse(board.dataset.edges || '[]');
+        if (!edges.length) return;
+
+        const boardRect = board.getBoundingClientRect();
+        const curScale = scale || 1;
+        const isDark = viewport?.classList.contains('dark-canvas');
+
+        // Resize SVG to match board scroll size
+        const boardWidth = board.scrollWidth;
+        const boardHeight = board.scrollHeight;
+        svg.setAttribute('width', `${boardWidth}`);
+        svg.setAttribute('height', `${boardHeight}`);
+
+        const defs = svg.querySelector('defs');
+        let pathsHtml = '';
+
+        edges.forEach((edge: { from: string; to: string }) => {
+          const fromBtn = board.querySelector(`[data-node-id="${edge.from}"]`) as HTMLElement | null;
+          const toBtn = board.querySelector(`[data-node-id="${edge.to}"]`) as HTMLElement | null;
+          if (!fromBtn || !toBtn) return;
+
+          const fromRect = fromBtn.getBoundingClientRect();
+          const toRect = toBtn.getBoundingClientRect();
+
+          // Local coordinates inside board
+          const fx = (fromRect.left - boardRect.left) / curScale;
+          const fy = (fromRect.top - boardRect.top) / curScale;
+          const fw = fromRect.width / curScale;
+          const fh = fromRect.height / curScale;
+
+          const tx = (toRect.left - boardRect.left) / curScale;
+          const ty = (toRect.top - boardRect.top) / curScale;
+          const tw = toRect.width / curScale;
+          const th = toRect.height / curScale;
+
+          const dx = (tx + tw / 2) - (fx + fw / 2);
+          const dy = (ty + th / 2) - (fy + fh / 2);
+
+          let x1: number, y1: number, x2: number, y2: number, d: string;
+
+          if (Math.abs(dx) < 60) {
+            // Same column (vertical connection)
+            if (dy >= 0) {
+              x1 = fx + fw / 2;
+              y1 = fy + fh;
+              x2 = tx + tw / 2;
+              y2 = ty;
+              const cy = (y1 + y2) / 2;
+              d = `M ${x1} ${y1} C ${x1} ${cy}, ${x2} ${cy}, ${x2} ${y2}`;
+            } else {
+              x1 = fx + fw / 2;
+              y1 = fy;
+              x2 = tx + tw / 2;
+              y2 = ty + th;
+              const cy = (y1 + y2) / 2;
+              d = `M ${x1} ${y1} C ${x1} ${cy}, ${x2} ${cy}, ${x2} ${y2}`;
+            }
+          } else if (dx > 0) {
+            // Left to right S-curve
+            x1 = fx + fw;
+            y1 = fy + fh / 2;
+            x2 = tx;
+            y2 = ty + th / 2;
+            const cx = (x1 + x2) / 2;
+            d = `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`;
+          } else {
+            // Right to left S-curve
+            x1 = fx;
+            y1 = fy + fh / 2;
+            x2 = tx + tw;
+            y2 = ty + th / 2;
+            const cx = (x1 + x2) / 2;
+            d = `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`;
           }
+
+          const isCompleted = fromBtn.classList.contains('completed');
+          const edgeClass = `roadmap-edge ${isCompleted ? 'completed-edge' : ''}`;
+          const stroke = isCompleted ? '#10b981' : (isDark ? '#475569' : '#94a3b8');
+          const marker = isCompleted ? `url(#arrow-completed-${uid})` : `url(#arrow-${uid})`;
+
+          pathsHtml += `
+            <path
+              d="${d}"
+              class="${edgeClass}"
+              data-from="${edge.from}"
+              data-to="${edge.to}"
+              fill="none"
+              stroke="${stroke}"
+              stroke-width="2"
+              stroke-linecap="round"
+              marker-end="${marker}"
+            />
+          `;
+        });
+
+        svg.innerHTML = (defs ? defs.outerHTML : '') + pathsHtml;
+      }
+
+      // Calculate Progress and update styles
+      function updateRoadmapProgress() {
+        const savedProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}');
+        let totalCatLessons = 0;
+        let completedCatLessons = 0;
+
+        wrapper.querySelectorAll('.roadmap-node').forEach((node) => {
+          const btn = node as HTMLElement;
+          const courseData = JSON.parse(btn.dataset.course || '{}');
+          let courseTotal = 0;
+          let courseDone = 0;
+
+          courseData.sections?.forEach((sec: any) => {
+            sec.lessons?.forEach((lesson: any) => {
+              courseTotal += 1;
+              if (savedProgress[lesson.id]) {
+                courseDone += 1;
+              }
+            });
+          });
+
+          totalCatLessons += courseTotal;
+          completedCatLessons += courseDone;
+
+          // Update card inner progress
+          const countSpan = btn.querySelector('.node-completed-count');
+          if (countSpan) countSpan.textContent = courseDone.toString();
+
+          const bar = btn.querySelector('.node-progress-bar') as HTMLElement | null;
+          if (bar) {
+            const pct = courseTotal > 0 ? (courseDone / courseTotal) * 100 : 0;
+            bar.style.width = `${pct}%`;
+          }
+
+          if (courseTotal > 0 && courseDone === courseTotal) {
+            btn.classList.add('completed');
+          } else {
+            btn.classList.remove('completed');
+          }
+        });
+
+        // Update overall roadmap progress
+        const completedCountEl = document.getElementById(`progress-completed-${uid}`);
+        const percentEl = document.getElementById(`progress-percent-${uid}`);
+        const overallBar = document.getElementById(`progress-bar-${uid}`);
+
+        const overallPercent = totalCatLessons > 0 ? Math.round((completedCatLessons / totalCatLessons) * 100) : 0;
+
+        if (completedCountEl) completedCountEl.textContent = completedCatLessons.toString();
+        if (percentEl) percentEl.textContent = `${overallPercent}%`;
+        if (overallBar) overallBar.style.width = `${overallPercent}%`;
+
+        // Update SVG edges completed status
+        drawConnections();
+      }
+
+      // Node Hover Interactions: highlight incoming & outgoing edges
+      board.querySelectorAll('.course-node-btn').forEach((btn) => {
+        const nodeId = (btn as HTMLElement).dataset.nodeId;
+        if (!nodeId) return;
+
+        btn.addEventListener('mouseenter', () => {
+          svg.querySelectorAll('.roadmap-edge').forEach((path) => {
+            const p = path as SVGPathElement;
+            if (p.dataset.from === nodeId || p.dataset.to === nodeId) {
+              p.classList.add('active-edge');
+              p.setAttribute('marker-end', `url(#arrow-active-${uid})`);
+            }
+          });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          svg.querySelectorAll('.roadmap-edge').forEach((path) => {
+            const p = path as SVGPathElement;
+            if (p.dataset.from === nodeId || p.dataset.to === nodeId) {
+              p.classList.remove('active-edge');
+              const isComp = p.classList.contains('completed-edge');
+              p.setAttribute('marker-end', isComp ? `url(#arrow-completed-${uid})` : `url(#arrow-${uid})`);
+            }
+          });
+        });
+
+        // Click opens CourseDrawer
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const courseData = JSON.parse((btn as HTMLElement).dataset.course || '{}');
+          window.dispatchEvent(new CustomEvent('openCourseDrawer', { detail: { course: courseData } }));
         });
       });
 
-      totalLessons += courseLessons;
-      completedLessons += courseCompleted;
+      // Initial layout setup
+      applyTransform();
+      updateRoadmapProgress();
 
-      if (courseLessons > 0 && courseLessons === courseCompleted) {
-        btn.classList.add('completed');
-      } else {
-        btn.classList.remove('completed');
-      }
-    });
+      // Listen for window resize and progress updates
+      window.addEventListener('resize', drawConnections);
+      window.addEventListener('roadmapProgressUpdated', updateRoadmapProgress);
 
-    return { totalLessons, completedLessons };
-  }
-
-  function calculateGlobalProgress() {
-    const savedProgress = JSON.parse(localStorage.getItem('roadmap_progress') || '{}');
-
-    document.querySelectorAll('.interactive-roadmap-wrapper').forEach(wrapper => {
-      let totalLessons = 0;
-      let completedLessons = 0;
-
-      wrapper.querySelectorAll('.roadmap-track').forEach(track => {
-        const { totalLessons: trackLessons, completedLessons: trackCompleted } = calculateProgressForTrack(track, savedProgress);
-        totalLessons += trackLessons;
-        completedLessons += trackCompleted;
-
-        const lineFill = track.querySelector('.path-progress-fill') as HTMLDivElement | null;
-        if (!lineFill) return;
-
-        const pathPercent = trackLessons > 0 ? Math.round((trackCompleted / trackLessons) * 100) : 0;
-        lineFill.style.height = `${pathPercent}%`;
-      });
-
-      const percent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
-      const circle = wrapper.querySelector('.category-progress-circle') as SVGCircleElement | null;
-      const text = wrapper.querySelector('.category-progress-text') as HTMLSpanElement | null;
-
-      if (circle) {
-        const circumference = 314;
-        const offset = circumference - (percent / 100) * circumference;
-        circle.style.strokeDashoffset = offset.toString();
-      }
-      if (text) text.textContent = `${percent}%`;
-    });
-  }
-
-  function arrangeBranchBoard() {
-    const board = document.querySelector('.roadmap-branch-board');
-    if (!board) return;
-
-    const cards = [...board.querySelectorAll('.roadmap-branch-card')];
-    if (cards.length <= 1) {
-      cards.forEach(card => {
-        const element = card as HTMLElement;
-        element.style.left = '16px';
-        element.style.top = '16px';
-        element.style.width = 'calc(100% - 32px)';
-      });
-      board.style.height = '260px';
-      return;
-    }
-
-    const gap = 20;
-    const padding = 16;
-    const columns = Math.min(Math.max(Math.floor((board.clientWidth || 760) / 280), 2), 3);
-    const cardWidth = (board.clientWidth - padding * 2 - gap * (columns - 1)) / columns;
-    const columnHeights = Array(columns).fill(padding);
-
-    cards.forEach((card) => {
-      const element = card as HTMLElement;
-      const columnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-      const height = element.offsetHeight || 220;
-
-      element.style.width = `${cardWidth}px`;
-      element.style.left = `${padding + columnIndex * (cardWidth + gap)}px`;
-      element.style.top = `${columnHeights[columnIndex]}px`;
-      columnHeights[columnIndex] += height + gap;
-    });
-
-    board.style.height = `${Math.max(...columnHeights) + 20}px`;
-  }
-
-  function initBranchBoardDragging() {
-    const board = document.querySelector('.roadmap-branch-board');
-    if (!board) return;
-
-    const cards = board.querySelectorAll('.roadmap-branch-card');
-    cards.forEach((card) => {
-      const element = card as HTMLElement;
-      if (cards.length === 1) {
-        element.style.cursor = 'default';
-        return;
-      }
-
-      const parsePx = (value: string | null, fallback: number) => {
-        if (!value) return fallback;
-        const parsed = Number.parseFloat(value);
-        return Number.isFinite(parsed) ? parsed : fallback;
+      // Expose redraw function on element for tab switches
+      (wrapper as any).__redrawRoadmap = () => {
+        setTimeout(() => {
+          drawConnections();
+          updateRoadmapProgress();
+        }, 50);
       };
-
-      const left = parsePx(element.style.left, 0);
-      const top = parsePx(element.style.top, 0);
-      element.dataset.left = String(left);
-      element.dataset.top = String(top);
-      element.style.cursor = 'grab';
-      element.style.touchAction = 'none';
-
-      element.addEventListener('pointerdown', (event) => {
-        const pointer = event as PointerEvent;
-        const cardRect = element.getBoundingClientRect();
-        const boardRect = board.getBoundingClientRect();
-
-        const offsetX = pointer.clientX - cardRect.left;
-        const offsetY = pointer.clientY - cardRect.top;
-
-        const move = (moveEvent: PointerEvent) => {
-          const nextLeft = Math.min(
-            Math.max((moveEvent.clientX - boardRect.left) - offsetX, 16),
-            Math.max(16, boardRect.width - cardRect.width - 16)
-          );
-          const nextTop = Math.min(
-            Math.max((moveEvent.clientY - boardRect.top) - offsetY, 16),
-            Math.max(16, boardRect.height - cardRect.height - 16)
-          );
-
-          element.style.left = `${nextLeft}px`;
-          element.style.top = `${nextTop}px`;
-          element.dataset.left = String(nextLeft);
-          element.dataset.top = String(nextTop);
-        };
-
-        const up = () => {
-          window.removeEventListener('pointermove', move);
-          window.removeEventListener('pointerup', up);
-          element.style.cursor = 'grab';
-        };
-
-        element.setPointerCapture(pointer.pointerId);
-        element.style.cursor = 'grabbing';
-        window.addEventListener('pointermove', move);
-        window.addEventListener('pointerup', up);
-      });
     });
   }
 
-  function initInteractiveRoadmap() {
-    document.querySelectorAll('.course-node-btn').forEach(btn => {
-      const newBtn = btn.cloneNode(true) as HTMLButtonElement;
-      btn.parentNode?.replaceChild(newBtn, btn);
-
-      newBtn.addEventListener('click', () => {
-        const courseData = JSON.parse(newBtn.dataset.course || '{}');
-        window.dispatchEvent(new CustomEvent('openCourseDrawer', { detail: { course: courseData } }));
-      });
-    });
-
-    arrangeBranchBoard();
-    initBranchBoardDragging();
-    calculateGlobalProgress();
-  }
-
-  window.addEventListener('roadmapProgressUpdated', () => {
-    calculateGlobalProgress();
-  });
-  window.addEventListener('resize', () => {
-    arrangeBranchBoard();
-  });
-
-  document.addEventListener('astro:page-load', initInteractiveRoadmap);
-  initInteractiveRoadmap();
+  document.addEventListener('astro:page-load', setupNeetcodeRoadmap);
+  document.addEventListener('astro:after-swap', setupNeetcodeRoadmap);
+  document.addEventListener('DOMContentLoaded', setupNeetcodeRoadmap);
+  setupNeetcodeRoadmap();
 </script>

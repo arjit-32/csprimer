@@ -29,11 +29,17 @@ export interface RoadmapPathDefinition {
 
 export type RoadmapLayout = "linear" | "branching";
 
+export interface RoadmapEdge {
+  from: string;
+  to: string;
+}
+
 export interface RoadmapCategory {
   category: string;
   layout: RoadmapLayout;
   paths: RoadmapPathDefinition[];
   courses: CourseNode[];
+  edges: RoadmapEdge[];
 }
 
 function toCourseNode(series: any): CourseNode | null {
@@ -116,6 +122,24 @@ export async function getAllRoadmapCourses(): Promise<Record<string, RoadmapCate
       });
     });
 
+    // Handle edges: explicit or auto-generated
+    let edges: RoadmapEdge[] = [];
+    if (Array.isArray(config.edges)) {
+      edges = config.edges.filter(
+        (e: any) => e && typeof e.from === "string" && typeof e.to === "string"
+      );
+    } else {
+      // Auto-generate sequential edges per path
+      normalizedPaths.forEach((path) => {
+        for (let i = 0; i < path.courses.length - 1; i++) {
+          edges.push({
+            from: path.courses[i].id,
+            to: path.courses[i + 1].id
+          });
+        }
+      });
+    }
+
     roadmapCourses[category] = {
       category,
       layout,
@@ -124,7 +148,8 @@ export async function getAllRoadmapCourses(): Promise<Record<string, RoadmapCate
         title: path.title,
         courses: path.courses
       })),
-      courses: allCourses
+      courses: allCourses,
+      edges
     };
   }
 
