@@ -1,34 +1,79 @@
 {
-  "Core-CS": [
-    "dm",
-    "dl",
-    "coa",
-    "toc",
-    "compiler",
-    "os",
-    "cn",
-    "dbms"
-  ],
-  "DSA": [
-    "java",
-    "dsa-for-interviews"
-  ],
-  "Development": [
-    "html-css",
-    "javascript",
-    "nodejs",
-    "express",
-    "auth",
-    "mongo",
-    "sql",
-    "git",
-    "ui"
-  ],
-  "System-Design": [
-    "distributed",
-    "api",
-    "high-level-system-design",
-    "aws"
-  ],
-  "AI-Engineering": []
+  "Core-CS": {
+    "layout": "linear",
+    "courses": [
+      "dm",
+      "dl",
+      "coa",
+      "toc",
+      "compiler",
+      "os",
+      "cn",
+      "dbms"
+    ]
+  },
+  "DSA": {
+    "layout": "linear",
+    "courses": [
+      "java",
+      "dsa-for-interviews"
+    ]
+  },
+  "Development": {
+    "layout": "branching",
+    "paths": [
+      {
+        "id": "dev-foundations",
+        "title": "Foundations",
+        "courses": [
+          "html-css",
+          "javascript"
+        ]
+      },
+      {
+        "id": "dev-backend",
+        "title": "Backend & Data",
+        "courses": [
+          "nodejs",
+          "express",
+          "auth",
+          "mongo",
+          "sql"
+        ]
+      },
+      {
+        "id": "dev-collaboration",
+        "title": "Extras",
+        "courses": [
+          "git",
+          "ui"
+        ]
+      }
+    ]
+  },
+  "System-Design": {
+    "layout": "branching",
+    "paths": [
+      {
+        "id": "dev-foundations",
+        "title": "Courses",
+        "courses": [
+          "distributed",
+          "api",
+          "high-level-system-design",
+          "aws"
+        ]
+      }
+    ]
+  },
+  "AI-Engineering": {
+    "layout": "branching",
+    "paths": [
+      {
+        "id": "ai-overview",
+        "title": "AI Engineering Overview",
+        "courses": []
+      }
+    ]
+  }
 }

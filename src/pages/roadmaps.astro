@@ -106,9 +106,14 @@ const categories = [
             <div id="interactiveContent" class="hidden transition-all duration-500 opacity-0 scale-95">
               {categories.filter(c => c.category !== 'all').map(cat => (
                 <div id={`interactive-${cat.category}`} class="interactive-container hidden">
-                  <InteractiveRoadmap 
-                    courses={dynamicRoadmapData[cat.category] || []} 
-                    title={cat.label} 
+                  <InteractiveRoadmap
+                    roadmap={dynamicRoadmapData[cat.category] || {
+                      category: cat.category,
+                      layout: "linear",
+                      paths: [{ id: `${cat.category}-default`, title: "Learning path", courses: [] }],
+                      courses: []
+                    }}
+                    title={cat.label}
                   />
                 </div>
               ))}
