@@ -1,0 +1,1823 @@
+---
+import { getCollection } from "astro:content";
+
+// Fetch series collection
+const seriesCollection = (await getCollection("series")).sort((a, b) => {
+  const weightA = a.data.weight ?? 100;
+  const weightB = b.data.weight ?? 100;
+  if (weightA !== weightB) return weightA - weightB;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// Prepare serializable series data with all topics/articles
+const allSeriesData = seriesCollection.map((s) => {
+  const articles: Array<{ id: string; title: string; url: string; section: string }> = [];
+  if (s.data.navbar) {
+    for (const section of s.data.navbar) {
+      if (section.link) {
+        for (const link of section.link) {
+          const articleUrl = link.type === "articles" ? `/articles/${link.url}` : link.url;
+          articles.push({
+            id: link.url,
+            title: link.title,
+            url: articleUrl,
+            section: section.subheading || "General",
+          });
+        }
+      }
+    }
+  }
+  return {
+    id: s.id,
+    title: s.data.title,
+    category: s.data.category || "General",
+    weight: s.data.weight ?? 100,
+    articles,
+  };
+});
+---
+
+<section id="lets-revise" class="revision-planner-section w-full">
+  <!-- 5. Reminders / Due Today Banner -->
+  <div id="planner-reminder-banner" class="mb-6 rounded-2xl p-4 md:p-5 border transition-all duration-300 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <!-- Populated dynamically via JS -->
+  </div>
+
+  <!-- Top Section Header -->
+  <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-6 pb-6 border-b border-zinc-200">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+        Smart Batch Spaced Repetition
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-zinc-900 font-secondary tracking-tight leading-none">
+        Let's Revise
+      </h2>
+      <p class="text-zinc-600 text-sm md:text-base mt-2 max-w-2xl leading-relaxed">
+        Choose your target review frequency and daily pace. Topics cycle automatically in daily batches until mastered—no stressful calendar deadlines.
+      </p>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex flex-wrap items-center gap-2.5">
+      <!-- Session Selector Dropdown -->
+      <div class="relative">
+        <select
+          id="planner-session-select"
+          class="text-xs font-bold text-zinc-700 bg-white border border-zinc-300 hover:border-zinc-400 rounded-xl px-3 py-2 pr-8 shadow-xs focus:outline-none focus:border-[#FE6019] cursor-pointer"
+        >
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <!-- New Session Button -->
+      <button
+        type="button"
+        id="btn-open-session-dialog"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow-xs transition-all transform hover:-translate-y-0.5 cursor-pointer"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>New Session</span>
+      </button>
+
+
+    </div>
+  </div>
+
+  <!-- 3. Daily Revision Queue Card & Progress -->
+  <div class="bg-white rounded-2xl p-5 border border-zinc-200 shadow-xs mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-100">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="text-base font-bold text-zinc-900">Today's Revision Queue</span>
+          <span id="queue-badge-target" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-orange-100 text-[#FE6019]">
+            Target: 2 topics
+          </span>
+          <span id="queue-batch-info" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-700">
+            Batch 1
+          </span>
+        </div>
+        <p class="text-xs text-zinc-500">
+          Topics queued for today's daily revision target. Once finished, upcoming topics queue into subsequent batches.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          id="btn-start-queue-session"
+          class="px-4 py-2 bg-zinc-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer"
+        >
+          <span>Start Daily Revision</span>
+          <svg class="w-3.5 h-3.5 text-[#FE6019]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Daily Progress Bar -->
+    <div class="pt-4 space-y-2">
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-700">
+        <div class="flex items-center gap-2">
+          <span id="daily-progress-text">0 of 10 completed today</span>
+          <span id="daily-progress-percent" class="text-zinc-400 font-mono">(0%)</span>
+        </div>
+        <span id="daily-remaining-text" class="text-zinc-500">10 remaining in target</span>
+      </div>
+      <div class="w-full bg-zinc-100 h-2.5 rounded-full overflow-hidden border border-zinc-200">
+        <div id="daily-progress-fill" class="bg-gradient-to-r from-[#FE6019] to-amber-500 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Planner Table Card -->
+  <div class="bg-white rounded-2xl border border-zinc-200 shadow-xs overflow-hidden">
+    <!-- Table Toolbar & Filters -->
+    <div class="p-4 bg-zinc-50 border-b border-zinc-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <!-- Search & Filters -->
+      <div class="flex flex-wrap items-center gap-2 flex-1">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-56">
+          <input
+            type="text"
+            id="sheet-search-input"
+            placeholder="Search topic or course..."
+            class="w-full text-xs pl-8 pr-3 py-1.5 rounded-lg border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019] focus:ring-1 focus:ring-[#FE6019]"
+          />
+          <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <!-- Series Dropdown Filter -->
+        <select
+          id="sheet-series-filter"
+          class="text-xs py-1.5 px-2.5 rounded-lg border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019] cursor-pointer"
+        >
+          <option value="all">All Courses</option>
+          <!-- Options populated dynamically -->
+        </select>
+
+        <!-- Status Filter Tabs -->
+        <div class="inline-flex rounded-lg border border-zinc-200 bg-white p-0.5 text-xs shadow-2xs">
+          <button
+            type="button"
+            data-filter-status="all"
+            class="sheet-filter-btn px-2.5 py-1 rounded-md font-semibold text-zinc-900 bg-zinc-100 cursor-pointer"
+          >
+            All
+          </button>
+          <button
+            type="button"
+            data-filter-status="due"
+            class="sheet-filter-btn px-2.5 py-1 rounded-md text-zinc-500 hover:text-zinc-900 cursor-pointer"
+          >
+            Today's Queue
+          </button>
+          <button
+            type="button"
+            data-filter-status="upcoming"
+            class="sheet-filter-btn px-2.5 py-1 rounded-md text-zinc-500 hover:text-zinc-900 cursor-pointer"
+          >
+            Upcoming
+          </button>
+          <button
+            type="button"
+            data-filter-status="mastered"
+            class="sheet-filter-btn px-2.5 py-1 rounded-md text-zinc-500 hover:text-zinc-900 cursor-pointer"
+          >
+            Mastered
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-2 self-end md:self-auto">
+        <button
+          type="button"
+          id="btn-open-add-custom-modal"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-zinc-700 bg-white hover:bg-zinc-100 border border-zinc-300 rounded-lg shadow-2xs transition cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          <span>Add Custom Topic</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-delete-active-session"
+          class="p-1.5 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+          title="Delete current session"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- The 6-Column Planner Table Viewport (Req 4) -->
+    <div class="overflow-x-auto max-h-[580px] overflow-y-auto relative scrollbar-thin">
+      <table id="revision-planner-table" class="w-full text-left border-collapse text-xs">
+        <thead class="bg-zinc-100/90 backdrop-blur-xs sticky top-0 z-10 border-b border-zinc-200 text-zinc-600 font-bold uppercase tracking-wider select-none text-[11px]">
+          <tr>
+            <th class="py-3 px-3 w-10 text-center border-r border-zinc-200">#</th>
+            <th class="py-3 px-4 min-w-[220px] border-r border-zinc-200">Topic</th>
+            <th class="py-3 px-3 min-w-[130px] border-r border-zinc-200">Course / Series</th>
+            <th class="py-3 px-3 w-36 text-center border-r border-zinc-200">Reviews Done</th>
+            <th class="py-3 px-3 min-w-[130px] text-center border-r border-zinc-200">Revision Stage</th>
+            <th class="py-3 px-3 w-36 text-center border-r border-zinc-200">Queue Status</th>
+            <th class="py-3 px-3 w-24 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody id="revision-table-body" class="divide-y divide-zinc-200 font-normal">
+          <!-- Rows dynamically rendered via JS -->
+        </tbody>
+      </table>
+
+      <!-- Empty state if no items -->
+      <div id="sheet-empty-state" class="hidden py-14 text-center text-zinc-500 bg-white">
+        <span class="text-3xl block mb-2">📋</span>
+        <h4 class="font-bold text-sm text-zinc-800">No topics found</h4>
+        <p class="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">
+          No items match your active filters, or this session has no items yet.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sheet Bottom Footer -->
+    <div class="px-4 py-3 bg-zinc-50 border-t border-zinc-200 flex flex-wrap items-center justify-between text-xs text-zinc-500 gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span id="sheet-footer-info">Showing 0 topics</span>
+      </div>
+      <div class="flex items-center gap-3 text-[11px] text-zinc-400">
+        <span>💡 Cycle: Topics advance in daily batches until target frequency achieved (Mastered 🏆)</span>
+        <span>•</span>
+        <span>Stored locally in browser</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: CREATE / CONFIGURE REVISION SESSION (Req 1)     -->
+  <!-- ======================================================== -->
+  <dialog
+    id="session-dialog-modal"
+    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-2xl w-full text-zinc-900 overflow-hidden"
+  >
+    <div class="p-6 bg-white space-y-6">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
+        <div>
+          <span class="text-xs font-bold text-[#FE6019] uppercase tracking-wider">Planner Setup</span>
+          <h3 class="text-xl font-bold text-zinc-900">Create Revision Session</h3>
+        </div>
+        <button
+          type="button"
+          id="btn-close-session-dialog"
+          class="text-zinc-400 hover:text-zinc-700 p-1 rounded-lg hover:bg-zinc-100 transition cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Form -->
+      <form id="create-session-form" class="space-y-5">
+        <!-- 1. Session Name -->
+        <div class="space-y-1.5">
+          <label for="modal-session-name" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+            Session Name
+          </label>
+          <input
+            type="text"
+            id="modal-session-name"
+            required
+            placeholder="e.g. Full-Stack & CS Fundamentals Planner"
+            class="w-full text-sm px-3.5 py-2 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019] focus:ring-1 focus:ring-[#FE6019]"
+          />
+        </div>
+
+        <!-- 2. Searchable Multi-Select Courses/Series with Chips (Req 1) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+              Select Courses / Series (Across Categories)
+            </label>
+            <div class="flex items-center gap-2 text-xs">
+              <button type="button" id="btn-modal-select-dsa-interviews" class="text-[#FE6019] font-semibold hover:underline cursor-pointer">
+                DSA for Interviews
+              </button>
+              <span class="text-zinc-300">|</span>
+              <button type="button" id="btn-modal-select-all" class="text-zinc-700 font-semibold hover:underline cursor-pointer">
+                Select All
+              </button>
+              <span class="text-zinc-300">|</span>
+              <button type="button" id="btn-modal-clear-series" class="text-zinc-500 font-semibold hover:underline cursor-pointer">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Selected Series Chips Container -->
+          <div
+            id="modal-selected-chips-container"
+            class="flex flex-wrap gap-1.5 p-2 bg-zinc-50 border border-zinc-200 rounded-xl min-h-[46px] max-h-32 overflow-y-auto"
+          >
+            <!-- Removable chips rendered here -->
+          </div>
+
+          <!-- Search Course Input & Dropdown -->
+          <div class="relative">
+            <input
+              type="text"
+              id="modal-series-search"
+              placeholder="Search from all 45 courses/series..."
+              class="w-full text-xs px-3.5 py-2 pl-8 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+            />
+            <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+
+          <!-- Series Checklist Scroll Container -->
+          <div
+            id="modal-series-checklist"
+            class="max-h-44 overflow-y-auto border border-zinc-200 rounded-xl p-2 bg-zinc-50 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs"
+          >
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- 3. Methodology, Total Frequency & Daily Target -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Revision Schedule / Type -->
+          <div class="space-y-1.5">
+            <label for="modal-session-schedule-type" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+              Revision Schedule
+            </label>
+            <select
+              id="modal-session-schedule-type"
+              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019] cursor-pointer"
+            >
+              <option value="standard" selected>Standard (1-3-7-14 &bull; 4 Reviews)</option>
+              <option value="quick">Quick Review (1-3-7 &bull; 3 Reviews)</option>
+              <option value="deep">Deep Mastery (1-3-7-14-30 &bull; 5 Reviews)</option>
+              <option value="fibonacci">Gradual (1-2-4-7-14 &bull; 5 Reviews)</option>
+              <option value="custom">Custom Frequency</option>
+            </select>
+          </div>
+
+          <!-- Total Frequency Until Mastered -->
+          <div class="space-y-1.5">
+            <label for="modal-session-target-frequency" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+              Reviews to Master
+            </label>
+            <input
+              type="number"
+              id="modal-session-target-frequency"
+              min="1"
+              max="20"
+              value="4"
+              required
+              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
+            />
+          </div>
+
+          <!-- Daily Target -->
+          <div class="space-y-1.5">
+            <label for="modal-session-daily-target" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+              Daily Target
+            </label>
+            <input
+              type="number"
+              id="modal-session-daily-target"
+              min="1"
+              max="100"
+              value="2"
+              required
+              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
+            />
+          </div>
+        </div>
+
+        <p id="modal-schedule-desc" class="text-[11px] text-zinc-500 bg-zinc-50 border border-zinc-200 p-2.5 rounded-xl leading-relaxed">
+          💡 Topics cycle in daily batches of your target. Complete the total review count to master each topic—no calendar deadlines needed.
+        </p>
+
+        <!-- Form Actions -->
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-zinc-200">
+          <button
+            type="button"
+            id="btn-cancel-session-dialog"
+            class="px-4 py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 rounded-xl hover:bg-zinc-100 transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow transition cursor-pointer"
+          >
+            Create Session Planner
+          </button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: INTERACTIVE REVISION QUEUE SESSION (Req 2 & 3)  -->
+  <!-- ======================================================== -->
+  <dialog
+    id="review-session-modal"
+    class="backdrop:bg-black/60 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-xl w-full text-zinc-900 overflow-hidden"
+  >
+    <div class="p-6 bg-white space-y-6">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-100">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#FE6019] animate-pulse"></span>
+          <span id="review-counter" class="text-xs font-bold text-zinc-800">Topic 1 of 10</span>
+        </div>
+        <button
+          type="button"
+          id="btn-close-review-modal"
+          class="text-zinc-400 hover:text-zinc-700 p-1 rounded-lg hover:bg-zinc-100 transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Active Review Item View -->
+      <div id="review-active-item" class="space-y-6">
+        <!-- Progress Bar -->
+        <div class="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden">
+          <div id="review-modal-progress" class="bg-[#FE6019] h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Topic Details -->
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="review-series-badge" class="px-2.5 py-0.5 rounded-md bg-zinc-100 text-zinc-700 text-xs font-semibold">
+              Course
+            </span>
+            <span id="review-stage-badge" class="px-2.5 py-0.5 rounded-md bg-orange-100 text-[#FE6019] text-xs font-bold">
+              Stage 1 (Day 1)
+            </span>
+          </div>
+
+          <h3 id="review-topic-title" class="text-2xl font-black text-zinc-900 leading-tight">
+            Topic Title
+          </h3>
+          <p class="text-xs text-zinc-500">
+            Review this topic's concepts or solve its problem. Then select how well you remembered it below:
+          </p>
+        </div>
+
+        <!-- Link to Open Article/Problem -->
+        <div class="p-3 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
+          <span class="text-xs text-zinc-600 font-medium">Need to check the article or problem?</span>
+          <a
+            id="review-open-link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold rounded-lg shadow-2xs transition"
+          >
+            <span>Open Article</span>
+            <svg class="w-3.5 h-3.5 text-[#FE6019]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Recall Rating Buttons (Hard / Good / Easy) -->
+        <div class="space-y-2 pt-2">
+          <div class="text-xs font-bold uppercase tracking-wider text-zinc-600 text-center">
+            How was your recall?
+          </div>
+          <div class="grid grid-cols-3 gap-2.5">
+            <!-- Hard -->
+            <button
+              type="button"
+              data-review-rating="hard"
+              class="btn-submit-rating p-3 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-center transition group shadow-2xs cursor-pointer"
+            >
+              <div class="text-xs font-bold text-rose-700">Hard 🔴</div>
+              <div class="text-[10px] text-rose-600 mt-0.5">Keep in Next Batch (+0)</div>
+            </button>
+
+            <!-- Good -->
+            <button
+              type="button"
+              data-review-rating="good"
+              class="btn-submit-rating p-3 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-center transition group shadow-2xs cursor-pointer"
+            >
+              <div class="text-xs font-bold text-emerald-700">Good 🟢</div>
+              <div id="review-good-hint" class="text-[10px] text-emerald-600 mt-0.5">Next Stage (+1)</div>
+            </button>
+
+            <!-- Easy -->
+            <button
+              type="button"
+              data-review-rating="easy"
+              class="btn-submit-rating p-3 rounded-xl border border-blue-200 bg-blue-50 hover:bg-blue-100 text-center transition group shadow-2xs cursor-pointer"
+            >
+              <div class="text-xs font-bold text-blue-700">Easy ⚡</div>
+              <div class="text-[10px] text-blue-600 mt-0.5">Leap Ahead (+2)</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completion View (Shown when queue finished) -->
+      <div id="review-complete-view" class="hidden text-center py-6 space-y-4">
+        <div class="text-4xl">🎉</div>
+        <h4 class="text-xl font-bold text-zinc-900">Queue Review Completed!</h4>
+        <p class="text-xs text-zinc-600 max-w-sm mx-auto">
+          Awesome work! All topics reviewed have been recorded toward your daily target and revision progress.
+        </p>
+        <button
+          type="button"
+          id="btn-finish-review-modal"
+          class="px-5 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow transition cursor-pointer"
+        >
+          Return to Planner
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: ADD CUSTOM TOPIC TO PLANNER                     -->
+  <!-- ======================================================== -->
+  <dialog
+    id="custom-problem-dialog-modal"
+    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-md w-full text-zinc-900 overflow-hidden"
+  >
+    <div class="p-6 bg-white space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-200">
+        <h3 class="text-base font-bold text-zinc-900">Add Custom Topic to Revision Plan</h3>
+        <button
+          type="button"
+          id="btn-close-custom-problem-dialog"
+          class="text-zinc-400 hover:text-zinc-700 p-1 rounded-lg hover:bg-zinc-100 transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <form id="add-custom-problem-form" class="space-y-4 text-xs">
+        <div class="space-y-1">
+          <label class="block font-semibold text-zinc-700">Topic / Problem Name</label>
+          <input
+            type="text"
+            id="custom-problem-title"
+            required
+            placeholder="e.g. Two Sum / Longest Substring"
+            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-semibold text-zinc-700">Course / Series Tag</label>
+          <input
+            type="text"
+            id="custom-problem-series"
+            placeholder="e.g. Arrays, Trees, Dynamic Programming"
+            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-semibold text-zinc-700">Optional Topic Link (URL)</label>
+          <input
+            type="url"
+            id="custom-problem-url"
+            placeholder="e.g. https://leetcode.com/problems/two-sum"
+            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+          />
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-zinc-200">
+          <button
+            type="button"
+            id="btn-cancel-custom-problem-dialog"
+            class="px-3 py-1.5 text-zinc-600 hover:text-zinc-900 rounded-lg hover:bg-zinc-100 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-1.5 bg-[#FE6019] hover:bg-[#e04f0f] text-white font-bold rounded-lg shadow-xs cursor-pointer"
+          >
+            Add Topic
+          </button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Embedded Raw Series Data -->
+  <script is:inline id="raw-series-planner-data" type="application/json" set:html={JSON.stringify(allSeriesData)}></script>
+
+  <!-- Client-side Logic Script -->
+  <script>
+    interface PlannerTopic {
+      id: string;
+      title: string;
+      seriesId: string;
+      seriesTitle: string;
+      url: string;
+      revisionsDone: number; // 0, 1, 2, ...
+      lastRevisedDate: string | null; // YYYY-MM-DD
+      history?: Array<{
+        date: string;
+        rating: 'hard' | 'good' | 'easy';
+        revisionsBefore: number;
+        revisionsAfter: number;
+      }>;
+    }
+
+    interface PlannerSession {
+      id: string;
+      name: string;
+      seriesIds: string[];
+      scheduleType: 'standard' | 'quick' | 'deep' | 'fibonacci' | 'custom';
+      targetFrequency: number;
+      dailyTarget: number;
+      createdAt: string;
+      items: PlannerTopic[];
+    }
+
+    const SESSIONS_STORAGE_KEY = 'dsa_revision_planner_sessions';
+    const ACTIVE_SESSION_STORAGE_KEY = 'dsa_revision_planner_active_id';
+    const PLANNER_INITIALIZED_KEY = 'dsa_revision_planner_initialized_v4';
+
+    const SCHEDULE_CONFIGS: Record<string, { label: string; stages: string[]; targetFrequency: number; description: string }> = {
+      standard: {
+        label: 'Standard (1-3-7-14 • 4 Reviews)',
+        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Mastered'],
+        targetFrequency: 4,
+        description: 'Classic 4-stage spaced repetition curve to achieve solid long-term recall.',
+      },
+      quick: {
+        label: 'Quick Review (1-3-7 • 3 Reviews)',
+        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Mastered'],
+        targetFrequency: 3,
+        description: 'Accelerated 3-stage curve ideal for exam crunch or quick brush-ups.',
+      },
+      deep: {
+        label: 'Deep Mastery (1-3-7-14-30 • 5 Reviews)',
+        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Stage 5', 'Mastered'],
+        targetFrequency: 5,
+        description: 'Deep 5-stage curve for high-difficulty problems and interview fluency.',
+      },
+      fibonacci: {
+        label: 'Gradual Spaced (1-2-4-7-14 • 5 Reviews)',
+        stages: ['New', 'Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Mastered'],
+        targetFrequency: 5,
+        description: 'Gradual curve with gentle spacing increments between reviews.',
+      },
+      custom: {
+        label: 'Custom Frequency',
+        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Stage 5', 'Stage 6', 'Mastered'],
+        targetFrequency: 4,
+        description: 'Choose your own custom total number of reviews required for mastery.',
+      },
+    };
+
+    function initRevisionPlanner() {
+      const container = document.getElementById('lets-revise');
+      if (!container) return;
+
+      // Prevent duplicate event listener attachment (fixes double session creation bug)
+      if (container.dataset.plannerInitialized === 'true') {
+        renderSpreadsheet();
+        return;
+      }
+      container.dataset.plannerInitialized = 'true';
+
+      // 1. Load series data
+      const dataEl = document.getElementById('raw-series-planner-data');
+      if (!dataEl) return;
+      let allSeries: any[] = [];
+      try {
+        allSeries = JSON.parse(dataEl.textContent || '[]');
+      } catch (e) {
+        console.error('Error parsing series planner data', e);
+        return;
+      }
+
+      function getTodayString(): string {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      // Storage accessors
+      function getSessions(): Record<string, PlannerSession> {
+        try {
+          const raw = JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY) || '{}');
+          const cleaned: Record<string, PlannerSession> = {};
+          const seenKeys = new Set<string>();
+
+          Object.values(raw).forEach((sess: any) => {
+            // Deduplicate accidental duplicate sessions
+            const dedupKey = `${(sess.name || '').trim()}_${sess.items?.length || 0}`;
+            if (seenKeys.has(dedupKey) && Object.keys(raw).length > 1) {
+              return; // skip duplicate session
+            }
+            seenKeys.add(dedupKey);
+
+            if (!sess.dailyTarget) sess.dailyTarget = 2;
+            if (!sess.targetFrequency) sess.targetFrequency = 4;
+            if (!sess.scheduleType) sess.scheduleType = 'standard';
+            if (Array.isArray(sess.items)) {
+              sess.items.forEach((item: any) => {
+                if (typeof item.revisionsDone === 'undefined') {
+                  item.revisionsDone = item.stage || 0;
+                }
+                if (typeof item.lastRevisedDate === 'undefined') {
+                  item.lastRevisedDate = item.lastRevised || null;
+                }
+                if (!item.history) item.history = [];
+              });
+            }
+            cleaned[sess.id] = sess;
+          });
+          return cleaned;
+        } catch {
+          return {};
+        }
+      }
+
+      function saveSessions(sessions: Record<string, PlannerSession>) {
+        localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
+      }
+
+      function getActiveSessionId(): string | null {
+        return localStorage.getItem(ACTIVE_SESSION_STORAGE_KEY);
+      }
+
+      function setActiveSessionId(id: string) {
+        localStorage.setItem(ACTIVE_SESSION_STORAGE_KEY, id);
+      }
+
+      // Ensure Default Session if first visit
+      function ensureDefaultSession() {
+        const isInitialized = localStorage.getItem(PLANNER_INITIALIZED_KEY);
+        const sessions = getSessions();
+
+        if (!isInitialized) {
+          localStorage.setItem(PLANNER_INITIALIZED_KEY, 'true');
+
+          // Clean up old default sessions if present
+          if (sessions['session-default-dsa'] || sessions['session-default-dsa-interviews']) {
+            delete sessions['session-default-dsa'];
+            delete sessions['session-default-dsa-interviews'];
+          }
+
+          const defaultSessionId = 'session-default-dsa-interviews';
+          // Seed only "DSA for Interviews"
+          const dsaSeries = allSeries.filter((s) => s.id === 'dsa-for-interviews' || s.title.toLowerCase() === 'dsa for interviews');
+          const seriesIds = dsaSeries.map((s) => s.id);
+
+          const defaultItems: PlannerTopic[] = [];
+          dsaSeries.forEach((s) => {
+            if (s.articles) {
+              s.articles.forEach((art: any) => {
+                defaultItems.push({
+                  id: art.id,
+                  title: art.title,
+                  seriesId: s.id,
+                  seriesTitle: s.title,
+                  url: art.url,
+                  revisionsDone: 0,
+                  lastRevisedDate: null,
+                  history: [],
+                });
+              });
+            }
+          });
+
+          sessions[defaultSessionId] = {
+            id: defaultSessionId,
+            name: 'DSA for Interviews Planner',
+            seriesIds,
+            scheduleType: 'standard',
+            targetFrequency: 4,
+            dailyTarget: 2,
+            createdAt: getTodayString(),
+            items: defaultItems,
+          };
+
+          saveSessions(sessions);
+          setActiveSessionId(defaultSessionId);
+        } else {
+          const activeId = getActiveSessionId();
+          if ((!activeId || !sessions[activeId]) && Object.keys(sessions).length > 0) {
+            setActiveSessionId(Object.keys(sessions)[0]);
+          }
+        }
+      }
+
+      ensureDefaultSession();
+
+      // Active state
+      let activeFilterStatus: 'all' | 'due' | 'upcoming' | 'mastered' = 'all';
+      let activeSeriesFilter: string = 'all';
+      let activeSearchQuery: string = '';
+
+      // Elements
+      const reminderBanner = document.getElementById('planner-reminder-banner');
+      const sessionSelect = document.getElementById('planner-session-select') as HTMLSelectElement;
+      const tableBody = document.getElementById('revision-table-body');
+      const emptyState = document.getElementById('sheet-empty-state');
+      const seriesFilterSelect = document.getElementById('sheet-series-filter') as HTMLSelectElement;
+      const searchInput = document.getElementById('sheet-search-input') as HTMLInputElement;
+      const footerInfo = document.getElementById('sheet-footer-info');
+
+      // Daily Queue Progress Elements
+      const dailyTargetBadge = document.getElementById('queue-badge-target');
+      const queueBatchInfo = document.getElementById('queue-batch-info');
+      const dailyProgressText = document.getElementById('daily-progress-text');
+      const dailyProgressPercent = document.getElementById('daily-progress-percent');
+      const dailyRemainingText = document.getElementById('daily-remaining-text');
+      const dailyProgressFill = document.getElementById('daily-progress-fill');
+
+      // Populate Session Select dropdown
+      function updateSessionDropdown() {
+        if (!sessionSelect) return;
+        const sessions = getSessions();
+        const activeId = getActiveSessionId();
+        sessionSelect.innerHTML = '';
+
+        const sessionKeys = Object.keys(sessions);
+        if (sessionKeys.length === 0) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'No sessions (Empty)';
+          opt.disabled = true;
+          opt.selected = true;
+          sessionSelect.appendChild(opt);
+          return;
+        }
+
+        sessionKeys.forEach((key) => {
+          const sess = sessions[key];
+          const opt = document.createElement('option');
+          opt.value = sess.id;
+          opt.textContent = `${sess.name} (${sess.items.length} topics)`;
+          if (sess.id === activeId) opt.selected = true;
+          sessionSelect.appendChild(opt);
+        });
+      }
+
+      // Populate Series filter dropdown based on active session
+      function updateSeriesFilterOptions(session: PlannerSession) {
+        if (!seriesFilterSelect) return;
+        const currentVal = seriesFilterSelect.value;
+        const uniqueSeries = Array.from(new Set(session.items.map((i) => i.seriesTitle)));
+
+        seriesFilterSelect.innerHTML = '<option value="all">All Courses</option>';
+        uniqueSeries.forEach((title) => {
+          const opt = document.createElement('option');
+          opt.value = title;
+          opt.textContent = title;
+          if (title === currentVal) opt.selected = true;
+          seriesFilterSelect.appendChild(opt);
+        });
+      }
+
+      // Reminders Banner
+      function updateReminderBanner(
+        activeTodayCount: number,
+        completedTodayCount: number,
+        target: number,
+        remainingUnmastered: number
+      ) {
+        if (!reminderBanner) return;
+
+        if (completedTodayCount >= target) {
+          reminderBanner.className =
+            'mb-6 rounded-2xl p-4 md:p-5 border border-emerald-200 bg-emerald-50 text-emerald-900 transition-all shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+          reminderBanner.innerHTML = `
+            <div class="flex items-center gap-3">
+              <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 text-xl shrink-0">🎉</span>
+              <div>
+                <h4 class="font-bold text-sm md:text-base text-emerald-950">Daily Revision Target Achieved!</h4>
+                <p class="text-xs text-emerald-700 mt-0.5">
+                  You completed ${completedTodayCount} of ${target} topic revisions today. Great consistency maintaining your momentum!
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 self-end md:self-auto">
+              ${remainingUnmastered > 0 ? `<button type="button" id="btn-banner-continue-review" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition cursor-pointer">Revise Extra (${remainingUnmastered} remaining)</button>` : ''}
+            </div>
+          `;
+        } else if (activeTodayCount > 0) {
+          reminderBanner.className =
+            'mb-6 rounded-2xl p-4 md:p-5 border border-orange-200 bg-orange-50/70 text-orange-950 transition-all shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+          reminderBanner.innerHTML = `
+            <div class="flex items-center gap-3">
+              <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-orange-100 text-xl shrink-0">🔔</span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-sm md:text-base text-zinc-900">Today's Queue: ${activeTodayCount} topic(s) ready for review!</h4>
+                  <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#FE6019] text-white">Daily Target: ${target}</span>
+                </div>
+                <p class="text-xs text-zinc-600 mt-0.5">
+                  Review these topics to advance them toward your mastery target.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 self-end md:self-auto">
+              <button type="button" id="btn-banner-start-review" class="px-4 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                <span>Start Daily Revision Queue</span>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
+          `;
+        } else {
+          reminderBanner.className =
+            'mb-6 rounded-2xl p-4 md:p-5 border border-zinc-200 bg-white text-zinc-800 transition-all shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+          reminderBanner.innerHTML = `
+            <div class="flex items-center gap-3">
+              <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-100 text-xl shrink-0">✨</span>
+              <div>
+                <h4 class="font-bold text-sm md:text-base text-zinc-900">All Topics Mastered or Up to Date!</h4>
+                <p class="text-xs text-zinc-500 mt-0.5">
+                  All topics in this session have achieved their target review frequency. You can revise any topic manually below.
+                </p>
+              </div>
+            </div>
+          `;
+        }
+
+        document.getElementById('btn-banner-start-review')?.addEventListener('click', startDailyReviewQueue);
+        document.getElementById('btn-banner-continue-review')?.addEventListener('click', startDailyReviewQueue);
+      }
+
+      // Render Table & Batch-based Queue
+      function renderSpreadsheet() {
+        const sessions = getSessions();
+        const activeId = getActiveSessionId();
+
+        if (!activeId || !sessions[activeId]) {
+          if (seriesFilterSelect) seriesFilterSelect.innerHTML = '<option value="all">All Courses</option>';
+          if (tableBody) tableBody.innerHTML = '';
+          if (emptyState) {
+            emptyState.innerHTML = `
+              <span class="text-3xl block mb-2">📋</span>
+              <h4 class="font-bold text-sm text-zinc-800">Revision Planner is Empty</h4>
+              <p class="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">
+                No active revision sessions. Click <strong>"New Session"</strong> above to create a session or add topics.
+              </p>
+            `;
+            emptyState.classList.remove('hidden');
+          }
+          if (reminderBanner) {
+            reminderBanner.className =
+              'mb-6 rounded-2xl p-4 md:p-5 border border-zinc-200 bg-white text-zinc-800 transition-all shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+            reminderBanner.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-100 text-xl shrink-0">📋</span>
+                <div>
+                  <h4 class="font-bold text-sm md:text-base text-zinc-900">Revision Planner is Empty</h4>
+                  <p class="text-xs text-zinc-500 mt-0.5">
+                    Click "+ New Session" above to create a session or add topics to track.
+                  </p>
+                </div>
+              </div>
+            `;
+          }
+          if (dailyTargetBadge) dailyTargetBadge.textContent = 'Target: 0 topics';
+          if (queueBatchInfo) queueBatchInfo.textContent = 'No active session';
+          if (dailyProgressText) dailyProgressText.textContent = '0 completed today';
+          if (dailyProgressPercent) dailyProgressPercent.textContent = '(0%)';
+          if (dailyRemainingText) dailyRemainingText.textContent = 'No active session';
+          if (dailyProgressFill) dailyProgressFill.style.width = '0%';
+          if (footerInfo) footerInfo.textContent = 'Showing 0 topics';
+          return;
+        }
+
+        const currentSession = sessions[activeId];
+        updateSeriesFilterOptions(currentSession);
+
+        const todayStr = getTodayString();
+        const target = currentSession.dailyTarget || 2;
+        const targetFreq = currentSession.targetFrequency || 4;
+        const schedConfig = SCHEDULE_CONFIGS[currentSession.scheduleType || 'standard'] || SCHEDULE_CONFIGS.standard;
+
+        // 1. Calculate today's completed topics
+        const completedToday = currentSession.items.filter((i) => i.lastRevisedDate === todayStr);
+        const completedTodayCount = completedToday.length;
+        const targetRemaining = Math.max(0, target - completedTodayCount);
+
+        // 2. Unmastered items not revised today
+        const unmasteredPending = currentSession.items.filter(
+          (i) => (i.revisionsDone || 0) < targetFreq && i.lastRevisedDate !== todayStr
+        );
+        // Prioritize items with fewer revisions done
+        unmasteredPending.sort((a, b) => (a.revisionsDone || 0) - (b.revisionsDone || 0));
+
+        // 3. Today's active queue batch
+        const todayQueueItems = unmasteredPending.slice(0, targetRemaining);
+        const todayQueueIds = new Set(todayQueueItems.map((i) => i.id));
+
+        // 4. Map remaining items to upcoming batches
+        const remainingPending = unmasteredPending.slice(targetRemaining);
+        const itemBatchMap: Record<string, number> = {};
+        remainingPending.forEach((item, idx) => {
+          itemBatchMap[item.id] = 2 + Math.floor(idx / target);
+        });
+
+        const totalBatches = Math.max(1, Math.ceil(unmasteredPending.length / target));
+
+        // Update Reminder Banner
+        if (currentSession.items.length === 0) {
+          if (reminderBanner) {
+            reminderBanner.className =
+              'mb-6 rounded-2xl p-4 md:p-5 border border-zinc-200 bg-white text-zinc-800 transition-all shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+            reminderBanner.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-100 text-xl shrink-0">✨</span>
+                <div>
+                  <h4 class="font-bold text-sm md:text-base text-zinc-900">Session is Empty</h4>
+                  <p class="text-xs text-zinc-500 mt-0.5">
+                    This session has 0 topics. Click "Add Custom Topic" or create another session to start revising.
+                  </p>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          updateReminderBanner(todayQueueItems.length, completedTodayCount, target, unmasteredPending.length);
+        }
+
+        // Update Daily Queue Progress card
+        if (dailyTargetBadge) dailyTargetBadge.textContent = `Target: ${target} topics/day`;
+        if (queueBatchInfo) {
+          if (currentSession.items.length === 0) {
+            queueBatchInfo.textContent = 'Empty';
+          } else if (completedTodayCount >= target) {
+            queueBatchInfo.textContent = `Target Achieved (${completedTodayCount}/${target})`;
+          } else {
+            queueBatchInfo.textContent = `Batch 1 of ${totalBatches}`;
+          }
+        }
+        if (dailyProgressText) dailyProgressText.textContent = `${completedTodayCount} of ${target} completed today`;
+        const pct = target > 0 ? Math.min(100, Math.round((completedTodayCount / target) * 100)) : 0;
+        if (dailyProgressPercent) dailyProgressPercent.textContent = `(${pct}%)`;
+        if (dailyRemainingText) {
+          if (currentSession.items.length === 0) {
+            dailyRemainingText.textContent = `0 topics in session`;
+          } else if (completedTodayCount >= target) {
+            dailyRemainingText.textContent = `Daily target achieved! 🎉`;
+          } else {
+            dailyRemainingText.textContent = `${targetRemaining} remaining today`;
+          }
+        }
+        if (dailyProgressFill) dailyProgressFill.style.width = `${pct}%`;
+
+        // Filter items for table
+        const query = activeSearchQuery.trim().toLowerCase();
+        const filteredItems = currentSession.items.filter((item) => {
+          if (query && !item.title.toLowerCase().includes(query) && !item.seriesTitle.toLowerCase().includes(query)) {
+            return false;
+          }
+          if (activeSeriesFilter !== 'all' && item.seriesTitle !== activeSeriesFilter) {
+            return false;
+          }
+          const isMastered = (item.revisionsDone || 0) >= targetFreq;
+          const isRevisedToday = item.lastRevisedDate === todayStr;
+          const isTodayQueue = todayQueueIds.has(item.id);
+
+          if (activeFilterStatus === 'mastered') {
+            return isMastered;
+          }
+          if (activeFilterStatus === 'due') {
+            return isTodayQueue || isRevisedToday;
+          }
+          if (activeFilterStatus === 'upcoming') {
+            return !isMastered && !isTodayQueue && !isRevisedToday;
+          }
+          return true;
+        });
+
+        if (footerInfo) {
+          footerInfo.textContent = `Showing ${filteredItems.length} of ${currentSession.items.length} topics (Target: ${target}/day, ${targetFreq} reviews to master)`;
+        }
+
+        if (!tableBody) return;
+        tableBody.innerHTML = '';
+
+        if (filteredItems.length === 0) {
+          if (emptyState) {
+            if (currentSession.items.length === 0) {
+              emptyState.innerHTML = `
+                <span class="text-3xl block mb-2">✨</span>
+                <h4 class="font-bold text-sm text-zinc-800">No topics in this session</h4>
+                <p class="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">
+                  This session is currently empty. Click <strong>"Add Custom Topic"</strong> or create a session to start revising.
+                </p>
+              `;
+            } else {
+              emptyState.innerHTML = `
+                <span class="text-3xl block mb-2">📋</span>
+                <h4 class="font-bold text-sm text-zinc-800">No topics found</h4>
+                <p class="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">
+                  No items match your active filters.
+                </p>
+              `;
+            }
+            emptyState.classList.remove('hidden');
+          }
+          return;
+        }
+
+        if (emptyState) emptyState.classList.add('hidden');
+
+        filteredItems.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-orange-50/25 transition-colors group select-none text-xs';
+
+          const revDone = item.revisionsDone || 0;
+          const isMastered = revDone >= targetFreq;
+          const isRevisedToday = item.lastRevisedDate === todayStr;
+          const isTodayQueue = todayQueueIds.has(item.id);
+
+          // 1. Reviews Done with visual progress
+          const revPct = Math.min(100, Math.round((revDone / targetFreq) * 100));
+          const reviewsDoneHtml = `
+            <div class="flex flex-col items-center gap-1">
+              <div class="flex items-center gap-1 font-bold text-xs">
+                <span class="${isMastered ? 'text-emerald-700' : 'text-zinc-800'}">${revDone} / ${targetFreq}</span>
+                <span class="text-[10px] text-zinc-400">(${revPct}%)</span>
+              </div>
+              <div class="w-20 bg-zinc-100 h-1.5 rounded-full overflow-hidden border border-zinc-200">
+                <div class="${isMastered ? 'bg-emerald-500' : 'bg-[#FE6019]'} h-full transition-all" style="width: ${revPct}%"></div>
+              </div>
+            </div>
+          `;
+
+          // 2. Revision Stage label
+          const stageIdx = Math.min(schedConfig.stages.length - 1, revDone);
+          const stageLabel = isMastered ? 'Mastered 🏆' : (schedConfig.stages[stageIdx] || `Stage ${stageIdx}`);
+          const stagePill = `
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-50 border border-zinc-200">
+              <span class="text-[11px] font-bold ${isMastered ? 'text-emerald-700' : 'text-zinc-700'}">
+                ${stageLabel}
+              </span>
+            </div>
+          `;
+
+          // 3. Queue Status badge (No calendar dates!)
+          let statusBadge = '';
+          if (isMastered) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Mastered 🏆</span>`;
+          } else if (isRevisedToday) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[10px]">Revised Today ✓</span>`;
+          } else if (isTodayQueue) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-orange-100 text-[#FE6019] font-bold text-[10px] animate-pulse">Today's Queue</span>`;
+          } else {
+            const batchNum = itemBatchMap[item.id] || 2;
+            statusBadge = `<span class="px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 font-medium text-[10px]">Batch ${batchNum} (Upcoming)</span>`;
+          }
+
+          row.innerHTML = `
+            <td class="py-2.5 px-3 text-center font-mono text-zinc-400 border-r border-zinc-200">${index + 1}</td>
+            <td class="py-2.5 px-4 font-semibold text-zinc-900 border-r border-zinc-200">
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-[#FE6019] hover:underline flex items-center gap-1.5 group-hover:translate-x-0.5 transition-transform">
+                <span>${item.title}</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-[#FE6019] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </td>
+            <td class="py-2.5 px-3 border-r border-zinc-200">
+              <span class="inline-block px-2 py-0.5 rounded bg-zinc-100 text-zinc-600 font-medium text-[10px] whitespace-nowrap">
+                ${item.seriesTitle}
+              </span>
+            </td>
+            <td class="py-2.5 px-3 text-center border-r border-zinc-200">
+              ${reviewsDoneHtml}
+            </td>
+            <td class="py-2.5 px-3 text-center border-r border-zinc-200">
+              ${stagePill}
+            </td>
+            <td class="py-2.5 px-3 text-center border-r border-zinc-200">
+              ${statusBadge}
+            </td>
+            <td class="py-2.5 px-2 text-center">
+              <div class="flex items-center justify-center gap-1">
+                <button
+                  type="button"
+                  class="btn-quick-revise px-2 py-1 bg-white hover:bg-orange-50 text-[#FE6019] border border-orange-200 font-bold rounded-lg text-[10px] shadow-2xs transition cursor-pointer"
+                  data-item-id="${item.id}"
+                >
+                  Revise
+                </button>
+                <button
+                  type="button"
+                  class="btn-delete-row text-zinc-300 hover:text-rose-600 p-1 rounded transition text-xs cursor-pointer"
+                  data-item-id="${item.id}"
+                  title="Remove topic"
+                >
+                  ✕
+                </button>
+              </div>
+            </td>
+          `;
+
+          // Quick revise button on row
+          row.querySelector('.btn-quick-revise')?.addEventListener('click', () => {
+            openReviewSingleTopic(item);
+          });
+
+          // Delete row
+          row.querySelector('.btn-delete-row')?.addEventListener('click', () => {
+            if (confirm(`Remove "${item.title}" from this revision planner?`)) {
+              currentSession.items = currentSession.items.filter((i) => i.id !== item.id);
+              saveSessions(sessions);
+              renderSpreadsheet();
+            }
+          });
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Spaced Repetition Rating Handler
+      function applyRecallRating(item: PlannerTopic, rating: 'hard' | 'good' | 'easy') {
+        const todayStr = getTodayString();
+        const activeId = getActiveSessionId();
+        const sessions = getSessions();
+        if (!activeId || !sessions[activeId]) return;
+
+        const currentSession = sessions[activeId];
+        const targetFreq = currentSession.targetFrequency || 4;
+        const revBefore = item.revisionsDone || 0;
+        let revAfter = revBefore;
+
+        if (rating === 'hard') {
+          // Keep in immediate next batch, does not advance
+          revAfter = revBefore;
+        } else if (rating === 'good') {
+          // Advance 1 stage toward mastery
+          revAfter = Math.min(targetFreq, revBefore + 1);
+        } else if (rating === 'easy') {
+          // Leap ahead 2 stages
+          revAfter = Math.min(targetFreq, revBefore + 2);
+        }
+
+        item.revisionsDone = revAfter;
+        item.lastRevisedDate = todayStr;
+
+        if (!item.history) item.history = [];
+        item.history.push({
+          date: todayStr,
+          rating,
+          revisionsBefore: revBefore,
+          revisionsAfter: revAfter,
+        });
+
+        const idx = currentSession.items.findIndex((i) => i.id === item.id);
+        if (idx !== -1) currentSession.items[idx] = item;
+        saveSessions(sessions);
+      }
+
+      // Review Modal Engine
+      const reviewModal = document.getElementById('review-session-modal') as HTMLDialogElement;
+      const reviewCounter = document.getElementById('review-counter');
+      const reviewProgress = document.getElementById('review-modal-progress');
+      const reviewSeriesBadge = document.getElementById('review-series-badge');
+      const reviewStageBadge = document.getElementById('review-stage-badge');
+      const reviewTopicTitle = document.getElementById('review-topic-title');
+      const reviewOpenLink = document.getElementById('review-open-link') as HTMLAnchorElement;
+      const reviewGoodHint = document.getElementById('review-good-hint');
+      const reviewActiveItem = document.getElementById('review-active-item');
+      const reviewCompleteView = document.getElementById('review-complete-view');
+
+      let reviewQueue: PlannerTopic[] = [];
+      let reviewIndex = 0;
+
+      function renderReviewCard() {
+        if (!reviewModal) return;
+
+        if (reviewIndex >= reviewQueue.length) {
+          reviewActiveItem?.classList.add('hidden');
+          reviewCompleteView?.classList.remove('hidden');
+          renderSpreadsheet();
+          return;
+        }
+
+        reviewActiveItem?.classList.remove('hidden');
+        reviewCompleteView?.classList.add('hidden');
+
+        const activeId = getActiveSessionId();
+        const sessions = getSessions();
+        const currentSession = activeId ? sessions[activeId] : null;
+        const targetFreq = currentSession?.targetFrequency || 4;
+
+        const current = reviewQueue[reviewIndex];
+        const revDone = current.revisionsDone || 0;
+        const nextGood = Math.min(targetFreq, revDone + 1);
+
+        if (reviewCounter) reviewCounter.textContent = `Topic ${reviewIndex + 1} of ${reviewQueue.length}`;
+        if (reviewProgress) {
+          const pct = Math.round((reviewIndex / reviewQueue.length) * 100);
+          reviewProgress.style.width = `${pct}%`;
+        }
+
+        if (reviewSeriesBadge) reviewSeriesBadge.textContent = current.seriesTitle;
+        if (reviewStageBadge) reviewStageBadge.textContent = `Review: ${revDone} / ${targetFreq} done`;
+        if (reviewTopicTitle) reviewTopicTitle.textContent = current.title;
+        if (reviewOpenLink) reviewOpenLink.href = current.url;
+        if (reviewGoodHint) {
+          reviewGoodHint.textContent = nextGood >= targetFreq ? 'Mastered 🏆' : `Advance to ${nextGood}/${targetFreq}`;
+        }
+      }
+
+      function startDailyReviewQueue() {
+        const sessions = getSessions();
+        const activeId = getActiveSessionId();
+        if (!activeId || !sessions[activeId]) {
+          alert('Please create or select an active revision session first.');
+          return;
+        }
+
+        const currentSession = sessions[activeId];
+        if (currentSession.items.length === 0) {
+          alert('This session currently has 0 topics. Click "Add Custom Topic" or create a session to start revising.');
+          return;
+        }
+
+        const todayStr = getTodayString();
+        const target = currentSession.dailyTarget || 2;
+        const targetFreq = currentSession.targetFrequency || 4;
+
+        // Unmastered items not revised today
+        const unmasteredPending = currentSession.items.filter(
+          (i) => (i.revisionsDone || 0) < targetFreq && i.lastRevisedDate !== todayStr
+        );
+        unmasteredPending.sort((a, b) => (a.revisionsDone || 0) - (b.revisionsDone || 0));
+
+        if (unmasteredPending.length === 0) {
+          const unmasteredTotal = currentSession.items.filter((i) => (i.revisionsDone || 0) < targetFreq);
+          if (unmasteredTotal.length > 0) {
+            alert('You have already completed revisions for all pending topics today! Great work!');
+          } else {
+            alert('All topics in this session are mastered! You can practice individual topics from the table.');
+          }
+          return;
+        }
+
+        reviewQueue = unmasteredPending.slice(0, target);
+        reviewIndex = 0;
+
+        renderReviewCard();
+        reviewModal.showModal();
+      }
+
+      function openReviewSingleTopic(topic: PlannerTopic) {
+        reviewQueue = [topic];
+        reviewIndex = 0;
+        renderReviewCard();
+        reviewModal.showModal();
+      }
+
+      // Close review modal
+      document.getElementById('btn-close-review-modal')?.addEventListener('click', () => {
+        reviewModal.close();
+        renderSpreadsheet();
+      });
+      document.getElementById('btn-finish-review-modal')?.addEventListener('click', () => {
+        reviewModal.close();
+        renderSpreadsheet();
+      });
+
+      // Submit rating button click
+      document.querySelectorAll('.btn-submit-rating').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const rating = (e.currentTarget as HTMLElement).getAttribute('data-review-rating') as 'hard' | 'good' | 'easy';
+          if (!rating || reviewIndex >= reviewQueue.length) return;
+
+          const currentItem = reviewQueue[reviewIndex];
+          applyRecallRating(currentItem, rating);
+
+          reviewIndex++;
+          renderReviewCard();
+        });
+      });
+
+      // Start queue button in daily queue card
+      document.getElementById('btn-start-queue-session')?.addEventListener('click', startDailyReviewQueue);
+
+      // Session switch change
+      sessionSelect?.addEventListener('change', () => {
+        setActiveSessionId(sessionSelect.value);
+        renderSpreadsheet();
+      });
+
+      // Filter Status tabs
+      document.querySelectorAll('.sheet-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLButtonElement;
+          const status = target.getAttribute('data-filter-status') as any;
+          activeFilterStatus = status;
+
+          document.querySelectorAll('.sheet-filter-btn').forEach((b) => {
+            b.classList.remove('bg-zinc-100', 'font-semibold', 'text-zinc-900');
+            b.classList.add('text-zinc-500');
+          });
+          target.classList.add('bg-zinc-100', 'font-semibold', 'text-zinc-900');
+          target.classList.remove('text-zinc-500');
+
+          renderSpreadsheet();
+        });
+      });
+
+      // Series Filter dropdown
+      seriesFilterSelect?.addEventListener('change', () => {
+        activeSeriesFilter = seriesFilterSelect.value;
+        renderSpreadsheet();
+      });
+
+      // Search input
+      searchInput?.addEventListener('input', () => {
+        activeSearchQuery = searchInput.value;
+        renderSpreadsheet();
+      });
+
+      // Delete active session
+      document.getElementById('btn-delete-active-session')?.addEventListener('click', () => {
+        const activeId = getActiveSessionId();
+        const sessions = getSessions();
+        if (!activeId || !sessions[activeId]) {
+          alert('No active session to delete.');
+          return;
+        }
+
+        if (confirm(`Delete revision session "${sessions[activeId].name}"?`)) {
+          delete sessions[activeId];
+          saveSessions(sessions);
+          const remainingKeys = Object.keys(sessions);
+          if (remainingKeys.length > 0) {
+            setActiveSessionId(remainingKeys[0]);
+          } else {
+            localStorage.removeItem(ACTIVE_SESSION_STORAGE_KEY);
+          }
+          updateSessionDropdown();
+          renderSpreadsheet();
+        }
+      });
+
+
+      // ========================================================
+      // 1. SESSION CREATION DIALOG LOGIC
+      // ========================================================
+      const sessionModal = document.getElementById('session-dialog-modal') as HTMLDialogElement;
+      const modalSeriesChecklist = document.getElementById('modal-series-checklist');
+      const modalSeriesSearch = document.getElementById('modal-series-search') as HTMLInputElement;
+      const modalChipsContainer = document.getElementById('modal-selected-chips-container');
+      const modalScheduleType = document.getElementById('modal-session-schedule-type') as HTMLSelectElement;
+      const modalTargetFreq = document.getElementById('modal-session-target-frequency') as HTMLInputElement;
+      const modalDailyTarget = document.getElementById('modal-session-daily-target') as HTMLInputElement;
+      const modalScheduleDesc = document.getElementById('modal-schedule-desc');
+
+      // Update total frequency when schedule type changes
+      modalScheduleType?.addEventListener('change', () => {
+        const sched = modalScheduleType.value;
+        const cfg = SCHEDULE_CONFIGS[sched];
+        if (cfg) {
+          if (modalTargetFreq) modalTargetFreq.value = String(cfg.targetFrequency);
+          if (modalScheduleDesc) modalScheduleDesc.textContent = `💡 ${cfg.description}`;
+        }
+      });
+
+      // Track selected series IDs in modal
+      const modalSelectedSeriesIds = new Set<string>();
+
+      function renderModalChips() {
+        if (!modalChipsContainer) return;
+        modalChipsContainer.innerHTML = '';
+
+        if (modalSelectedSeriesIds.size === 0) {
+          modalChipsContainer.innerHTML = `<span class="text-zinc-400 text-xs italic py-1">No courses selected yet. Select courses from below or start with an empty plan.</span>`;
+          return;
+        }
+
+        modalSelectedSeriesIds.forEach((id) => {
+          const series = allSeries.find((s) => s.id === id);
+          if (!series) return;
+
+          const chip = document.createElement('span');
+          chip.className =
+            'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-200 text-xs font-semibold text-zinc-800 shadow-2xs';
+          chip.innerHTML = `
+            <span>${series.title}</span>
+            <button type="button" class="text-zinc-400 hover:text-rose-600 font-bold ml-1 text-xs cursor-pointer" data-chip-remove="${series.id}">&times;</button>
+          `;
+
+          chip.querySelector('[data-chip-remove]')?.addEventListener('click', () => {
+            modalSelectedSeriesIds.delete(series.id);
+            renderModalChips();
+            syncModalCheckboxes();
+          });
+
+          modalChipsContainer.appendChild(chip);
+        });
+      }
+
+      function syncModalCheckboxes() {
+        modalSeriesChecklist?.querySelectorAll('input[type="checkbox"]').forEach((chk) => {
+          const input = chk as HTMLInputElement;
+          input.checked = modalSelectedSeriesIds.has(input.value);
+        });
+      }
+
+      function renderModalSeriesChecklist(filterText: string = '') {
+        if (!modalSeriesChecklist) return;
+        const q = filterText.trim().toLowerCase();
+        modalSeriesChecklist.innerHTML = '';
+
+        const matching = allSeries.filter((s) => {
+          if (!q) return true;
+          return s.title.toLowerCase().includes(q) || s.category.toLowerCase().includes(q);
+        });
+
+        if (matching.length === 0) {
+          modalSeriesChecklist.innerHTML = `<span class="text-zinc-400 text-xs italic p-2 col-span-2">No matching courses found</span>`;
+          return;
+        }
+
+        matching.forEach((s) => {
+          const count = s.articles ? s.articles.length : 0;
+          const isChecked = modalSelectedSeriesIds.has(s.id);
+
+          const label = document.createElement('label');
+          label.className =
+            'flex items-center gap-2 p-1.5 rounded-lg bg-white border border-zinc-200 hover:border-zinc-300 cursor-pointer select-none';
+          label.innerHTML = `
+            <input
+              type="checkbox"
+              value="${s.id}"
+              ${isChecked ? 'checked' : ''}
+              class="modal-series-checkbox rounded text-[#FE6019] focus:ring-0 w-3.5 h-3.5 cursor-pointer"
+            />
+            <span class="font-medium text-zinc-800 text-[11px] truncate flex-1">${s.title}</span>
+            <span class="text-[10px] text-zinc-400">(${count})</span>
+          `;
+
+          label.querySelector('.modal-series-checkbox')?.addEventListener('change', (e) => {
+            const chk = e.target as HTMLInputElement;
+            if (chk.checked) modalSelectedSeriesIds.add(s.id);
+            else modalSelectedSeriesIds.delete(s.id);
+            renderModalChips();
+          });
+
+          modalSeriesChecklist.appendChild(label);
+        });
+      }
+
+      // Open session modal
+      document.getElementById('btn-open-session-dialog')?.addEventListener('click', () => {
+        if (!sessionModal) return;
+
+        const nameInput = document.getElementById('modal-session-name') as HTMLInputElement;
+        if (nameInput) nameInput.value = `DSA for Interviews Planner`;
+
+        // Pre-select only DSA for Interviews
+        modalSelectedSeriesIds.clear();
+        const dsaInterviews = allSeries.find((s) => s.id === 'dsa-for-interviews' || s.title.toLowerCase() === 'dsa for interviews');
+        if (dsaInterviews) {
+          modalSelectedSeriesIds.add(dsaInterviews.id);
+        }
+
+        if (modalSeriesSearch) modalSeriesSearch.value = '';
+        if (modalDailyTarget) modalDailyTarget.value = '2';
+        if (modalTargetFreq) modalTargetFreq.value = '4';
+        if (modalScheduleType) modalScheduleType.value = 'standard';
+        if (modalScheduleDesc) {
+          modalScheduleDesc.textContent = '💡 ' + SCHEDULE_CONFIGS.standard.description;
+        }
+
+        renderModalChips();
+        renderModalSeriesChecklist('');
+
+        sessionModal.showModal();
+      });
+
+      // Search series filter
+      modalSeriesSearch?.addEventListener('input', () => {
+        renderModalSeriesChecklist(modalSeriesSearch.value);
+      });
+
+      // Quick select DSA for Interviews only
+      document.getElementById('btn-modal-select-dsa-interviews')?.addEventListener('click', () => {
+        const dsaInterviews = allSeries.find((s) => s.id === 'dsa-for-interviews' || s.title.toLowerCase() === 'dsa for interviews');
+        if (dsaInterviews) {
+          modalSelectedSeriesIds.add(dsaInterviews.id);
+          renderModalChips();
+          syncModalCheckboxes();
+        }
+      });
+
+      // Quick select all series across categories
+      document.getElementById('btn-modal-select-all')?.addEventListener('click', () => {
+        allSeries.forEach((s) => modalSelectedSeriesIds.add(s.id));
+        renderModalChips();
+        syncModalCheckboxes();
+      });
+
+      // Clear series
+      document.getElementById('btn-modal-clear-series')?.addEventListener('click', () => {
+        modalSelectedSeriesIds.clear();
+        renderModalChips();
+        syncModalCheckboxes();
+      });
+
+      // Close session modal
+      document.getElementById('btn-close-session-dialog')?.addEventListener('click', () => sessionModal.close());
+      document.getElementById('btn-cancel-session-dialog')?.addEventListener('click', () => sessionModal.close());
+
+      // Create session form submit (Guarded against double submission)
+      let isCreatingSession = false;
+      document.getElementById('create-session-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (isCreatingSession) return;
+        isCreatingSession = true;
+
+        try {
+          const nameInput = document.getElementById('modal-session-name') as HTMLInputElement;
+          const name = nameInput.value.trim() || 'Custom Revision Planner';
+          const scheduleType = (modalScheduleType?.value as any) || 'standard';
+          const targetFrequency = parseInt(modalTargetFreq?.value, 10) || 4;
+          const dailyTarget = parseInt(modalDailyTarget?.value, 10) || 2;
+
+          // Allow empty session if no series selected
+          const selectedSeries = allSeries.filter((s) => modalSelectedSeriesIds.has(s.id));
+          const newItems: PlannerTopic[] = [];
+
+          selectedSeries.forEach((s) => {
+            if (s.articles) {
+              s.articles.forEach((art: any) => {
+                newItems.push({
+                  id: art.id,
+                  title: art.title,
+                  seriesId: s.id,
+                  seriesTitle: s.title,
+                  url: art.url,
+                  revisionsDone: 0,
+                  lastRevisedDate: null,
+                  history: [],
+                });
+              });
+            }
+          });
+
+          const newId = `session-${Date.now()}`;
+          const newSession: PlannerSession = {
+            id: newId,
+            name,
+            seriesIds: Array.from(modalSelectedSeriesIds),
+            scheduleType,
+            targetFrequency,
+            dailyTarget,
+            createdAt: getTodayString(),
+            items: newItems,
+          };
+
+          const sessions = getSessions();
+          sessions[newId] = newSession;
+          saveSessions(sessions);
+          setActiveSessionId(newId);
+
+          sessionModal.close();
+          updateSessionDropdown();
+          renderSpreadsheet();
+        } finally {
+          isCreatingSession = false;
+        }
+      });
+
+
+      // ========================================================
+      // MODAL 3: ADD CUSTOM TOPIC LOGIC
+      // ========================================================
+      const customModal = document.getElementById('custom-problem-dialog-modal') as HTMLDialogElement;
+
+      document.getElementById('btn-open-add-custom-modal')?.addEventListener('click', () => {
+        customModal?.showModal();
+      });
+      document.getElementById('btn-close-custom-problem-dialog')?.addEventListener('click', () => customModal.close());
+      document.getElementById('btn-cancel-custom-problem-dialog')?.addEventListener('click', () => customModal.close());
+
+      let isAddingCustom = false;
+      document.getElementById('add-custom-problem-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (isAddingCustom) return;
+        isAddingCustom = true;
+
+        try {
+          let activeId = getActiveSessionId();
+          const sessions = getSessions();
+          const today = getTodayString();
+
+          // If no active session exists, create one
+          if (!activeId || !sessions[activeId]) {
+            activeId = `session-${Date.now()}`;
+            sessions[activeId] = {
+              id: activeId,
+              name: 'Custom Revision Planner',
+              seriesIds: [],
+              scheduleType: 'standard',
+              targetFrequency: 4,
+              dailyTarget: 2,
+              createdAt: today,
+              items: [],
+            };
+            setActiveSessionId(activeId);
+          }
+
+          const titleInput = document.getElementById('custom-problem-title') as HTMLInputElement;
+          const seriesInput = document.getElementById('custom-problem-series') as HTMLInputElement;
+          const urlInput = document.getElementById('custom-problem-url') as HTMLInputElement;
+
+          const title = titleInput.value.trim();
+          const series = seriesInput.value.trim() || 'Custom';
+          const url = urlInput.value.trim() || '#';
+
+          const newItem: PlannerTopic = {
+            id: `custom-${Date.now()}`,
+            title,
+            seriesId: 'custom',
+            seriesTitle: series,
+            url,
+            revisionsDone: 0,
+            lastRevisedDate: null,
+            history: [],
+          };
+
+          sessions[activeId].items.unshift(newItem);
+          saveSessions(sessions);
+
+          titleInput.value = '';
+          seriesInput.value = '';
+          urlInput.value = '';
+          customModal.close();
+
+          updateSessionDropdown();
+          renderSpreadsheet();
+        } finally {
+          isAddingCustom = false;
+        }
+      });
+
+      // Initial page mount
+      updateSessionDropdown();
+      renderSpreadsheet();
+    }
+
+    // Lifecycle listener
+    document.addEventListener('astro:page-load', initRevisionPlanner);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initRevisionPlanner, { once: true });
+    } else {
+      initRevisionPlanner();
+    }
+  </script>
+
+  <style>
+    .scrollbar-thin::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</section>
+
