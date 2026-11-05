@@ -1,5 +1,147 @@
 ---
-// Structured Learning - NeetCode-style Left-to-Right Skill Tree
+// Structured Learning - Interactive Roadmap Tree with Non-Linear Branching & Rotating Pulse
+const categories = [
+  {
+    id: 0,
+    category: "DSA",
+    name: "DSA",
+    fullName: "Data Structures & Algorithms",
+    tag: "Algorithms",
+    color: "#ef4444",
+    accentBg: "bg-red-50",
+    accentBorder: "border-red-500",
+    accentText: "text-red-700",
+    dotColor: "bg-red-500",
+    glowShadow: "rgba(239, 68, 68, 0.35)",
+    branches: [
+      {
+        id: "dsa-b1",
+        label: "Linear",
+        nodes: [
+          { title: "Arrays & Strings", sub: "Foundations" },
+          { title: "Two Pointers", sub: "Sliding Window" },
+        ],
+        hasMore: false,
+      },
+      {
+        id: "dsa-b2",
+        label: "Complex",
+        nodes: [
+          { title: "Trees & Graphs", sub: "Recursion & BFS/DFS" },
+          { title: "Dynamic Programming", sub: "Optimization" },
+        ],
+        hasMore: true,
+      },
+    ],
+  },
+  {
+    id: 1,
+    category: "Development",
+    name: "Fullstack Dev",
+    fullName: "Full-Stack Web Development",
+    tag: "Core Engineering",
+    color: "#10b981",
+    accentBg: "bg-emerald-50",
+    accentBorder: "border-emerald-500",
+    accentText: "text-emerald-700",
+    dotColor: "bg-emerald-500",
+    glowShadow: "rgba(16, 185, 129, 0.35)",
+    branches: [
+      {
+        id: "fs-b1",
+        label: "Frontend",
+        nodes: [
+          { title: "HTML, CSS & JS", sub: "Web Basics" },
+          { title: "React & Modern UI", sub: "State & Components" },
+        ],
+        hasMore: false,
+      },
+      {
+        id: "fs-b2",
+        label: "Backend & Systems",
+        nodes: [
+          { title: "Backend & DB", sub: "Node, APIs & SQL" },
+          { title: "Production Grade Eng", sub: "Docker & Scale" },
+        ],
+        hasMore: true,
+      },
+      {
+        id: "fs-b3",
+        label: "Workflow",
+        nodes: [
+          { title: "Extras & Git", sub: "Dev Tools" },
+        ],
+        hasMore: false,
+      },
+    ],
+  },
+  {
+    id: 2,
+    category: "System-Design",
+    name: "System Design",
+    fullName: "System Design & Cloud",
+    tag: "Architecture",
+    color: "#a855f7",
+    accentBg: "bg-purple-50",
+    accentBorder: "border-purple-500",
+    accentText: "text-purple-700",
+    dotColor: "bg-purple-500",
+    glowShadow: "rgba(168, 85, 247, 0.35)",
+    branches: [
+      {
+        id: "sd-b1",
+        label: "Distributed",
+        nodes: [
+          { title: "Distributed Core", sub: "REST, Caching, Queues" },
+          { title: "High-Level Arch", sub: "Microservices & Load Balancing" },
+        ],
+        hasMore: false,
+      },
+      {
+        id: "sd-b2",
+        label: "Cloud & Scale",
+        nodes: [
+          { title: "Databases & Storage", sub: "Replication & Sharding" },
+          { title: "Cloud Scale (AWS)", sub: "CDN, VPC & Infra" },
+        ],
+        hasMore: true,
+      },
+    ],
+  },
+  {
+    id: 3,
+    category: "AI-Engineering",
+    name: "AI Engineering",
+    fullName: "AI Engineering & LLMs",
+    tag: "AI & Agents",
+    color: "#ec4899",
+    accentBg: "bg-pink-50",
+    accentBorder: "border-pink-500",
+    accentText: "text-pink-700",
+    dotColor: "bg-pink-500",
+    glowShadow: "rgba(236, 72, 153, 0.35)",
+    branches: [
+      {
+        id: "ai-b1",
+        label: "Models",
+        nodes: [
+          { title: "LLMs & Prompting", sub: "Transformers & Attention" },
+          { title: "RAG & Vector Stores", sub: "Embeddings & Retrieval" },
+        ],
+        hasMore: false,
+      },
+      {
+        id: "ai-b2",
+        label: "Autonomous",
+        nodes: [
+          { title: "Agents & Tool Calling", sub: "ReAct & Multi-Agent Loops" },
+          { title: "Guardrails & Eval", sub: "Production Safety" },
+        ],
+        hasMore: true,
+      },
+    ],
+  },
+];
 ---
 
 <section class="section structured-learning-section py-12 md:py-16 bg-[#fafafa] relative overflow-hidden" id="structured-learning">
@@ -16,7 +158,7 @@
           Structured Learning
         </h2>
         <p class="text-zinc-600 text-sm md:text-base mt-2 max-w-2xl leading-relaxed">
-          Master computer science fundamentals first, then branch into specialized engineering tracks. Click any node to explore the interactive roadmap.
+          Master computer science fundamentals first, then branch into specialized tracks. The active path rotates automatically to preview each curriculum.
         </p>
       </div>
 
@@ -31,52 +173,65 @@
       </a>
     </div>
 
-    <!-- Tree Canvas Container -->
-    <div class="bg-white border border-zinc-200/90 rounded-2xl shadow-sm overflow-hidden">
+    <!-- Tree Canvas Frame -->
+    <div class="bg-white border border-zinc-200/90 rounded-2xl shadow-sm overflow-hidden" id="treeCanvasWrapper">
       
-      <!-- Top Canvas Bar -->
+      <!-- Top Canvas Status Bar -->
       <div class="flex items-center justify-between px-5 py-3.5 bg-zinc-50/90 border-b border-zinc-200 text-xs text-zinc-500">
         <div class="flex items-center gap-2">
           <span class="flex h-2 w-2 relative">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
           </span>
-          <span class="font-mono font-semibold text-zinc-700 uppercase tracking-wider text-[11px]">Engineering Tree</span>
+          <span class="font-mono font-semibold text-zinc-700 uppercase tracking-wider text-[11px]">Active Learning Path</span>
         </div>
-        <div class="flex items-center gap-1.5 text-zinc-400 font-mono text-[11px]">
-          <span>Click any node to open roadmap</span>
-          <span class="hidden sm:inline">&rarr;</span>
+        
+        <!-- Category selector buttons for quick manual switching -->
+        <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+          {categories.map((cat) => (
+            <button
+              type="button"
+              class={`cat-pill-btn px-2.5 py-1 rounded-lg text-[11px] font-bold tracking-tight transition-all cursor-pointer border`}
+              data-target-track={cat.id}
+              style={`--cat-color: ${cat.color};`}
+            >
+              <span class="inline-block w-1.5 h-1.5 rounded-full mr-1.5" style={`background-color: ${cat.color};`}></span>
+              <span>{cat.name}</span>
+            </button>
+          ))}
         </div>
       </div>
 
-      <!-- Canvas Body with Subtle Grid (Horizontal scrollable on mobile) -->
-      <div class="p-6 sm:p-10 md:p-12 bg-[#fdfdfd] relative bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:18px_18px] overflow-x-auto">
-        <div class="min-w-[960px] py-4 flex items-center gap-8 justify-start lg:justify-center select-none">
+      <!-- Canvas Body (Responsive: clean horizontal tree on desktop; responsive stacked branch on mobile) -->
+      <div 
+        id="treeCanvas" 
+        class="p-5 sm:p-8 md:p-10 bg-[#fdfdfd] relative bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:18px_18px] overflow-x-auto"
+        data-active-cat="1"
+      >
+        <div class="min-w-[820px] lg:min-w-[1040px] py-4 flex items-center justify-start lg:justify-center select-none gap-0">
           
           <!-- Column 1: Start Node -->
           <div class="flex items-center shrink-0">
             <a
               href="/roadmaps"
-              class="group relative flex items-center justify-between w-40 p-3.5 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 text-white shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 border border-zinc-700 no-underline"
+              class="group relative flex items-center justify-between w-32 sm:w-36 p-3 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 text-white shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 border border-zinc-700 no-underline shrink-0"
               title="Start Here"
             >
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
                 <div>
-                  <div class="text-[10px] font-mono uppercase tracking-wider text-orange-400 font-bold">Step 0</div>
-                  <div class="text-sm font-bold font-secondary text-white">Tech Noob</div>
+                  <div class="text-[9px] font-mono uppercase tracking-wider text-orange-400 font-bold leading-none">Step 0</div>
+                  <div class="text-xs font-bold font-secondary text-white mt-1">Start Node</div>
                 </div>
               </div>
-              <svg class="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-3.5 h-3.5 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </a>
 
-            <!-- Line from Start to Core CS -->
-            <div class="w-10 h-0.5 bg-zinc-300 relative">
-              <svg class="w-3 h-3 text-zinc-400 absolute -right-1 -top-[5px]" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
+            <!-- Connector from Start to Core CS with animated pulse -->
+            <div class="relative w-8 h-0.5 bg-zinc-300 shrink-0 overflow-hidden">
+              <div class="line-pulse-beam"></div>
             </div>
           </div>
 
@@ -84,239 +239,148 @@
           <div class="flex items-center shrink-0">
             <a
               href="/roadmaps?category=Core-CS"
-              class="group relative flex flex-col justify-between w-52 p-4 rounded-xl border-2 border-sky-300 bg-white shadow-sm hover:border-sky-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 no-underline"
+              class="group relative flex flex-col justify-between w-40 sm:w-44 p-3 rounded-xl border-2 border-sky-300 bg-white shadow-xs hover:border-sky-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 no-underline shrink-0"
               title="Core Computer Science"
             >
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">
                   Prerequisite
                 </span>
-                <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span>
               </div>
-              <div class="text-sm font-bold text-zinc-900 group-hover:text-sky-700 transition-colors font-secondary leading-snug">
+              <div class="text-xs sm:text-sm font-bold text-zinc-900 group-hover:text-sky-700 transition-colors font-secondary">
                 Core CS
               </div>
-              <div class="text-[11px] text-zinc-500 mt-1">
-                Logic, Architecture, OS & Networks
-              </div>
-              <div class="mt-2.5 pt-2 border-t border-zinc-100 flex items-center justify-between text-[11px] font-semibold text-sky-600">
-                <span>View Roadmap</span>
-                <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+              <div class="text-[10px] text-zinc-500 mt-0.5 truncate">
+                OS, Networks, DBMS
               </div>
             </a>
           </div>
 
-          <!-- Branching connector from Core CS to the 4 tracks -->
-          <div class="relative w-8 self-stretch flex items-center">
-            <!-- SVG connector curves branching to 4 tracks -->
-            <svg class="w-8 h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 32 400">
-              <!-- Trunk stem from left center (x=0, y=200) to x=16 -->
-              <path d="M 0,200 L 16,200" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <!-- Vertical spine from top track (y=48) to bottom track (y=352) -->
-              <path d="M 16,48 L 16,352" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <!-- Branch 1 to DSA (y=48) -->
-              <path d="M 16,48 L 32,48" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <!-- Branch 2 to Fullstack (y=164) -->
-              <path d="M 16,164 L 32,164" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <!-- Branch 3 to System Design (y=268) -->
-              <path d="M 16,268 L 32,268" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <!-- Branch 4 to AI Engineering (y=352) -->
-              <path d="M 16,352 L 32,352" stroke="#cbd5e1" stroke-width="2" fill="none" />
-            </svg>
+          <!-- Center Spine & Connector into Categories List -->
+          <div class="relative flex items-center shrink-0">
+            <!-- Horizontal stem out of Core CS right edge -->
+            <div class="w-6 h-0.5 bg-zinc-300 shrink-0"></div>
           </div>
 
-          <!-- Column 3: The 4 Tracks (DSA, Full-Stack Dev with branches, System Design, AI Engineering) -->
-          <div class="flex flex-col gap-5 shrink-0 justify-center">
-            
-            <!-- Track 1: DSA -->
-            <div class="flex items-center">
-              <a
-                href="/roadmaps?category=DSA"
-                class="group relative flex items-center justify-between w-64 p-3.5 rounded-xl border border-zinc-200 bg-white shadow-xs hover:border-red-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 no-underline"
-                title="Data Structures & Algorithms"
-              >
-                <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0"></span>
-                  <div>
-                    <div class="text-[10px] font-mono uppercase text-red-600 font-bold">Algorithms Track</div>
-                    <div class="text-sm font-bold text-zinc-900 group-hover:text-red-700 transition-colors font-secondary">
-                      DSA
-                    </div>
-                  </div>
-                </div>
-                <svg class="w-4 h-4 text-zinc-400 group-hover:text-red-600 group-hover:translate-x-0.5 transition-all shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
+          <!-- Column 3: The 4 Categories with Connected Left Spine -->
+          <div class="relative flex flex-col gap-4 py-2 shrink-0">
+            <!-- Vertical Spine connecting all 4 categories at their exact centers -->
+            <div class="cat-spine absolute left-0 top-[26px] bottom-[26px] w-0.5 bg-zinc-300">
+              <!-- Animated traveling indicator on the spine -->
+              <div id="spineIndicator" class="absolute left-[-2px] w-1.5 h-6 rounded-full bg-[#10b981] transition-all duration-500 shadow-sm"></div>
             </div>
 
-            <!-- Track 2: Full-Stack Dev + Sub-branches (Frontend, Backend, DB, Production Grade Eng, Extras) -->
-            <div class="flex items-center gap-4">
-              
-              <!-- Full-Stack Parent Card -->
-              <a
-                href="/roadmaps?category=Development"
-                class="group relative flex flex-col justify-between w-64 p-4 rounded-xl border-2 border-emerald-400 bg-emerald-50/30 shadow-xs hover:border-emerald-600 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 no-underline shrink-0"
-                title="Full-Stack Development"
+            {categories.map((cat) => (
+              <div 
+                class={`category-tree-row relative flex items-center pl-6 cat-row-${cat.id}`}
+                data-track-id={cat.id}
               >
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">
-                    Core Branching Track
-                  </span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <!-- Horizontal branch connector from spine directly into category card center -->
+                <div class="cat-in-connector absolute left-0 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-zinc-300 overflow-hidden">
+                  <div class={`cat-beep-beam cat-beep-${cat.id}`} style={`--accent-color: ${cat.color};`}></div>
                 </div>
-                <div class="text-base font-bold text-zinc-900 group-hover:text-emerald-700 transition-colors font-secondary">
-                  Fullstack Dev
-                </div>
-                <div class="text-[11px] text-zinc-500 mt-0.5">
-                  5 Key Sub-Branches &rarr;
-                </div>
-                <div class="mt-2 pt-2 border-t border-emerald-200/60 flex items-center justify-between text-[11px] font-semibold text-emerald-700">
-                  <span>Explore Roadmaps</span>
-                  <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                <!-- Category Card -->
+                <a
+                  href={`/roadmaps?category=${cat.category}`}
+                  class={`cat-node-btn relative flex items-center justify-between w-40 sm:w-44 p-2.5 px-3 rounded-xl border bg-white shadow-xs transition-all duration-300 no-underline shrink-0 cursor-pointer ${cat.accentBorder}`}
+                  title={`Open ${cat.fullName} Roadmap`}
+                >
+                  <div class="flex items-center gap-2">
+                    <span class={`cat-dot w-2.5 h-2.5 rounded-full shrink-0 transition-transform ${cat.dotColor}`}></span>
+                    <div>
+                      <div class="text-[9px] font-mono uppercase text-zinc-400 font-bold leading-none">{cat.tag}</div>
+                      <div class="text-xs font-bold text-zinc-900 font-secondary mt-0.5 truncate">{cat.name}</div>
+                    </div>
+                  </div>
+                  <svg class="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
-                </div>
-              </a>
-
-              <!-- Branching connector line from Fullstack Dev to the 5 subnodes -->
-              <div class="relative w-8 self-stretch flex items-center">
-                <svg class="w-8 h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 32 240">
-                  <!-- Trunk stem from left (x=0, y=120) to x=16 -->
-                  <path d="M 0,120 L 16,120" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Vertical spine across all 5 subnodes -->
-                  <path d="M 16,24 L 16,216" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Branch 1 to Frontend (y=24) -->
-                  <path d="M 16,24 L 32,24" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Branch 2 to Backend (y=72) -->
-                  <path d="M 16,72 L 32,72" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Branch 3 to DB (y=120) -->
-                  <path d="M 16,120 L 32,120" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Branch 4 to Production Grade Eng (y=168) -->
-                  <path d="M 16,168 L 32,168" stroke="#10b981" stroke-width="2" fill="none" />
-                  <!-- Branch 5 to Extras (y=216) -->
-                  <path d="M 16,216 L 32,216" stroke="#10b981" stroke-width="2" fill="none" />
-                </svg>
+                </a>
               </div>
+            ))}
+          </div>
 
-              <!-- Column 4: The 5 Fullstack Subnodes -->
-              <div class="flex flex-col gap-2.5 shrink-0">
-                
-                <!-- Subnode 1: Frontend -->
-                <a
-                  href="/roadmaps?category=Development"
-                  class="group flex items-center justify-between w-52 py-2 px-3 rounded-lg border border-zinc-200 bg-white hover:border-emerald-500 hover:shadow-sm hover:translate-x-1 transition-all duration-150 no-underline"
-                  title="Frontend"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-bold text-zinc-800 group-hover:text-emerald-700">Frontend</span>
-                  </div>
-                  <span class="text-[10px] font-mono text-zinc-400 group-hover:text-emerald-600">&rarr;</span>
-                </a>
+          <!-- Column 4: Dynamic Branching Subtree (ONLY shown for the currently active category) -->
+          <div class="relative flex items-center shrink-0 pl-2">
+            {categories.map((cat) => (
+              <div 
+                class={`category-branch-panel cat-branch-panel-${cat.id} flex items-center transition-all duration-300`}
+                data-panel-id={cat.id}
+              >
+                <!-- Connector Stem leading out of active category into branches -->
+                <div class="w-6 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
+                  <div class="sub-beep-beam" style={`--accent-color: ${cat.color};`}></div>
+                </div>
 
-                <!-- Subnode 2: Backend -->
-                <a
-                  href="/roadmaps?category=Development"
-                  class="group flex items-center justify-between w-52 py-2 px-3 rounded-lg border border-zinc-200 bg-white hover:border-emerald-500 hover:shadow-sm hover:translate-x-1 transition-all duration-150 no-underline"
-                  title="Backend"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-bold text-zinc-800 group-hover:text-emerald-700">Backend</span>
-                  </div>
-                  <span class="text-[10px] font-mono text-zinc-400 group-hover:text-emerald-600">&rarr;</span>
-                </a>
+                <!-- Multi-Branching Tree (Non-Linear Forks: 2 to 3 branches!) -->
+                <div class="relative flex flex-col gap-3 py-1.5 pl-6">
+                  <!-- Branching Spine connecting the 2-3 branches -->
+                  <div 
+                    class="absolute left-0 w-0.5 bg-zinc-300"
+                    style={`top: ${cat.branches.length === 3 ? "24px" : "22px"}; bottom: ${cat.branches.length === 3 ? "24px" : "22px"};`}
+                  ></div>
 
-                <!-- Subnode 3: DB -->
-                <a
-                  href="/roadmaps?category=Development"
-                  class="group flex items-center justify-between w-52 py-2 px-3 rounded-lg border border-zinc-200 bg-white hover:border-emerald-500 hover:shadow-sm hover:translate-x-1 transition-all duration-150 no-underline"
-                  title="DB (Databases)"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-bold text-zinc-800 group-hover:text-emerald-700">DB</span>
-                  </div>
-                  <span class="text-[10px] font-mono text-zinc-400 group-hover:text-emerald-600">&rarr;</span>
-                </a>
+                  {cat.branches.map((branch, bIdx) => (
+                    <div class="relative flex items-center">
+                      <!-- Horizontal arm from spine to first node in this branch -->
+                      <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-zinc-300 overflow-hidden">
+                        <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: ${(bIdx + 1) * 0.2}s;`}></div>
+                      </div>
 
-                <!-- Subnode 4: Production Grade Eng -->
-                <a
-                  href="/roadmaps?category=Development"
-                  class="group flex items-center justify-between w-52 py-2 px-3 rounded-lg border border-zinc-200 bg-white hover:border-emerald-500 hover:shadow-sm hover:translate-x-1 transition-all duration-150 no-underline"
-                  title="Production Grade Eng"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-bold text-zinc-800 group-hover:text-emerald-700">Production Grade Eng</span>
-                  </div>
-                  <span class="text-[10px] font-mono text-zinc-400 group-hover:text-emerald-600">&rarr;</span>
-                </a>
+                      <!-- Chain of nodes along this branch -->
+                      <div class="flex items-center gap-0">
+                        {branch.nodes.map((node, nIdx) => (
+                          <div class="flex items-center">
+                            {/* Connector between nodes in the branch */}
+                            {nIdx > 0 && (
+                              <div class="w-5 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
+                                <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: ${(bIdx * 2 + nIdx) * 0.3}s;`}></div>
+                              </div>
+                            )}
 
-                <!-- Subnode 5: Extras -->
-                <a
-                  href="/roadmaps?category=Development"
-                  class="group flex items-center justify-between w-52 py-2 px-3 rounded-lg border border-zinc-200 bg-white hover:border-emerald-500 hover:shadow-sm hover:translate-x-1 transition-all duration-150 no-underline"
-                  title="Extras"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-bold text-zinc-800 group-hover:text-emerald-700">Extras</span>
-                  </div>
-                  <span class="text-[10px] font-mono text-zinc-400 group-hover:text-emerald-600">&rarr;</span>
-                </a>
+                            <!-- Node Box -->
+                            <a
+                              href={`/roadmaps?category=${cat.category}`}
+                              class={`subnode-card relative flex flex-col justify-center px-3 py-2 rounded-lg border border-zinc-200 bg-white shadow-xs hover:border-[var(--card-accent)] hover:shadow-md transition-all duration-200 no-underline shrink-0 ${
+                                node.title.includes("Production Grade") ? "w-44" : "w-36 sm:w-40"
+                              }`}
+                              style={`--card-accent: ${cat.color};`}
+                              title={node.title}
+                            >
+                              <div class="text-[11px] font-bold text-zinc-800 leading-snug truncate">
+                                {node.title}
+                              </div>
+                              <div class="text-[9px] font-mono text-zinc-400 truncate mt-0.5">
+                                {node.sub}
+                              </div>
+                            </a>
+                          </div>
+                        ))}
 
+                        {/* If branch has overflow: Show connector and "..." Box */}
+                        {branch.hasMore && (
+                          <div class="flex items-center">
+                            <div class="w-5 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
+                              <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: 0.9s;`}></div>
+                            </div>
+                            <a
+                              href={`/roadmaps?category=${cat.category}`}
+                              class="more-pill w-10 h-8 flex items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 bg-white font-mono font-black text-xs text-zinc-400 hover:text-zinc-900 transition-all duration-300 no-underline shrink-0 shadow-xs"
+                              title={`Explore more topics in ${cat.name} roadmap...`}
+                              style={`--card-accent: ${cat.color};`}
+                            >
+                              <span>...</span>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-
-            </div>
-
-            <!-- Track 3: System Design -->
-            <div class="flex items-center">
-              <a
-                href="/roadmaps?category=System-Design"
-                class="group relative flex items-center justify-between w-64 p-3.5 rounded-xl border border-zinc-200 bg-white shadow-xs hover:border-purple-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 no-underline"
-                title="System Design"
-              >
-                <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shrink-0"></span>
-                  <div>
-                    <div class="text-[10px] font-mono uppercase text-purple-600 font-bold">Architecture Track</div>
-                    <div class="text-sm font-bold text-zinc-900 group-hover:text-purple-700 transition-colors font-secondary">
-                      System Design
-                    </div>
-                  </div>
-                </div>
-                <svg class="w-4 h-4 text-zinc-400 group-hover:text-purple-600 group-hover:translate-x-0.5 transition-all shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-
-            <!-- Track 4: AI Engineering -->
-            <div class="flex items-center">
-              <a
-                href="/roadmaps?category=AI-Engineering"
-                class="group relative flex items-center justify-between w-64 p-3.5 rounded-xl border border-zinc-200 bg-white shadow-xs hover:border-pink-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 no-underline"
-                title="AI Engineering"
-              >
-                <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-pink-500 shrink-0"></span>
-                  <div>
-                    <div class="text-[10px] font-mono uppercase text-pink-600 font-bold">AI Track</div>
-                    <div class="text-sm font-bold text-zinc-900 group-hover:text-pink-700 transition-colors font-secondary">
-                      AI Engineering
-                    </div>
-                  </div>
-                </div>
-                <svg class="w-4 h-4 text-zinc-400 group-hover:text-pink-600 group-hover:translate-x-0.5 transition-all shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-
+            ))}
           </div>
 
         </div>
@@ -328,7 +392,7 @@
           <svg class="w-4 h-4 text-[#FE6019] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>Need full interactive pan, zoom, edge dependencies, and checklists?</span>
+          <span>Click any category, milestone node, or &quot;...&quot; box to open the full interactive skill tree.</span>
         </div>
         <a
           href="/roadmaps"
@@ -345,3 +409,209 @@
 
   </div>
 </section>
+
+<style>
+  /* Continuous beam from Start to Core CS */
+  .line-pulse-beam {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #FE6019, transparent);
+    animation: sweep-beam-start 2s ease-in-out infinite;
+  }
+
+  @keyframes sweep-beam-start {
+    0%, 20% { left: -100%; opacity: 0; }
+    40% { opacity: 1; }
+    70% { opacity: 1; }
+    90%, 100% { left: 100%; opacity: 0; }
+  }
+
+  /* Sweeping beep beam along connector lines */
+  .cat-beep-beam,
+  .sub-beep-beam {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-color, #10b981), transparent);
+    opacity: 0;
+  }
+
+  @keyframes sweep-beep-active {
+    0% { left: -100%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  /* Branch panels visibility (ONLY the active one shows!) */
+  .category-branch-panel {
+    display: none;
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  .category-branch-panel.panel-active {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Dynamic Active States driven by data-active-cat */
+  #treeCanvas[data-active-cat="0"] .cat-row-0 .cat-node-btn,
+  #treeCanvas[data-active-cat="1"] .cat-row-1 .cat-node-btn,
+  #treeCanvas[data-active-cat="2"] .cat-row-2 .cat-node-btn,
+  #treeCanvas[data-active-cat="3"] .cat-row-3 .cat-node-btn {
+    box-shadow: 0 4px 14px var(--glow-color, rgba(16, 185, 129, 0.35));
+    transform: translateY(-2px);
+  }
+
+  #treeCanvas[data-active-cat="0"] .cat-row-0 .cat-beep-beam,
+  #treeCanvas[data-active-cat="1"] .cat-row-1 .cat-beep-beam,
+  #treeCanvas[data-active-cat="2"] .cat-row-2 .cat-beep-beam,
+  #treeCanvas[data-active-cat="3"] .cat-row-3 .cat-beep-beam {
+    opacity: 1;
+    animation: sweep-beep-active 0.8s ease-out infinite;
+  }
+
+  #treeCanvas[data-active-cat="0"] .cat-row-0 .cat-dot,
+  #treeCanvas[data-active-cat="1"] .cat-row-1 .cat-dot,
+  #treeCanvas[data-active-cat="2"] .cat-row-2 .cat-dot,
+  #treeCanvas[data-active-cat="3"] .cat-row-3 .cat-dot {
+    transform: scale(1.35);
+  }
+
+  /* Subtree beeps while panel is active */
+  .category-branch-panel.panel-active .sub-beep-beam {
+    opacity: 1;
+    animation: sweep-beep-active 0.9s ease-out infinite;
+  }
+
+  .category-branch-panel.panel-active .more-pill {
+    animation: gentle-more-pulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes gentle-more-pulse {
+    0%, 100% {
+      transform: scale(1);
+      border-color: #cbd5e1;
+      color: #94a3b8;
+    }
+    50% {
+      transform: scale(1.12);
+      border-color: var(--card-accent, #10b981);
+      color: var(--card-accent, #10b981);
+      box-shadow: 0 0 10px var(--card-accent, rgba(16, 185, 129, 0.4));
+    }
+  }
+
+  /* Top Pill Button active styles */
+  .cat-pill-btn.active {
+    background-color: #ffffff;
+    color: #18181b;
+    border-color: var(--cat-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .cat-pill-btn:not(.active) {
+    background-color: #f4f4f5;
+    color: #71717a;
+    border-color: transparent;
+  }
+</style>
+
+<script>
+  let rotateTimer: ReturnType<typeof setInterval> | null = null;
+  const spineTopOffsets = ["26px", "74px", "122px", "170px"];
+  const spineColors = ["#ef4444", "#10b981", "#a855f7", "#ec4899"];
+
+  function initStructuredTree() {
+    const canvas = document.getElementById("treeCanvas");
+    const spineIndicator = document.getElementById("spineIndicator");
+    const pillButtons = document.querySelectorAll<HTMLButtonElement>(".cat-pill-btn");
+    const branchPanels = document.querySelectorAll<HTMLElement>(".category-branch-panel");
+    const categoryRows = document.querySelectorAll<HTMLElement>(".category-tree-row");
+
+    if (!canvas) return;
+
+    if (rotateTimer) clearInterval(rotateTimer);
+
+    let currentTrack = parseInt(canvas.getAttribute("data-active-cat") || "1", 10);
+    let isUserHovered = false;
+
+    function applyActiveTrack(index: number) {
+      currentTrack = index;
+      canvas?.setAttribute("data-active-cat", String(currentTrack));
+
+      // Update spine indicator position & color
+      if (spineIndicator) {
+        spineIndicator.style.top = spineTopOffsets[currentTrack] || "74px";
+        spineIndicator.style.backgroundColor = spineColors[currentTrack] || "#10b981";
+      }
+
+      // Show ONLY the active category's branch panel!
+      branchPanels.forEach((panel) => {
+        const panelId = parseInt(panel.getAttribute("data-panel-id") || "0", 10);
+        if (panelId === currentTrack) {
+          panel.classList.add("panel-active");
+        } else {
+          panel.classList.remove("panel-active");
+        }
+      });
+
+      // Update top pill buttons
+      pillButtons.forEach((btn) => {
+        const targetId = parseInt(btn.getAttribute("data-target-track") || "0", 10);
+        if (targetId === currentTrack) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+    }
+
+    // Initialize with current track
+    applyActiveTrack(currentTrack);
+
+    // Auto-rotate every 3.5 seconds
+    rotateTimer = setInterval(() => {
+      if (!isUserHovered) {
+        const nextTrack = (currentTrack + 1) % 4;
+        applyActiveTrack(nextTrack);
+      }
+    }, 3500);
+
+    // Interactive button clicks (instant switch)
+    pillButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = parseInt(btn.getAttribute("data-target-track") || "0", 10);
+        applyActiveTrack(targetId);
+      });
+    });
+
+    // Hover on category rows to inspect
+    categoryRows.forEach((row) => {
+      row.addEventListener("mouseenter", () => {
+        isUserHovered = true;
+        const trackId = parseInt(row.getAttribute("data-track-id") || "0", 10);
+        applyActiveTrack(trackId);
+      });
+
+      row.addEventListener("mouseleave", () => {
+        isUserHovered = false;
+      });
+    });
+
+    // Also pause if hovering inside the branch panel
+    branchPanels.forEach((panel) => {
+      panel.addEventListener("mouseenter", () => { isUserHovered = true; });
+      panel.addEventListener("mouseleave", () => { isUserHovered = false; });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initStructuredTree);
+</script>
