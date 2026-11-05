@@ -1,0 +1,950 @@
+---
+// AnkiRevisionModal.astro - Minimal Anki Card System for Interview Questions Revision
+interface Props {
+  currentTag?: string;
+  allTags?: string[];
+}
+
+const { currentTag = "all", allTags = [] } = Astro.props;
+---
+
+<!-- Floating Prompt Toast (Asks users to revise with Anki) -->
+<div 
+  id="ankiPromptToast" 
+  class="fixed bottom-6 right-6 z-40 max-w-sm bg-white/95 backdrop-blur-md border border-zinc-200/90 rounded-2xl shadow-xl p-4 transition-all duration-300 transform translate-y-24 opacity-0 pointer-events-none"
+  aria-live="polite"
+>
+  <div class="flex items-start gap-3">
+    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FE6019] to-orange-500 text-white flex items-center justify-center shrink-0 shadow-sm shadow-orange-500/20 font-bold text-lg">
+      🧠
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between">
+        <h4 class="text-xs font-black uppercase tracking-wider text-zinc-900 font-secondary">
+          Active Recall Check
+        </h4>
+        <button 
+          type="button" 
+          id="ankiDismissToastBtn" 
+          class="text-zinc-400 hover:text-zinc-700 text-sm font-bold p-0.5 leading-none cursor-pointer"
+          title="Dismiss for this session"
+        >
+          ✕
+        </button>
+      </div>
+      <p class="text-xs text-zinc-600 mt-1 leading-snug">
+        Test your interview memory with a 3-minute rapid Anki flashcard session.
+      </p>
+      <div class="mt-3 flex items-center gap-2">
+        <button 
+          type="button" 
+          id="ankiLaunchToastBtn" 
+          class="px-3.5 py-1.5 rounded-lg bg-[#FE6019] hover:bg-orange-600 text-white text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <span>Start Anki Session</span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+        <button 
+          type="button" 
+          id="ankiLaterToastBtn" 
+          class="text-xs text-zinc-400 hover:text-zinc-700 font-medium px-2 py-1"
+        >
+          Not now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Anki Flashcard Modal Overlay -->
+<div 
+  id="ankiModalOverlay" 
+  class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="ankiModalTitle"
+>
+  <!-- Modal Card Frame -->
+  <div 
+    id="ankiModalCard" 
+    class="bg-white rounded-2xl shadow-2xl border border-zinc-200/90 w-full max-w-xl max-h-[92vh] flex flex-col overflow-hidden transform scale-95 transition-all duration-300"
+  >
+    <!-- Screen 1: Session Setup / Topic Picker -->
+    <div id="ankiSetupScreen" class="p-6 sm:p-8 flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-100">
+        <div class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200 text-[#FE6019] flex items-center justify-center font-bold text-base shadow-xs">
+            ⚡
+          </span>
+          <div>
+            <h3 id="ankiModalTitle" class="text-base sm:text-lg font-black font-secondary text-zinc-900 leading-tight">
+              Anki Interview Revision
+            </h3>
+            <p class="text-xs text-zinc-500 mt-0.5">
+              Active recall &bull; 4-grade repetition loop
+            </p>
+          </div>
+        </div>
+        <button 
+          type="button" 
+          class="anki-close-modal-btn w-8 h-8 rounded-full text-zinc-400 hover:text-zinc-800 hover:bg-zinc-100 flex items-center justify-center text-sm font-bold transition-all cursor-pointer"
+          title="Close (Esc)"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mt-5 space-y-5">
+        <!-- Topic Selection -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">
+            Select Topic Track
+          </label>
+          <div class="flex flex-wrap gap-2" id="ankiTopicPills">
+            <button 
+              type="button" 
+              class="anki-topic-pill px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer active bg-zinc-900 text-white border-zinc-900 shadow-xs"
+              data-topic="all"
+            >
+              All Topics
+            </button>
+            <button 
+              type="button" 
+              class="anki-topic-pill px-3 py-1.5 rounded-xl text-xs font-bold border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 transition-all cursor-pointer"
+              data-topic="nodejs"
+            >
+              Node.js
+            </button>
+            <button 
+              type="button" 
+              class="anki-topic-pill px-3 py-1.5 rounded-xl text-xs font-bold border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 transition-all cursor-pointer"
+              data-topic="expressjs"
+            >
+              Express.js
+            </button>
+            <button 
+              type="button" 
+              class="anki-topic-pill px-3 py-1.5 rounded-xl text-xs font-bold border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 transition-all cursor-pointer"
+              data-topic="javascript"
+            >
+              JavaScript
+            </button>
+            <button 
+              type="button" 
+              class="anki-topic-pill px-3 py-1.5 rounded-xl text-xs font-bold border border-zinc-200 bg-white text-zinc-700 hover:border-yellow-400 hover:text-yellow-700 transition-all cursor-pointer flex items-center gap-1"
+              data-topic="starred"
+              id="ankiStarredTopicBtn"
+            >
+              <span>⭐</span>
+              <span>Starred</span>
+              <span id="ankiStarredPillCount" class="text-[10px] font-mono opacity-60">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Session Length -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">
+            Deck Size
+          </label>
+          <div class="grid grid-cols-3 gap-2">
+            <button 
+              type="button" 
+              class="anki-size-pill p-2.5 rounded-xl border border-zinc-200 bg-white text-center hover:border-zinc-300 transition-all cursor-pointer active ring-2 ring-[#FE6019] border-[#FE6019] bg-orange-50/50"
+              data-size="5"
+            >
+              <div class="text-sm font-bold text-zinc-900">5 Cards</div>
+              <div class="text-[10px] text-zinc-500 mt-0.5">Quick Sprint (2m)</div>
+            </button>
+            <button 
+              type="button" 
+              class="anki-size-pill p-2.5 rounded-xl border border-zinc-200 bg-white text-center hover:border-zinc-300 transition-all cursor-pointer"
+              data-size="10"
+            >
+              <div class="text-sm font-bold text-zinc-900">10 Cards</div>
+              <div class="text-[10px] text-zinc-500 mt-0.5">Recommended (5m)</div>
+            </button>
+            <button 
+              type="button" 
+              class="anki-size-pill p-2.5 rounded-xl border border-zinc-200 bg-white text-center hover:border-zinc-300 transition-all cursor-pointer"
+              data-size="all"
+            >
+              <div class="text-sm font-bold text-zinc-900">All Available</div>
+              <div class="text-[10px] text-zinc-500 mt-0.5">Full Mastery</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Tips Callout -->
+        <div class="p-3 bg-zinc-50 border border-zinc-200/80 rounded-xl text-xs text-zinc-600 flex items-start gap-2.5">
+          <span class="text-base">💡</span>
+          <p class="leading-relaxed">
+            Cards marked <strong class="text-rose-600">Again</strong> return to the deck automatically so you only finish once every question has been answered correctly.
+          </p>
+        </div>
+
+        <!-- Launch Button -->
+        <button 
+          type="button" 
+          id="ankiStartSessionBtn" 
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-[#FE6019] to-orange-500 text-white font-bold text-sm shadow-md hover:shadow-lg hover:brightness-105 transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Start Anki Session</span>
+          <span id="ankiStartQuestionCount" class="text-xs opacity-80 font-mono">(5 questions)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Active Flashcard Play Screen -->
+    <div id="ankiPlayScreen" class="flex-1 flex flex-col hidden min-h-0">
+      
+      <!-- Top Progress Bar -->
+      <div class="w-full bg-zinc-100 h-1.5 overflow-hidden">
+        <div 
+          id="ankiProgressBar" 
+          class="h-full bg-gradient-to-r from-[#FE6019] to-emerald-500 transition-all duration-300" 
+          style="width: 0%;"
+        ></div>
+      </div>
+
+      <!-- Header Meta Bar -->
+      <div class="px-5 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/70 text-xs">
+        <div class="flex items-center gap-2">
+          <span 
+            id="ankiCurrentTopicTag" 
+            class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-50 text-[#FE6019] border border-orange-200"
+          >
+            #nodejs
+          </span>
+          <span id="ankiCardIndex" class="font-mono text-zinc-500 font-semibold">
+            Card 1 of 5
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span 
+            id="ankiQueueRemaining" 
+            class="text-[11px] font-mono text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-md shadow-xs"
+            title="Remaining cards in active queue"
+          >
+            Queue: 5
+          </span>
+          <button 
+            type="button" 
+            class="anki-close-modal-btn text-zinc-400 hover:text-zinc-800 text-sm font-bold p-1 cursor-pointer"
+            title="Exit session (Esc)"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Flashcard Scrollable Content Area -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col justify-between" id="ankiCardScroll">
+        
+        <!-- Question Front (Always visible) -->
+        <div>
+          <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-bold mb-2">
+            Prompt / Question
+          </div>
+          <h3 id="ankiQuestionText" class="text-base sm:text-lg font-bold font-secondary text-zinc-900 leading-snug">
+            Loading prompt...
+          </h3>
+        </div>
+
+        <!-- Hidden Answer Back (Flipped / Revealed) -->
+        <div id="ankiAnswerSection" class="mt-6 pt-5 border-t border-zinc-200/90 hidden animate-fade-in">
+          <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-600 font-bold mb-2 flex items-center gap-1.5">
+            <span>✓</span>
+            <span>Answer Breakdown</span>
+          </div>
+
+          <!-- Answer Body -->
+          <div id="ankiAnswerBody" class="prose prose-sm max-w-none text-zinc-700 font-normal leading-relaxed text-xs sm:text-sm">
+            <!-- Dynamic HTML answers -->
+          </div>
+
+          <!-- Code Snippet Box (If present) -->
+          <div id="ankiCodeWrapper" class="mt-4 rounded-xl overflow-hidden border border-zinc-800 bg-[#0d1117] hidden shadow-inner">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-[#161b22] border-b border-zinc-800 text-[10px] text-zinc-400 font-mono">
+              <span class="flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-red-500/70 inline-block"></span>
+                <span class="w-2 h-2 rounded-full bg-yellow-500/70 inline-block"></span>
+                <span class="w-2 h-2 rounded-full bg-green-500/70 inline-block"></span>
+                <span class="ml-1 text-zinc-300 font-bold">Code Sample</span>
+              </span>
+              <button 
+                type="button" 
+                id="ankiCopyCodeBtn" 
+                class="hover:text-white transition-colors cursor-pointer text-[10px]"
+              >
+                Copy
+              </button>
+            </div>
+            <pre class="p-3 text-xs font-mono text-zinc-200 overflow-x-auto whitespace-pre leading-relaxed"><code id="ankiCodeContent"></code></pre>
+          </div>
+        </div>
+
+        <!-- Placeholder when unrevealed to give comfortable card height -->
+        <div id="ankiRevealPrompt" class="py-10 text-center my-auto">
+          <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-[#FE6019] mx-auto flex items-center justify-center text-xl mb-3 shadow-xs">
+            🤔
+          </div>
+          <p class="text-xs text-zinc-500 max-w-xs mx-auto">
+            Try to recall the key concepts in your head, then reveal the answer.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="p-4 border-t border-zinc-100 bg-white">
+        <!-- Before Reveal: Show Answer Button -->
+        <div id="ankiBeforeRevealActions" class="flex items-center justify-between gap-3">
+          <span class="text-[11px] text-zinc-400 hidden sm:inline-block">
+            Press <kbd class="px-1.5 py-0.5 bg-zinc-100 border border-zinc-200 rounded font-mono text-[10px] text-zinc-600">Space</kbd> to reveal
+          </span>
+          <button 
+            type="button" 
+            id="ankiRevealBtn" 
+            class="w-full sm:w-auto ml-auto px-6 py-2.5 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs font-bold shadow-sm transition-all cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span>Show Answer</span>
+            <span class="text-[10px] text-zinc-400 font-mono">(Space)</span>
+          </button>
+        </div>
+
+        <!-- After Reveal: Anki 4-grade Rating Buttons -->
+        <div id="ankiAfterRevealActions" class="hidden">
+          <div class="text-[11px] text-zinc-400 font-medium mb-2 text-center">
+            How well did you remember this?
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- 1: Again -->
+            <button 
+              type="button" 
+              class="anki-grade-btn p-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-center transition-all cursor-pointer"
+              data-grade="again"
+              title="Forgot completely - card will reappear this session"
+            >
+              <div class="text-xs font-black">Again</div>
+              <div class="text-[10px] font-mono opacity-70 mt-0.5">[1] &bull; Re-queue</div>
+            </button>
+
+            <!-- 2: Hard -->
+            <button 
+              type="button" 
+              class="anki-grade-btn p-2 rounded-xl border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 text-center transition-all cursor-pointer"
+              data-grade="hard"
+              title="Remembered with hesitation"
+            >
+              <div class="text-xs font-black">Hard</div>
+              <div class="text-[10px] font-mono opacity-70 mt-0.5">[2]</div>
+            </button>
+
+            <!-- 3: Good -->
+            <button 
+              type="button" 
+              class="anki-grade-btn p-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-center transition-all cursor-pointer"
+              data-grade="good"
+              title="Remembered normally"
+            >
+              <div class="text-xs font-black">Good</div>
+              <div class="text-[10px] font-mono opacity-70 mt-0.5">[3]</div>
+            </button>
+
+            <!-- 4: Easy -->
+            <button 
+              type="button" 
+              class="anki-grade-btn p-2 rounded-xl border border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 text-center transition-all cursor-pointer"
+              data-grade="easy"
+              title="Instant perfect recall"
+            >
+              <div class="text-xs font-black">Easy</div>
+              <div class="text-[10px] font-mono opacity-70 mt-0.5">[4]</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Completion / Summary Screen -->
+    <div id="ankiCompleteScreen" class="p-6 sm:p-8 flex flex-col text-center hidden">
+      <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm">
+        🎉
+      </div>
+
+      <h3 class="text-xl sm:text-2xl font-black font-secondary text-zinc-900">
+        Revision Session Complete!
+      </h3>
+      <p class="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">
+        Great active recall practice! Here is your session summary.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-3 gap-3 my-6">
+        <div class="p-3 bg-zinc-50 border border-zinc-200/80 rounded-xl">
+          <div id="ankiStatReviewed" class="text-lg font-black font-mono text-zinc-900">10</div>
+          <div class="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Total Reviewed</div>
+        </div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+          <div id="ankiStatMastery" class="text-lg font-black font-mono text-emerald-700">80%</div>
+          <div class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">First-Try Recall</div>
+        </div>
+        <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl">
+          <div id="ankiStatLapses" class="text-lg font-black font-mono text-rose-700">2</div>
+          <div class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Repeat Loops</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center gap-3 mt-2">
+        <button 
+          type="button" 
+          id="ankiRestartBtn" 
+          class="w-full sm:flex-1 py-2.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-800 text-xs font-bold shadow-xs transition-all cursor-pointer"
+        >
+          🔁 Practice Again
+        </button>
+
+        <button 
+          type="button" 
+          id="ankiStarMissedBtn" 
+          class="w-full sm:flex-1 py-2.5 rounded-xl border border-yellow-200 bg-yellow-50 text-yellow-800 hover:bg-yellow-100 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+        >
+          <span>⭐</span>
+          <span>Star Missed Cards</span>
+        </button>
+
+        <button 
+          type="button" 
+          class="anki-close-modal-btn w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#FE6019] hover:bg-orange-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Anki Flashcard Engine
+  let rawQuestions: any[] = [];
+  let isQuestionsLoaded = false;
+  let activeQueue: any[] = [];
+  let initialDeckSize = 0;
+  let currentIndex = 0;
+  let isRevealed = false;
+  let sessionHistory: { id: string | number; grade: string; firstTry: boolean }[] = [];
+  let currentFilterTopic = "all";
+  let currentDeckSizeSetting = "5";
+
+  const STARRED_KEY = 'ib_starred';
+  const TOAST_DISMISSED_KEY = 'anki_toast_dismissed_session';
+
+  function getStarredIds(): (string | number)[] {
+    try {
+      return JSON.parse(localStorage.getItem(STARRED_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function saveStarredId(id: string | number) {
+    try {
+      const set = new Set(getStarredIds());
+      set.add(id);
+      localStorage.setItem(STARRED_KEY, JSON.stringify(Array.from(set)));
+    } catch {}
+  }
+
+  async function fetchQuestionsIfNeeded() {
+    if (isQuestionsLoaded && rawQuestions.length > 0) return rawQuestions;
+    try {
+      const res = await fetch('/api/questions.json');
+      if (res.ok) {
+        rawQuestions = await res.json();
+        isQuestionsLoaded = true;
+      }
+    } catch (e) {
+      console.error('Failed to load questions for Anki modal', e);
+    }
+    return rawQuestions;
+  }
+
+  function getFilteredQuestions(): any[] {
+    let list = [...rawQuestions];
+    if (currentFilterTopic === 'starred') {
+      const starred = new Set(getStarredIds().map(String));
+      list = list.filter(q => starred.has(String(q.id)));
+    } else if (currentFilterTopic !== 'all') {
+      list = list.filter(q => (q.tags || []).includes(currentFilterTopic));
+    }
+    return list;
+  }
+
+  function shuffle<T>(array: T[]): T[] {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function openModal(topic?: string, autoStart: boolean = false) {
+    const overlay = document.getElementById('ankiModalOverlay');
+    const card = document.getElementById('ankiModalCard');
+    if (!overlay || !card) return;
+
+    if (topic) {
+      currentFilterTopic = topic;
+      // Update pills
+      document.querySelectorAll('.anki-topic-pill').forEach(btn => {
+        const t = (btn as HTMLElement).dataset.topic;
+        if (t === topic) {
+          btn.classList.add('active', 'bg-zinc-900', 'text-white', 'border-zinc-900');
+          btn.classList.remove('bg-white', 'text-zinc-700');
+        } else {
+          btn.classList.remove('active', 'bg-zinc-900', 'text-white', 'border-zinc-900');
+          btn.classList.add('bg-white', 'text-zinc-700');
+        }
+      });
+    }
+
+    // Update starred count pill
+    const starredCount = getStarredIds().length;
+    const countEl = document.getElementById('ankiStarredPillCount');
+    if (countEl) countEl.textContent = String(starredCount);
+
+    overlay.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    });
+
+    // Dismiss prompt toast if open
+    hidePromptToast();
+
+    fetchQuestionsIfNeeded().then(() => {
+      updateSetupCounter();
+      if (autoStart) {
+        startAnkiSession();
+      } else {
+        showSetupScreen();
+      }
+    });
+  }
+
+  function closeModal() {
+    const overlay = document.getElementById('ankiModalOverlay');
+    const card = document.getElementById('ankiModalCard');
+    if (!overlay || !card) return;
+
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    card.classList.remove('scale-100');
+    card.classList.add('scale-95');
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+    }, 300);
+  }
+
+  function showSetupScreen() {
+    const setup = document.getElementById('ankiSetupScreen');
+    const play = document.getElementById('ankiPlayScreen');
+    const complete = document.getElementById('ankiCompleteScreen');
+    if (setup) setup.classList.remove('hidden');
+    if (play) play.classList.add('hidden');
+    if (complete) complete.classList.add('hidden');
+  }
+
+  function updateSetupCounter() {
+    const questions = getFilteredQuestions();
+    const countLabel = document.getElementById('ankiStartQuestionCount');
+    if (!countLabel) return;
+
+    let targetCount = questions.length;
+    if (currentDeckSizeSetting === '5') targetCount = Math.min(5, questions.length);
+    else if (currentDeckSizeSetting === '10') targetCount = Math.min(10, questions.length);
+
+    countLabel.textContent = `(${targetCount} questions)`;
+  }
+
+  function startAnkiSession() {
+    const filtered = getFilteredQuestions();
+    if (filtered.length === 0) {
+      alert('No questions found for the selected topic! Try selecting "All Topics".');
+      return;
+    }
+
+    const shuffled = shuffle(filtered);
+    let deckSize = shuffled.length;
+    if (currentDeckSizeSetting === '5') deckSize = Math.min(5, shuffled.length);
+    else if (currentDeckSizeSetting === '10') deckSize = Math.min(10, shuffled.length);
+
+    activeQueue = shuffled.slice(0, deckSize).map(q => ({
+      ...q,
+      seenInSession: false,
+      lapses: 0,
+    }));
+    initialDeckSize = activeQueue.length;
+    currentIndex = 0;
+    sessionHistory = [];
+
+    const setup = document.getElementById('ankiSetupScreen');
+    const play = document.getElementById('ankiPlayScreen');
+    const complete = document.getElementById('ankiCompleteScreen');
+    if (setup) setup.classList.add('hidden');
+    if (complete) complete.classList.add('hidden');
+    if (play) play.classList.remove('hidden');
+
+    renderCurrentCard();
+  }
+
+  function renderCurrentCard() {
+    if (activeQueue.length === 0) {
+      finishAnkiSession();
+      return;
+    }
+
+    const currentCard = activeQueue[0];
+    isRevealed = false;
+
+    // Update tags and meta
+    const tagEl = document.getElementById('ankiCurrentTopicTag');
+    if (tagEl) {
+      const tag = (currentCard.tags && currentCard.tags[0]) || 'interview';
+      tagEl.textContent = `#${tag}`;
+    }
+
+    const cardIndexEl = document.getElementById('ankiCardIndex');
+    if (cardIndexEl) {
+      const learned = initialDeckSize - activeQueue.length + 1;
+      cardIndexEl.textContent = `Card ${Math.min(learned, initialDeckSize)} of ${initialDeckSize}`;
+    }
+
+    const queueEl = document.getElementById('ankiQueueRemaining');
+    if (queueEl) {
+      queueEl.textContent = `Queue: ${activeQueue.length}`;
+    }
+
+    const progressBar = document.getElementById('ankiProgressBar');
+    if (progressBar) {
+      const learned = Math.max(0, initialDeckSize - activeQueue.length);
+      const pct = Math.round((learned / initialDeckSize) * 100);
+      progressBar.style.width = `${pct}%`;
+    }
+
+    // Render Question Prompt
+    const questionTextEl = document.getElementById('ankiQuestionText');
+    if (questionTextEl) {
+      questionTextEl.textContent = currentCard.question;
+    }
+
+    // Hide Answer, Show Reveal Prompt
+    const answerSec = document.getElementById('ankiAnswerSection');
+    const revealPrompt = document.getElementById('ankiRevealPrompt');
+    const beforeActions = document.getElementById('ankiBeforeRevealActions');
+    const afterActions = document.getElementById('ankiAfterRevealActions');
+
+    if (answerSec) answerSec.classList.add('hidden');
+    if (revealPrompt) revealPrompt.classList.remove('hidden');
+    if (beforeActions) beforeActions.classList.remove('hidden');
+    if (afterActions) afterActions.classList.add('hidden');
+
+    // Prepare Answer content in DOM
+    const answerBody = document.getElementById('ankiAnswerBody');
+    if (answerBody) {
+      let answersHtml = '';
+      if (Array.isArray(currentCard.answer)) {
+        answersHtml = currentCard.answer.map((ans: string) => `<p class="mb-2">${ans}</p>`).join('');
+      } else if (typeof currentCard.answer === 'string') {
+        answersHtml = `<p>${currentCard.answer}</p>`;
+      }
+      answerBody.innerHTML = answersHtml;
+    }
+
+    // Code snippet
+    const codeWrapper = document.getElementById('ankiCodeWrapper');
+    const codeContent = document.getElementById('ankiCodeContent');
+    if (codeWrapper && codeContent) {
+      if (currentCard.code && currentCard.code.trim().length > 0) {
+        codeContent.textContent = currentCard.code;
+        codeWrapper.classList.remove('hidden');
+      } else {
+        codeWrapper.classList.add('hidden');
+      }
+    }
+
+    // Scroll to top
+    const scrollContainer = document.getElementById('ankiCardScroll');
+    if (scrollContainer) scrollContainer.scrollTop = 0;
+  }
+
+  function revealAnswer() {
+    if (isRevealed || activeQueue.length === 0) return;
+    isRevealed = true;
+
+    const answerSec = document.getElementById('ankiAnswerSection');
+    const revealPrompt = document.getElementById('ankiRevealPrompt');
+    const beforeActions = document.getElementById('ankiBeforeRevealActions');
+    const afterActions = document.getElementById('ankiAfterRevealActions');
+
+    if (answerSec) answerSec.classList.remove('hidden');
+    if (revealPrompt) revealPrompt.classList.add('hidden');
+    if (beforeActions) beforeActions.classList.add('hidden');
+    if (afterActions) afterActions.classList.remove('hidden');
+
+    // Smooth scroll down to answer
+    const scrollContainer = document.getElementById('ankiCardScroll');
+    if (scrollContainer) {
+      setTimeout(() => {
+        scrollContainer.scrollTo({ top: 140, behavior: 'smooth' });
+      }, 50);
+    }
+  }
+
+  function gradeCard(grade: 'again' | 'hard' | 'good' | 'easy') {
+    if (!isRevealed || activeQueue.length === 0) return;
+
+    const currentCard = activeQueue.shift();
+    const isFirstTry = !currentCard.seenInSession;
+    currentCard.seenInSession = true;
+
+    sessionHistory.push({
+      id: currentCard.id,
+      grade,
+      firstTry: isFirstTry,
+    });
+
+    if (grade === 'again') {
+      currentCard.lapses = (currentCard.lapses || 0) + 1;
+      // Anki rule: Push back into queue to repeat
+      activeQueue.push(currentCard);
+    }
+
+    renderCurrentCard();
+  }
+
+  function finishAnkiSession() {
+    const play = document.getElementById('ankiPlayScreen');
+    const complete = document.getElementById('ankiCompleteScreen');
+    if (play) play.classList.add('hidden');
+    if (complete) complete.classList.remove('hidden');
+
+    const totalReviewed = sessionHistory.length;
+    const firstTries = sessionHistory.filter(h => h.firstTry);
+    const firstTrySuccess = firstTries.filter(h => h.grade !== 'again').length;
+    const lapses = sessionHistory.filter(h => h.grade === 'again').length;
+
+    const masteryPct = firstTries.length > 0 
+      ? Math.round((firstTrySuccess / firstTries.length) * 100) 
+      : 100;
+
+    const statReviewed = document.getElementById('ankiStatReviewed');
+    const statMastery = document.getElementById('ankiStatMastery');
+    const statLapses = document.getElementById('ankiStatLapses');
+
+    if (statReviewed) statReviewed.textContent = String(totalReviewed);
+    if (statMastery) statMastery.textContent = `${masteryPct}%`;
+    if (statLapses) statLapses.textContent = String(lapses);
+  }
+
+  function starMissedCards() {
+    const lapses = sessionHistory.filter(h => h.grade === 'again').map(h => h.id);
+    if (lapses.length === 0) {
+      alert('🎉 You got all cards right! No missed cards to star.');
+      return;
+    }
+    lapses.forEach(id => saveStarredId(id));
+    const btn = document.getElementById('ankiStarMissedBtn');
+    if (btn) {
+      btn.innerHTML = '<span>✓</span><span>Starred for Review!</span>';
+      btn.classList.add('opacity-75', 'pointer-events-none');
+    }
+  }
+
+  // Floating prompt toast logic
+  function showPromptToast() {
+    if (sessionStorage.getItem(TOAST_DISMISSED_KEY)) return;
+    const toast = document.getElementById('ankiPromptToast');
+    if (!toast) return;
+
+    toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+  }
+
+  function hidePromptToast() {
+    const toast = document.getElementById('ankiPromptToast');
+    if (!toast) return;
+
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+    sessionStorage.setItem(TOAST_DISMISSED_KEY, 'true');
+  }
+
+  // Keyboard controls
+  function handleKeyDown(e: KeyboardEvent) {
+    const overlay = document.getElementById('ankiModalOverlay');
+    if (!overlay || overlay.classList.contains('hidden')) return;
+
+    if (e.key === 'Escape') {
+      closeModal();
+      return;
+    }
+
+    const playScreen = document.getElementById('ankiPlayScreen');
+    if (playScreen && !playScreen.classList.contains('hidden')) {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        if (!isRevealed) revealAnswer();
+      } else if (isRevealed) {
+        if (e.key === '1') gradeCard('again');
+        else if (e.key === '2') gradeCard('hard');
+        else if (e.key === '3') gradeCard('good');
+        else if (e.key === '4') gradeCard('easy');
+      }
+    }
+  }
+
+  // Initialize and attach event listeners on page load
+  function setupAnkiModalEvents() {
+    // Expose global launcher for other components/pages
+    (window as any).openAnkiModal = (topic?: string, autoStart: boolean = false) => {
+      openModal(topic, autoStart);
+    };
+
+    // Global triggers: any button with [data-open-anki]
+    document.querySelectorAll('[data-open-anki]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const topic = (btn as HTMLElement).dataset.ankiTopic || 'all';
+        openModal(topic, false);
+      });
+    });
+
+    // Close buttons
+    document.querySelectorAll('.anki-close-modal-btn').forEach(btn => {
+      btn.addEventListener('click', closeModal);
+    });
+
+    // Topic pills
+    document.querySelectorAll('.anki-topic-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.anki-topic-pill').forEach(b => {
+          b.classList.remove('active', 'bg-zinc-900', 'text-white', 'border-zinc-900');
+          b.classList.add('bg-white', 'text-zinc-700');
+        });
+        btn.classList.add('active', 'bg-zinc-900', 'text-white', 'border-zinc-900');
+        btn.classList.remove('bg-white', 'text-zinc-700');
+        currentFilterTopic = (btn as HTMLElement).dataset.topic || 'all';
+        updateSetupCounter();
+      });
+    });
+
+    // Size pills
+    document.querySelectorAll('.anki-size-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.anki-size-pill').forEach(b => {
+          b.classList.remove('active', 'ring-2', 'ring-[#FE6019]', 'border-[#FE6019]', 'bg-orange-50/50');
+        });
+        btn.classList.add('active', 'ring-2', 'ring-[#FE6019]', 'border-[#FE6019]', 'bg-orange-50/50');
+        currentDeckSizeSetting = (btn as HTMLElement).dataset.size || '5';
+        updateSetupCounter();
+      });
+    });
+
+    // Start Button
+    const startBtn = document.getElementById('ankiStartSessionBtn');
+    if (startBtn) startBtn.addEventListener('click', startAnkiSession);
+
+    // Reveal Button
+    const revealBtn = document.getElementById('ankiRevealBtn');
+    if (revealBtn) revealBtn.addEventListener('click', revealAnswer);
+
+    // Grade Buttons
+    document.querySelectorAll('.anki-grade-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const grade = (btn as HTMLElement).dataset.grade as any;
+        if (grade) gradeCard(grade);
+      });
+    });
+
+    // Restart Button
+    const restartBtn = document.getElementById('ankiRestartBtn');
+    if (restartBtn) restartBtn.addEventListener('click', () => {
+      showSetupScreen();
+    });
+
+    // Star Missed Button
+    const starMissedBtn = document.getElementById('ankiStarMissedBtn');
+    if (starMissedBtn) starMissedBtn.addEventListener('click', starMissedCards);
+
+    // Copy Code Button
+    const copyBtn = document.getElementById('ankiCopyCodeBtn');
+    const codeContent = document.getElementById('ankiCodeContent');
+    if (copyBtn && codeContent) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(codeContent.textContent || '');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+      });
+    }
+
+    // Toast triggers
+    const launchToastBtn = document.getElementById('ankiLaunchToastBtn');
+    if (launchToastBtn) {
+      launchToastBtn.addEventListener('click', () => {
+        openModal(currentFilterTopic, false);
+      });
+    }
+
+    const dismissToastBtn = document.getElementById('ankiDismissToastBtn');
+    if (dismissToastBtn) dismissToastBtn.addEventListener('click', hidePromptToast);
+
+    const laterToastBtn = document.getElementById('ankiLaterToastBtn');
+    if (laterToastBtn) laterToastBtn.addEventListener('click', hidePromptToast);
+
+    // Backdrop click
+    const overlay = document.getElementById('ankiModalOverlay');
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+      });
+    }
+
+    // Keydown listener
+    window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Check URL params for ?anki=true
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('anki') === 'true' || urlParams.get('revise') === 'true') {
+      const topic = urlParams.get('topic') || undefined;
+      openModal(topic, false);
+    } else {
+      // Auto prompt toast after 5 seconds of browsing on interview pages
+      if (window.location.pathname.includes('/interview-bytes')) {
+        setTimeout(showPromptToast, 4500);
+      }
+    }
+  }
+
+  // Astro ViewTransitions lifecycle
+  document.addEventListener('astro:page-load', setupAnkiModalEvents);
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
+
