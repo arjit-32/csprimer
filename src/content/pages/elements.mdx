@@ -1,13 +1,14 @@
 ---
 title: "Elements & Contributor Playbook"
-description: "Exact step-by-step guide for creating content and interactive showcase of all reusable MDX components."
+description: "Exact step-by-step guide for creating content, all collection schemas and types, and interactive showcase of reusable MDX components."
 ---
 
 # Contributor Playbook & MDX Elements
 
-This page is the living documentation for maintaining and expanding **CSPrimer**. It serves two purposes:
+This page is the living documentation for maintaining and expanding **CSPrimer**. It serves three purposes:
 1. **Exact Step-by-Step Playbooks**: Clear instructions for creating standalone articles, multi-lesson series, shorts, interview questions, TryCode practice problems, and roadmap categories.
-2. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components available on the site.
+2. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, TypeScript types, and copy-paste templates so you never need to consult backend configs.
+3. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components available on the site.
 
 ---
 
@@ -15,12 +16,12 @@ This page is the living documentation for maintaining and expanding **CSPrimer**
 
 | Content Surface | Primary Location | Schema & Rules | Where It Appears |
 | :--- | :--- | :--- | :--- |
-| **Standalone Articles** | `src/content/articles/*.md` | `src/content/articles/-index.md` | `/articles`, `/articles/page/[slug]` |
-| **Courses & Series** | `src/content/series/*.json` | `src/content/config.ts` (`series`) | `/courses`, `/courses/[course]` |
+| **Standalone Articles** | `src/content/articles/*.md` | [Articles Schema](#31-articles-collection-schema) | `/articles`, `/articles/page/[slug]` |
+| **Courses & Series** | `src/content/series/*.json` | [Series Schema](#32-series--course-collection-schema) | `/courses`, `/courses/[course]` |
 | **Course Lessons** | `src/content/articles/*.md` | Has `series: "<course-id>"` | In course syllabus & lesson reader |
-| **Shorts** | `src/content/shorts/**/*.md` | `src/content/config.ts` (`shorts`) | `/shorts`, `/shorts/[series]/[subject]` |
-| **Interview Bytes** | `src/content/interview-questions/*.yaml` | `src/content/config.ts` (`interview-questions`) | `/interview-bytes`, `/revision` |
-| **TryCode Problems** | `src/problems/frontend/*.ts` | TypeScript problem interface | Mounted in MDX via `<TryCode />` |
+| **Shorts** | `src/content/shorts/**/*.md` | [Shorts Schema](#33-shorts-collection-schema) | `/shorts`, `/shorts/[series]/[subject]` |
+| **Interview Bytes** | `src/content/interview-questions/*.yaml` | [Interview Schema](#34-interview-questions-schema) | `/interview-bytes`, `/revision` |
+| **TryCode Problems** | `src/problems/frontend/*.ts` | [TryCode Schema](#35-trycode-problem-schema) | Mounted in MDX via `<TryCode />` |
 | **Roadmaps** | `src/config/roadmapOrder.json` | JSON course ordering | `/roadmaps` |
 | **Top Navigation** | `src/config/menu.json` | Header navigation entries | Header navbar |
 
@@ -216,7 +217,7 @@ When introducing a new major learning track (e.g., `AI-Engineering`), synchroniz
 2. **`src/content/series/<id>.json`**: Set `"category": "AI-Engineering"`.
 3. **`src/pages/roadmaps.astro`**: Add category tab and filter badge.
 4. **`src/pages/courses/index.astro`**: Add category filter button.
-5. **`src/content/articles/-index.md`**: Add category to allowed values list.
+5. Update the supported categories list in this document and optionally in `src/content/articles/-index.md`.
 
 </Tab>
 
@@ -224,11 +225,221 @@ When introducing a new major learning track (e.g., `AI-Engineering`), synchroniz
 
 ---
 
-## 3. Interactive MDX Component Catalog
+## 3. Complete Schemas & Type Reference
+
+This section provides the static field definitions, types, defaults, and allowed values for every content collection defined in `src/content/config.ts`.
+
+### 3.1 Articles Collection Schema
+**Location:** `src/content/articles/*.md` or `*.mdx`  
+**Purpose:** Standalone articles, project tutorials, and course lessons.
+
+| Field | Type | Required | Default | Allowed Values / Constraints | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `title` | `string` | **Yes** | — | Non-empty string | Article title shown in headings and cards |
+| `subtitle` | `string` | No | `undefined` | Any string | Secondary subhead for lessons or deep dives |
+| `meta_title` | `string` | No | `undefined` | String (≤ 60 chars recommended) | SEO `<title>` tag override |
+| `description` | `string` | No | `undefined` | String (≤ 160 chars recommended) | Meta and OpenGraph description |
+| `image` | `string` | No | `undefined` | Relative path (e.g. `/images/og-image.jpg`) | Card thumbnail and social share preview |
+| `author` | `string` | No | `undefined` | e.g. `"Arjit Sharma"` | Content author |
+| `series` | `string` | No | `undefined` | Filename of series in `src/content/series/` | Links lesson to a course. **Omit for standalone articles** |
+| `categories` | `string[]` | No | `["others"]` | See Allowed Categories below | Subject classification tag |
+| `draft` | `boolean` | No | `false` | `true`, `false` | Excludes article from production builds when `true` |
+| `year` | `number` | No | `undefined` | 4-digit year (e.g. `2025`) | Publishing / revision year |
+| `featured` | `boolean` | No | `false` | `true`, `false` | Highlighted in hero card carousel |
+
+#### Allowed Categories
+- `"Core-CS"`: Computer architecture, operating systems, networking, databases, compilers.
+- `"DSA"`: Data structures, algorithms, complexity analysis, problem walkthroughs.
+- `"Development"`: Frontend, backend, fullstack frameworks, APIs, tooling.
+- `"System-Design"`: Distributed systems, microservices, cloud patterns, scalability.
+- `"AI-Engineering"`: Machine learning, LLM integrations, embeddings, AI agents.
+- `"others"`: Generic fallback category.
+
+#### TypeScript Interface
+```typescript
+export interface ArticleFrontmatter {
+  title: string;
+  subtitle?: string;
+  meta_title?: string;
+  description?: string;
+  image?: string;
+  author?: string;
+  series?: string;
+  categories: ("Core-CS" | "DSA" | "Development" | "System-Design" | "AI-Engineering" | "others")[];
+  draft?: boolean;
+  year?: number;
+  featured?: boolean;
+}
+```
+
+---
+
+### 3.2 Series / Course Collection Schema
+**Location:** `src/content/series/<course-id>.json`  
+**Purpose:** Course metadata, syllabus chapters, and sidebar navigation hierarchy.
+
+| Field | Type | Required | Default | Allowed Values / Constraints | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `title` | `string` | **Yes** | — | Non-empty string | Course display title |
+| `subtitle` | `string` | No | `undefined` | Any string | Course tagline |
+| `description` | `string` | **Yes** | — | Any string | Course summary on course overview cards |
+| `image` | `string` | No | `undefined` | Path to thumbnail | Cover banner image |
+| `category` | `string` | No | `"Course"` | `"Core-CS"`, `"DSA"`, `"Development"`, `"System-Design"`, `"AI-Engineering"` | Learning track bucket |
+| `ongoing` | `boolean \| string` | No | `false` | `true`, `false`, `"On-going"` | Indicates course is actively receiving updates |
+| `status` | `string` | No | `undefined` | `'planned'`, `'in-progress'`, `'re-visiting'` | Global course progress status |
+| `time` | `string` | No | `undefined` | e.g. `"4 hours"`, `"12 lessons"` | Estimated completion time |
+| `weight` | `number` | No | `100` | Integer | Sort weight (lower appears first) |
+| `navbar` | `Array<Section>` | **Yes** | — | Array of syllabus sections | Ordered chapters and lesson links (see below) |
+
+#### Navbar Structure (`navbar`)
+Each section inside `navbar` contains:
+- `subheading`: `string` (e.g. `"1. Foundations"`)
+- `link`: Array of lesson links:
+  - `type`: `"articles"` | `"external"`
+  - `url`: `string` (article slug in `src/content/articles/` without `.md`, or external URL)
+  - `title`: `string` (lesson title)
+  - `status`: `'planned'` | `'in-progress'` | `'re-visiting'` (optional; `'planned'` displays a lock icon)
+
+#### TypeScript Interface
+```typescript
+export type CourseStatus = 'planned' | 'in-progress' | 're-visiting';
+
+export interface SeriesNavbarLink {
+  type: 'articles' | 'external';
+  url: string;
+  title: string;
+  status?: CourseStatus;
+}
+
+export interface SeriesNavbarSection {
+  subheading: string;
+  link: SeriesNavbarLink[];
+}
+
+export interface SeriesData {
+  title: string;
+  subtitle?: string;
+  description: string;
+  image?: string;
+  category: string;
+  ongoing?: boolean | string;
+  status?: CourseStatus;
+  time?: string;
+  weight: number;
+  navbar: SeriesNavbarSection[];
+}
+```
+
+---
+
+### 3.3 Shorts Collection Schema
+**Location:** `src/content/shorts/<series>/<slug>.md`  
+**Purpose:** Bite-sized video explainers and quick reference concepts.
+
+| Field | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `title` | `string` | **Yes** | — | Title of the short |
+| `youtubeId` | `string` | **Yes** | — | 11-character YouTube video ID (e.g. `LbeV3TwK48s`) |
+| `series` | `string` | **Yes** | — | Series slug folder identifier (e.g. `"oci-shorts"`) |
+| `seriesName` | `string` | **Yes** | — | Human-readable series title (e.g. `"Oracle Cloud"`) |
+| `order` | `number` | No | `0` | Progression sequence number within the shorts series |
+
+#### TypeScript Interface
+```typescript
+export interface ShortFrontmatter {
+  title: string;
+  youtubeId: string;
+  series: string;
+  seriesName: string;
+  order: number;
+}
+```
+
+---
+
+### 3.4 Interview Questions Schema
+**Location:** `src/content/interview-questions/<topic>.yaml`  
+**Purpose:** Structured questions and answers powering Interview Bytes and Anki flashcard modal.
+
+Root YAML property: `questions: Array<InterviewQuestion>`
+
+| Field | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `id` | `string \| number` | **Yes** | — | Unique numeric or string question ID |
+| `question` | `string` | **Yes** | — | The interview question text |
+| `answer` | `string[]` | **Yes** | — | Array of strings (rendered as bullet points or paragraphs) |
+| `code` | `string` | No | `undefined` | Optional code snippet or execution example |
+| `tags` | `string[]` | No | `[]` | Category & topic filter tags (e.g. `[javascript, async]`) |
+| `date` | `date` | No | `undefined` | Date added / updated |
+| `related_images` | `string[]` | No | `[]` | Asset paths relative to `/src/assets/` |
+
+#### TypeScript Interface
+```typescript
+export interface InterviewQuestionItem {
+  id: string | number;
+  question: string;
+  answer: string[];
+  code?: string;
+  tags: string[];
+  date?: Date;
+  related_images?: string[];
+}
+
+export interface InterviewQuestionsData {
+  questions: InterviewQuestionItem[];
+}
+```
+
+---
+
+### 3.5 TryCode Problem Schema
+**Location:** `src/problems/frontend/<problem-id>.ts`  
+**Purpose:** Browser-based interactive JavaScript/TypeScript coding exercises.
+
+| Field | Type | Required | Default | Allowed Values / Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `id` | `string` | **Yes** | — | Unique problem ID (must match filename) |
+| `title` | `string` | **Yes** | — | Problem title shown in the editor header |
+| `starterCode` | `string` | **Yes** | — | Initial code stub provided to the student |
+| `tests` | `TestCase[]` | **Yes** | — | Array of `{ input: any[], expected: any }` test cases |
+| `mode` | `string` | No | `"function"` | `"function"` (pure algorithm) or `"dom"` (DOM manipulation) |
+| `html` | `string` | No | `""` | Initial DOM markup for `"dom"` mode problems |
+
+#### TypeScript Interface
+```typescript
+export interface TestCase {
+  input: any[];
+  expected: any;
+}
+
+export interface Problem {
+  id: string;
+  title: string;
+  mode?: "function" | "dom";
+  starterCode: string;
+  tests: TestCase[];
+  html?: string;
+}
+```
+
+---
+
+### 3.6 Pages Collection Schema
+**Location:** `src/content/pages/*.md` or `*.mdx`  
+**Purpose:** Standalone regular site pages (e.g. `/about`, `/elements`, `/changelog`).
+
+| Field | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `title` | `string` | **Yes** | — | Page title |
+| `description` | `string` | No | `undefined` | Page SEO description |
+
+---
+
+## 4. Interactive MDX Component Catalog
 
 All components below are auto-imported and immediately available in any `.mdx` file without manual `import` statements.
 
-### 3.1 Notice Callouts (`<Notice>`)
+### 4.1 Notice Callouts (`<Notice>`)
 
 Use callout boxes to draw attention to notes, best practices, tips, or critical warnings.
 
@@ -259,7 +470,7 @@ Use callout boxes to draw attention to notes, best practices, tips, or critical 
 
 ---
 
-### 3.2 Badges (`<Badge>`)
+### 4.2 Badges (`<Badge>`)
 
 Inline status indicators for feature updates, changelogs, or requirements.
 
@@ -281,7 +492,7 @@ Inline status indicators for feature updates, changelogs, or requirements.
 
 ---
 
-### 3.3 Buttons (`<Button>`)
+### 4.3 Buttons (`<Button>`)
 
 Styled call-to-action buttons for links, documentation, or resource downloads.
 
@@ -299,7 +510,7 @@ Styled call-to-action buttons for links, documentation, or resource downloads.
 
 ---
 
-### 3.4 Accordions (`<Accordion>`)
+### 4.4 Accordions (`<Accordion>`)
 
 Expandable accordion container for FAQs, solutions, or deep-dive collapsible explanations.
 
@@ -343,7 +554,7 @@ This displays the lesson with a lock icon and disables navigation until it is pu
 
 ---
 
-### 3.5 Tabs (`<Tabs>` & `<Tab>`)
+### 4.5 Tabs (`<Tabs>` & `<Tab>`)
 
 Clean multi-panel switcher for tabbed content (e.g. comparing languages, alternatives, or multi-step flows).
 
@@ -412,7 +623,7 @@ Content for tab 2...
 
 ---
 
-### 3.6 Interactive TryCode Runner (`<TryCode>`)
+### 4.6 Interactive TryCode Runner (`<TryCode>`)
 
 Live, in-browser Monaco-based code editor and test runner for frontend JavaScript drills.
 
@@ -426,7 +637,7 @@ Live, in-browser Monaco-based code editor and test runner for frontend JavaScrip
 
 ---
 
-### 3.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
+### 4.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
 
 Responsive 16:9 media embeds with lazy loading.
 
@@ -444,7 +655,7 @@ Responsive 16:9 media embeds with lazy loading.
 
 ---
 
-## 4. Standard Typography & Layout Elements
+## 5. Standard Typography & Layout Elements
 
 ### Headings Hierarchy
 
@@ -477,7 +688,7 @@ Responsive 16:9 media embeds with lazy loading.
 Before committing or pushing new content:
 
 - [ ] File created in the designated folder (`articles/`, `series/`, `shorts/`, etc.).
-- [ ] Frontmatter strictly validated against `src/content/config.ts`.
+- [ ] Frontmatter strictly validated against the schemas in [Section 3](#3-complete-schemas--type-reference).
 - [ ] `series` field matches the exact JSON course ID (if part of a course).
 - [ ] `roadmapOrder.json` updated with new series ID (if applicable).
 - [ ] `draft: false` set for all live content.
