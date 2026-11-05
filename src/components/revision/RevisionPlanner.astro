@@ -269,11 +269,11 @@ const allSeriesData = seriesCollection.map((s) => {
   <!-- ======================================================== -->
   <dialog
     id="session-dialog-modal"
-    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-2xl w-full text-zinc-900 overflow-hidden"
+    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-2xl w-[calc(100%-2rem)] max-h-[88vh] text-zinc-900 overflow-hidden m-auto"
   >
-    <div class="p-6 bg-white space-y-6">
+    <div class="bg-white flex flex-col max-h-[88vh] h-full">
       <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
+      <div class="flex-shrink-0 px-6 py-4 border-b border-zinc-200 flex items-center justify-between">
         <div>
           <span class="text-xs font-bold text-[#FE6019] uppercase tracking-wider">Planner Setup</span>
           <h3 class="text-xl font-bold text-zinc-900">Create Revision Session</h3>
@@ -289,135 +289,135 @@ const allSeriesData = seriesCollection.map((s) => {
         </button>
       </div>
 
-      <!-- Modal Form -->
-      <form id="create-session-form" class="space-y-5">
-        <!-- 1. Session Name -->
-        <div class="space-y-1.5">
-          <label for="modal-session-name" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-            Session Name
-          </label>
-          <input
-            type="text"
-            id="modal-session-name"
-            required
-            placeholder="e.g. Full-Stack & CS Fundamentals Planner"
-            class="w-full text-sm px-3.5 py-2 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019] focus:ring-1 focus:ring-[#FE6019]"
-          />
-        </div>
-
-        <!-- 2. Searchable Multi-Select Courses/Series with Chips (Req 1) -->
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-              Select Courses / Series (Across Categories)
+      <!-- Modal Form Container with Scrollable Body and Pinned Footer -->
+      <form id="create-session-form" class="flex flex-col flex-1 min-h-0 overflow-hidden">
+        <!-- Scrollable Form Body -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin">
+          <!-- 1. Session Name -->
+          <div class="space-y-1.5">
+            <label for="modal-session-name" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+              Session Name
             </label>
-            <div class="flex items-center gap-2 text-xs">
-              <button type="button" id="btn-modal-select-dsa-interviews" class="text-[#FE6019] font-semibold hover:underline cursor-pointer">
-                DSA for Interviews
-              </button>
-              <span class="text-zinc-300">|</span>
-              <button type="button" id="btn-modal-select-all" class="text-zinc-700 font-semibold hover:underline cursor-pointer">
-                Select All
-              </button>
-              <span class="text-zinc-300">|</span>
-              <button type="button" id="btn-modal-clear-series" class="text-zinc-500 font-semibold hover:underline cursor-pointer">
-                Clear
-              </button>
+            <input
+              type="text"
+              id="modal-session-name"
+              required
+              placeholder="e.g. Full-Stack & CS Fundamentals Planner"
+              class="w-full text-sm px-3.5 py-2 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019] focus:ring-1 focus:ring-[#FE6019]"
+            />
+          </div>
+
+          <!-- 2. Searchable Multi-Select Courses/Series with Chips (Req 1) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                Select Courses / Series (Across Categories)
+              </label>
+              <div class="flex items-center gap-2 text-xs">
+                <button type="button" id="btn-modal-select-dsa-interviews" class="text-[#FE6019] font-semibold hover:underline cursor-pointer">
+                  DSA for Interviews
+                </button>
+                <span class="text-zinc-300">|</span>
+                <button type="button" id="btn-modal-select-all" class="text-zinc-700 font-semibold hover:underline cursor-pointer">
+                  Select All
+                </button>
+                <span class="text-zinc-300">|</span>
+                <button type="button" id="btn-modal-clear-series" class="text-zinc-500 font-semibold hover:underline cursor-pointer">
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <!-- Selected Series Chips Container -->
+            <div
+              id="modal-selected-chips-container"
+              class="flex flex-wrap gap-1.5 p-2 bg-zinc-50 border border-zinc-200 rounded-xl min-h-[46px] max-h-28 overflow-y-auto scrollbar-thin"
+            >
+              <!-- Removable chips rendered here -->
+            </div>
+
+            <!-- Search Course Input & Dropdown -->
+            <div class="relative">
+              <input
+                type="text"
+                id="modal-series-search"
+                placeholder="Search from all 45 courses/series..."
+                class="w-full text-xs px-3.5 py-2 pl-8 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+              />
+              <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            <!-- Series Checklist Scroll Container -->
+            <div
+              id="modal-series-checklist"
+              class="max-h-40 overflow-y-auto border border-zinc-200 rounded-xl p-2 bg-zinc-50 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs scrollbar-thin"
+            >
+              <!-- Populated dynamically via JS -->
             </div>
           </div>
 
-          <!-- Selected Series Chips Container -->
-          <div
-            id="modal-selected-chips-container"
-            class="flex flex-wrap gap-1.5 p-2 bg-zinc-50 border border-zinc-200 rounded-xl min-h-[46px] max-h-32 overflow-y-auto"
-          >
-            <!-- Removable chips rendered here -->
+          <!-- 3. Methodology, Total Frequency & Daily Target -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="schedule-settings-grid">
+            <!-- Revision Schedule / Type -->
+            <div class="space-y-1.5">
+              <label for="modal-session-schedule-type" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                Revision Schedule
+              </label>
+              <select
+                id="modal-session-schedule-type"
+                class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019] cursor-pointer"
+              >
+                <option value="1-3-7-14" selected>1-3-7-14 (4 Reviews)</option>
+                <option value="5-10-30">5-10-30 (3 Reviews)</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+
+            <!-- Total Frequency Until Mastered (Only used in Custom) -->
+            <div id="container-custom-target-frequency" class="space-y-1.5 hidden">
+              <label for="modal-session-target-frequency" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                Reviews to Master
+              </label>
+              <input
+                type="number"
+                id="modal-session-target-frequency"
+                min="1"
+                max="20"
+                value="4"
+                class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
+              />
+            </div>
+
+            <!-- Daily Target -->
+            <div class="space-y-1.5" id="container-daily-target">
+              <label for="modal-session-daily-target" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                Daily Target
+              </label>
+              <input
+                type="number"
+                id="modal-session-daily-target"
+                min="1"
+                max="100"
+                value="2"
+                required
+                class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
+              />
+            </div>
           </div>
 
-          <!-- Search Course Input & Dropdown -->
-          <div class="relative">
-            <input
-              type="text"
-              id="modal-series-search"
-              placeholder="Search from all 45 courses/series..."
-              class="w-full text-xs px-3.5 py-2 pl-8 rounded-xl border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
-            />
-            <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-
-          <!-- Series Checklist Scroll Container -->
-          <div
-            id="modal-series-checklist"
-            class="max-h-44 overflow-y-auto border border-zinc-200 rounded-xl p-2 bg-zinc-50 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs"
-          >
-            <!-- Populated dynamically via JS -->
-          </div>
+          <p id="modal-schedule-desc" class="text-[11px] text-zinc-500 bg-zinc-50 border border-zinc-200 p-2.5 rounded-xl leading-relaxed">
+            💡 1-3-7-14 schedule: 4 review rounds (Stage 1 to 4) to master each topic. Topics cycle in daily batches.
+          </p>
         </div>
 
-        <!-- 3. Methodology, Total Frequency & Daily Target -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <!-- Revision Schedule / Type -->
-          <div class="space-y-1.5">
-            <label for="modal-session-schedule-type" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-              Revision Schedule
-            </label>
-            <select
-              id="modal-session-schedule-type"
-              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019] cursor-pointer"
-            >
-              <option value="standard" selected>Standard (1-3-7-14 &bull; 4 Reviews)</option>
-              <option value="quick">Quick Review (1-3-7 &bull; 3 Reviews)</option>
-              <option value="deep">Deep Mastery (1-3-7-14-30 &bull; 5 Reviews)</option>
-              <option value="fibonacci">Gradual (1-2-4-7-14 &bull; 5 Reviews)</option>
-              <option value="custom">Custom Frequency</option>
-            </select>
-          </div>
-
-          <!-- Total Frequency Until Mastered -->
-          <div class="space-y-1.5">
-            <label for="modal-session-target-frequency" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-              Reviews to Master
-            </label>
-            <input
-              type="number"
-              id="modal-session-target-frequency"
-              min="1"
-              max="20"
-              value="4"
-              required
-              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
-            />
-          </div>
-
-          <!-- Daily Target -->
-          <div class="space-y-1.5">
-            <label for="modal-session-daily-target" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-              Daily Target
-            </label>
-            <input
-              type="number"
-              id="modal-session-daily-target"
-              min="1"
-              max="100"
-              value="2"
-              required
-              class="w-full text-xs px-3 py-2 rounded-xl border border-zinc-300 bg-white focus:outline-none focus:border-[#FE6019]"
-            />
-          </div>
-        </div>
-
-        <p id="modal-schedule-desc" class="text-[11px] text-zinc-500 bg-zinc-50 border border-zinc-200 p-2.5 rounded-xl leading-relaxed">
-          💡 Topics cycle in daily batches of your target. Complete the total review count to master each topic—no calendar deadlines needed.
-        </p>
-
-        <!-- Form Actions -->
-        <div class="flex items-center justify-end gap-3 pt-4 border-t border-zinc-200">
+        <!-- Pinned Form Actions Footer (Always visible at the bottom) -->
+        <div class="flex-shrink-0 px-6 py-3.5 bg-zinc-50 border-t border-zinc-200 flex items-center justify-end gap-3">
           <button
             type="button"
             id="btn-cancel-session-dialog"
-            class="px-4 py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 rounded-xl hover:bg-zinc-100 transition cursor-pointer"
+            class="px-4 py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 rounded-xl hover:bg-zinc-200 transition cursor-pointer"
           >
             Cancel
           </button>
@@ -438,11 +438,11 @@ const allSeriesData = seriesCollection.map((s) => {
   <!-- ======================================================== -->
   <dialog
     id="review-session-modal"
-    class="backdrop:bg-black/60 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-xl w-full text-zinc-900 overflow-hidden"
+    class="backdrop:bg-black/60 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-xl w-[calc(100%-2rem)] max-h-[88vh] text-zinc-900 overflow-hidden m-auto"
   >
-    <div class="p-6 bg-white space-y-6">
+    <div class="bg-white flex flex-col max-h-[88vh] overflow-hidden">
       <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-zinc-100">
+      <div class="flex-shrink-0 px-6 py-4 border-b border-zinc-100 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-[#FE6019] animate-pulse"></span>
           <span id="review-counter" class="text-xs font-bold text-zinc-800">Topic 1 of 10</span>
@@ -456,102 +456,104 @@ const allSeriesData = seriesCollection.map((s) => {
         </button>
       </div>
 
-      <!-- Active Review Item View -->
-      <div id="review-active-item" class="space-y-6">
-        <!-- Progress Bar -->
-        <div class="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden">
-          <div id="review-modal-progress" class="bg-[#FE6019] h-full w-0 transition-all duration-300"></div>
-        </div>
-
-        <!-- Topic Details -->
-        <div class="space-y-3">
-          <div class="flex flex-wrap items-center gap-2">
-            <span id="review-series-badge" class="px-2.5 py-0.5 rounded-md bg-zinc-100 text-zinc-700 text-xs font-semibold">
-              Course
-            </span>
-            <span id="review-stage-badge" class="px-2.5 py-0.5 rounded-md bg-orange-100 text-[#FE6019] text-xs font-bold">
-              Stage 1 (Day 1)
-            </span>
+      <!-- Active Review Item View (Scrollable body) -->
+      <div class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
+        <div id="review-active-item" class="space-y-6">
+          <!-- Progress Bar -->
+          <div class="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden">
+            <div id="review-modal-progress" class="bg-[#FE6019] h-full w-0 transition-all duration-300"></div>
           </div>
 
-          <h3 id="review-topic-title" class="text-2xl font-black text-zinc-900 leading-tight">
-            Topic Title
-          </h3>
-          <p class="text-xs text-zinc-500">
-            Review this topic's concepts or solve its problem. Then select how well you remembered it below:
+          <!-- Topic Details -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="review-series-badge" class="px-2.5 py-0.5 rounded-md bg-zinc-100 text-zinc-700 text-xs font-semibold">
+                Course
+              </span>
+              <span id="review-stage-badge" class="px-2.5 py-0.5 rounded-md bg-orange-100 text-[#FE6019] text-xs font-bold">
+                Stage 1 (Day 1)
+              </span>
+            </div>
+
+            <h3 id="review-topic-title" class="text-2xl font-black text-zinc-900 leading-tight">
+              Topic Title
+            </h3>
+            <p class="text-xs text-zinc-500">
+              Review this topic's concepts or solve its problem. Then select how well you remembered it below:
+            </p>
+          </div>
+
+          <!-- Link to Open Article/Problem -->
+          <div class="p-3 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
+            <span class="text-xs text-zinc-600 font-medium">Need to check the article or problem?</span>
+            <a
+              id="review-open-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold rounded-lg shadow-2xs transition"
+            >
+              <span>Open Article</span>
+              <svg class="w-3.5 h-3.5 text-[#FE6019]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Recall Rating Buttons (Hard / Good / Easy) -->
+          <div class="space-y-2 pt-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-zinc-600 text-center">
+              How was your recall?
+            </div>
+            <div class="grid grid-cols-3 gap-2.5">
+              <!-- Hard -->
+              <button
+                type="button"
+                data-review-rating="hard"
+                class="btn-submit-rating p-3 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-center transition group shadow-2xs cursor-pointer"
+              >
+                <div class="text-xs font-bold text-rose-700">Hard 🔴</div>
+                <div class="text-[10px] text-rose-600 mt-0.5">Keep in Next Batch (+0)</div>
+              </button>
+
+              <!-- Good -->
+              <button
+                type="button"
+                data-review-rating="good"
+                class="btn-submit-rating p-3 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-center transition group shadow-2xs cursor-pointer"
+              >
+                <div class="text-xs font-bold text-emerald-700">Good 🟢</div>
+                <div id="review-good-hint" class="text-[10px] text-emerald-600 mt-0.5">Next Stage (+1)</div>
+              </button>
+
+              <!-- Easy -->
+              <button
+                type="button"
+                data-review-rating="easy"
+                class="btn-submit-rating p-3 rounded-xl border border-blue-200 bg-blue-50 hover:bg-blue-100 text-center transition group shadow-2xs cursor-pointer"
+              >
+                <div class="text-xs font-bold text-blue-700">Easy ⚡</div>
+                <div class="text-[10px] text-blue-600 mt-0.5">Leap Ahead (+2)</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completion View (Shown when queue finished) -->
+        <div id="review-complete-view" class="hidden text-center py-6 space-y-4">
+          <div class="text-4xl">🎉</div>
+          <h4 class="text-xl font-bold text-zinc-900">Queue Review Completed!</h4>
+          <p class="text-xs text-zinc-600 max-w-sm mx-auto">
+            Awesome work! All topics reviewed have been recorded toward your daily target and revision progress.
           </p>
-        </div>
-
-        <!-- Link to Open Article/Problem -->
-        <div class="p-3 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
-          <span class="text-xs text-zinc-600 font-medium">Need to check the article or problem?</span>
-          <a
-            id="review-open-link"
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold rounded-lg shadow-2xs transition"
+          <button
+            type="button"
+            id="btn-finish-review-modal"
+            class="px-5 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow transition cursor-pointer"
           >
-            <span>Open Article</span>
-            <svg class="w-3.5 h-3.5 text-[#FE6019]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
+            Return to Planner
+          </button>
         </div>
-
-        <!-- Recall Rating Buttons (Hard / Good / Easy) -->
-        <div class="space-y-2 pt-2">
-          <div class="text-xs font-bold uppercase tracking-wider text-zinc-600 text-center">
-            How was your recall?
-          </div>
-          <div class="grid grid-cols-3 gap-2.5">
-            <!-- Hard -->
-            <button
-              type="button"
-              data-review-rating="hard"
-              class="btn-submit-rating p-3 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-center transition group shadow-2xs cursor-pointer"
-            >
-              <div class="text-xs font-bold text-rose-700">Hard 🔴</div>
-              <div class="text-[10px] text-rose-600 mt-0.5">Keep in Next Batch (+0)</div>
-            </button>
-
-            <!-- Good -->
-            <button
-              type="button"
-              data-review-rating="good"
-              class="btn-submit-rating p-3 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-center transition group shadow-2xs cursor-pointer"
-            >
-              <div class="text-xs font-bold text-emerald-700">Good 🟢</div>
-              <div id="review-good-hint" class="text-[10px] text-emerald-600 mt-0.5">Next Stage (+1)</div>
-            </button>
-
-            <!-- Easy -->
-            <button
-              type="button"
-              data-review-rating="easy"
-              class="btn-submit-rating p-3 rounded-xl border border-blue-200 bg-blue-50 hover:bg-blue-100 text-center transition group shadow-2xs cursor-pointer"
-            >
-              <div class="text-xs font-bold text-blue-700">Easy ⚡</div>
-              <div class="text-[10px] text-blue-600 mt-0.5">Leap Ahead (+2)</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Completion View (Shown when queue finished) -->
-      <div id="review-complete-view" class="hidden text-center py-6 space-y-4">
-        <div class="text-4xl">🎉</div>
-        <h4 class="text-xl font-bold text-zinc-900">Queue Review Completed!</h4>
-        <p class="text-xs text-zinc-600 max-w-sm mx-auto">
-          Awesome work! All topics reviewed have been recorded toward your daily target and revision progress.
-        </p>
-        <button
-          type="button"
-          id="btn-finish-review-modal"
-          class="px-5 py-2 bg-[#FE6019] hover:bg-[#e04f0f] text-white text-xs font-bold rounded-xl shadow transition cursor-pointer"
-        >
-          Return to Planner
-        </button>
       </div>
     </div>
   </dialog>
@@ -562,10 +564,10 @@ const allSeriesData = seriesCollection.map((s) => {
   <!-- ======================================================== -->
   <dialog
     id="custom-problem-dialog-modal"
-    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-md w-full text-zinc-900 overflow-hidden"
+    class="backdrop:bg-black/50 backdrop:backdrop-blur-xs rounded-2xl p-0 border border-zinc-300 shadow-2xl max-w-md w-[calc(100%-2rem)] max-h-[88vh] text-zinc-900 overflow-hidden m-auto"
   >
-    <div class="p-6 bg-white space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-zinc-200">
+    <div class="bg-white flex flex-col max-h-[88vh]">
+      <div class="flex-shrink-0 px-6 py-4 border-b border-zinc-200 flex items-center justify-between">
         <h3 class="text-base font-bold text-zinc-900">Add Custom Topic to Revision Plan</h3>
         <button
           type="button"
@@ -576,39 +578,41 @@ const allSeriesData = seriesCollection.map((s) => {
         </button>
       </div>
 
-      <form id="add-custom-problem-form" class="space-y-4 text-xs">
-        <div class="space-y-1">
-          <label class="block font-semibold text-zinc-700">Topic / Problem Name</label>
-          <input
-            type="text"
-            id="custom-problem-title"
-            required
-            placeholder="e.g. Two Sum / Longest Substring"
-            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
-          />
+      <form id="add-custom-problem-form" class="flex flex-col flex-1 min-h-0 overflow-hidden">
+        <div class="flex-1 overflow-y-auto p-6 space-y-4 text-xs scrollbar-thin">
+          <div class="space-y-1">
+            <label class="block font-semibold text-zinc-700">Topic / Problem Name</label>
+            <input
+              type="text"
+              id="custom-problem-title"
+              required
+              placeholder="e.g. Two Sum / Longest Substring"
+              class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label class="block font-semibold text-zinc-700">Course / Series Tag</label>
+            <input
+              type="text"
+              id="custom-problem-series"
+              placeholder="e.g. Arrays, Trees, Dynamic Programming"
+              class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label class="block font-semibold text-zinc-700">Optional Topic Link (URL)</label>
+            <input
+              type="url"
+              id="custom-problem-url"
+              placeholder="e.g. https://leetcode.com/problems/two-sum"
+              class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
+            />
+          </div>
         </div>
 
-        <div class="space-y-1">
-          <label class="block font-semibold text-zinc-700">Course / Series Tag</label>
-          <input
-            type="text"
-            id="custom-problem-series"
-            placeholder="e.g. Arrays, Trees, Dynamic Programming"
-            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
-          />
-        </div>
-
-        <div class="space-y-1">
-          <label class="block font-semibold text-zinc-700">Optional Topic Link (URL)</label>
-          <input
-            type="url"
-            id="custom-problem-url"
-            placeholder="e.g. https://leetcode.com/problems/two-sum"
-            class="w-full text-xs px-3 py-2 rounded-lg border border-zinc-300 focus:outline-none focus:border-[#FE6019]"
-          />
-        </div>
-
-        <div class="flex items-center justify-end gap-2 pt-3 border-t border-zinc-200">
+        <div class="flex-shrink-0 px-6 py-3 bg-zinc-50 border-t border-zinc-200 flex items-center justify-end gap-2 text-xs">
           <button
             type="button"
             id="btn-cancel-custom-problem-dialog"
@@ -652,7 +656,7 @@ const allSeriesData = seriesCollection.map((s) => {
       id: string;
       name: string;
       seriesIds: string[];
-      scheduleType: 'standard' | 'quick' | 'deep' | 'fibonacci' | 'custom';
+      scheduleType: '1-3-7-14' | '5-10-30' | 'custom' | string;
       targetFrequency: number;
       dailyTarget: number;
       createdAt: string;
@@ -664,37 +668,30 @@ const allSeriesData = seriesCollection.map((s) => {
     const PLANNER_INITIALIZED_KEY = 'dsa_revision_planner_initialized_v4';
 
     const SCHEDULE_CONFIGS: Record<string, { label: string; stages: string[]; targetFrequency: number; description: string }> = {
-      standard: {
-        label: 'Standard (1-3-7-14 • 4 Reviews)',
-        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Mastered'],
+      '1-3-7-14': {
+        label: '1-3-7-14 (4 Reviews)',
+        stages: ['New', 'Day 1', 'Day 3', 'Day 7', 'Day 14', 'Mastered'],
         targetFrequency: 4,
-        description: 'Classic 4-stage spaced repetition curve to achieve solid long-term recall.',
+        description: 'Standard 4-review schedule (1, 3, 7, 14 days) to master topics.',
       },
-      quick: {
-        label: 'Quick Review (1-3-7 • 3 Reviews)',
-        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Mastered'],
+      '5-10-30': {
+        label: '5-10-30 (3 Reviews)',
+        stages: ['New', 'Day 5', 'Day 10', 'Day 30', 'Mastered'],
         targetFrequency: 3,
-        description: 'Accelerated 3-stage curve ideal for exam crunch or quick brush-ups.',
-      },
-      deep: {
-        label: 'Deep Mastery (1-3-7-14-30 • 5 Reviews)',
-        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Stage 5', 'Mastered'],
-        targetFrequency: 5,
-        description: 'Deep 5-stage curve for high-difficulty problems and interview fluency.',
-      },
-      fibonacci: {
-        label: 'Gradual Spaced (1-2-4-7-14 • 5 Reviews)',
-        stages: ['New', 'Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Mastered'],
-        targetFrequency: 5,
-        description: 'Gradual curve with gentle spacing increments between reviews.',
+        description: '3-review spaced schedule (5, 10, 30 days) for long-term retention.',
       },
       custom: {
-        label: 'Custom Frequency',
-        stages: ['New', 'Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Stage 5', 'Stage 6', 'Mastered'],
+        label: 'Custom',
+        stages: ['New', 'Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Mastered'],
         targetFrequency: 4,
-        description: 'Choose your own custom total number of reviews required for mastery.',
+        description: 'Set your own custom review rounds needed to achieve mastery.',
       },
     };
+    // Compatibility aliases for existing sessions
+    SCHEDULE_CONFIGS['standard'] = SCHEDULE_CONFIGS['1-3-7-14'];
+    SCHEDULE_CONFIGS['quick'] = SCHEDULE_CONFIGS['5-10-30'];
+    SCHEDULE_CONFIGS['deep'] = SCHEDULE_CONFIGS['1-3-7-14'];
+    SCHEDULE_CONFIGS['fibonacci'] = SCHEDULE_CONFIGS['1-3-7-14'];
 
     function initRevisionPlanner() {
       const container = document.getElementById('lets-revise');
@@ -742,8 +739,11 @@ const allSeriesData = seriesCollection.map((s) => {
             seenKeys.add(dedupKey);
 
             if (!sess.dailyTarget) sess.dailyTarget = 2;
-            if (!sess.targetFrequency) sess.targetFrequency = 4;
-            if (!sess.scheduleType) sess.scheduleType = 'standard';
+            if (!sess.scheduleType || sess.scheduleType === 'standard') sess.scheduleType = '1-3-7-14';
+            if (!sess.targetFrequency) {
+              const cfg = SCHEDULE_CONFIGS[sess.scheduleType] || SCHEDULE_CONFIGS['1-3-7-14'];
+              sess.targetFrequency = cfg.targetFrequency;
+            }
             if (Array.isArray(sess.items)) {
               sess.items.forEach((item: any) => {
                 if (typeof item.revisionsDone === 'undefined') {
@@ -816,7 +816,7 @@ const allSeriesData = seriesCollection.map((s) => {
             id: defaultSessionId,
             name: 'DSA for Interviews Planner',
             seriesIds,
-            scheduleType: 'standard',
+            scheduleType: '1-3-7-14',
             targetFrequency: 4,
             dailyTarget: 2,
             createdAt: getTodayString(),
@@ -1021,7 +1021,7 @@ const allSeriesData = seriesCollection.map((s) => {
         const todayStr = getTodayString();
         const target = currentSession.dailyTarget || 2;
         const targetFreq = currentSession.targetFrequency || 4;
-        const schedConfig = SCHEDULE_CONFIGS[currentSession.scheduleType || 'standard'] || SCHEDULE_CONFIGS.standard;
+        const schedConfig = SCHEDULE_CONFIGS[currentSession.scheduleType || '1-3-7-14'] || SCHEDULE_CONFIGS['1-3-7-14'];
 
         // 1. Calculate today's completed topics
         const completedToday = currentSession.items.filter((i) => i.lastRevisedDate === todayStr);
@@ -1499,16 +1499,37 @@ const allSeriesData = seriesCollection.map((s) => {
       const modalTargetFreq = document.getElementById('modal-session-target-frequency') as HTMLInputElement;
       const modalDailyTarget = document.getElementById('modal-session-daily-target') as HTMLInputElement;
       const modalScheduleDesc = document.getElementById('modal-schedule-desc');
+      const containerCustomTargetFreq = document.getElementById('container-custom-target-frequency');
+      const scheduleSettingsGrid = document.getElementById('schedule-settings-grid');
 
-      // Update total frequency when schedule type changes
-      modalScheduleType?.addEventListener('change', () => {
-        const sched = modalScheduleType.value;
-        const cfg = SCHEDULE_CONFIGS[sched];
-        if (cfg) {
-          if (modalTargetFreq) modalTargetFreq.value = String(cfg.targetFrequency);
-          if (modalScheduleDesc) modalScheduleDesc.textContent = `💡 ${cfg.description}`;
+      // Update visibility & target frequency when schedule type changes
+      function updateScheduleVisibility() {
+        const sched = modalScheduleType?.value || '1-3-7-14';
+        const cfg = SCHEDULE_CONFIGS[sched] || SCHEDULE_CONFIGS['1-3-7-14'];
+
+        if (sched === 'custom') {
+          containerCustomTargetFreq?.classList.remove('hidden');
+          if (scheduleSettingsGrid) {
+            scheduleSettingsGrid.className = 'grid grid-cols-1 sm:grid-cols-3 gap-3';
+          }
+          if (modalScheduleDesc) {
+            modalScheduleDesc.textContent = '💡 Custom Schedule: Set how many review rounds are needed to achieve mastery.';
+          }
+        } else {
+          containerCustomTargetFreq?.classList.add('hidden');
+          if (scheduleSettingsGrid) {
+            scheduleSettingsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
+          }
+          if (modalTargetFreq) {
+            modalTargetFreq.value = String(cfg.targetFrequency);
+          }
+          if (modalScheduleDesc) {
+            modalScheduleDesc.textContent = `💡 ${cfg.label}: ${cfg.description}`;
+          }
         }
-      });
+      }
+
+      modalScheduleType?.addEventListener('change', updateScheduleVisibility);
 
       // Track selected series IDs in modal
       const modalSelectedSeriesIds = new Set<string>();
@@ -1612,10 +1633,8 @@ const allSeriesData = seriesCollection.map((s) => {
         if (modalSeriesSearch) modalSeriesSearch.value = '';
         if (modalDailyTarget) modalDailyTarget.value = '2';
         if (modalTargetFreq) modalTargetFreq.value = '4';
-        if (modalScheduleType) modalScheduleType.value = 'standard';
-        if (modalScheduleDesc) {
-          modalScheduleDesc.textContent = '💡 ' + SCHEDULE_CONFIGS.standard.description;
-        }
+        if (modalScheduleType) modalScheduleType.value = '1-3-7-14';
+        updateScheduleVisibility();
 
         renderModalChips();
         renderModalSeriesChecklist('');
@@ -1666,8 +1685,15 @@ const allSeriesData = seriesCollection.map((s) => {
         try {
           const nameInput = document.getElementById('modal-session-name') as HTMLInputElement;
           const name = nameInput.value.trim() || 'Custom Revision Planner';
-          const scheduleType = (modalScheduleType?.value as any) || 'standard';
-          const targetFrequency = parseInt(modalTargetFreq?.value, 10) || 4;
+          const scheduleType = (modalScheduleType?.value as any) || '1-3-7-14';
+          let targetFrequency = 4;
+          if (scheduleType === 'custom') {
+            targetFrequency = parseInt(modalTargetFreq?.value, 10) || 4;
+            if (targetFrequency < 1) targetFrequency = 1;
+          } else {
+            const cfg = SCHEDULE_CONFIGS[scheduleType] || SCHEDULE_CONFIGS['1-3-7-14'];
+            targetFrequency = cfg.targetFrequency;
+          }
           const dailyTarget = parseInt(modalDailyTarget?.value, 10) || 2;
 
           // Allow empty session if no series selected
@@ -1746,7 +1772,7 @@ const allSeriesData = seriesCollection.map((s) => {
               id: activeId,
               name: 'Custom Revision Planner',
               seriesIds: [],
-              scheduleType: 'standard',
+              scheduleType: '1-3-7-14',
               targetFrequency: 4,
               dailyTarget: 2,
               createdAt: today,
@@ -1804,6 +1830,10 @@ const allSeriesData = seriesCollection.map((s) => {
   </script>
 
   <style>
+    .scrollbar-thin {
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+    }
     .scrollbar-thin::-webkit-scrollbar {
       height: 6px;
       width: 6px;
