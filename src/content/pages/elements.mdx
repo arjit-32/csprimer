@@ -1,33 +1,101 @@
 ---
 title: "Elements & Contributor Playbook"
-description: "Exact step-by-step guide for creating content, all collection schemas and types, and interactive showcase of reusable MDX components."
+description: "Exact step-by-step guide for creating content, all collection schemas and types, local scaffolding tooling, and interactive showcase of reusable MDX components."
 ---
 
 # Contributor Playbook & MDX Elements
 
-This page is the living documentation for maintaining and expanding **CSPrimer**. It serves three purposes:
-1. **Exact Step-by-Step Playbooks**: Clear instructions for creating standalone articles, multi-lesson series, shorts, interview questions, TryCode practice problems, and roadmap categories.
-2. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, TypeScript types, and copy-paste templates so you never need to consult backend configs.
-3. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components available on the site.
+This page is the living documentation for maintaining and expanding **CSPrimer**. It serves four key functions:
+1. **Local Scaffolding Tools**: One-click visual dashboard and terminal CLI to generate courses, roadmaps, and articles.
+2. **Metadata Architecture**: Clear rules for how Categories, Series, and Roadmaps relate.
+3. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, and TypeScript types.
+4. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components.
 
 ---
 
-## 1. Website Architecture at a Glance
+## 1. Automated Local Scaffolding
 
-| Content Surface | Primary Location | Schema & Rules | Where It Appears |
-| :--- | :--- | :--- | :--- |
-| **Standalone Articles** | `src/content/articles/*.md` | [Articles Schema](#31-articles-collection-schema) | `/articles`, `/articles/page/[slug]` |
-| **Courses & Series** | `src/content/series/*.json` | [Series Schema](#32-series--course-collection-schema) | `/courses`, `/courses/[course]` |
-| **Course Lessons** | `src/content/articles/*.md` | Has `series: "<course-id>"` | In course syllabus & lesson reader |
-| **Shorts** | `src/content/shorts/**/*.md` | [Shorts Schema](#33-shorts-collection-schema) | `/shorts`, `/shorts/[series]/[subject]` |
-| **Interview Bytes** | `src/content/interview-questions/*.yaml` | [Interview Schema](#34-interview-questions-schema) | `/interview-bytes`, `/revision` |
-| **TryCode Problems** | `src/problems/frontend/*.ts` | [TryCode Schema](#35-trycode-problem-schema) | Mounted in MDX via `<TryCode />` |
-| **Roadmaps** | `src/config/roadmapOrder.json` | JSON course ordering | `/roadmaps` |
-| **Top Navigation** | `src/config/menu.json` | Header navigation entries | Header navbar |
+To eliminate tedious manual JSON updates and frontmatter mistakes, use our local scaffolding tools:
+
+<Tabs>
+
+<Tab name="Web Dashboard (Visual)">
+
+### Visual Content Studio (`npm run admin`)
+
+Run the local Dev Studio dashboard alongside your Astro dev server:
+
+```bash
+npm run admin
+```
+
+Open **`http://localhost:4322`** in your browser.
+
+- **Tab 1: Course Series Cards**: Interactive card grid of all 45 courses to set status (`🟢 Live`, `⏳ In Progress`, `🔒 Planned`, `🔁 Revisiting`), toggle On-going, and edit details (title, description, time, weight).
+- **Tab 2: Syllabus & Lessons**: Organize chapters and lessons with `▲`/`▼` reordering, accurate status toggles, and detection of unassigned files on disk.
+- **Tab 3: Create Lesson / Project**: Smart switcher between **Course Lesson** (category strictly locked to course track), **Hands-on Project** (surfaced on `/articles`), and **Standalone Deep Dive**.
+- **Tab 4: Reorder Roadmaps**: Visual track manager with `▲ Up` and `▼ Down` buttons to reorder courses along learning paths, plus a 1-click **Sync Weights to Courses** button.
+- **Tab 5: New Series**: Form to scaffold a new course series and register it into `roadmapOrder.json`.
+- **Tab 6: All Articles Explorer**: Instant real-time search across all 300+ articles with track filtering and 1-click draft toggling.
+
+</Tab>
+
+<Tab name="Terminal CLI">
+
+### Interactive CLI (`npm run scaffold`)
+
+Run the zero-dependency terminal assistant:
+
+```bash
+npm run scaffold
+# or
+npm run create
+```
+
+Follow the prompts to:
+1. Create a new Course Series and register it directly into `roadmapOrder.json`.
+2. Create a new Article (standalone or attached to a course syllabus).
+3. Add an existing Series to a Roadmap category.
+
+</Tab>
+
+</Tabs>
 
 ---
 
-## 2. Step-by-Step Creation Playbooks
+## 2. Architecture & Metadata Rules
+
+### The Core Hierarchy
+
+The platform organizes content in a 3-tier hierarchy:
+
+> **Category (Track)** ➔ **Series (Course)** ➔ **Articles (Lessons)**
+
+| Level | Where Configured | Purpose |
+| :--- | :--- | :--- |
+| **1. Category / Track** | `src/config/roadmapOrder.json` | Top-level learning domain (`Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering`). |
+| **2. Series / Course** | `src/content/series/<id>.json` | Structured course with a syllabus (`navbar`). Defines `"category": "<Track>"`. |
+| **3. Lessons** | `src/content/articles/<slug>.md` | The actual educational lessons. Linked via `series: "<id>"`. |
+| **Standalone Articles** | `src/content/articles/<slug>.md` | Independent tutorials or build projects. **Omit `series`**; categorized via `categories: [...]`. |
+
+### Important Metadata Rules
+
+1. **Course Lessons (`series` is set)**:
+   - When an article has `series: "docker"`, its learning category is **inherited directly from the parent course**.
+   - Lessons are grouped in the course syllabus and do not clutter the general `/articles` project listing.
+2. **Standalone Articles (`series` is omitted)**:
+   - Must specify `categories` using one or more of the 5 canonical categories below.
+   - These are surfaced on `/articles` (Projects & Deep Dives).
+3. **The 5 Canonical Categories**:
+   - `"Core-CS"`: Operating systems, computer networks, computer architecture, databases, compilers.
+   - `"DSA"`: Data structures, algorithms, complexity analysis, interview problem sets.
+   - `"Development"`: Frontend, backend, fullstack frameworks, APIs, databases, tooling.
+   - `"System-Design"`: Distributed systems, microservices, cloud architectures, scalability.
+   - `"AI-Engineering"`: Machine learning, LLM integrations, embeddings, AI agents.
+
+---
+
+## 3. Step-by-Step Creation Playbooks
 
 <Tabs>
 
@@ -116,6 +184,8 @@ Open `src/config/roadmapOrder.json` and append `<course-id>` under the correspon
   ]
 }
 ```
+
+*(Or simply run `npm run admin` to perform all 3 steps automatically).*
 
 </Tab>
 
@@ -225,11 +295,11 @@ When introducing a new major learning track (e.g., `AI-Engineering`), synchroniz
 
 ---
 
-## 3. Complete Schemas & Type Reference
+## 4. Complete Schemas & Type Reference
 
 This section provides the static field definitions, types, defaults, and allowed values for every content collection defined in `src/content/config.ts`.
 
-### 3.1 Articles Collection Schema
+### 4.1 Articles Collection Schema
 **Location:** `src/content/articles/*.md` or `*.mdx`  
 **Purpose:** Standalone articles, project tutorials, and course lessons.
 
@@ -242,18 +312,10 @@ This section provides the static field definitions, types, defaults, and allowed
 | `image` | `string` | No | `undefined` | Relative path (e.g. `/images/og-image.jpg`) | Card thumbnail and social share preview |
 | `author` | `string` | No | `undefined` | e.g. `"Arjit Sharma"` | Content author |
 | `series` | `string` | No | `undefined` | Filename of series in `src/content/series/` | Links lesson to a course. **Omit for standalone articles** |
-| `categories` | `string[]` | No | `["others"]` | See Allowed Categories below | Subject classification tag |
+| `categories` | `string[]` | No | `["others"]` | `Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering` | Subject classification tag |
 | `draft` | `boolean` | No | `false` | `true`, `false` | Excludes article from production builds when `true` |
 | `year` | `number` | No | `undefined` | 4-digit year (e.g. `2025`) | Publishing / revision year |
 | `featured` | `boolean` | No | `false` | `true`, `false` | Highlighted in hero card carousel |
-
-#### Allowed Categories
-- `"Core-CS"`: Computer architecture, operating systems, networking, databases, compilers.
-- `"DSA"`: Data structures, algorithms, complexity analysis, problem walkthroughs.
-- `"Development"`: Frontend, backend, fullstack frameworks, APIs, tooling.
-- `"System-Design"`: Distributed systems, microservices, cloud patterns, scalability.
-- `"AI-Engineering"`: Machine learning, LLM integrations, embeddings, AI agents.
-- `"others"`: Generic fallback category.
 
 #### TypeScript Interface
 ```typescript
@@ -274,7 +336,7 @@ export interface ArticleFrontmatter {
 
 ---
 
-### 3.2 Series / Course Collection Schema
+### 4.2 Series / Course Collection Schema
 **Location:** `src/content/series/<course-id>.json`  
 **Purpose:** Course metadata, syllabus chapters, and sidebar navigation hierarchy.
 
@@ -332,7 +394,7 @@ export interface SeriesData {
 
 ---
 
-### 3.3 Shorts Collection Schema
+### 4.3 Shorts Collection Schema
 **Location:** `src/content/shorts/<series>/<slug>.md`  
 **Purpose:** Bite-sized video explainers and quick reference concepts.
 
@@ -344,20 +406,9 @@ export interface SeriesData {
 | `seriesName` | `string` | **Yes** | — | Human-readable series title (e.g. `"Oracle Cloud"`) |
 | `order` | `number` | No | `0` | Progression sequence number within the shorts series |
 
-#### TypeScript Interface
-```typescript
-export interface ShortFrontmatter {
-  title: string;
-  youtubeId: string;
-  series: string;
-  seriesName: string;
-  order: number;
-}
-```
-
 ---
 
-### 3.4 Interview Questions Schema
+### 4.4 Interview Questions Schema
 **Location:** `src/content/interview-questions/<topic>.yaml`  
 **Purpose:** Structured questions and answers powering Interview Bytes and Anki flashcard modal.
 
@@ -373,26 +424,9 @@ Root YAML property: `questions: Array<InterviewQuestion>`
 | `date` | `date` | No | `undefined` | Date added / updated |
 | `related_images` | `string[]` | No | `[]` | Asset paths relative to `/src/assets/` |
 
-#### TypeScript Interface
-```typescript
-export interface InterviewQuestionItem {
-  id: string | number;
-  question: string;
-  answer: string[];
-  code?: string;
-  tags: string[];
-  date?: Date;
-  related_images?: string[];
-}
-
-export interface InterviewQuestionsData {
-  questions: InterviewQuestionItem[];
-}
-```
-
 ---
 
-### 3.5 TryCode Problem Schema
+### 4.5 TryCode Problem Schema
 **Location:** `src/problems/frontend/<problem-id>.ts`  
 **Purpose:** Browser-based interactive JavaScript/TypeScript coding exercises.
 
@@ -405,26 +439,9 @@ export interface InterviewQuestionsData {
 | `mode` | `string` | No | `"function"` | `"function"` (pure algorithm) or `"dom"` (DOM manipulation) |
 | `html` | `string` | No | `""` | Initial DOM markup for `"dom"` mode problems |
 
-#### TypeScript Interface
-```typescript
-export interface TestCase {
-  input: any[];
-  expected: any;
-}
-
-export interface Problem {
-  id: string;
-  title: string;
-  mode?: "function" | "dom";
-  starterCode: string;
-  tests: TestCase[];
-  html?: string;
-}
-```
-
 ---
 
-### 3.6 Pages Collection Schema
+### 4.6 Pages Collection Schema
 **Location:** `src/content/pages/*.md` or `*.mdx`  
 **Purpose:** Standalone regular site pages (e.g. `/about`, `/elements`, `/changelog`).
 
@@ -435,11 +452,11 @@ export interface Problem {
 
 ---
 
-## 4. Interactive MDX Component Catalog
+## 5. Interactive MDX Component Catalog
 
 All components below are auto-imported and immediately available in any `.mdx` file without manual `import` statements.
 
-### 4.1 Notice Callouts (`<Notice>`)
+### 5.1 Notice Callouts (`<Notice>`)
 
 Use callout boxes to draw attention to notes, best practices, tips, or critical warnings.
 
@@ -470,7 +487,7 @@ Use callout boxes to draw attention to notes, best practices, tips, or critical 
 
 ---
 
-### 4.2 Badges (`<Badge>`)
+### 5.2 Badges (`<Badge>`)
 
 Inline status indicators for feature updates, changelogs, or requirements.
 
@@ -492,7 +509,7 @@ Inline status indicators for feature updates, changelogs, or requirements.
 
 ---
 
-### 4.3 Buttons (`<Button>`)
+### 5.3 Buttons (`<Button>`)
 
 Styled call-to-action buttons for links, documentation, or resource downloads.
 
@@ -510,7 +527,7 @@ Styled call-to-action buttons for links, documentation, or resource downloads.
 
 ---
 
-### 4.4 Accordions (`<Accordion>`)
+### 5.4 Accordions (`<Accordion>`)
 
 Expandable accordion container for FAQs, solutions, or deep-dive collapsible explanations.
 
@@ -554,7 +571,7 @@ This displays the lesson with a lock icon and disables navigation until it is pu
 
 ---
 
-### 4.5 Tabs (`<Tabs>` & `<Tab>`)
+### 5.5 Tabs (`<Tabs>` & `<Tab>`)
 
 Clean multi-panel switcher for tabbed content (e.g. comparing languages, alternatives, or multi-step flows).
 
@@ -623,7 +640,7 @@ Content for tab 2...
 
 ---
 
-### 4.6 Interactive TryCode Runner (`<TryCode>`)
+### 5.6 Interactive TryCode Runner (`<TryCode>`)
 
 Live, in-browser Monaco-based code editor and test runner for frontend JavaScript drills.
 
@@ -637,7 +654,7 @@ Live, in-browser Monaco-based code editor and test runner for frontend JavaScrip
 
 ---
 
-### 4.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
+### 5.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
 
 Responsive 16:9 media embeds with lazy loading.
 
@@ -655,7 +672,7 @@ Responsive 16:9 media embeds with lazy loading.
 
 ---
 
-## 5. Standard Typography & Layout Elements
+## 6. Standard Typography & Layout Elements
 
 ### Headings Hierarchy
 
@@ -671,15 +688,8 @@ Responsive 16:9 media embeds with lazy loading.
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
 | `GET` | `/api/questions.json` | Returns all interview questions with optimized images | No |
-| `GET` | `/api/courses.json` | Returns all courses and lesson metadata | No |
-| `POST` | `/api/feedback` | Submits feedback on article accuracy | Yes |
-
----
-
-### Blockquotes
-
-> "Premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%."
-> — Donald Knuth
+| `POST` | `http://localhost:4322/api/create-series` | Scaffolds new series and updates roadmaps | Local Dev Only |
+| `POST` | `http://localhost:4322/api/create-article` | Scaffolds article and updates syllabus navbar | Local Dev Only |
 
 ---
 
@@ -688,8 +698,8 @@ Responsive 16:9 media embeds with lazy loading.
 Before committing or pushing new content:
 
 - [ ] File created in the designated folder (`articles/`, `series/`, `shorts/`, etc.).
-- [ ] Frontmatter strictly validated against the schemas in [Section 3](#3-complete-schemas--type-reference).
+- [ ] Frontmatter strictly validated against the schemas in [Section 4](#4-complete-schemas--type-reference).
+- [ ] Category chosen from the 5 canonical values (`Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering`).
 - [ ] `series` field matches the exact JSON course ID (if part of a course).
-- [ ] `roadmapOrder.json` updated with new series ID (if applicable).
+- [ ] `roadmapOrder.json` updated with new series ID (handled automatically by `npm run admin` / `npm run scaffold`).
 - [ ] `draft: false` set for all live content.
-- [ ] Reusable components verified on this `/elements` page.

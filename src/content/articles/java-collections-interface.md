@@ -4,7 +4,7 @@ meta_title: Java Collections Interface | CS Primer
 description: Explore Java Collections interface. Learn core methods for managing data structures in programming.
 author: Arjit Sharma
 series: java
-categories: ["Extras"]
+categories: ["DSA"]
 featured: false
 draft: false
 ---
