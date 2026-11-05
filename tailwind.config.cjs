@@ -27,6 +27,9 @@ module.exports = {
       padding: "2rem",
     },
     extend: {
+      boxShadow: {
+        xs: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      },
       colors: {
         text: theme.colors.default.text_color.default,
         light: theme.colors.default.text_color.light,

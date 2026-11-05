@@ -1,18 +1,12 @@
 ---
 import TwSizeIndicator from "@/components/ui/TwSizeIndicator.astro";
 import config from "@/config/config.json";
-import theme from "@/config/theme.json";
 import { plainify } from "@/lib/utils/textConverter";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
-import QuestionDialog from "@/components/features/dialogs/QuestionDialog.astro";
 import "@/styles/main.scss";
 import "nprogress/nprogress.css";
 import { ViewTransitions } from "astro:transitions";
-import { getImage } from "astro:assets";
-
-const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
-
 
 // types for frontmatters
 export interface Props {
@@ -24,7 +18,7 @@ export interface Props {
   canonical?: string;
 }
 
-// distructure frontmatters
+// destructure frontmatters
 const { title, meta_title, description, image, noindex, canonical } =
   Astro.props;
 
@@ -37,32 +31,15 @@ const scriptContent = `
 `;
 
 const imgStr = image || config.metadata.meta_image;
-let finalOgImage = imgStr;
+let finalOgImage = `${config.site.base_url}/images/og-image.jpg`;
 
-if (imgStr && !imgStr.startsWith('http')) {
-  let imagePath = imgStr;
-  if (imagePath.startsWith("/images/")) {
-    imagePath = `/src/assets${imagePath}`;
-  } else if (!imagePath.startsWith("/src/assets/") && imagePath.startsWith("src/assets/")) {
-    imagePath = `/${imagePath}`;
-  }
-
-  if (allImages[imagePath]) {
-    try {
-      const resolvedImage = await getImage({ src: (await allImages[imagePath]()).default, format: 'webp' });
-      finalOgImage = resolvedImage.src;
-    } catch (e) {
-      finalOgImage = imgStr.replace(/^(\/)?src\/assets/, '');
-    }
+if (imgStr) {
+  if (imgStr.startsWith('http://') || imgStr.startsWith('https://')) {
+    finalOgImage = imgStr;
   } else {
-    finalOgImage = imgStr.replace(/^(\/)?src\/assets/, '');
+    const cleanPath = imgStr.startsWith('/') ? imgStr : `/${imgStr}`;
+    finalOgImage = `${config.site.base_url}${cleanPath}`;
   }
-  
-  if (!finalOgImage.startsWith('http')) {
-     finalOgImage = `${config.site.base_url}${finalOgImage}`;
-  }
-} else if (imgStr && imgStr.startsWith('http')) {
-  finalOgImage = imgStr;
 }
 ---
 
@@ -74,14 +51,14 @@ if (imgStr && !imgStr.startsWith('http')) {
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     
     <!-- Resource Hints -->
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-    <!-- Google Analytics (Partytown) -->
-    <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-    <script type="text/partytown" set:html={scriptContent}></script>
+    <!-- Google Analytics -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+    <script is:inline set:html={scriptContent}></script>
 
     <meta
       name="theme-color"

@@ -18,7 +18,7 @@ const { main }: { main: NavigationLink[] } = menu;
 const { pathname } = Astro.url;
 ---
 
-<header class="header py-2">
+<header class="header">
   <nav class="navbar container">
     <!-- logo -->
     <div>
@@ -52,13 +52,13 @@ const { pathname } = Astro.url;
 
     <ul
       id="nav-menu"
-      class="navbar-nav order-3 hidden w-full lg:order-1 lg:flex lg:w-auto lg:space-x-2"
+      class="navbar-nav order-3 hidden w-full lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:ml-auto"
     >
       {
         main.map((menu) => (
           <>
             {menu.hasChildren ? (
-              <li class="nav-item nav-dropdown group relative cursor-pointer  dropdown-button">
+              <li class="nav-item nav-dropdown group relative cursor-pointer dropdown-button">
                 <span
                   class={`nav-link inline-flex items-center ${
                     menu.children?.map(({ url }) => url).includes(pathname) ||
@@ -110,17 +110,7 @@ const { pathname } = Astro.url;
           </>
         ))
       }
-      <!-- mobile: no star button, just the YouTube link -->
-      <li class="nav-item mt-2 lg:hidden flex gap-2">
-        <a class="btn btn-white btn-sm border-border flex-grow text-center" target="_blank" href="https://www.youtube.com/channel/UCxnwwhbLSLQBXXjD0aDVoJw">
-          YouTube
-        </a>
-      </li>
     </ul>
-    <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex gap-2">
-      <a class="btn btn-white btn-sm" target="_blank" href="https://www.youtube.com/channel/UCxnwwhbLSLQBXXjD0aDVoJw">YouTube</a>
-      
-    </div>
   </nav>
 </header>
 
@@ -140,23 +130,6 @@ const { pathname } = Astro.url;
     }
   }
 
-  function handleScroll() {
-    const header = document.querySelector(".header");
-    if (header) {
-      if (window.scrollY > 0) {
-        header.classList.add("header-sticky");
-      } else {
-        header.classList.remove("header-sticky");
-      }
-    }
-  }
-
   // Handle load & page navigation
-  document.addEventListener("astro:page-load", () => {
-    initHeader();
-    window.removeEventListener("scroll", handleScroll);
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-  });
+  document.addEventListener("astro:page-load", initHeader);
 </script>
-

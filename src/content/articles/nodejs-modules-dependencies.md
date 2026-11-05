@@ -54,14 +54,14 @@ Modern Node.js fully supports native ES Modules using import and export syntax. 
 ```
 
 
-```javaScript
+```javascript
 // math.js (Exporting)
 export function add(a, b) { return a + b; }
 export function subtract(a, b) { return a - b; }
 export default function multiply(a, b) { return a * b; }
 ```
 
-```javaScript
+```javascript
 // app.js (Importing)
 import { add, subtract } from "./math.js";
 import multiply from "./math.js";

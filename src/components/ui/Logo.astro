@@ -1,52 +1,55 @@
 ---
 import config from "@/config/config.json";
 import { Image } from "astro:assets";
+import defaultLogo from "@/assets/images/logo.png";
+
 const { src } = Astro.props;
 const {
-  logo,
   logo_width,
   logo_height,
   logo_text,
   title,
 }: {
-  logo: string;
   logo_width: any;
   logo_height: any;
   logo_text: string;
   title: string;
 } = config.site;
 
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,svg}');
+const widthNum = Number(String(logo_width).replace("px", "")) || 80;
+const heightNum = Number(String(logo_height).replace("px", "")) || 80;
 ---
 
 <a href="/" class="navbar-brand block">
   {
-    (() => {
-      let imagePath = src || logo;
-      
-      // If it's still pointing to the old /images/ path, patch it up
-      if(imagePath.startsWith("/images/")) {
-         imagePath = `/src/assets${imagePath}`;
-      }
-
-      if (imagePath && images[imagePath]) {
-        return (
-          <Image
-            width={logo_width.replace("px", "") * 2}
-            height={logo_height.replace("px", "") * 2}
-            src={images[imagePath]()}
-            alt={title}
-            style={{
-              height: logo_height.replace("px", "") + "px",
-              width: logo_width.replace("px", "") + "px",
-            }}
-          />
-        );
-      } else if (logo_text) {
-        return logo_text;
-      } else {
-        return title;
-      }
-    })()
+    src ? (
+      <img
+        src={src}
+        alt={title}
+        width={widthNum * 2}
+        height={heightNum * 2}
+        style={{
+          height: `${heightNum}px`,
+          width: `${widthNum}px`,
+        }}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : defaultLogo ? (
+      <Image
+        width={widthNum * 2}
+        height={heightNum * 2}
+        src={defaultLogo}
+        alt={title}
+        style={{
+          height: `${heightNum}px`,
+          width: `${widthNum}px`,
+        }}
+      />
+    ) : logo_text ? (
+      logo_text
+    ) : (
+      title
+    )
   }
 </a>

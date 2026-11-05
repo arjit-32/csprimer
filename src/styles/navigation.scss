@@ -12,10 +12,10 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 
 .header {
-  @apply sticky top-0 z-50  bg-white py-6 transition-all duration-300 lg:bg-transparent;
+  @apply sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-3 md:py-3.5 transition-all duration-300;
 
   &-sticky {
-    @apply bg-white shadow;
+    @apply bg-white shadow-sm;
   }
 }
 

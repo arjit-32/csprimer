@@ -5,7 +5,7 @@ import readingTime from "@/lib/utils/readingTime";
 import { humanize, plainify } from "@/lib/utils/textConverter";
 const { summary_length } = config.settings;
 const { posts } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/**/*.{jpeg,jpg,png,gif,webp}');
 ---
 
 <h2 class="h4 mb-4">Featured Projects</h2>

@@ -5,7 +5,7 @@ import { STATUS_CONFIG , isLocked } from "@/lib/statusConfig";
 import { Image } from "astro:assets";
 
 // Dynamically import all images from the assets folder
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.webp');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/*.webp');
 
 export async function getStaticPaths() {
   const seriesEntries = await getCollection("series");

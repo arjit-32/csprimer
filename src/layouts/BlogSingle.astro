@@ -3,18 +3,13 @@ import readingTime from "@/lib/utils/readingTime";
 import { getEntry } from "astro:content";
 import { humanize, slugify } from "@/lib/utils/textConverter";
 import { STATUS_CONFIG, isLocked } from "@/lib/statusConfig";
-import {
-  FaRegClock,
-  FaRegFolder,
-  FaRegUserCircle,
-} from "react-icons/fa";
 import { Image } from "astro:assets";
 import ActionButtons from "@/components/ui/ActionButtons.astro";
 import config from "@/config/config.json";
 
 const { post, series } = Astro.props;
 const { Content } = await post.render();
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/**/*.{jpeg,jpg,png,gif,webp}');
 
 const seriesEntry = series ? await getEntry("series", series) : null;
 const courseData = seriesEntry ? seriesEntry.data : null;
@@ -209,7 +204,7 @@ function getPreviousNextLinks(navbar: any[], currentSlug: string) {
               )}
 
               <div class="flex items-center mr-4 mb-2">
-                <FaRegUserCircle className={"mr-1"} />
+                <svg class="mr-1 inline-block w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 <a 
                   href="https://arjit-32.github.io" 
                   target="_blank" 
@@ -222,7 +217,7 @@ function getPreviousNextLinks(navbar: any[], currentSlug: string) {
 
               
               <div class="flex items-center mr-4 mb-2">
-                <FaRegClock className={"mr-1"} />
+                <svg class="mr-1 inline-block w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke-width="2"/></svg>
                 <span>{readingTime(post.body)}</span>
               </div>
               

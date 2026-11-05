@@ -6,16 +6,20 @@ import InteractiveRoadmap from "@/components/roadmap/InteractiveRoadmap.astro";
 import { getAllRoadmapCourses } from "@/lib/roadmapParser";
 import CourseDrawer from "@/components/roadmap/CourseDrawer.astro";
 
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.webp');
+import roadmapAllImg from "@/assets/images/categories/roadmap.webp";
+import roadmapCoreCSImg from "@/assets/images/categories/1.webp";
+import roadmapDSAImg from "@/assets/images/categories/2.webp";
+import roadmapDevImg from "@/assets/images/categories/3.webp";
+import roadmapSysDesignImg from "@/assets/images/categories/4.webp";
 
 // Pre-resolve roadmap images for the static view
 const resolvedRoadmaps = {
-  all: await getImage({ src: (await images['/src/assets/images/categories/roadmap.webp']()).default, width: 1400 }),
-  'Core-CS': await getImage({ src: (await images['/src/assets/images/categories/1.webp']()).default, width: 1400 }),
-  'DSA': await getImage({ src: (await images['/src/assets/images/categories/2.webp']()).default, width: 1400 }),
-  'Development': await getImage({ src: (await images['/src/assets/images/categories/3.webp']()).default, width: 1400 }),
-  'System-Design': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1400 }),
-  'AI-Engineering': await getImage({ src: (await images['/src/assets/images/categories/4.webp']()).default, width: 1400 }),
+  all: await getImage({ src: roadmapAllImg, width: 1400 }),
+  'Core-CS': await getImage({ src: roadmapCoreCSImg, width: 1400 }),
+  'DSA': await getImage({ src: roadmapDSAImg, width: 1400 }),
+  'Development': await getImage({ src: roadmapDevImg, width: 1400 }),
+  'System-Design': await getImage({ src: roadmapSysDesignImg, width: 1400 }),
+  'AI-Engineering': await getImage({ src: roadmapSysDesignImg, width: 1400 }),
 };
 
 const dynamicRoadmapData = await getAllRoadmapCourses();
@@ -280,7 +284,4 @@ const categories = [
   }
 
   document.addEventListener("astro:page-load", initRoadmapsPage);
-  document.addEventListener("astro:after-swap", initRoadmapsPage);
-  document.addEventListener("DOMContentLoaded", initRoadmapsPage);
-  initRoadmapsPage();
 </script>

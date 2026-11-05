@@ -319,6 +319,11 @@ allCourses.forEach((c: any) => {
     document.querySelectorAll('.neetcode-roadmap-wrapper').forEach((wrapper) => {
       const uid = (wrapper as HTMLElement).dataset.roadmapId;
       if (!uid) return;
+      if ((wrapper as any).__neetcodeInitialized) {
+        (wrapper as any).__redrawRoadmap?.();
+        return;
+      }
+      (wrapper as any).__neetcodeInitialized = true;
 
       const viewport = document.getElementById(`roadmap-viewport-${uid}`) as HTMLDivElement | null;
       const board = document.getElementById(`roadmap-board-${uid}`) as HTMLDivElement | null;
@@ -671,7 +676,4 @@ allCourses.forEach((c: any) => {
   }
 
   document.addEventListener('astro:page-load', setupNeetcodeRoadmap);
-  document.addEventListener('astro:after-swap', setupNeetcodeRoadmap);
-  document.addEventListener('DOMContentLoaded', setupNeetcodeRoadmap);
-  setupNeetcodeRoadmap();
 </script>

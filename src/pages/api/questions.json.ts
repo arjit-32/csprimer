@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 import { markdownify } from '@/lib/utils/textConverter';
 import { getImage } from 'astro:assets';
 
-const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,svg}', { eager: true });
+const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/interview*/**/*.{jpeg,jpg,png,gif,webp,svg}', { eager: true });
 
 export async function GET() {
   const allQuestionFiles = await getCollection('interview-questions');

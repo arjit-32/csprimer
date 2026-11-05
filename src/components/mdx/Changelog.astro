@@ -1,0 +1,27 @@
+---
+interface Props {
+  date: string;
+}
+
+const { date } = Astro.props;
+---
+
+<section class="section changelogs pt-0">
+  <div class="container">
+    <div class="row justify-center">
+      <div class="lg:col-10">
+        <div class="row mb-10 lg:mt-0">
+          <div class="lg:col-3">
+            <h6 class="mb-4 pl-7 text-lg lg:mt-0 lg:pl-0">{date}</h6>
+          </div>
+          <div class="border-border lg:col-9 lg:border-l lg:pb-10 lg:pl-10">
+            <div class="changelogs-content rounded-xl bg-white p-6 shadow-lg lg:p-10">
+              <slot />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

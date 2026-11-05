@@ -86,7 +86,7 @@ Containerization is widely used in modern backend infrastructure and cloud deplo
 
 ### Creating a Dockerfile
 
-```Dockerfile
+```dockerfile
 # Base image
 FROM node:20-alpine
 

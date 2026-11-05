@@ -1,0 +1,27 @@
+---
+interface Props {
+  title?: string;
+  width?: number | string;
+  height?: number | string;
+  src: string;
+  [key: string]: any;
+}
+
+const { title, width = 500, height = "auto", src, ...rest } = Astro.props;
+const videoSrc = src.match(/^http/) ? src : `/videos/${src}`;
+---
+
+<video
+  class="overflow-hidden rounded-md"
+  width={width}
+  height={height}
+  controls
+  {...rest}
+>
+  <source
+    src={videoSrc}
+    type="video/mp4"
+  />
+  {title}
+</video>
+

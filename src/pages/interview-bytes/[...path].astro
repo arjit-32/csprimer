@@ -73,7 +73,7 @@ export async function getStaticPaths() {
 
 const { page, currentTag, allTags, tagCounts } = Astro.props;
 import { getImage } from 'astro:assets';
-const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,svg}', { eager: true });
+const allImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/interview*/**/*.{jpeg,jpg,png,gif,webp,svg}', { eager: true });
 
 const questions = await Promise.all(page.data.map(async (q: any) => {
   let optimizedImages = q.related_images || [];
