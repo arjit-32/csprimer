@@ -1,207 +1,122 @@
 ---
-title: Projects
-subtitle: Hands-on builds and assignments
-author: Arjit Sharma
-date: 2024-10-02T05:00:00Z
-categories: ["DSA", "Development", "Core-CS", "System-Design", "AI-Engineering"]
-image: /images/og-image.jpg
-featured: false
+title: "Projects & Articles"
+meta_title: "Articles & Projects | CSPrimer"
+description: "Practical engineering projects, system design architectures, and foundational computer science deep dives."
+image: "/images/og-image.jpg"
+categories: ["Development", "Core-CS", "System-Design", "DSA", "AI-Engineering"]
 draft: false
 ---
 
-## Content Structure Rules
+# Articles Collection Schema & Type Reference
 
-Use this structure consistently whenever creating a new series or article.
+This file defines the static type contract, frontmatter schema, and allowed values for all content located in `src/content/articles/`.
 
-### Supported categories
-
-- `Core-CS`
-- `DSA`
-- `Development`
-- `System-Design`
-- `AI-Engineering`
-
-If a new topic does not fit an existing category, add a new category here and also add it to:
-
-1. `src/config/roadmapOrder.json`
-2. the course filter list in `src/pages/courses/index.astro`
-3. the roadmap filter list in `src/pages/roadmaps.astro`
+For the complete step-by-step authoring guide and interactive component playground, refer to `/elements` (`src/content/pages/elements.mdx`).
 
 ---
 
-## Adding a New Article
+## 1. Schema Definition
 
-### 1. Create Article File
-- Location: `src/content/articles/your-slug.md` (or `.mdx`)
-- Required frontmatter:
-  ```yaml
-  title: Article Title
-  series: course-id  # Link to the owning course; optional for standalone
-  draft: false       # true = hidden
-  year: 2025
-  author: Name
-  categories: ["Development"]
-  ```
+Articles are defined in `src/content/config.ts` using Astro's `defineCollection`. Every `.md` or `.mdx` file in this directory must conform to this schema.
 
-### 2. Choose the correct category
-- Use the series category when the article belongs to a course/series.
-- Use a standalone category when it is not part of a series.
-- The category must match one of the supported categories above.
+### Field Specifications
 
-Example:
+| Field | Type | Required | Default | Allowed Values / Constraints | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `title` | `string` | **Yes** | — | Any non-empty string | Article title shown in headings and cards |
+| `subtitle` | `string` | No | `undefined` | Any string | Secondary subhead for lessons or deep dives |
+| `meta_title` | `string` | No | `undefined` | String (≤ 60 chars recommended) | SEO `<title>` tag override |
+| `description` | `string` | No | `undefined` | String (≤ 160 chars recommended) | Meta and OpenGraph description |
+| `image` | `string` | No | `undefined` | Path relative to `/public` or `/src/assets` | Social share preview & card cover image |
+| `author` | `string` | No | `undefined` | e.g., `"Arjit Sharma"` | Content creator name |
+| `series` | `string` | No | `undefined` | Matches `{course-id}` in `src/content/series/` | Links article to a course syllabus. Omit for standalone articles |
+| `categories` | `string[]` | No | `["others"]` | See Allowed Categories below | Classification tag for filtering and roadmaps |
+| `draft` | `boolean` | No | `false` | `true`, `false` | If `true`, page is excluded from public builds |
+| `year` | `number` | No | `undefined` | Valid 4-digit year (e.g. `2025`) | Publishing / revision year |
+| `featured` | `boolean` | No | `false` | `true`, `false` | Highlighted in the top featured carousel |
+
+---
+
+## 2. Allowed Values & Enumerations
+
+### Supported Categories
+
+The `categories` array should only contain values recognized across the site filters, navigation, and roadmap parsers:
+
+- `"Core-CS"`: Computer architecture, operating systems, databases, networking, compilers.
+- `"DSA"`: Data structures, algorithms, complexity analysis, problem walkthroughs.
+- `"Development"`: Frontend, backend, fullstack frameworks, APIs, tooling.
+- `"System-Design"`: Distributed systems, microservices, cloud patterns, scalability.
+- `"AI-Engineering"`: Machine learning, LLM integrations, embeddings, AI agents.
+- `"others"`: Fallback category.
+
+### Series Identifier (`series`)
+
+- When set, the value **must match exactly** the filename of a course in `src/content/series/{course-id}.json` (without `.json`).
+- If an article is standalone (a one-off tutorial or project), **omit the `series` field entirely**.
+
+---
+
+## 3. Frontmatter Templates
+
+### Minimal Template (Standalone Article)
+
 ```yaml
-categories: ["DSA"]
-```
-
-For Git tutorials, use:
-```yaml
+---
+title: "Building a Simple In-Memory Cache in TypeScript"
+description: "Understand eviction policies by building an LRU cache from scratch."
 categories: ["Development"]
-```
-
-For Java fundamentals, use:
-```yaml
-categories: ["DSA"]
-```
-
-### 3. Link it to a series (if part of a course)
-- Location: `src/content/series/{course-id}.json`
-- Add to `navbar` section:
-  ```json
-  {
-    "type": "articles",
-    "url": "your-slug",
-    "title": "Article Title",
-    "status": "completed"
-  }
-  ```
-- **Order matters**: Position in JSON = order in sidebar & Previous/Next
-
-### TryCode usage rules
-- `TryCode` is reserved for JavaScript/TypeScript frontend interview practice only.
-- Do not use it for DSA articles, algorithmic problem walkthroughs, or Java/C++ solutions.
-- The runner must load a file from `src/problems/frontend/*.ts`.
-- For DSA articles, keep the content as normal markdown/MDX with code blocks and prose.
-- For frontend interview practice, create a standalone article and a matching problem under `src/problems/frontend/`.
-
-Example:
-```mdx
-<TryCode problemId="array-unique" />
-```
-
-This resolves to `src/problems/frontend/array-unique.ts`.
-
----
-
-## Adding a New Course / Series
-
-### Files to Create/Modify:
-
-1. **Create series JSON**: `src/content/series/{course-id}.json`
-   ```json
-   {
-     "title": "Course Title",
-     "subtitle": "Brief description",
-     "description": "Full description",
-     "category": "Development",
-     "image": "../../assets/images/thumbnails/image.png",
-     "navbar": [
-       {
-         "subheading": "Section Name",
-         "link": [
-           { "type": "articles", "url": "slug", "title": "Title" }
-         ]
-       }
-     ]
-   }
-   ```
-
-2. **Add the course to the roadmap**: `src/config/roadmapOrder.json`
-   ```json
-   {
-     "Development": [
-       "html-css",
-       "javascript",
-       "git",
-       "ui"
-     ],
-     "AI-Engineering": []
-   }
-   ```
-
-3. **Add the category to the UI**: update the filter lists in:
-   - `src/pages/courses/index.astro`
-   - `src/pages/roadmaps.astro`
-
-4. **Link articles**: add `series: course-id` and `categories: ["<matching-category>"]` in article frontmatter.
-
-### Category-to-roadmap rule
-
-- Core CS series go under `Core-CS`
-- DSA series go under `DSA`
-- Full-stack/web engineering series go under `Development`
-- System design and infra series go under `System-Design`
-- LLM / AI / agentic engineering content goes under `AI-Engineering`
-
-The series should always match the category used in the article metadata and the roadmapOrder entry.
-
----
-
-## Article Types
-
-Only 2 types supported:
-
-| Type | URL | Target | UI |
-|------|-----|--------|-----|
-| `articles` | `/articles/{slug}` | Same tab | Document icon |
-| `external` | Original URL | New tab | Link icon |
-
----
-
-## Course and Article Status (Phases)
-
-| Status | Visible | Clickable | UI Badge |
-|--------|---------|-----------|----------|
-| `in-progress` | ✅ Yes | ✅ Yes | 🔄 Blue |
-| `re-visiting` | ✅ Yes | ✅ Yes | 🔁 Orange |
-| `planned` | ✅ Yes | ❌ Locked | 🕐 Gray |
-
----
-
-## UI Behavior
-
-- **Sidebar**: Shows all course lessons, expands to current article section automatically
-- **Previous/Next**: Only includes unlocked `articles` type (skips `external`)
-- **Order**: Determined by JSON navbar position (left-to-right, top-to-bottom)
-- **Standalone articles**: No `series` field → article listing only, no sidebar
-- **Lock**: `status: planned` or `draft` → visible but not clickable
-
-## Frontend TryCode Pattern
-
-Use this only for browser-oriented JavaScript interview work:
-
-```mdx
----
-title: "JavaScript Interview Practice: Remove Duplicates"
-author: Arjit Sharma
-categories: ["JavaScript", "Frontend", "Interview"]
 draft: false
 ---
-
-<TryCode problemId="array-unique" />
 ```
 
-Then add the problem file:
+### Course Lesson Template
 
-```ts
-// src/problems/frontend/array-unique.ts
-const problem = {
-  id: "array-unique",
-  title: "Remove Duplicates While Preserving Order",
-  starterCode: `function solution(nums) {\n  // Your code here\n}`,
-  tests: [{ input: [[1, 2, 2, 3, 1, 4]], expected: [1, 2, 3, 4] }],
-};
-
-export default problem;
+```yaml
+---
+title: "Understanding the TCP Three-Way Handshake"
+subtitle: "How reliable connections are established under the hood"
+author: "Arjit Sharma"
+series: "cn"
+categories: ["Core-CS"]
+draft: false
+---
 ```
 
-This keeps the interactive code runner focused on frontend/JS interview tasks rather than DSA exercises.
+### Complete Template (All Fields)
+
+```yaml
+---
+title: "Deploying a Production-Grade Node.js Service on AWS EC2"
+subtitle: "A complete walkthrough covering Nginx, PM2, and SSL certificates"
+meta_title: "Deploy Node.js to AWS EC2 | Production Guide"
+description: "Step-by-step tutorial on taking a raw Ubuntu EC2 instance to a live, secure Node.js API server."
+image: "/images/og-image.jpg"
+author: "Arjit Sharma"
+series: "aws"
+categories: ["Development", "System-Design"]
+draft: false
+year: 2025
+featured: true
+---
+```
+
+---
+
+## 4. TypeScript Type Definition
+
+```typescript
+export interface ArticleFrontmatter {
+  title: string;
+  subtitle?: string;
+  meta_title?: string;
+  description?: string;
+  image?: string;
+  author?: string;
+  series?: string;
+  categories: ("Core-CS" | "DSA" | "Development" | "System-Design" | "AI-Engineering" | "others")[];
+  draft?: boolean;
+  year?: number;
+  featured?: boolean;
+}
+```

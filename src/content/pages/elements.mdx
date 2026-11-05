@@ -1,190 +1,222 @@
 ---
-title: "Elements"
-description: "Page with various UI elements"
+title: "Elements & Contributor Playbook"
+description: "Exact step-by-step guide for creating content and interactive showcase of all reusable MDX components."
 ---
 
-# Heading 1
+# Contributor Playbook & MDX Elements
 
-## Heading 2
-
-### Heading 3
-
-#### Heading 4
-
-##### Heading 5
-
-###### Heading 6
+This page is the living documentation for maintaining and expanding **CSPrimer**. It serves two purposes:
+1. **Exact Step-by-Step Playbooks**: Clear instructions for creating standalone articles, multi-lesson series, shorts, interview questions, TryCode practice problems, and roadmap categories.
+2. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components available on the site.
 
 ---
 
-### Paragraph
+## 1. Website Architecture at a Glance
 
-Did you come here for something in particular or just general Riker-bashing? And blowing into maximum warp speed, you appeared for an instant to be in two places at once. We have a saboteur aboard. We know you’re dealing in stolen ore. But I wanna talk about the assassination attempt on Lieutenant Worf. Could someone survive inside a transporter buffer for 75 years? Fate. It protects fools, little children, and ships.
-
-Did you come here for something in particular or just general Riker-bashing? And blowing into maximum warp speed, you appeared for an instant to be in two places at once. We have a saboteur aboard. We know you’re dealing in stolen ore. But I wanna talk about the assassination attempt on Lieutenant Worf. Could someone survive inside a transporter buffer for 75 years? Fate. It protects fools, little children, and ships.
-
----
-
-### Emphasis
-
-1. Did you come here for something in **particular** or just general
-
-2. Did you come here for something in <ins>particular</ins>
-
-3. _Did you come here_
-
-4. Did you come here for **something** in particular
-
-5. Did you come here for something in particular
-
-6. Did you come here for something in particular
-
-7. URLs and URLs in angle brackets will automatically get turned into links. [http://www.example.com](http://www.example.com) or
-
-8. [http://www.example.com](http://www.example.com) and sometimes example.com (but not on Github, for example).
+| Content Surface | Primary Location | Schema & Rules | Where It Appears |
+| :--- | :--- | :--- | :--- |
+| **Standalone Articles** | `src/content/articles/*.md` | `src/content/articles/-index.md` | `/articles`, `/articles/page/[slug]` |
+| **Courses & Series** | `src/content/series/*.json` | `src/content/config.ts` (`series`) | `/courses`, `/courses/[course]` |
+| **Course Lessons** | `src/content/articles/*.md` | Has `series: "<course-id>"` | In course syllabus & lesson reader |
+| **Shorts** | `src/content/shorts/**/*.md` | `src/content/config.ts` (`shorts`) | `/shorts`, `/shorts/[series]/[subject]` |
+| **Interview Bytes** | `src/content/interview-questions/*.yaml` | `src/content/config.ts` (`interview-questions`) | `/interview-bytes`, `/revision` |
+| **TryCode Problems** | `src/problems/frontend/*.ts` | TypeScript problem interface | Mounted in MDX via `<TryCode />` |
+| **Roadmaps** | `src/config/roadmapOrder.json` | JSON course ordering | `/roadmaps` |
+| **Top Navigation** | `src/config/menu.json` | Header navigation entries | Header navbar |
 
 ---
 
-### Link
-
-[I'm an inline-style link](https://www.google.com)
-
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
-
-[I'm a reference-style link][arbitrary case-insensitive reference text]
-
-[I'm a relative reference to a repository file](../blob/master/LICENSE)
-
-[You can use numbers for reference-style link definitions][1]
-
-Or leave it empty and use the [link text itself].
-
-example.com (but not on Github, for example).
-
-Some text to show that the reference links can follow later.
-
-[arbitrary case-insensitive reference text]: https://www.themefisher.com
-[1]: https://gethugothemes.com
-[link text itself]: https://www.getjekyllthemes.com
-
----
-
-### Ordered List
-
-1. List item
-2. List item
-3. List item
-4. List item
-5. List item
-
----
-
-### Unordered List
-
-- List item
-- List item
-- List item
-- List item
-- List item
-
----
-
-### Code and Syntax Highlighting
-
-#### HTML
-
-```html
-<ul>
-  <li class="nav-item">
-    <a class="nav-link" href="/">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="about/">About</a>
-  </li>
-</ul>
-`}
-```
-
----
-
-#### CSS
-
-```css
-img {
-  vertical-align: middle;
-  border: 0;
-  max-width: 100%;
-  height: auto;
-}
-```
-
----
-
-#### JavaScript
-
-```javascript
-window.addEventListener("load", (e) => {
-  document.querySelector(".preloader").style.display = "none";
-});
-```
-
----
-
-### Button
-
-<Button href="#" style="solid">
-  Button
-</Button>
-
----
-
-### Quote
-
-> Did you come here for something in particular or just general Riker-bashing? And blowing into maximum warp speed, you appeared for an instant to be in two places at once.
-
----
-
-### Notice
-
-<Notice type="note">This is a simple note.</Notice>
-
-<Notice type="tip">This is a simple note.</Notice>
-
-<Notice type="info">This is a simple note.</Notice>
-
-<Notice type="warning">This is a simple note.</Notice>
-
----
-
-### Tab
+## 2. Step-by-Step Creation Playbooks
 
 <Tabs>
 
-<Tab name="Tab 1">
+<Tab name="1. Standalone Article">
 
-#### Did you come here for something in particular?
+### Adding a Standalone Article or Project
 
-Did you come here for something in particular or just general Riker-bashing? And blowing into maximum warp speed, you appeared for an instant to be in two places at once. We have a saboteur aboard. We know you’re dealing in stolen ore. But I wanna talk about the assassination attempt on Lieutenant Worf.
+Use this for single-topic deep dives, project write-ups, or tutorials that do not belong to a sequential course syllabus.
+
+#### Step 1: Create the markdown or MDX file
+Create `src/content/articles/<your-article-slug>.md` (or `.mdx` if using custom components).
+
+#### Step 2: Add Frontmatter
+> **Important**: Do not add the `series` key for standalone articles.
+
+```yaml
+---
+title: "Building an LRU Cache from Scratch in TypeScript"
+description: "Learn cache eviction policies by implementing a doubly linked list + hash map cache."
+categories: ["Development"]
+author: "Arjit Sharma"
+draft: false
+featured: false
+---
+```
+
+#### Step 3: Write Content
+Write in standard Markdown or import MDX components (e.g. `<Notice>`, `<Badge>`, `<Accordion>`).
 
 </Tab>
 
-<Tab name="Tab 2">
+<Tab name="2. Course / Series">
 
-#### I wanna talk about the assassination attempt
+### Adding a Multi-Lesson Series
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+A course requires connecting series metadata with lesson articles and roadmap ordering.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+#### Step 1: Create the Series JSON
+Create `src/content/series/<course-id>.json`.
+
+```json
+{
+  "title": "System Design Essentials",
+  "subtitle": "Architecting Scalable and Resilient Web Services",
+  "description": "Learn load balancing, horizontal scaling, caching strategies, and data consistency models.",
+  "category": "System-Design",
+  "image": "../../assets/images/thumbnails/system-design.png",
+  "weight": 10,
+  "navbar": [
+    {
+      "subheading": "1. Foundations",
+      "link": [
+        { "type": "articles", "url": "intro-system-design", "title": "Introduction to System Design", "status": "in-progress" },
+        { "type": "articles", "url": "load-balancing-basics", "title": "Load Balancing Patterns", "status": "planned" }
+      ]
+    }
+  ]
+}
+```
+
+*Status options*: `"planned"` (locked), `"in-progress"`, or `"re-visiting"`.
+
+#### Step 2: Create the Lesson Articles
+For each item in `navbar.link`, create the corresponding file in `src/content/articles/<url>.md`.
+Ensure the `series` frontmatter value exactly matches `<course-id>`:
+
+```yaml
+---
+title: "Introduction to System Design"
+author: "Arjit Sharma"
+series: "system-design-essentials"
+categories: ["System-Design"]
+draft: false
+---
+```
+
+#### Step 3: Register in Roadmap Ordering
+Open `src/config/roadmapOrder.json` and append `<course-id>` under the corresponding category array:
+
+```json
+{
+  "System-Design": [
+    "aws",
+    "distributed",
+    "system-design-essentials"
+  ]
+}
+```
 
 </Tab>
 
-<Tab name="Tab 3">
+<Tab name="3. Short">
 
-#### We know you’re dealing in stolen ore
+### Adding a Short Concept Video
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Shorts are bite-sized concept explainers linked to a YouTube short or micro-video.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+#### Step 1: Create the Short File
+Create `src/content/shorts/<series-name>/<slug>.md`.
+
+#### Step 2: Set Frontmatter
+
+```yaml
+---
+title: "What is Database Sharding?"
+youtubeId: "dQw4w9WgXcQ"
+series: "dbms-shorts"
+seriesName: "Database Systems"
+order: 1
+---
+```
+
+#### Step 3: Body Text
+Optionally include a 2-3 paragraph summary or quick reference bullets below the frontmatter.
+
+</Tab>
+
+<Tab name="4. Interview Byte">
+
+### Adding an Interview Question
+
+Interview questions power the **Interview Bytes** explorer and the **Anki Revision Modal**.
+
+#### Step 1: Open or Create the Category YAML
+Locate or create `src/content/interview-questions/<topic>.yaml` (e.g. `javascript.yaml`, `nodejs.yaml`).
+
+#### Step 2: Append Question Entry
+
+```yaml
+questions:
+  - id: 101
+    tags: [javascript, closures, async]
+    question: "Explain the Event Loop microtask vs macrotask execution order."
+    answer:
+      - "Synchronous code executes first on the call stack."
+      - "Microtask queue (Promise callbacks, queueMicrotask) is completely drained before rendering."
+      - "Macrotask queue (setTimeout, setInterval, I/O) executes one task per tick followed by microtasks again."
+    code: |
+      console.log('1');
+      setTimeout(() => console.log('2'), 0);
+      Promise.resolve().then(() => console.log('3'));
+      console.log('4');
+      // Output: 1, 4, 3, 2
+```
+
+</Tab>
+
+<Tab name="5. TryCode Exercise">
+
+### Adding an Interactive TryCode Coding Problem
+
+TryCode embeds an in-browser code editor and automated test runner.
+> <Notice type="warning">TryCode is strictly reserved for frontend JavaScript/TypeScript interview problems. Do not use for DSA theory or compiled languages.</Notice>
+
+#### Step 1: Create Problem Definition
+Create `src/problems/frontend/<problem-id>.ts`:
+
+```typescript
+const problem = {
+  id: "array-unique",
+  title: "Remove Duplicates While Preserving Order",
+  starterCode: `function solution(nums) {\n  // Write your code here\n  return [];\n}`,
+  tests: [
+    { input: [[1, 2, 2, 3, 1, 4]], expected: [1, 2, 3, 4] },
+    { input: [[5, 5, 5]], expected: [5] }
+  ]
+};
+
+export default problem;
+```
+
+#### Step 2: Embed in any MDX Article
+
+```mdx
+<TryCode problemId="array-unique" />
+```
+
+</Tab>
+
+<Tab name="6. Roadmap Track">
+
+### Adding or Updating a Roadmap Category
+
+When introducing a new major learning track (e.g., `AI-Engineering`), synchronize these files:
+
+1. **`src/config/roadmapOrder.json`**: Add the new key with its list of series IDs.
+2. **`src/content/series/<id>.json`**: Set `"category": "AI-Engineering"`.
+3. **`src/pages/roadmaps.astro`**: Add category tab and filter badge.
+4. **`src/pages/courses/index.astro`**: Add category filter button.
+5. **`src/content/articles/-index.md`**: Add category to allowed values list.
 
 </Tab>
 
@@ -192,64 +224,261 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 ---
 
-### Table
+## 3. Interactive MDX Component Catalog
 
-| #   |    First     |     Last     |       Handle |
-| :-- | :----------: | :----------: | -----------: |
-| 1   | Row:1 Cell:1 | Row:1 Cell:2 | Row:1 Cell:3 |
-| 2   | Row:2 Cell:1 | Row:2 Cell:2 | Row:2 Cell:3 |
-| 3   | Row:3 Cell:1 | Row:3 Cell:2 | Row:3 Cell:3 |
+All components below are auto-imported and immediately available in any `.mdx` file without manual `import` statements.
+
+### 3.1 Notice Callouts (`<Notice>`)
+
+Use callout boxes to draw attention to notes, best practices, tips, or critical warnings.
+
+<Notice type="note">
+**Note Callout**: Use for contextual details, background information, or general notes.
+</Notice>
+
+<Notice type="tip">
+**Tip Callout**: Use for performance optimizations, helpful hints, or time-saving shortcuts.
+</Notice>
+
+<Notice type="info">
+**Info Callout**: Use for important informational updates or reference links.
+</Notice>
+
+<Notice type="warning">
+**Warning Callout**: Use for caveats, breaking changes, or restrictions (e.g., frontend-only constraints).
+</Notice>
+
+#### Usage Code
+
+```mdx
+<Notice type="note">This is a note callout.</Notice>
+<Notice type="tip">This is a helpful tip.</Notice>
+<Notice type="info">This is an informational announcement.</Notice>
+<Notice type="warning">This is a critical warning.</Notice>
+```
 
 ---
 
-### Collapse
+### 3.2 Badges (`<Badge>`)
 
-<Accordion title="Why should you need to do this?">
+Inline status indicators for feature updates, changelogs, or requirements.
 
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
+<p class="flex items-center gap-3">
+  <Badge type="added">added</Badge>
+  <Badge type="changed">changed</Badge>
+  <Badge type="removed">removed</Badge>
+  <Badge type="security">security</Badge>
+</p>
+
+#### Usage Code
+
+```mdx
+<Badge type="added">added</Badge>
+<Badge type="changed">changed</Badge>
+<Badge type="removed">removed</Badge>
+<Badge type="security">security</Badge>
+```
+
+---
+
+### 3.3 Buttons (`<Button>`)
+
+Styled call-to-action buttons for links, documentation, or resource downloads.
+
+<div class="my-4 flex items-center gap-4">
+  <Button href="/roadmaps" style="solid">Explore Roadmaps</Button>
+  <Button href="/courses" style="outline">Browse Courses</Button>
+</div>
+
+#### Usage Code
+
+```mdx
+<Button href="/roadmaps" style="solid">Explore Roadmaps</Button>
+<Button href="/courses" style="outline">Browse Courses</Button>
+```
+
+---
+
+### 3.4 Accordions (`<Accordion>`)
+
+Expandable accordion container for FAQs, solutions, or deep-dive collapsible explanations.
+
+<Accordion title="When should I use a Series instead of a Standalone Article?">
+
+Create a **Series** when:
+- The content consists of multiple sequential lessons or chapters.
+- You need a persistent sidebar navigation and previous/next chapter progression.
+- The course belongs to a categorized learning path on `/roadmaps`.
+
+Create a **Standalone Article** when:
+- It is a single project, quick tutorial, or independent deep dive.
+- It does not require a sidebar syllabus.
 
 </Accordion>
 
-<Accordion title="How can I adjust Horizontal centering">
+<Accordion title="How do I mark a lesson as planned/locked in a course?">
 
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
+In `src/content/series/<id>.json`, set `"status": "planned"` on the link object:
 
-</Accordion>
+```json
+{
+  "type": "articles",
+  "url": "distributed-consensus",
+  "title": "Distributed Consensus (Raft & Paxos)",
+  "status": "planned"
+}
+```
 
-<Accordion title="Should you use Negative margin?">
-
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
-- This is a thing.
+This displays the lesson with a lock icon and disables navigation until it is published.
 
 </Accordion>
 
+#### Usage Code
+
+```mdx
+<Accordion title="Your Accordion Title Here">
+  Your collapsible explanation, code snippets, or list items go here.
+</Accordion>
+```
+
 ---
 
-### Image
+### 3.5 Tabs (`<Tabs>` & `<Tab>`)
 
-![image](/images/shape.png)
+Clean multi-panel switcher for tabbed content (e.g. comparing languages, alternatives, or multi-step flows).
+
+<Tabs>
+
+<Tab name="TypeScript">
+
+```typescript
+interface User {
+  id: string;
+  name: string;
+  role: "admin" | "engineer";
+}
+
+const user: User = { id: "1", name: "Arjit", role: "engineer" };
+```
+
+</Tab>
+
+<Tab name="Python">
+
+```python
+from dataclasses import dataclass
+from typing import Literal
+
+@dataclass
+class User:
+    id: str
+    name: str
+    role: Literal["admin", "engineer"]
+
+user = User(id="1", name="Arjit", role="engineer")
+```
+
+</Tab>
+
+<Tab name="Go">
+
+```go
+type User struct {
+    ID   string `json:"id"`
+    Name string `json:"name"`
+    Role string `json:"role"`
+}
+```
+
+</Tab>
+
+</Tabs>
+
+#### Usage Code
+
+````mdx
+<Tabs>
+
+<Tab name="Tab 1">
+Content for tab 1...
+</Tab>
+
+<Tab name="Tab 2">
+Content for tab 2...
+</Tab>
+
+</Tabs>
+````
 
 ---
 
-### Youtube video
+### 3.6 Interactive TryCode Runner (`<TryCode>`)
 
-<Youtube id="uzR3VB1kfMw" title="Play:Youtube" />
+Live, in-browser Monaco-based code editor and test runner for frontend JavaScript drills.
+
+<TryCode problemId="array-unique" />
+
+#### Usage Code
+
+```mdx
+<TryCode problemId="array-unique" />
+```
+
 ---
 
-### Custom video
+### 3.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
 
-<Video
-  width="100%"
-  src="https://joy1.videvo.net/videvo_files/video/free/video0467/large_watermarked/_import_61516692993d77.04238324_preview.mp4"
-/>
+Responsive 16:9 media embeds with lazy loading.
+
+<Youtube id="uzR3VB1kfMw" title="Demo Video" />
+
+#### Usage Code
+
+```mdx
+<!-- YouTube Embed (Responsive 16:9) -->
+<Youtube id="uzR3VB1kfMw" title="Introduction to Distributed Systems" />
+
+<!-- Local or Remote HTML5 Video -->
+<Video src="https://joy1.videvo.net/videvo_files/video/free/video0467/large_watermarked/_import_61516692993d77.04238324_preview.mp4" title="System Demo" />
+```
+
+---
+
+## 4. Standard Typography & Layout Elements
+
+### Headings Hierarchy
+
+# Heading 1 (`# Heading 1`)
+## Heading 2 (`## Heading 2`)
+### Heading 3 (`### Heading 3`)
+#### Heading 4 (`#### Heading 4`)
+
+---
+
+### Formatted Tables
+
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :---: |
+| `GET` | `/api/questions.json` | Returns all interview questions with optimized images | No |
+| `GET` | `/api/courses.json` | Returns all courses and lesson metadata | No |
+| `POST` | `/api/feedback` | Submits feedback on article accuracy | Yes |
+
+---
+
+### Blockquotes
+
+> "Premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%."
+> — Donald Knuth
+
+---
+
+### Pre-Publish Checklist
+
+Before committing or pushing new content:
+
+- [ ] File created in the designated folder (`articles/`, `series/`, `shorts/`, etc.).
+- [ ] Frontmatter strictly validated against `src/content/config.ts`.
+- [ ] `series` field matches the exact JSON course ID (if part of a course).
+- [ ] `roadmapOrder.json` updated with new series ID (if applicable).
+- [ ] `draft: false` set for all live content.
+- [ ] Reusable components verified on this `/elements` page.
