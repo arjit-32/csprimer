@@ -1,0 +1,258 @@
+---
+// RevisionSheetsShowcase.astro - Live User Sheet (if exists) or Interactive Demo Sheet (minimal)
+---
+
+<section class="section revision-sheets-showcase py-12 md:py-16 bg-[#fafafa] relative overflow-hidden border-t border-zinc-200/80" id="revision-sheets-section">
+  <div class="container mx-auto px-4 max-w-4xl">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-xl mx-auto mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+        Active Recall
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black font-secondary text-zinc-900 tracking-tight leading-tight">
+        Revision Sheets
+      </h2>
+      <p class="text-zinc-600 text-xs sm:text-sm mt-1.5 leading-relaxed">
+        Curated topic sheets with automated 1-3-7-14 day spaced repetition.
+      </p>
+    </div>
+
+    <!-- The Sheet Container (Populated dynamically on client) -->
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-zinc-200/90 shadow-sm overflow-hidden p-5 sm:p-7">
+      
+      <!-- Sheet Top Bar -->
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-100 mb-4">
+        <div class="flex items-center gap-2.5">
+          <span id="sheetStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 id="sheetTitle" class="text-base sm:text-lg font-bold font-secondary text-zinc-900 leading-none">
+                DSA &amp; Full-Stack Core Sheet
+              </h3>
+              <span id="sheetBadge" class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-zinc-100 text-zinc-600 border border-zinc-200">
+                Demo Preview
+              </span>
+            </div>
+            <p id="sheetSub" class="text-[11px] text-zinc-400 mt-1">
+              Spaced Repetition Schedule (1-3-7-14 Days)
+            </p>
+          </div>
+        </div>
+
+        <a
+          href="/revision"
+          class="text-xs font-bold text-[#FE6019] hover:underline flex items-center gap-1 shrink-0 no-underline"
+        >
+          <span>Open Full Sheet</span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mastery Progress Bar -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <span class="text-zinc-500 font-medium">Mastery Progress</span>
+          <span id="sheetProgressText" class="font-mono font-bold text-zinc-900">
+            18 / 24 Mastered (75%)
+          </span>
+        </div>
+        <div class="w-full bg-zinc-100 h-2 rounded-full overflow-hidden border border-zinc-200/80">
+          <div
+            id="sheetProgressBar"
+            class="h-full rounded-full bg-gradient-to-r from-[#FE6019] to-emerald-500 transition-all duration-700 ease-out"
+            style="width: 75%;"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Topics Table Preview -->
+      <div class="rounded-xl border border-zinc-200/80 bg-zinc-50/60 p-2 sm:p-3 divide-y divide-zinc-200/60" id="sheetTopicsList">
+        <!-- Default Demo Items (Overwritten dynamically if user has an active sheet) -->
+        <div class="py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+              <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 111.414-1.414L8.5 11.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="truncate font-medium text-zinc-700 line-through opacity-80">
+              Two Pointers &amp; Sliding Window
+            </span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold shrink-0">
+            Mastered
+          </span>
+        </div>
+
+        <div class="py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+              <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 111.414-1.414L8.5 11.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="truncate font-medium text-zinc-700 line-through opacity-80">
+              PostgreSQL B-Tree Indexing &amp; Query Plans
+            </span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold shrink-0">
+            Mastered
+          </span>
+        </div>
+
+        <div class="py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-4 h-4 rounded-full bg-orange-100 text-[#FE6019] flex items-center justify-center shrink-0 animate-pulse">
+              <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="truncate font-semibold text-zinc-900">
+              Docker Multi-Stage Container Builds
+            </span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-orange-100 text-[#FE6019] font-bold shrink-0">
+            Due Today
+          </span>
+        </div>
+
+        <div class="py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-4 h-4 rounded-full border border-zinc-300 bg-white shrink-0"></span>
+            <span class="truncate font-medium text-zinc-800">
+              Virtual Memory &amp; Page Table Invalidation
+            </span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-100 text-zinc-500 font-semibold shrink-0">
+            Day 3 Review
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="mt-5 pt-3 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <span id="sheetHintText" class="text-zinc-500 text-center sm:text-left">
+          Previewing sample sheet. Create your personal sheet to track real spaced repetition.
+        </span>
+        <a
+          id="sheetCtaBtn"
+          href="/revision"
+          class="btn btn-primary btn-sm flex items-center gap-1.5 shadow-sm hover:shadow text-xs py-2 h-auto rounded-full font-bold whitespace-nowrap"
+        >
+          <span id="sheetCtaText">Launch Revision Center</span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function initRevisionShowcase() {
+    const SESSIONS_STORAGE_KEY = "dsa_revision_planner_sessions";
+    const ACTIVE_SESSION_STORAGE_KEY = "dsa_revision_planner_active_id";
+
+    const titleEl = document.getElementById("sheetTitle");
+    const badgeEl = document.getElementById("sheetBadge");
+    const subEl = document.getElementById("sheetSub");
+    const progressTextEl = document.getElementById("sheetProgressText");
+    const progressBarEl = document.getElementById("sheetProgressBar");
+    const topicsListEl = document.getElementById("sheetTopicsList");
+    const hintTextEl = document.getElementById("sheetHintText");
+    const ctaTextEl = document.getElementById("sheetCtaText");
+    const dotEl = document.getElementById("sheetStatusDot");
+
+    if (!titleEl || !topicsListEl) return;
+
+    try {
+      const rawSessions = JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY) || "{}");
+      const activeId = localStorage.getItem(ACTIVE_SESSION_STORAGE_KEY);
+      const sessionKeys = Object.keys(rawSessions);
+
+      if (sessionKeys.length === 0) return; // Keep demo sheet
+
+      // Get user session
+      const userSession = (activeId && rawSessions[activeId]) || rawSessions[sessionKeys[0]];
+      if (!userSession || !Array.isArray(userSession.items) || userSession.items.length === 0) return;
+
+      const items: any[] = userSession.items;
+      const targetFrequency = userSession.targetFrequency || 4;
+      const masteredCount = items.filter((it: any) => (it.revisionsDone || 0) >= targetFrequency).length;
+      const progressPercent = Math.round((masteredCount / items.length) * 100);
+
+      // Update Header with Real User Data
+      titleEl.textContent = userSession.name || "Your Revision Sheet";
+      if (badgeEl) {
+        badgeEl.textContent = "Your Active Sheet";
+        badgeEl.className = "text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200";
+      }
+      if (subEl) {
+        subEl.textContent = `${userSession.scheduleType || "1-3-7-14"} Schedule • ${items.length} Total Topics`;
+      }
+      if (dotEl) {
+        dotEl.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
+      }
+
+      // Update Progress
+      if (progressTextEl) {
+        progressTextEl.textContent = `${masteredCount} / ${items.length} Mastered (${progressPercent}%)`;
+      }
+      if (progressBarEl) {
+        progressBarEl.style.width = `${progressPercent}%`;
+      }
+
+      // Render Top 4-5 items from user's actual sheet
+      const displayItems = items.slice(0, 5);
+      topicsListEl.innerHTML = displayItems
+        .map((it) => {
+          const isMastered = (it.revisionsDone || 0) >= targetFrequency;
+          return `
+            <div class="py-2.5 first:pt-1 last:pb-1 flex items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-4 h-4 rounded-full ${
+                  isMastered ? "bg-emerald-100 text-emerald-600" : "border border-zinc-300 bg-white"
+                } flex items-center justify-center shrink-0">
+                  ${
+                    isMastered
+                      ? `<svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 111.414-1.414L8.5 11.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>`
+                      : ""
+                  }
+                </span>
+                <span class="truncate ${isMastered ? "font-medium text-zinc-700 line-through opacity-80" : "font-semibold text-zinc-900"}">
+                  ${it.title || "Topic"}
+                </span>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded ${
+                isMastered
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold"
+                  : "bg-zinc-100 text-zinc-500 font-semibold"
+              } shrink-0">
+                ${isMastered ? "Mastered" : `Review #${(it.revisionsDone || 0) + 1}`}
+              </span>
+            </div>
+          `;
+        })
+        .join("");
+
+      // Update CTA
+      if (hintTextEl) {
+        hintTextEl.textContent = `You have ${items.length - masteredCount} topics pending review in this sheet.`;
+      }
+      if (ctaTextEl) {
+        ctaTextEl.textContent = "Continue Revision";
+      }
+    } catch (e) {
+      console.error("Error reading revision storage", e);
+    }
+  }
+
+  document.addEventListener("astro:page-load", initRevisionShowcase);
+</script>

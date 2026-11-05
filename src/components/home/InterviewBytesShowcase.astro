@@ -1,0 +1,313 @@
+---
+// InterviewBytesShowcase.astro - Minimal Tinder-style Stacked Cards for Interview Questions
+const questions = [
+  {
+    id: 1,
+    topic: "Node.js",
+    color: "#10b981",
+    badgeBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    question: "How does the Node.js event loop handle asynchronous tasks while staying single-threaded?",
+    summary: "Node.js offloads non-blocking I/O to libuv threadpool. Callbacks are placed into event loop queues (timers, poll, check) and executed only when the main stack clears.",
+    code: `console.log("1");
+setTimeout(() => console.log("2"), 0);
+Promise.resolve().then(() => console.log("3"));
+console.log("4"); // Result: 1 -> 4 -> 3 -> 2`,
+  },
+  {
+    id: 2,
+    topic: "Databases",
+    color: "#08bdea",
+    badgeBg: "bg-sky-50 text-sky-700 border-sky-200",
+    question: "How does a B-Tree index accelerate lookup queries compared to full table scans?",
+    summary: "B-Trees keep keys sorted with balanced tree depth and high fan-out. Lookups require O(log N) page reads instead of scanning all disk pages sequentially.",
+    code: `EXPLAIN ANALYZE 
+SELECT * FROM users WHERE email = 'dev@csprimer.in';
+-- Index Scan using users_email_idx (0.04ms)`,
+  },
+  {
+    id: 3,
+    topic: "Operating Systems",
+    color: "#a855f7",
+    badgeBg: "bg-purple-50 text-purple-700 border-purple-200",
+    question: "What is the key architectural difference between a Process and a Thread?",
+    summary: "Processes own isolated virtual memory address spaces and file descriptors. Threads share the parent process's heap and code but maintain their own call stack.",
+    code: `// Process: fork() creates isolated memory space
+pid_t pid = fork();
+// Thread: pthread_create() shares heap memory
+pthread_create(&tid, NULL, worker_fn, NULL);`,
+  },
+  {
+    id: 4,
+    topic: "JavaScript",
+    color: "#ef4444",
+    badgeBg: "bg-red-50 text-red-700 border-red-200",
+    question: "Is V8 just a JavaScript compiler? How does JIT optimization improve performance?",
+    summary: "V8 is a complete runtime. Ignition interprets baseline bytecode while TurboFan JIT-compiles frequently executed hot loops directly into optimized machine code.",
+    code: `function add(a, b) {
+  return a + b; // Monomorphic function -> JIT optimized
+}`,
+  },
+  {
+    id: 5,
+    topic: "System Design",
+    color: "#f59e0b",
+    badgeBg: "bg-amber-50 text-amber-700 border-amber-200",
+    question: "What is the difference between Strong Consistency and Eventual Consistency?",
+    summary: "Strong consistency guarantees every read receives the most recent write. Eventual consistency allows temporary replication lag across replica nodes.",
+    code: `// CAP Theorem Trade-off:
+// CP: Consistent + Partition Tolerant (Blocks on partition)
+// AP: Available + Partition Tolerant (Eventual consistency)`,
+  },
+];
+---
+
+<section class="section interview-bytes-showcase py-12 md:py-16 bg-white relative overflow-hidden border-t border-zinc-100" id="interview-bytes-section">
+  <div class="container mx-auto px-4 max-w-4xl text-center">
+    
+    <!-- Section Header -->
+    <div class="max-w-xl mx-auto mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+        Bite-Sized Prep
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black font-secondary text-zinc-900 tracking-tight leading-tight">
+        Interview Bytes
+      </h2>
+      <p class="text-zinc-600 text-xs sm:text-sm mt-1.5 leading-relaxed">
+        Swipe through high-yield interview questions with instant answer reveals.
+      </p>
+    </div>
+
+    <!-- Tinder-Style Compact Stack Container -->
+    <div class="relative max-w-md mx-auto h-[400px] flex items-center justify-center">
+      
+      <!-- Hidden Questions Data -->
+      <div id="tinderQuestionsData" class="hidden">
+        {JSON.stringify(questions)}
+      </div>
+
+      <!-- The 3 Visual Stack Layers -->
+      <!-- Layer 3 (Bottom Card) -->
+      <div id="tinderCard2" class="tinder-card-layer absolute w-full rounded-2xl border border-zinc-200 bg-zinc-50 shadow-sm pointer-events-none transition-all duration-300">
+        <div class="h-64 p-6 flex flex-col justify-between opacity-30">
+          <div class="h-4 w-20 bg-zinc-200 rounded"></div>
+          <div class="h-6 w-3/4 bg-zinc-200 rounded"></div>
+          <div class="h-4 w-1/2 bg-zinc-200 rounded"></div>
+        </div>
+      </div>
+
+      <!-- Layer 2 (Middle Card) -->
+      <div id="tinderCard1" class="tinder-card-layer absolute w-full rounded-2xl border border-zinc-200 bg-zinc-50 shadow-sm pointer-events-none transition-all duration-300">
+        <div class="h-64 p-6 flex flex-col justify-between opacity-60">
+          <div class="h-4 w-24 bg-zinc-200 rounded"></div>
+          <div class="h-6 w-5/6 bg-zinc-200 rounded"></div>
+          <div class="h-4 w-2/3 bg-zinc-200 rounded"></div>
+        </div>
+      </div>
+
+      <!-- Layer 1 (Top Active Card) -->
+      <div 
+        id="tinderCard0" 
+        class="tinder-card-layer active-card absolute w-full rounded-2xl border border-zinc-200/90 bg-white shadow-xl p-5 sm:p-6 text-left transition-all duration-300 flex flex-col justify-between cursor-grab"
+      >
+        <!-- Card Top Meta -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span id="tinderCardTopic" class="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded border bg-emerald-50 text-emerald-700 border-emerald-200">
+              Node.js
+            </span>
+            <span id="tinderCardCounter" class="text-xs font-mono text-zinc-400 font-bold">
+              1 / 5
+            </span>
+          </div>
+
+          <!-- Question Prompt -->
+          <h3 id="tinderCardQuestion" class="text-sm sm:text-base font-bold text-zinc-900 font-secondary leading-snug">
+            How does the Node.js event loop handle asynchronous tasks while staying single-threaded?
+          </h3>
+        </div>
+
+        <!-- Answer Reveal Box (Collapsible / Toggleable) -->
+        <div id="tinderAnswerDrawer" class="hidden mt-3 pt-3 border-t border-zinc-100 transition-all duration-300">
+          <p id="tinderCardSummary" class="text-xs text-zinc-600 leading-relaxed">
+            Node.js offloads non-blocking I/O to libuv threadpool. Callbacks are placed into event loop queues and executed only when the main stack clears.
+          </p>
+          <div class="mt-2 bg-zinc-900 text-zinc-200 rounded-xl p-2.5 text-[10px] font-mono leading-relaxed overflow-x-auto border border-zinc-800">
+            <pre id="tinderCardCode" class="whitespace-pre overflow-x-auto scrollbar-none text-zinc-300"></pre>
+          </div>
+        </div>
+
+        <!-- Card Footprint Bar -->
+        <div class="mt-4 pt-2.5 border-t border-zinc-100 flex items-center justify-between text-xs">
+          <button
+            type="button"
+            id="tinderToggleAnswerBtn"
+            class="text-[#FE6019] hover:text-orange-600 font-bold flex items-center gap-1 cursor-pointer focus:outline-none"
+          >
+            <span id="tinderToggleText">💡 Show Answer</span>
+          </button>
+          <a
+            href="/interview-bytes"
+            class="text-zinc-500 hover:text-zinc-900 font-medium flex items-center gap-0.5 no-underline"
+          >
+            <span>Full Q&amp;A</span>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tinder Bottom Controls -->
+    <div class="mt-4 flex items-center justify-center gap-4">
+      <!-- Pass / Next Question Button -->
+      <button
+        type="button"
+        id="tinderPassBtn"
+        class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer"
+        title="Pass to Next Question"
+      >
+        <span class="text-rose-500 font-black">✕</span>
+        <span>Next Question</span>
+      </button>
+
+      <!-- Got It / Practice Button -->
+      <a
+        href="/interview-bytes"
+        id="tinderGotItBtn"
+        class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#FE6019] to-orange-500 text-white text-xs font-bold shadow-sm hover:shadow-md hover:scale-105 transition-all no-underline"
+        title="Explore all questions"
+      >
+        <span>Practice All 100+</span>
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Dots indicator -->
+    <div class="flex items-center justify-center gap-1.5 mt-4" id="tinderDots">
+      {questions.map((_, i) => (
+        <span class={`tinder-dot w-2 h-2 rounded-full transition-all ${i === 0 ? "bg-[#FE6019] scale-125" : "bg-zinc-200"}`}></span>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* 3D Stack Layer Styling */
+  #tinderCard2 {
+    transform: translateY(18px) scale(0.92);
+    z-index: 10;
+  }
+  #tinderCard1 {
+    transform: translateY(9px) scale(0.96);
+    z-index: 20;
+  }
+  #tinderCard0 {
+    transform: translateY(0) scale(1);
+    z-index: 30;
+  }
+
+  /* Fly out animation */
+  .swipe-out-left {
+    transform: translateX(-120%) rotate(-15deg) !important;
+    opacity: 0 !important;
+  }
+  .swipe-out-right {
+    transform: translateX(120%) rotate(15deg) !important;
+    opacity: 0 !important;
+  }
+</style>
+
+<script>
+  function initTinderCards() {
+    const dataEl = document.getElementById("tinderQuestionsData");
+    const card0 = document.getElementById("tinderCard0");
+    const topicEl = document.getElementById("tinderCardTopic");
+    const counterEl = document.getElementById("tinderCardCounter");
+    const questionEl = document.getElementById("tinderCardQuestion");
+    const answerDrawer = document.getElementById("tinderAnswerDrawer");
+    const summaryEl = document.getElementById("tinderCardSummary");
+    const codeEl = document.getElementById("tinderCardCode");
+    const toggleAnswerBtn = document.getElementById("tinderToggleAnswerBtn");
+    const toggleText = document.getElementById("tinderToggleText");
+    const passBtn = document.getElementById("tinderPassBtn");
+    const dots = document.querySelectorAll(".tinder-dot");
+
+    if (!dataEl || !card0 || !topicEl || !counterEl || !questionEl) return;
+
+    let questionsList: any[] = [];
+    try {
+      questionsList = JSON.parse(dataEl.textContent || "[]");
+    } catch (e) {
+      return;
+    }
+
+    if (!questionsList.length) return;
+
+    let currentIndex = 0;
+    let isAnswerVisible = false;
+
+    function renderCard(index: number) {
+      const q = questionsList[index];
+      if (!q) return;
+
+      topicEl!.textContent = q.topic;
+      topicEl!.className = `text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded border ${q.badgeBg}`;
+      counterEl!.textContent = `${index + 1} / ${questionsList.length}`;
+      questionEl!.textContent = q.question;
+      summaryEl!.textContent = q.summary;
+      codeEl!.textContent = q.code;
+
+      // Reset answer drawer
+      isAnswerVisible = false;
+      answerDrawer?.classList.add("hidden");
+      if (toggleText) toggleText.textContent = "💡 Show Answer";
+
+      // Update dots
+      dots.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add("bg-[#FE6019]", "scale-125");
+          dot.classList.remove("bg-zinc-200");
+        } else {
+          dot.classList.remove("bg-[#FE6019]", "scale-125");
+          dot.classList.add("bg-zinc-200");
+        }
+      });
+    }
+
+    // Toggle Answer
+    toggleAnswerBtn?.addEventListener("click", () => {
+      isAnswerVisible = !isAnswerVisible;
+      if (isAnswerVisible) {
+        answerDrawer?.classList.remove("hidden");
+        if (toggleText) toggleText.textContent = "✕ Hide Answer";
+      } else {
+        answerDrawer?.classList.add("hidden");
+        if (toggleText) toggleText.textContent = "💡 Show Answer";
+      }
+    });
+
+    // Next Card (Tinder swipe effect)
+    function nextCard(direction = "left") {
+      card0?.classList.add(direction === "left" ? "swipe-out-left" : "swipe-out-right");
+
+      setTimeout(() => {
+        card0?.classList.remove("swipe-out-left", "swipe-out-right");
+        currentIndex = (currentIndex + 1) % questionsList.length;
+        renderCard(currentIndex);
+      }, 250);
+    }
+
+    passBtn?.addEventListener("click", () => nextCard("left"));
+
+    // Initial render
+    renderCard(currentIndex);
+  }
+
+  document.addEventListener("astro:page-load", initTinderCards);
+</script>
