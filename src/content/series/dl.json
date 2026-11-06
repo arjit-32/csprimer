@@ -41,31 +41,24 @@
           "title": "Number System"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "DL Handwritten Notes",
+      "url": "/articles/dl-handwritten-notes"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "articles",
-          "url": "dl-handwritten-notes",
-          "title": "DL Handwritten Notes"
-        },
-        {
-          "type": "external",
-          "url": "https://www.cburch.com/logisim/",
-          "title": "A cool tool"
-        },
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/watch?v=nB6724G3b3E",
-          "title": "Build Logic Gates"
-        },
-        {
-          "type": "external",
-          "url": "https://youtube.com/playlist?list=PLNpQfWftj0-f0K1GLAGNnlhCGNFy4MM8F&si=Bg04i30yjKnq-JG5",
-          "title": "Arjit's Crash Course"
-        }
-      ]
+      "title": "A cool tool",
+      "url": "https://www.cburch.com/logisim/"
+    },
+    {
+      "title": "Build Logic Gates",
+      "url": "https://www.youtube.com/watch?v=nB6724G3b3E"
+    },
+    {
+      "title": "Arjit's Crash Course",
+      "url": "https://youtube.com/playlist?list=PLNpQfWftj0-f0K1GLAGNnlhCGNFy4MM8F&si=Bg04i30yjKnq-JG5"
     }
   ]
 }

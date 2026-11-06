@@ -6,7 +6,7 @@
   "category": "Development",
   "ongoing": false,
   "status": "planned",
-  "weight": 14,
+  "weight": 8,
   "navbar": [
     {
       "subheading": "Introduction to Production Grade Engineering",
@@ -23,5 +23,6 @@
         }
       ]
     }
-  ]
+  ],
+  "time": ""
 }

@@ -10,6 +10,9 @@
     <div class="flex flex-col">
       <h3 id="drawer-course-title" class="text-xl font-bold text-zinc-900 leading-tight">Course Title</h3>
       <p id="drawer-course-desc" class="text-xs text-zinc-500 mt-1 line-clamp-2">Course description goes here.</p>
+      <a id="drawer-course-page-link" href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-[#FE6019] hover:underline mt-2">
+        View Full Course & Resources &rarr;
+      </a>
     </div>
     <button id="close-drawer-btn" class="p-2 -mr-2 text-zinc-400 hover:text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-full transition-colors">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,6 +34,7 @@
     const closeBtn = document.getElementById('close-drawer-btn');
     const drawerTitle = document.getElementById('drawer-course-title');
     const drawerDesc = document.getElementById('drawer-course-desc');
+    const drawerCoursePageLink = document.getElementById('drawer-course-page-link') as HTMLAnchorElement | null;
     const drawerContent = document.getElementById('drawer-content');
 
     if (!drawer || !backdrop) return;
@@ -39,6 +43,9 @@
       // Populate Data
       if (drawerTitle) drawerTitle.textContent = courseData.title;
       if (drawerDesc) drawerDesc.textContent = courseData.description;
+      if (drawerCoursePageLink && courseData.id) {
+        drawerCoursePageLink.href = `/courses/${courseData.id}`;
+      }
       
       if (drawerContent) {
         drawerContent.innerHTML = ''; // Clear old content

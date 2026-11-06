@@ -51,6 +51,11 @@ const seriesCollection = defineCollection({
         status: articleStatusEnum,
       })),
     })),
+    resources: z.array(z.object({
+      title: z.string(),
+      url: z.string(),
+      description: z.string().optional(),
+    })).optional(),
   }),
 });
 

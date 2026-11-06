@@ -1,6 +1,6 @@
 {
   "ongoing": false,
-  "weight": 3,
+  "weight": 9,
   "title": "Typescript",
   "image": "../../assets/images/thumbnails/typescript.webp",
   "subtitle": "Typescript in depth",
@@ -23,5 +23,6 @@
         }
       ]
     }
-  ]
+  ],
+  "time": ""
 }

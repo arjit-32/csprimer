@@ -46,21 +46,16 @@
           "title": "Decidability & Computability"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "TOC Handwritten Notes",
+      "url": "/articles/toc-handwritten-notes"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "articles",
-          "url": "toc-handwritten-notes",
-          "title": "TOC Handwritten Notes"
-        },
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta",
-          "title": "Jeff Ullman - Stanford lectures"
-        }
-      ]
+      "title": "Jeff Ullman - Stanford lectures",
+      "url": "https://www.youtube.com/playlist?list=PLlcKBuC3E3X0lStB3FqghE5ylLDTukTta"
     }
   ]
 }

@@ -146,21 +146,16 @@
           "title": "Map Interface"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "Collection Framework (Riddhi Dutta)",
+      "url": "https://youtu.be/VE_AAUxTUCY?si=FVl5nu3KqGxHwrJB"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://youtu.be/VE_AAUxTUCY?si=FVl5nu3KqGxHwrJB",
-          "title": "Collection Framework (Riddhi Dutta)"
-        },
-        {
-          "type": "external",
-          "url": "https://www.tpointtech.com/java-tutorial",
-          "title": "JavaTPoint Series"
-        }
-      ]
+      "title": "JavaTPoint Series",
+      "url": "https://www.tpointtech.com/java-tutorial"
     }
   ]
 }

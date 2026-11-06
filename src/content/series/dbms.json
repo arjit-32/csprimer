@@ -46,16 +46,12 @@
           "title": "Transactions & Concurrency Control"
         }
       ]
-    },
+    }
+  ],
+  "resources": [
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0&si=42VBm36ZqOD5y5_P",
-          "title": "CS50's DBMS course"
-        }
-      ]
+      "title": "CS50's DBMS course",
+      "url": "https://youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0&si=42VBm36ZqOD5y5_P"
     }
   ]
 }

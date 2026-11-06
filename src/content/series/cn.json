@@ -4,7 +4,7 @@
   "title": "Computer Networks",
   "image": "../../assets/images/thumbnails/CN.webp",
   "subtitle": "Unravel the backbone of digital communication",
-  "description": "Explore the architecture, protocols, and layers that make modern networking possible\u2014from applications to routers, and everything in between.",
+  "description": "Explore the architecture, protocols, and layers that make modern networking possible—from applications to routers, and everything in between.",
   "category": "Core-CS",
   "navbar": [
     {
@@ -116,16 +116,12 @@
           "title": "Link Layer Overview"
         }
       ]
-    },
+    }
+  ],
+  "resources": [
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
-          "title": "Jim Kurose Playlist"
-        }
-      ]
+      "title": "Jim Kurose Playlist",
+      "url": "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O"
     }
   ]
 }

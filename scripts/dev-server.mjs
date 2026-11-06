@@ -10,13 +10,14 @@ import {
   syncSeriesWeights,
   getSeriesDetails,
   saveSeriesNavbar,
+  saveSeriesResources,
   updateSeriesMetadata,
   toggleArticleDraft,
   getSiteStats,
   CANONICAL_CATEGORIES
 } from './scaffold.mjs';
 
-const PORT = 4322;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4322;
 
 const HTML_DASHBOARD = `
 <!DOCTYPE html>
@@ -505,7 +506,7 @@ const HTML_DASHBOARD = `
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('series-cards')">1. 📚 Course Series Cards</button>
-    <button class="tab-btn" onclick="switchTab('syllabus')">2. 📖 Syllabus & Lessons</button>
+    <button class="tab-btn" onclick="switchTab('syllabus')">2. 📖 Syllabus & Resources</button>
     <button class="tab-btn" onclick="switchTab('article')">3. ✍️ Create Article / Project</button>
     <button class="tab-btn" onclick="switchTab('roadmap-order')">4. 🗺️ Reorder Roadmaps</button>
     <button class="tab-btn" onclick="switchTab('new-series')">5. ➕ New Series</button>
@@ -536,12 +537,12 @@ const HTML_DASHBOARD = `
       <div class="series-grid" id="series-grid-container"></div>
     </div>
 
-    <!-- 2. Course Syllabus & Lessons Manager -->
+    <!-- 2. Course Syllabus & Resources Manager -->
     <div id="panel-syllabus" class="tab-panel">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <h3 style="font-size: 1.25rem; font-weight: 800;">📖 Syllabus & Lesson Progression</h3>
-          <p class="hint">Organize chapter sections, reorder lessons, and manage unassigned article files.</p>
+          <h3 style="font-size: 1.25rem; font-weight: 800;">📖 Syllabus & Resources Progression</h3>
+          <p class="hint">Organize chapter sections, reorder lessons, manage course-exclusive resources, and resolve unassigned articles.</p>
         </div>
         <select id="syl-series-select" onchange="loadCourseSyllabus()" style="width: 260px; font-weight: 600;"></select>
       </div>
@@ -944,6 +945,7 @@ const HTML_DASHBOARD = `
             
             <div class="series-card-meta">
               <span class="hint">📖 \${s.lessonCount} lessons</span>
+              <span class="hint">• 📚 \${s.resourceCount || 0} resources</span>
               <span class="hint">• ⏱️ \${s.time || 'N/A'}</span>
               <span class="hint">• ⚖️ Weight: \${s.weight}</span>
               <span class="pill-ongoing \${s.ongoing ? 'active' : 'inactive'}" onclick="toggleOngoing('\${s.id}', \${!s.ongoing})" title="Click to toggle On-going status">
@@ -965,7 +967,7 @@ const HTML_DASHBOARD = `
 
             <div class="series-card-controls">
               <button class="btn-secondary" onclick="openEditModal('\${s.id}')">✏️ Edit Details</button>
-              <button class="btn-secondary" onclick="jumpToSyllabus('\${s.id}')">📖 Syllabus</button>
+              <button class="btn-secondary" onclick="jumpToSyllabus('\${s.id}')">📖 Syllabus & Resources</button>
             </div>
           </div>
         \`;
@@ -1174,6 +1176,9 @@ const HTML_DASHBOARD = `
       try {
         const res = await fetch('/api/series/' + seriesId);
         currentSyllabus = await res.json();
+        if (!Array.isArray(currentSyllabus.resources)) {
+          currentSyllabus.resources = [];
+        }
 
         // Meta Banner
         metaBanner.innerHTML = \`
@@ -1277,13 +1282,78 @@ const HTML_DASHBOARD = `
         container.appendChild(secDiv);
       });
 
+      // ── Dedicated Further Learnings & Resources Section ──
+      const resSec = document.createElement('div');
+      resSec.className = 'resources-editor-box';
+      resSec.style.cssText = 'margin-top: 2rem; background: var(--card-inner); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;';
+      
+      const resources = currentSyllabus.resources || [];
+      
+      resSec.innerHTML = \`
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.25rem;">📚</span>
+              <h4 style="font-size: 1.15rem; font-weight: 800; color: #fff;">Further Learnings & Resources</h4>
+              <span class="badge-local" style="font-size: 0.68rem; padding: 0.2rem 0.6rem; color: #fb7299; border-color: rgba(251,114,153,0.3); background: rgba(251,114,153,0.1);">Course Page Only</span>
+            </div>
+            <p class="hint" style="margin-top: 0.3rem; font-size: 0.82rem;">Special section displayed only on the individual course page (/courses/\${currentSyllabus.id}). Excluded from roadmaps, lesson counts, and progress tracking.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-secondary" onclick="addResourceItem()">+ Add Resource</button>
+            <button class="btn-secondary" onclick="saveCourseResources()">💾 Save Resources Only</button>
+          </div>
+        </div>
+        <div id="syl-resources-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+      \`;
+
+      const resListEl = resSec.querySelector('#syl-resources-list');
+      if (resources.length === 0) {
+        resListEl.innerHTML = \`
+          <div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem; border: 1px dashed var(--border); border-radius: 8px;">
+            No supplementary resources yet. Click "+ Add Resource" to recommend external courses, official docs, books, or handwritten notes.
+          </div>
+        \`;
+      } else {
+        resources.forEach((resItem, rIdx) => {
+          const item = document.createElement('div');
+          item.className = 'reorder-item';
+          item.style.flexDirection = 'column';
+          item.style.alignItems = 'stretch';
+          item.style.gap = '0.5rem';
+
+          item.innerHTML = \`
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 280px;">
+                <span class="reorder-index">#\${rIdx + 1}</span>
+                <input type="text" placeholder="Resource Title (e.g. Stanford Lectures / Book / Notes)" value="\${resItem.title.replace(/"/g, '&quot;')}" onchange="currentSyllabus.resources[\${rIdx}].title = this.value" style="font-weight: 700; font-size: 0.9rem; flex: 1; background: #111827;">
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <button class="icon-btn" onclick="moveResourceItem(\${rIdx}, -1)" \${rIdx === 0 ? 'disabled' : ''} title="Move up">▲</button>
+                <button class="icon-btn" onclick="moveResourceItem(\${rIdx}, 1)" \${rIdx === resources.length - 1 ? 'disabled' : ''} title="Move down">▼</button>
+                <button class="icon-btn" style="color: var(--error);" onclick="removeResourceItem(\${rIdx})" title="Delete resource">✕</button>
+                <a href="\${resItem.url}" target="_blank" class="icon-btn" title="Open resource link" style="text-decoration: none;">↗</a>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 2fr 3fr; gap: 0.6rem;">
+              <input type="text" placeholder="URL (e.g. https://... or /articles/slug)" value="\${resItem.url.replace(/"/g, '&quot;')}" onchange="currentSyllabus.resources[\${rIdx}].url = this.value" style="font-family: monospace; font-size: 0.82rem; background: #111827;">
+              <input type="text" placeholder="Optional brief note/caption..." value="\${(resItem.description || '').replace(/"/g, '&quot;')}" onchange="currentSyllabus.resources[\${rIdx}].description = this.value" style="font-size: 0.82rem; color: var(--text-muted); background: #111827;">
+            </div>
+          \`;
+          resListEl.appendChild(item);
+        });
+      }
+
+      container.appendChild(resSec);
+
       const footer = document.createElement('div');
       footer.style.display = 'flex';
       footer.style.gap = '1rem';
       footer.style.marginTop = '1.5rem';
       footer.innerHTML = \`
         <button class="btn-secondary" onclick="addSyllabusSection()">+ Add Chapter Section</button>
-        <button class="submit-btn" style="margin: 0; flex: 1;" onclick="saveCourseSyllabus()">💾 Save Course Syllabus Order</button>
+        <button class="btn-secondary" onclick="addResourceItem()">+ Add Resource Link</button>
+        <button class="submit-btn" style="margin: 0; flex: 1;" onclick="saveCourseSyllabus()">💾 Save Course Syllabus & Resources</button>
       \`;
       container.appendChild(footer);
     }
@@ -1359,6 +1429,56 @@ const HTML_DASHBOARD = `
       renderSyllabusEditor();
     }
 
+    function addResourceItem() {
+      if (!currentSyllabus.resources) currentSyllabus.resources = [];
+      const title = prompt('Resource Title (e.g. "Alex Aiken - Stanford lectures" or "MIT 6.824"):');
+      if (!title) return;
+      const url = prompt('Resource URL (e.g. https://youtube.com/... or /articles/os-handwritten-notes):');
+      if (!url) return;
+      const desc = prompt('Optional description (or leave empty):', '') || '';
+      currentSyllabus.resources.push({
+        title,
+        url,
+        description: desc
+      });
+      renderSyllabusEditor();
+    }
+
+    function removeResourceItem(rIdx) {
+      if (!confirm('Remove this resource?')) return;
+      currentSyllabus.resources.splice(rIdx, 1);
+      renderSyllabusEditor();
+    }
+
+    function moveResourceItem(rIdx, delta) {
+      const target = rIdx + delta;
+      if (target < 0 || target >= currentSyllabus.resources.length) return;
+      const temp = currentSyllabus.resources[rIdx];
+      currentSyllabus.resources[rIdx] = currentSyllabus.resources[target];
+      currentSyllabus.resources[target] = temp;
+      renderSyllabusEditor();
+    }
+
+    async function saveCourseResources() {
+      hideToast();
+      const seriesId = document.getElementById('syl-series-select').value;
+      try {
+        const res = await fetch('/api/save-resources', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seriesId, resources: currentSyllabus.resources || [] })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        showToast('✅ ' + data.message);
+        const s = allSeries.find(item => item.id === seriesId);
+        if (s) s.resourceCount = (currentSyllabus.resources || []).length;
+        renderSeriesCards();
+      } catch (err) {
+        showToast('❌ Failed to save resources: ' + err.message, true);
+      }
+    }
+
     async function saveCourseSyllabus() {
       hideToast();
       const seriesId = document.getElementById('syl-series-select').value;
@@ -1366,11 +1486,21 @@ const HTML_DASHBOARD = `
         const res = await fetch('/api/save-syllabus', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ seriesId, navbar: currentSyllabus.navbar })
+          body: JSON.stringify({
+            seriesId,
+            navbar: currentSyllabus.navbar,
+            resources: currentSyllabus.resources || []
+          })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
         showToast('✅ ' + data.message);
+        const s = allSeries.find(item => item.id === seriesId);
+        if (s) {
+          s.lessonCount = currentSyllabus.navbar.reduce((acc, sec) => acc + (sec.link ? sec.link.length : 0), 0);
+          s.resourceCount = (currentSyllabus.resources || []).length;
+        }
+        renderSeriesCards();
       } catch (err) {
         showToast('❌ ' + err.message, true);
       }
@@ -1682,7 +1812,12 @@ const server = http.createServer(async (req, res) => {
       }
 
       if (url.pathname === '/api/save-syllabus') {
-        const result = saveSeriesNavbar(payload.seriesId, payload.navbar);
+        const result = saveSeriesNavbar(payload.seriesId, payload.navbar, payload.resources);
+        return sendJSON(res, 200, result);
+      }
+
+      if (url.pathname === '/api/save-resources') {
+        const result = saveSeriesResources(payload.seriesId, payload.resources);
         return sendJSON(res, 200, result);
       }
 

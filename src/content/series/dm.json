@@ -51,26 +51,20 @@
           "title": "Combinatorics"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "DM Handwritten Notes",
+      "url": "/articles/dm-handwritten-notes"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "articles",
-          "url": "dm-handwritten-notes",
-          "title": "DM Handwritten Notes"
-        },
-        {
-          "type": "external",
-          "url": "https://www.coursera.org/specializations/discrete-mathematics",
-          "title": "Coursera Specialization"
-        },
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS",
-          "title": "Trefor Bazett's Playlist"
-        }
-      ]
+      "title": "Coursera Specialization",
+      "url": "https://www.coursera.org/specializations/discrete-mathematics"
+    },
+    {
+      "title": "Trefor Bazett's Playlist",
+      "url": "https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS"
     }
   ]
 }

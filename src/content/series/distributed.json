@@ -66,16 +66,12 @@
           "title": "Real-World Applications"
         }
       ]
-    },
+    }
+  ],
+  "resources": [
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A",
-          "title": "Distributed Systems Playlist"
-        }
-      ]
+      "title": "Distributed Systems Playlist",
+      "url": "https://www.youtube.com/playlist?list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A"
     }
   ]
 }

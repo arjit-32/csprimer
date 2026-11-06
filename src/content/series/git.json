@@ -1,6 +1,6 @@
 {
-  "ongoing": "false",
-  "weight": 4,
+  "ongoing": false,
+  "weight": 11,
   "title": "Git Basics to Advanced",
   "image": "../../assets/images/thumbnails/git.webp",
   "subtitle": "Manage multiple versions of your codebase and collaborate with others.",
@@ -111,26 +111,21 @@
           "title": "Submodules"
         }
       ]
+    }
+  ],
+  "time": "",
+  "resources": [
+    {
+      "title": "Learn Git the Hard Way",
+      "url": "https://leanpub.com/learngitthehardway"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://leanpub.com/learngitthehardway",
-          "title": "Learn Git the Hard Way"
-        },
-        {
-          "type": "external",
-          "url": "https://git-school.github.io/visualizing-git/#free",
-          "title": "Git Visualization"
-        },
-        {
-          "type": "external",
-          "url": "https://ohshitgit.com/",
-          "title": "Oh Shit, Git"
-        }
-      ]
+      "title": "Git Visualization",
+      "url": "https://git-school.github.io/visualizing-git/#free"
+    },
+    {
+      "title": "Oh Shit, Git",
+      "url": "https://ohshitgit.com/"
     }
   ]
 }

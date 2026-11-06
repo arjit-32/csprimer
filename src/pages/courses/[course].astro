@@ -38,6 +38,30 @@ if (!images[imagePath]) {
 
 const courseStatusCfg = seriesData.status ? STATUS_CONFIG[seriesData.status] : null;
 
+// Filter syllabus sections for actual course lessons (excluding resources/further learnings)
+const courseSections = (seriesData.navbar || []).filter((section: any) => {
+  const sub = (section.subheading || "").toLowerCase();
+  return !sub.includes("further") && !sub.includes("resource") && !sub.includes("reference");
+});
+
+// Compile resources: dedicated resources array with fallback to legacy navbar section
+const legacyResourceSection = (seriesData.navbar || []).find((section: any) => {
+  const sub = (section.subheading || "").toLowerCase();
+  return sub.includes("further") || sub.includes("resource") || sub.includes("reference");
+});
+
+const legacyResources = legacyResourceSection 
+  ? legacyResourceSection.link.map((l: any) => ({
+      title: l.title,
+      url: l.type === 'articles' ? `/articles/${l.url}` : l.url,
+      description: undefined,
+    }))
+  : [];
+
+const allResources = (seriesData.resources && seriesData.resources.length > 0)
+  ? seriesData.resources
+  : legacyResources;
+
 // Helper to get navigation link URL
 function getCourseLinkHref(link: any): string {
   return link.type === 'articles' ? `/articles/${link.url}` : link.url;
@@ -93,7 +117,7 @@ function getCourseLinkHref(link: any): string {
       </p>
      
       <div class="space-y-4">
-        {seriesData.navbar.map((section: any, index: number) => (
+        {courseSections.map((section: any, index: number) => (
           <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
             <button
               class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer group"
@@ -196,6 +220,101 @@ function getCourseLinkHref(link: any): string {
           </div>
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- Dedicated Further Learnings & Resources Section (Course Page Only) -->
+  {allResources && allResources.length > 0 && (
+    <section class="py-16 bg-white border-t border-gray-200/70">
+      <div class="container max-w-4xl">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200 text-[#FE6019] flex items-center justify-center font-bold text-lg shadow-2xs">
+            📚
+          </div>
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+              Further Learnings & Resources
+            </h2>
+          </div>
+        </div>
+        <p class="text-sm md:text-base text-gray-500 mb-8 ml-12 leading-relaxed">
+          Curated books, documentation, external courses, and notes recommended to supplement this course series.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {allResources.map((res: any) => {
+            const isExternal = res.url.startsWith('http://') || res.url.startsWith('https://');
+            const href = isExternal ? res.url : (res.url.startsWith('/') ? res.url : `/articles/${res.url}`);
+            const target = isExternal ? '_blank' : '_self';
+            const rel = isExternal ? 'noopener noreferrer' : undefined;
+            
+            let domain = '';
+            if (isExternal) {
+              try {
+                domain = new URL(res.url).hostname.replace('www.', '');
+              } catch (e) {
+                domain = 'External Resource';
+              }
+            }
+
+            return (
+              <a
+                href={href}
+                target={target}
+                rel={rel}
+                class="group relative flex flex-col justify-between p-5 bg-gradient-to-br from-gray-50 to-white hover:from-orange-50/40 hover:to-white rounded-2xl border border-gray-200 hover:border-orange-300 transition-all duration-200 shadow-xs hover:shadow-md"
+              >
+                <div>
+                  <div class="flex items-start justify-between gap-3 mb-2.5">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-white border border-gray-200 text-gray-600 group-hover:border-orange-200 group-hover:text-[#FE6019] shadow-2xs">
+                      {isExternal ? (
+                        <>
+                          <svg class="w-3 h-3 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          <span>{domain}</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg class="w-3 h-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          <span>Article / Notes</span>
+                        </>
+                      )}
+                    </span>
+                    
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 text-gray-400 group-hover:bg-orange-100 group-hover:text-[#FE6019] transition-all text-xs">
+                      ↗
+                    </span>
+                  </div>
+
+                  <h3 class="font-bold text-gray-900 group-hover:text-[#FE6019] transition-colors leading-snug text-base">
+                    {res.title}
+                  </h3>
+
+                  {res.description && (
+                    <p class="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed">
+                      {res.description}
+                    </p>
+                  )}
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+                  <span class="truncate max-w-[200px] font-mono text-[11px] text-gray-400">
+                    {href}
+                  </span>
+                  <span class="font-semibold text-[#FE6019] group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+                    Open &rarr;
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
     </div>
   </section>
 

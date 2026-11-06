@@ -1,6 +1,6 @@
 {
-  "ongoing": "false",
-  "weight": 5,
+  "ongoing": false,
+  "weight": 4,
   "title": "AWS for Developers",
   "image": "../../assets/images/thumbnails/aws.webp",
   "subtitle": "AWS fundamentals required for building scalable apps.",
@@ -106,21 +106,17 @@
           "title": "API Gateway"
         }
       ]
+    }
+  ],
+  "time": "",
+  "resources": [
+    {
+      "title": "AWS Solutions Architect(Udemy)",
+      "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/",
-          "title": "AWS Solutions Architect(Udemy)"
-        },
-        {
-          "type": "external",
-          "url": "https://www.ducktyped.org/",
-          "title": "Aditya Bhargava's Networking Series"
-        }
-      ]
+      "title": "Aditya Bhargava's Networking Series",
+      "url": "https://www.ducktyped.org/"
     }
   ]
 }

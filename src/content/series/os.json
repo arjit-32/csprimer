@@ -96,21 +96,16 @@
           "title": "Disk Management"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "OS Handwritten Notes",
+      "url": "/articles/os-handwritten-notes"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "articles",
-          "url": "os-handwritten-notes",
-          "title": "OS Handwritten Notes"
-        },
-        {
-          "type": "external",
-          "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkReZHXWY9yJvTwLJWYYPcKEqK",
-          "title": "MIT course"
-        }
-      ]
+      "title": "MIT course",
+      "url": "https://www.youtube.com/playlist?list=PLTsf9UeqkReZHXWY9yJvTwLJWYYPcKEqK"
     }
   ]
 }

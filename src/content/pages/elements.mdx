@@ -352,6 +352,7 @@ export interface ArticleFrontmatter {
 | `time` | `string` | No | `undefined` | e.g. `"4 hours"`, `"12 lessons"` | Estimated completion time |
 | `weight` | `number` | No | `100` | Integer | Sort weight (lower appears first) |
 | `navbar` | `Array<Section>` | **Yes** | — | Array of syllabus sections | Ordered chapters and lesson links (see below) |
+| `resources` | `Array<Resource>` | No | `[]` | Array of supplementary references | Special "Further Learnings & Resources" section shown exclusively on individual course pages; excluded from roadmaps |
 
 #### Navbar Structure (`navbar`)
 Each section inside `navbar` contains:
@@ -361,6 +362,16 @@ Each section inside `navbar` contains:
   - `url`: `string` (article slug in `src/content/articles/` without `.md`, or external URL)
   - `title`: `string` (lesson title)
   - `status`: `'planned'` | `'in-progress'` | `'re-visiting'` (optional; `'planned'` displays a lock icon)
+
+#### Resources Structure (`resources`)
+Special section for supplementary external courses, official docs, books, or handwritten notes.
+- **Where it appears**: Exclusively on `/courses/[course]`.
+- **Roadmap exclusion**: Excluded from roadmaps, drawer checklists, and completion percentages.
+- **Editable in Studio**: Tab 2 of `npm run admin` allows 1-click adding, editing, reordering, and saving.
+- Each entry contains:
+  - `title`: `string` (e.g. `"Alex Aiken - Stanford lectures"`)
+  - `url`: `string` (External URL `https://...` or internal article path `/articles/<slug>`)
+  - `description`: `string` (optional note or caption)
 
 #### TypeScript Interface
 ```typescript
@@ -378,6 +389,12 @@ export interface SeriesNavbarSection {
   link: SeriesNavbarLink[];
 }
 
+export interface CourseResource {
+  title: string;
+  url: string;
+  description?: string;
+}
+
 export interface SeriesData {
   title: string;
   subtitle?: string;
@@ -389,6 +406,7 @@ export interface SeriesData {
   time?: string;
   weight: number;
   navbar: SeriesNavbarSection[];
+  resources?: CourseResource[];
 }
 ```
 

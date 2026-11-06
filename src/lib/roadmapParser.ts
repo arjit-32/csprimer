@@ -45,15 +45,29 @@ export interface RoadmapCategory {
 function toCourseNode(series: any): CourseNode | null {
   if (!series) return null;
 
-  const sections: CourseSection[] = series.data.navbar.map((nav: any) => ({
-    subheading: nav.subheading,
-    lessons: nav.link.map((l: any) => ({
-      id: l.url,
-      title: l.title,
-      url: l.type === "articles" ? `/articles/${l.url}` : l.url,
-      type: l.type
+  // Filter out any "Further Learnings", "Resources", or external-only sections from roadmaps
+  const validNavSections = (series.data.navbar || []).filter((nav: any) => {
+    const sub = (nav.subheading || "").toLowerCase();
+    if (sub.includes("further") || sub.includes("resource") || sub.includes("reference") || sub.includes("additional")) {
+      return false;
+    }
+    const allExternal = nav.link && nav.link.length > 0 && nav.link.every((l: any) => l.type === "external");
+    return !allExternal;
+  });
+
+  const sections: CourseSection[] = validNavSections
+    .map((nav: any) => ({
+      subheading: nav.subheading,
+      lessons: (nav.link || [])
+        .filter((l: any) => l.type === "articles")
+        .map((l: any) => ({
+          id: l.url,
+          title: l.title,
+          url: `/articles/${l.url}`,
+          type: l.type
+        }))
     }))
-  }));
+    .filter((sec: CourseSection) => sec.lessons.length > 0);
 
   return {
     id: series.id,
@@ -106,7 +120,7 @@ export async function getAllRoadmapCourses(): Promise<Record<string, RoadmapCate
     const normalizedPaths = paths.map((path) => ({
       ...path,
       courses: path.courses
-        .map((seriesId) => toCourseNode(seriesMap.get(seriesId)))
+        .map((seriesId: any) => toCourseNode(seriesMap.get(seriesId as any)))
         .filter(Boolean) as CourseNode[]
     }));
 

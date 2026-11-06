@@ -49,10 +49,11 @@ export function listExistingSeries() {
           image: data.image || '',
           lessonCount: Array.isArray(data.navbar)
             ? data.navbar.reduce((acc, sec) => acc + (sec.link ? sec.link.length : 0), 0)
-            : 0
+            : 0,
+          resourceCount: Array.isArray(data.resources) ? data.resources.length : 0
         };
       } catch {
-        return { id, title: id, category: 'Development', weight: 100, status: '', ongoing: false, lessonCount: 0 };
+        return { id, title: id, category: 'Development', weight: 100, status: '', ongoing: false, lessonCount: 0, resourceCount: 0 };
       }
     })
     .sort((a, b) => (a.weight - b.weight) || a.title.localeCompare(b.title));
@@ -250,7 +251,7 @@ export function getSeriesDetails(seriesId) {
   const allArticles = listAllArticles();
   const seriesArticlesOnDisk = allArticles.filter(a => a.series === seriesId);
 
-  // Collect slugs already present in navbar
+  // Collect slugs already present in navbar and resources
   const navbarSlugs = new Set();
   if (Array.isArray(seriesData.navbar)) {
     seriesData.navbar.forEach(sec => {
@@ -259,19 +260,28 @@ export function getSeriesDetails(seriesId) {
       });
     });
   }
+  if (Array.isArray(seriesData.resources)) {
+    seriesData.resources.forEach(r => {
+      if (r.url && !r.url.startsWith('http')) {
+        const slug = r.url.replace(/^\/articles\//, '');
+        navbarSlugs.add(slug);
+      }
+    });
+  }
 
-  // Find articles that have series: seriesId but are NOT in the navbar yet
+  // Find articles that have series: seriesId but are NOT in the navbar or resources yet
   const unassignedArticles = seriesArticlesOnDisk.filter(a => !navbarSlugs.has(a.slug));
 
   return {
     ...seriesData,
+    resources: Array.isArray(seriesData.resources) ? seriesData.resources : [],
     id: seriesId,
     articlesOnDisk: seriesArticlesOnDisk,
     unassignedArticles
   };
 }
 
-export function saveSeriesNavbar(seriesId, navbar) {
+export function saveSeriesNavbar(seriesId, navbar, resources) {
   const seriesFilePath = path.join(SERIES_DIR, `${seriesId}.json`);
   if (!fs.existsSync(seriesFilePath)) {
     throw new Error(`Series "${seriesId}" not found.`);
@@ -279,8 +289,23 @@ export function saveSeriesNavbar(seriesId, navbar) {
 
   const sData = JSON.parse(fs.readFileSync(seriesFilePath, 'utf8'));
   sData.navbar = navbar;
+  if (Array.isArray(resources)) {
+    sData.resources = resources;
+  }
   fs.writeFileSync(seriesFilePath, JSON.stringify(sData, null, 2) + '\n', 'utf8');
-  return { success: true, message: `Syllabus for "${seriesId}" updated successfully.` };
+  return { success: true, message: `Syllabus and resources for "${seriesId}" updated successfully.` };
+}
+
+export function saveSeriesResources(seriesId, resources) {
+  const seriesFilePath = path.join(SERIES_DIR, `${seriesId}.json`);
+  if (!fs.existsSync(seriesFilePath)) {
+    throw new Error(`Series "${seriesId}" not found.`);
+  }
+
+  const sData = JSON.parse(fs.readFileSync(seriesFilePath, 'utf8'));
+  sData.resources = Array.isArray(resources) ? resources : [];
+  fs.writeFileSync(seriesFilePath, JSON.stringify(sData, null, 2) + '\n', 'utf8');
+  return { success: true, message: `Resources for "${seriesId}" updated successfully.` };
 }
 
 export function updateSeriesMetadata(seriesId, metadata) {
@@ -359,7 +384,8 @@ export function createSeries({
           }
         ]
       }
-    ]
+    ],
+    resources: []
   };
 
   fs.mkdirSync(SERIES_DIR, { recursive: true });

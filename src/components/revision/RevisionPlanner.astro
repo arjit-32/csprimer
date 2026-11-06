@@ -16,7 +16,8 @@ const allSeriesData = seriesCollection.map((s) => {
     for (const section of s.data.navbar) {
       if (section.link) {
         for (const link of section.link) {
-          const articleUrl = link.type === "articles" ? `/articles/${link.url}` : link.url;
+          if (link.type !== "articles") continue;
+          const articleUrl = `/articles/${link.url}`;
           articles.push({
             id: link.url,
             title: link.title,

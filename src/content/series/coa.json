@@ -51,26 +51,20 @@
           "title": "ISA"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "COA Handwritten Notes",
+      "url": "/articles/coa-handwritten-notes"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "articles",
-          "url": "coa-handwritten-notes",
-          "title": "COA Handwritten Notes"
-        },
-        {
-          "type": "external",
-          "url": "https://www.coursera.org/learn/comparch",
-          "title": "Princeton Course"
-        },
-        {
-          "type": "external",
-          "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR",
-          "title": "Make your own CPU"
-        }
-      ]
+      "title": "Princeton Course",
+      "url": "https://www.coursera.org/learn/comparch"
+    },
+    {
+      "title": "Make your own CPU",
+      "url": "https://youtu.be/EeHK3Jbgv2s?si=af5VahN9eEcFQvaR"
     }
   ]
 }

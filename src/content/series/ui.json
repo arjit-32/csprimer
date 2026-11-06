@@ -61,26 +61,20 @@
           "title": "Final UI Design"
         }
       ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "Udemy Course",
+      "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/"
     },
     {
-      "subheading": "Further Learning & Challenges",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/",
-          "title": "Udemy Course"
-        },
-        {
-          "type": "external",
-          "url": "https://www.dailyui.co/",
-          "title": "100 Daily UI challenges"
-        },
-        {
-          "type": "external",
-          "url": "https://www.practical-ui.com/",
-          "title": "Practical-UI book"
-        }
-      ]
+      "title": "100 Daily UI challenges",
+      "url": "https://www.dailyui.co/"
+    },
+    {
+      "title": "Practical-UI book",
+      "url": "https://www.practical-ui.com/"
     }
   ]
 }

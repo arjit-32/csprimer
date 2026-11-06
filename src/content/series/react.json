@@ -6,7 +6,7 @@
   "category": "Development",
   "ongoing": false,
   "status": "planned",
-  "weight": 15,
+  "weight": 12,
   "navbar": [
     {
       "subheading": "Introduction to ReactJS",
@@ -95,21 +95,17 @@
           "status": "planned"
         }
       ]
+    }
+  ],
+  "time": "",
+  "resources": [
+    {
+      "title": "ReactJS Crash Course (Traversy Media)",
+      "url": "https://youtu.be/dGcsHMXbSOA"
     },
     {
-      "subheading": "Further Learnings",
-      "link": [
-        {
-          "type": "external",
-          "url": "https://youtu.be/dGcsHMXbSOA",
-          "title": "ReactJS Crash Course (Traversy Media)"
-        },
-        {
-          "type": "external",
-          "url": "https://reactjs.org/docs/getting-started.html",
-          "title": "Official ReactJS Documentation"
-        }
-      ]
+      "title": "Official ReactJS Documentation",
+      "url": "https://reactjs.org/docs/getting-started.html"
     }
   ]
 }
