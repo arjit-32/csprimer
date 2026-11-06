@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
+import ShortsBanner from "@/components/banners/ShortsBanner.astro";
 
 const allShorts = await getCollection("shorts");
 const seriesGroups = {};
@@ -34,16 +35,9 @@ const allSeries = Object.values(seriesGroups).map((group: any) => {
   description="Browse all YouTube Shorts learning series."
 >
   <div class="shorts-index-container">
-    <div class="hero-section">
-      <div class="hero-inner container">
-        <div class="hero-badge">⚡ Bite-sized Learning</div>
-        <h1 class="hero-title">Shorts</h1>
-        <p class="hero-sub">Learn about complex topics in 60 seconds or less.<br/>Learn while doom-scrolling.</p>
-      </div>
-      <div class="hero-glow"></div>
-    </div>
+    <ShortsBanner totalSeries={allSeries.length} firstShortHref={allSeries[0]?.firstShortHref} />
 
-    <div class="series-section container">
+    <div class="series-section container" id="series-grid">
       <div class="series-grid">
         {allSeries.map((series: any, i: number) => (
           <a href={series.firstShortHref} class="series-card" style={`--accent: ${['#FE6019','#6C63FF','#00B4D8','#2EC4B6','#FF6B6B','#F7B731'][i % 6]}`}>
@@ -69,58 +63,6 @@ const allSeries = Object.values(seriesGroups).map((group: any) => {
   .shorts-index-container {
     min-height: 100vh;
     background: #fafafa;
-  }
-
-  /* Hero */
-  .hero-section {
-    position: relative;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    padding: 100px 0 90px;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .hero-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(254, 96, 25, 0.15);
-    color: #FE6019;
-    border: 1px solid rgba(254, 96, 25, 0.4);
-    border-radius: 999px;
-    padding: 6px 18px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-
-  .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 20px;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.6);
-    max-width: 560px;
-    margin: 0 auto;
-    line-height: 1.7;
   }
 
   /* Series Grid */

@@ -1,0 +1,228 @@
+---
+import { Image } from "astro:assets";
+import bannerShapeImg from "@/assets/images/banner-shape.png";
+---
+
+<section class="revision-banner relative pt-8 md:pt-12 pb-10 md:pb-14 overflow-hidden border-b border-zinc-200/80 bg-gradient-to-b from-white via-orange-50/20 to-[#fafafa]">
+  <!-- Subtle ambient background glow -->
+  <div class="absolute -top-32 left-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/2 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="container relative z-10">
+    <div class="row items-center">
+      <!-- Left Column: Copy & Actions -->
+      <div class="lg:col-6 mb-10 lg:mb-0">
+        <!-- Top Pill Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+          Active Recall & Spaced Repetition
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-extrabold font-secondary text-zinc-900 leading-[1.18] tracking-tight mb-5">
+          Lock Knowledge with <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FE6019] via-orange-500 to-[#fb7299]">Spaced Repetition</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-xl mb-7">
+          Defeat the Ebbinghaus forgetting curve. Automated 1-3-7-14 day spaced review schedule to transition complex engineering concepts into permanent long-term memory.
+        </p>
+
+        <!-- Dynamic Island Stats Pill -->
+        <div class="inline-flex flex-wrap items-center gap-2 sm:gap-4 p-2 sm:p-2.5 rounded-2xl bg-white/90 border border-zinc-200 shadow-sm backdrop-blur-sm mb-7">
+          <div class="flex items-center gap-2 px-3 py-1">
+            <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+            <span class="text-xs font-bold text-zinc-900">1-3-7-14 Day Algorithm</span>
+          </div>
+          <span class="text-zinc-300 hidden sm:inline">•</span>
+          <div class="flex items-center gap-2 px-3 py-1">
+            <span class="text-xs font-semibold text-zinc-600">Daily Spaced Planner</span>
+          </div>
+          <span class="text-zinc-300 hidden sm:inline">•</span>
+          <div class="flex items-center gap-2 px-3 py-1">
+            <span class="text-xs font-semibold text-[#FE6019]">Permanent Recall</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            href="#planner"
+            class="btn btn-primary inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all text-sm font-bold"
+          >
+            <span>Today's Revision Plan</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+          <a
+            href="/interview-bytes"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200/80 text-zinc-700 text-sm font-bold border border-zinc-200 transition-all"
+          >
+            <span>Anki Flashcards</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Dynamic Island & Forgetting Curve Representation -->
+      <div class="lg:col-6 relative">
+        <div class="revision-visual-hub relative mx-auto max-w-lg lg:max-w-none">
+          
+          <!-- Top Floating Dynamic Island (Retention HUD) -->
+          <div class="dynamic-island-top absolute -top-4 sm:-top-6 left-1/2 -translate-x-1/2 z-30">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/95 text-white text-xs font-semibold shadow-2xl border border-zinc-700/60 backdrop-blur-md">
+              <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span class="text-zinc-300 font-mono">RETENTION RATE:</span>
+              <span class="text-emerald-400 font-bold">96%</span>
+              <span class="text-zinc-500">|</span>
+              <span class="text-zinc-400 text-[11px] font-mono">🔥 21-Day Habit</span>
+            </div>
+          </div>
+
+          <!-- Main Retention Visualization Card -->
+          <div class="retention-card bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-zinc-200/90 relative z-20 mt-4 text-zinc-800">
+            
+            <!-- Card Header -->
+            <div class="flex items-center justify-between pb-3.5 mb-3.5 border-b border-zinc-100">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                <span class="text-xs font-bold text-zinc-800">Ebbinghaus Curve vs Spaced Interval</span>
+              </div>
+              <span class="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full">
+                Interval Engine
+              </span>
+            </div>
+
+            <!-- SVG Scientific Curve Graphic -->
+            <div class="py-2">
+              <svg viewBox="0 0 400 150" class="w-full h-auto overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Grid Lines -->
+                <line x1="40" y1="20" x2="380" y2="20" stroke="#f1f5f9" stroke-width="1" />
+                <line x1="40" y1="70" x2="380" y2="70" stroke="#f1f5f9" stroke-width="1" />
+                <line x1="40" y1="120" x2="380" y2="120" stroke="#e2e8f0" stroke-width="1.5" />
+                
+                <!-- Y-Axis Labels -->
+                <text x="5" y="24" fill="#94a3b8" font-size="9" font-family="monospace">100%</text>
+                <text x="12" y="74" fill="#94a3b8" font-size="9" font-family="monospace">50%</text>
+                <text x="18" y="124" fill="#94a3b8" font-size="9" font-family="monospace">0%</text>
+
+                <!-- Without Spaced Repetition (Decay Curve) -->
+                <path d="M40 20 C 70 70, 110 108, 160 115 C 220 118, 300 120, 380 120" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4" />
+
+                <!-- With Spaced Repetition (Memory Retention Bounces back to 100%) -->
+                <!-- Day 1 Review -->
+                <path d="M40 20 C 60 45, 80 60, 95 62" stroke="#FE6019" stroke-width="2.5" />
+                <path d="M95 62 L 95 20" stroke="#FE6019" stroke-width="2.5" stroke-linecap="round" />
+                
+                <!-- Day 3 Review -->
+                <path d="M95 20 C 120 40, 150 50, 175 52" stroke="#FE6019" stroke-width="2.5" />
+                <path d="M175 52 L 175 20" stroke="#FE6019" stroke-width="2.5" stroke-linecap="round" />
+                
+                <!-- Day 7 Review -->
+                <path d="M175 20 C 210 32, 245 38, 275 40" stroke="#FE6019" stroke-width="2.5" />
+                <path d="M275 40 L 275 20" stroke="#FE6019" stroke-width="2.5" stroke-linecap="round" />
+
+                <!-- Day 14 Permanent Plateau -->
+                <path d="M275 20 C 310 24, 345 25, 380 26" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Peak Nodes / Dots -->
+                <circle cx="40" cy="20" r="4" fill="#FE6019" />
+                <circle cx="95" cy="20" r="4" fill="#FE6019" />
+                <circle cx="175" cy="20" r="4" fill="#FE6019" />
+                <circle cx="275" cy="20" r="4" fill="#FE6019" />
+                <circle cx="380" cy="26" r="4.5" fill="#10b981" />
+
+                <!-- Markers Text -->
+                <text x="35" y="138" fill="#64748b" font-size="9" font-family="monospace">Day 1</text>
+                <text x="90" y="138" fill="#64748b" font-size="9" font-family="monospace">Day 3</text>
+                <text x="170" y="138" fill="#64748b" font-size="9" font-family="monospace">Day 7</text>
+                <text x="268" y="138" fill="#64748b" font-size="9" font-family="monospace">Day 14</text>
+                <text x="345" y="138" fill="#10b981" font-weight="bold" font-size="9" font-family="monospace">Mastery</text>
+              </svg>
+            </div>
+
+            <!-- Spaced Cadence Badges Ribbon -->
+            <div class="mt-3 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] font-medium text-zinc-600">
+              <span class="inline-flex items-center gap-1 text-[#FE6019]">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FE6019]"></span>
+                <span>Active Recall Triggers</span>
+              </span>
+              <span class="inline-flex items-center gap-1 text-emerald-600 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Permanent Memory</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Floating Satellite Dynamic Island 1 (Bottom Left) -->
+          <div class="floating-island island-1 absolute -bottom-5 -left-3 sm:-left-6 z-30">
+            <div class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/95 border border-zinc-200/90 shadow-lg backdrop-blur-md">
+              <span class="flex items-center justify-center w-7 h-7 rounded-xl bg-orange-100 text-[#FE6019] text-xs font-black">
+                ⚡
+              </span>
+              <div>
+                <div class="text-[11px] font-bold text-zinc-900">1-3-7-14 Cadence</div>
+                <div class="text-[10px] text-zinc-500">Automated daily planner</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Satellite Dynamic Island 2 (Bottom Right) -->
+          <div class="floating-island island-2 absolute -bottom-5 -right-3 sm:-right-4 z-30">
+            <div class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/95 border border-zinc-200/90 shadow-lg backdrop-blur-md">
+              <span class="flex items-center justify-center w-7 h-7 rounded-xl bg-purple-100 text-purple-600 text-xs font-black">
+                🧠
+              </span>
+              <div>
+                <div class="text-[11px] font-bold text-zinc-900">Spaced Review Habit</div>
+                <div class="text-[10px] text-zinc-500">Zero cramming, max recall</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative Shape -->
+  <Image
+    class="banner-shape absolute -top-28 right-0 -z-[1] w-full max-w-[30%] pointer-events-none opacity-80"
+    alt="banner background shape"
+    src={bannerShapeImg}
+    width={496}
+    height={466}
+    loading="lazy"
+    decoding="async"
+  />
+</section>
+
+<style lang="scss">
+  .revision-banner {
+    position: relative;
+  }
+
+  .floating-island {
+    animation: floatSmooth 4s ease-in-out infinite;
+  }
+
+  .island-2 {
+    animation-delay: 2s;
+  }
+
+  @keyframes floatSmooth {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+</style>
+

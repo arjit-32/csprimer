@@ -1,6 +1,6 @@
 {
-  "ongoing": "false",
-  "weight": 10,
+  "ongoing": false,
+  "weight": 12,
   "title": "UI/UX for Developers",
   "image": "../../assets/images/thumbnails/ui-ux-for-developers.webp",
   "subtitle": "UI/UX principles and design tools to create user-centered products.",
@@ -76,5 +76,6 @@
       "title": "Practical-UI book",
       "url": "https://www.practical-ui.com/"
     }
-  ]
+  ],
+  "time": ""
 }

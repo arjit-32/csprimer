@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
+import InterviewBytesBanner from "@/components/banners/InterviewBytesBanner.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import Pagination from "@/components/ui/Pagination.astro";
 import config from "@/config/config.json";
@@ -98,38 +99,8 @@ const siteBaseUrl = config.site.base_url;
   meta_title={currentTag === 'all' ? 'Interview-Bytes' : `Interview Questions - ${currentTag}`}
   description="Master your technical interviews with bite-sized questions and answers."
 >
-  <!-- Hero Banner -->
-  <div class="ib-hero-section">
-    <div class="ib-hero-glow"></div>
-    <div class="container ib-hero-inner">
-      <div class="ib-hero-badge">🎯 Master Your Career</div>
-      <h1 class="ib-hero-title">Interview-Bytes</h1>
-      <p class="ib-hero-sub">
-        Expertly curated technical interview questions,<br/>simplified into manageable lessons.
-      </p>
+  <InterviewBytesBanner currentTag={currentTag} totalQuestions={page.total} />
 
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <button
-          type="button"
-          data-open-anki
-          data-anki-topic={currentTag}
-          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FE6019] to-orange-500 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-xl hover:scale-105 transition-all cursor-pointer group"
-          title="Start Anki flashcard session"
-        >
-          <span class="text-base">⚡</span>
-          <span>Revise with Anki Cards</span>
-          <span class="text-[10px] font-mono opacity-85 px-2 py-0.5 rounded-full bg-white/20">Active Recall</span>
-        </button>
-      </div>
-      <!-- <div class="ib-hero-stats">
-        <div class="ib-stat"><span class="ib-stat-num">100+</span><span class="ib-stat-label">Questions</span></div>
-        <div class="ib-stat-divider"></div>
-        <div class="ib-stat"><span class="ib-stat-num">4</span><span class="ib-stat-label">Topics</span></div>
-        <div class="ib-stat-divider"></div>
-        <div class="ib-stat"><span class="ib-stat-num">Free</span><span class="ib-stat-label">Always</span></div>
-      </div> -->
-    </div>
-  </div>
 
   <div class="interview-listing-container container py-12">
 
@@ -433,57 +404,6 @@ const siteBaseUrl = config.site.base_url;
 
 <style lang="scss" is:global>
   /* ── Hero Banner ── */
-  .ib-hero-section {
-    position: relative;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    padding: 96px 0 88px;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .ib-hero-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.28) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .ib-hero-inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .ib-hero-badge {
-    display: inline-block;
-    background: rgba(254, 96, 25, 0.15);
-    color: #FE6019;
-    border: 1px solid rgba(254, 96, 25, 0.4);
-    border-radius: 999px;
-    padding: 6px 20px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 26px;
-  }
-
-  .ib-hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 20px;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-
-  .ib-hero-sub {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.6);
-    max-width: 540px;
-    margin: 0 auto 40px;
-    line-height: 1.75;
-  }
-
   /* ── Container ── */
   .interview-listing-container {
     max-width: 1000px;

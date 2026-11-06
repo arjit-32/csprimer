@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import RevisionBanner from "@/components/banners/RevisionBanner.astro";
 import RevisionPlanner from "@/components/revision/RevisionPlanner.astro";
 ---
 
@@ -7,43 +8,13 @@ import RevisionPlanner from "@/components/revision/RevisionPlanner.astro";
   title="Revision Center | CS Primer"
   description="Master computer science with active recall and automated 1-3-7-14 day spaced repetition. Plan your revision, track daily goals, and reinforce learning."
 >
-  <!-- Hero Section -->
-  <div class="revision-hero-section">
-    <div class="revision-hero-glow"></div>
-    <div class="container relative z-10 text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-[#FE6019]/30 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
-        Active Recall
-      </div>
-      <h1 class="text-3xl md:text-5xl font-black text-white font-secondary tracking-tight mb-4">
-        Let's Revise 
-      </h1>
-      <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-        Use systematic spaced repetition planner, do each topic daiy
-      </p>
-    </div>
-  </div>
+  <RevisionBanner />
 
-  <main class="py-10 md:py-14 bg-[#fafafa] min-h-screen text-gray-800">
+  <main class="py-10 md:py-14 bg-[#fafafa] min-h-screen text-gray-800" id="planner">
     <div class="container mx-auto px-4 max-w-6xl">
       <RevisionPlanner />
     </div>
   </main>
 
-  <style lang="scss">
-    .revision-hero-section {
-      position: relative;
-      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      padding: 70px 0 65px;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .revision-hero-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
-      pointer-events: none;
-    }
-  </style>
+  
 </Base>

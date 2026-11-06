@@ -1,6 +1,7 @@
 ---
 import Shape from "@/components/ui/Shape.astro";
 import Base from "@/layouts/Base.astro";
+import CoursesBanner from "@/components/banners/CoursesBanner.astro";
 import Cta from "@/components/layout/Cta.astro";
 import { STATUS_CONFIG } from "@/lib/statusConfig";
 import { getCollection } from "astro:content";
@@ -32,40 +33,7 @@ const roadmaps = {
 
 ---
 <Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
-  <!-- Hero Banner -->
-  <div class="series-hero-section">
-    <div class="series-hero-glow"></div>
-    <div class="container series-hero-inner">
-      <div class="series-hero-badge">🎓 LEARNING PATHS</div>
-<h1 class="series-hero-title">Courses</h1>
-
-<!-- <p class="series-hero-sub">
-  Everything you need to become a complete software engineer,
-from Computer Science fundamentals to real-world systems.
-</p> -->
-
-<div class="series-hero-stats">
-  <div class="series-stat">
-    <span class="series-stat-num">50+</span>
-    <span class="series-stat-label">Courses</span>
-  </div>
-
-  <div class="series-stat-divider"></div>
-
-  <div class="series-stat">
-    <span class="series-stat-num">Practical</span>
-    <span class="series-stat-label">Assignments</span>
-  </div>
-
-  <div class="series-stat-divider"></div>
-
-  <div class="series-stat">
-    <span class="series-stat-num">Structured</span>
-    <span class="series-stat-label">Roadmaps</span>
-  </div>
-</div>
-    </div>
-  </div>
+  <CoursesBanner totalCourses={seriesCollection.length || "50+"} />
 
   <section class="py-12 bg-[#fafafa]">
     <div class="container mx-auto px-4">
@@ -343,95 +311,7 @@ from Computer Science fundamentals to real-world systems.
 </script>
 
 <style lang="scss">
-  .series-hero-section {
-    position: relative;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    padding: 100px 0 90px;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .series-hero-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(254, 96, 25, 0.25) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .series-hero-inner {
-    position: relative;
-    z-index: 10;
-  }
-
-  .series-hero-badge {
-    display: inline-block;
-    background: rgba(254, 96, 25, 0.15);
-    color: #FE6019;
-    border: 1px solid rgba(254, 96, 25, 0.4);
-    border-radius: 999px;
-    padding: 6px 18px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-
-  .series-hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 20px;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-
-  .series-hero-sub {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.6);
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.7;
-  }
-
-  .series-hero-stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  margin-top: 36px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  padding: 16px 32px;
-  backdrop-filter: blur(8px);
-}
-
-.series-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 28px;
-}
-
-.series-stat-num {
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: white;
-}
-
-.series-stat-label {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.55);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.series-stat-divider {
-  width: 1px;
-  height: 36px;
-  background: rgba(255,255,255,0.12);
-}
-
+  
   .category-btn {
     border: 1px solid #efefef;
     background: white;
