@@ -17,10 +17,16 @@ const normalizedPaths = Array.isArray(roadmap?.paths) && roadmap.paths.length > 
 const allCourses = roadmap?.courses || [];
 const edges = roadmap?.edges || [];
 
+const activeCourses = allCourses.filter((c: any) => !c.isLocked && c.status !== 'planned');
+
 let totalLessonsAll = 0;
-allCourses.forEach((c: any) => {
+activeCourses.forEach((c: any) => {
   (c.sections || []).forEach((sec: any) => {
-    totalLessonsAll += (sec.lessons || []).length;
+    (sec.lessons || []).forEach((l: any) => {
+      if (!l.isLocked && l.status !== 'planned') {
+        totalLessonsAll += 1;
+      }
+    });
   });
 });
 ---
@@ -40,7 +46,7 @@ allCourses.forEach((c: any) => {
         <div class="flex items-center gap-2">
           <h3 class="canvas-header-title text-lg md:text-xl font-bold font-secondary text-zinc-900 tracking-tight leading-none">{title}</h3>
           <span class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-600 border border-zinc-200">
-            {allCourses.length} Topics
+            {activeCourses.length} Topics
           </span>
         </div>
         <p class="canvas-header-sub text-xs text-zinc-500 mt-1">Click any node to explore lessons and track progress</p>
@@ -576,11 +582,17 @@ allCourses.forEach((c: any) => {
         wrapper.querySelectorAll('.roadmap-node').forEach((node) => {
           const btn = node as HTMLElement;
           const courseData = JSON.parse(btn.dataset.course || '{}');
+          const isCourseLocked = Boolean(courseData.isLocked || courseData.status === 'planned');
+          if (isCourseLocked) {
+            return;
+          }
+
           let courseTotal = 0;
           let courseDone = 0;
 
           courseData.sections?.forEach((sec: any) => {
             sec.lessons?.forEach((lesson: any) => {
+              if (lesson.isLocked || lesson.status === 'planned') return;
               courseTotal += 1;
               if (savedProgress[lesson.id]) {
                 courseDone += 1;

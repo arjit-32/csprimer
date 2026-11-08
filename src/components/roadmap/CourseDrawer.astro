@@ -13,6 +13,12 @@
       <a id="drawer-course-page-link" href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-[#FE6019] hover:underline mt-2">
         View Full Course & Resources &rarr;
       </a>
+      <span id="drawer-course-locked-badge" class="hidden inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md mt-2 w-fit">
+        <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
+        </svg>
+        <span>Planned Course &bull; Coming Soon</span>
+      </span>
     </div>
     <button id="close-drawer-btn" class="p-2 -mr-2 text-zinc-400 hover:text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-full transition-colors">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,11 +46,22 @@
     if (!drawer || !backdrop) return;
 
     function openDrawer(courseData) {
+      const isCourseLocked = Boolean(courseData.isLocked || courseData.status === 'planned');
+
       // Populate Data
       if (drawerTitle) drawerTitle.textContent = courseData.title;
       if (drawerDesc) drawerDesc.textContent = courseData.description;
-      if (drawerCoursePageLink && courseData.id) {
-        drawerCoursePageLink.href = `/courses/${courseData.id}`;
+
+      const drawerLockedBadge = document.getElementById('drawer-course-locked-badge');
+      if (isCourseLocked) {
+        if (drawerCoursePageLink) drawerCoursePageLink.classList.add('hidden');
+        if (drawerLockedBadge) drawerLockedBadge.classList.remove('hidden');
+      } else {
+        if (drawerLockedBadge) drawerLockedBadge.classList.add('hidden');
+        if (drawerCoursePageLink && courseData.id) {
+          drawerCoursePageLink.classList.remove('hidden');
+          drawerCoursePageLink.href = `/courses/${courseData.id}`;
+        }
       }
       
       if (drawerContent) {
@@ -56,6 +73,26 @@
           const sectionEl = document.createElement('div');
           
           let lessonsHtml = section.lessons.map(lesson => {
+            const isLessonLocked = isCourseLocked || Boolean(lesson.isLocked || lesson.status === 'planned');
+
+            if (isLessonLocked) {
+              return `
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-zinc-50/70 border border-zinc-100 text-zinc-400 select-none">
+                  <div class="relative flex items-center justify-center shrink-0 w-5 h-5 text-zinc-400">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
+                    </svg>
+                  </div>
+                  <span class="flex-1 text-sm font-medium leading-snug text-zinc-400 italic">
+                    ${lesson.title}
+                  </span>
+                  <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium ml-auto shrink-0 bg-slate-100 text-slate-500 border border-slate-200">
+                    Planned
+                  </span>
+                </div>
+              `;
+            }
+
             const isChecked = savedProgress[lesson.id] ? 'checked' : '';
             const checkedClass = isChecked ? 'line-through text-zinc-400' : 'text-zinc-700';
             

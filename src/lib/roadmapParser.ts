@@ -1,11 +1,14 @@
 import { getCollection } from "astro:content";
 import roadmapOrder from "@/config/roadmapOrder.json";
+import { isLocked } from "@/lib/statusConfig";
 
 export interface LessonNode {
   id: string;
   title: string;
   url: string;
   type: string;
+  status?: string;
+  isLocked?: boolean;
 }
 
 export interface CourseSection {
@@ -18,6 +21,8 @@ export interface CourseNode {
   title: string;
   description: string;
   image?: string;
+  status?: string;
+  isLocked?: boolean;
   sections: CourseSection[];
 }
 
@@ -42,8 +47,10 @@ export interface RoadmapCategory {
   edges: RoadmapEdge[];
 }
 
-function toCourseNode(series: any): CourseNode | null {
+function toCourseNode(series: any, draftSlugSet?: Set<string>): CourseNode | null {
   if (!series) return null;
+
+  const isCourseLocked = isLocked(series.data.status);
 
   // Filter out any "Further Learnings", "Resources", or external-only sections from roadmaps
   const validNavSections = (series.data.navbar || []).filter((nav: any) => {
@@ -60,12 +67,18 @@ function toCourseNode(series: any): CourseNode | null {
       subheading: nav.subheading,
       lessons: (nav.link || [])
         .filter((l: any) => l.type === "articles")
-        .map((l: any) => ({
-          id: l.url,
-          title: l.title,
-          url: `/articles/${l.url}`,
-          type: l.type
-        }))
+        .map((l: any) => {
+          const isArticleDraft = draftSlugSet ? draftSlugSet.has(l.url) : false;
+          const isLessonLocked = isCourseLocked || isLocked(l.status) || isArticleDraft;
+          return {
+            id: l.url,
+            title: l.title,
+            url: `/articles/${l.url}`,
+            type: l.type,
+            status: l.status || (isArticleDraft || isCourseLocked ? "planned" : undefined),
+            isLocked: isLessonLocked,
+          };
+        })
     }))
     .filter((sec: CourseSection) => sec.lessons.length > 0);
 
@@ -74,6 +87,8 @@ function toCourseNode(series: any): CourseNode | null {
     title: series.data.title,
     description: series.data.description,
     image: series.data.image,
+    status: series.data.status,
+    isLocked: isCourseLocked,
     sections
   };
 }
@@ -109,6 +124,8 @@ function normalizeRoadmapConfig(category: string, config: any): { layout: Roadma
  */
 export async function getAllRoadmapCourses(): Promise<Record<string, RoadmapCategory>> {
   const allSeries = await getCollection("series");
+  const allArticles = await getCollection("articles");
+  const draftSlugSet = new Set(allArticles.filter((a) => a.data.draft).map((a) => a.slug));
   const seriesMap = new Map(allSeries.map((series) => [series.id, series]));
   const roadmapCourses: Record<string, RoadmapCategory> = {};
 
@@ -120,7 +137,7 @@ export async function getAllRoadmapCourses(): Promise<Record<string, RoadmapCate
     const normalizedPaths = paths.map((path) => ({
       ...path,
       courses: path.courses
-        .map((seriesId: any) => toCourseNode(seriesMap.get(seriesId as any)))
+        .map((seriesId: any) => toCourseNode(seriesMap.get(seriesId as any), draftSlugSet))
         .filter(Boolean) as CourseNode[]
     }));
 

@@ -5,21 +5,29 @@ export interface Props {
 }
 
 const { course, stageTitle } = Astro.props;
+const isCourseLocked = Boolean(course?.isLocked || course?.status === 'planned');
 const sections = course?.sections || [];
 let totalLessons = 0;
-sections.forEach((sec: any) => {
-  totalLessons += (sec.lessons || []).length;
-});
+if (!isCourseLocked) {
+  sections.forEach((sec: any) => {
+    (sec.lessons || []).forEach((l: any) => {
+      if (!l.isLocked && l.status !== 'planned') {
+        totalLessons += 1;
+      }
+    });
+  });
+}
 ---
 
 <button
   type="button"
-  class="course-node-btn roadmap-node group relative z-10 w-[240px] md:w-[260px] text-left appearance-none focus:outline-none transition-all duration-200 select-none block"
+  class={`course-node-btn roadmap-node group relative z-10 w-[240px] md:w-[260px] text-left appearance-none focus:outline-none transition-all duration-200 select-none block ${isCourseLocked ? 'is-locked' : ''}`}
   data-course={JSON.stringify(course)}
   data-node-id={course.id}
   data-course-id={course.id}
   data-total-lessons={totalLessons}
-  aria-label={`Open course drawer for ${course.title}`}
+  data-is-locked={isCourseLocked ? "true" : "false"}
+  aria-label={`Open course drawer for ${course.title}${isCourseLocked ? ' (Planned)' : ''}`}
 >
   <!-- Glow backdrop on hover -->
   <div class="node-glow absolute -inset-0.5 rounded-xl bg-orange-500/0 blur-md transition-all duration-300 group-hover:bg-orange-500/20 pointer-events-none"></div>
@@ -29,36 +37,57 @@ sections.forEach((sec: any) => {
     
     <!-- Top Meta Row -->
     <div class="flex items-center justify-between gap-2 mb-2">
-      <span class="node-tag inline-flex items-center text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-zinc-100 text-zinc-600 group-hover:text-[#FE6019] group-hover:bg-orange-50 border border-zinc-200/70 max-w-[120px] truncate transition-colors">
-        {stageTitle || (sections.length ? `${sections.length} Mod` : "Topic")}
+      <span class={`node-tag inline-flex items-center text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded border max-w-[120px] truncate transition-colors ${
+        isCourseLocked 
+          ? 'bg-zinc-100 text-zinc-500 border-zinc-200' 
+          : 'bg-zinc-100 text-zinc-600 group-hover:text-[#FE6019] group-hover:bg-orange-50 border-zinc-200/70'
+      }`}>
+        {isCourseLocked ? "Planned" : (stageTitle || (sections.length ? `${sections.length} Mod` : "Topic"))}
       </span>
       
       <div class="flex items-center gap-1.5 shrink-0">
-        <span class="node-lessons-badge text-[11px] font-mono font-semibold text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200/70 transition-colors">
-          <span class="node-completed-count">0</span>/{totalLessons}
-        </span>
-        
-        <!-- Status Indicator Ring / Check -->
-        <div class="node-status-indicator relative flex items-center justify-center w-4 h-4 rounded-full border border-zinc-300 bg-zinc-50 text-transparent transition-all">
-          <svg class="node-check-icon w-2.5 h-2.5 opacity-0 transition-opacity" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 111.414-1.414L8.5 11.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-        </div>
+        {isCourseLocked ? (
+          <span class="node-lessons-badge text-[10px] font-mono font-semibold text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200/70 flex items-center gap-1">
+            <svg class="w-2.5 h-2.5 text-zinc-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
+            </svg>
+            Locked
+          </span>
+        ) : (
+          <>
+            <span class="node-lessons-badge text-[11px] font-mono font-semibold text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200/70 transition-colors">
+              <span class="node-completed-count">0</span>/{totalLessons}
+            </span>
+            
+            <!-- Status Indicator Ring / Check -->
+            <div class="node-status-indicator relative flex items-center justify-center w-4 h-4 rounded-full border border-zinc-300 bg-zinc-50 text-transparent transition-all">
+              <svg class="node-check-icon w-2.5 h-2.5 opacity-0 transition-opacity" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.5 7.5a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 111.414-1.414L8.5 11.586l6.793-6.793a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </>
+        )}
       </div>
     </div>
 
     <!-- Title Row -->
     <div class="flex items-center justify-between gap-2 flex-grow">
-      <h4 class="node-title text-sm font-bold text-zinc-900 group-hover:text-[#FE6019] transition-colors leading-snug line-clamp-2">
+      <h4 class={`node-title text-sm font-bold ${isCourseLocked ? 'text-zinc-600' : 'text-zinc-900 group-hover:text-[#FE6019]'} transition-colors leading-snug line-clamp-2`}>
         {course.title}
       </h4>
-      <svg class="h-4 w-4 text-zinc-400 group-hover:text-[#FE6019] group-hover:translate-x-0.5 transition-all shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
+      {isCourseLocked ? (
+        <svg class="h-3.5 w-3.5 text-zinc-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 11V7A5 5 0 0 0 7 7v4H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2zm-5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-6H9V7a3 3 0 1 1 6 0v4z"/>
+        </svg>
+      ) : (
+        <svg class="h-4 w-4 text-zinc-400 group-hover:text-[#FE6019] group-hover:translate-x-0.5 transition-all shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      )}
     </div>
 
     <!-- Mini Progress Bar -->
-    <div class="node-bar-track w-full bg-zinc-100 h-1 rounded-full mt-2.5 overflow-hidden border border-zinc-200/60">
+    <div class={`node-bar-track w-full bg-zinc-100 h-1 rounded-full mt-2.5 overflow-hidden border border-zinc-200/60 ${isCourseLocked ? 'opacity-40' : ''}`}>
       <div class="node-progress-bar h-full bg-[#FE6019] transition-all duration-500 ease-out" style="width: 0%;"></div>
     </div>
   </div>
@@ -99,6 +128,21 @@ sections.forEach((sec: any) => {
   .roadmap-node.active .node-card {
     border-color: #FE6019 !important;
     box-shadow: 0 0 16px rgba(254, 96, 25, 0.25) !important;
+  }
+
+  /* Locked / planned node state */
+  .roadmap-node.is-locked .node-card {
+    background-color: #fafafa !important;
+    border-color: #e4e4e7 !important;
+    opacity: 0.82;
+  }
+  .roadmap-node.is-locked:hover .node-card {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transform: none !important;
+  }
+  .roadmap-node.is-locked .node-glow {
+    display: none !important;
   }
 
   /* Dark mode overrides (when parent canvas has .dark-canvas) */

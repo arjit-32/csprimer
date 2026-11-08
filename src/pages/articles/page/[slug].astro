@@ -10,7 +10,8 @@ import type { TIndexData } from "@/types";
 
 export async function getStaticPaths() {
   const posts = await getSinglePage(config.settings.blog_folder);
-  const totalPages = Math.ceil(posts.length / config.settings.pagination);
+  const recentPosts = posts.filter((item: any) => !item.data.featured && !item.data.series);
+  const totalPages = Math.ceil(recentPosts.length / config.settings.pagination);
   const paths = [];
 
   for (let i = 1; i < totalPages; i++) {

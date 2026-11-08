@@ -144,8 +144,10 @@ function getCourseLinkHref(link: any): string {
             <div id={`section-${index}`} class="border-t border-gray-100">
               <div class="p-4 space-y-2">
                 {section.link.map((link: any) => {
-                  const articleStatusCfg = link.status ? STATUS_CONFIG[link.status] : null;
-                  const locked = isLocked(link.status);
+                  const isCourseLocked = isLocked(seriesData.status);
+                  const effectiveStatus = link.status || (isCourseLocked ? 'planned' : undefined);
+                  const articleStatusCfg = effectiveStatus ? STATUS_CONFIG[effectiveStatus] : null;
+                  const locked = isCourseLocked || isLocked(link.status);
                   const isArticle = link.type === 'articles';
                   const href = getCourseLinkHref(link);
                   const target = isArticle ? '_self' : '_blank';

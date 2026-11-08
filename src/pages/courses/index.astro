@@ -13,6 +13,7 @@ const seriesCollection = (await getCollection("series")).sort((a, b) => {
   if (weightA !== weightB) return weightA - weightB;
   return a.data.title.localeCompare(b.data.title);
 });
+const activeCourses = seriesCollection.filter((s) => s.data.status !== 'planned');
 import roadmapAllImg from "@/assets/images/categories/roadmap.webp";
 import roadmapCoreCSImg from "@/assets/images/categories/1.webp";
 import roadmapDSAImg from "@/assets/images/categories/2.webp";
@@ -33,7 +34,7 @@ const roadmaps = {
 
 ---
 <Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
-  <CoursesBanner totalCourses={seriesCollection.length || "50+"} />
+  <CoursesBanner totalCourses={activeCourses.length || "20+"} />
 
   <section class="py-12 bg-[#fafafa]">
     <div class="container mx-auto px-4">
