@@ -21,12 +21,12 @@
       "url": "/shorts"
     },
     {
-      "name": "Roadmaps",
-      "url": "/roadmaps"
-    },
-    {
       "name": "Revision",
       "url": "/revision"
+    },
+    {
+      "name": "Roadmaps",
+      "url": "/roadmaps"
     }
   ]
 }

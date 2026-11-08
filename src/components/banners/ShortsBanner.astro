@@ -19,43 +19,36 @@ const { totalSeries = "6+", firstShortHref = "#series-grid" } = Astro.props;
     <div class="row items-center">
       <!-- Left Column: Copy & Actions -->
       <div class="lg:col-6 mb-10 lg:mb-0">
-        <!-- Top Pill Badge -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-5 shadow-xs">
-          <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
-          60-Second Video Learning
+        <!-- Top Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-semibold mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FE6019]"></span>
+          Quick Learning
         </div>
 
         <!-- Headline -->
-        <h1 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-extrabold font-secondary text-zinc-900 leading-[1.18] tracking-tight mb-5">
+        <h1 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-extrabold font-secondary text-zinc-900 leading-[1.18] tracking-tight mb-4">
           Learn Complex Tech in <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FE6019] via-orange-500 to-[#fb7299]">60 Seconds</span>
         </h1>
 
-        <!-- Subtitle -->
-        <p class="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-xl mb-7">
-          Learn while doom-scrolling. Bite-sized visual breakdowns of Operating Systems, System Design, DSA, and Web Internals. No filler, pure intuition in under a minute.
+        <!-- Subtitle (Minimal) -->
+        <p class="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-xl mb-5">
+          Visual tech breakdowns in 60 seconds or less.
         </p>
 
-        <!-- Dynamic Island Stats Pill -->
-        <div class="inline-flex flex-wrap items-center gap-2 sm:gap-4 p-2 sm:p-2.5 rounded-2xl bg-white/90 border border-zinc-200 shadow-sm backdrop-blur-sm mb-7">
-          <div class="flex items-center gap-2 px-3 py-1">
-            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-            <span class="text-xs font-bold text-zinc-900">{totalSeries} Curated Series</span>
-          </div>
-          <span class="text-zinc-300 hidden sm:inline">•</span>
-          <div class="flex items-center gap-2 px-3 py-1">
-            <span class="text-xs font-semibold text-zinc-600">60s Micro-Lessons</span>
-          </div>
-          <span class="text-zinc-300 hidden sm:inline">•</span>
-          <div class="flex items-center gap-2 px-3 py-1">
-            <span class="text-xs font-semibold text-[#FE6019]">Mobile Friendly</span>
-          </div>
+        <!-- Minimal Metadata Line -->
+        <div class="flex items-center gap-2.5 sm:gap-3 text-xs text-zinc-500 font-medium mb-7">
+          <span class="text-zinc-800 font-semibold">{totalSeries} Curated Series</span>
+          <span>•</span>
+          <span>YouTube Shorts</span>
+          <span>•</span>
+          <span class="text-[#FE6019] font-medium">Free & Mobile Friendly</span>
         </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-wrap items-center gap-3">
           <a
             href={firstShortHref}
-            class="btn btn-primary inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all text-sm font-bold"
+            class="btn btn-primary inline-flex items-center gap-2 shadow-sm hover:shadow-md transition-all text-sm font-bold"
           >
             <span>▶ Start Watching</span>
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,112 +67,81 @@ const { totalSeries = "6+", firstShortHref = "#series-grid" } = Astro.props;
         </div>
       </div>
 
-      <!-- Right Column: Smartphone Mockup with Real Dynamic Island -->
+      <!-- Right Column: Clean YouTube Shorts Player Card -->
       <div class="lg:col-6 relative">
-        <div class="shorts-visual-hub relative mx-auto max-w-sm sm:max-w-md lg:max-w-none flex justify-center">
-          
-          <!-- Smartphone Outer Frame -->
-          <div class="phone-frame w-72 sm:w-80 rounded-[44px] bg-zinc-950 p-3.5 shadow-2xl border-4 border-zinc-800/90 relative z-20">
-            
-            <!-- Phone Screen -->
-            <div class="phone-screen rounded-[36px] bg-gradient-to-b from-zinc-900 to-zinc-950 p-4 pt-3 overflow-hidden relative border border-zinc-800 flex flex-col justify-between min-h-[380px]">
-              
-              <!-- THE DYNAMIC ISLAND (Phone Notch Dynamic Island) -->
-              <div class="dynamic-island-notch mx-auto mb-4 z-30">
-                <div class="inline-flex items-center justify-between gap-3 px-3 py-1.5 rounded-full bg-black text-white text-[11px] shadow-lg border border-zinc-800 w-52">
-                  <!-- Left camera circle -->
-                  <div class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-zinc-800 border border-zinc-700"></span>
-                    <span class="text-[#FE6019] font-bold text-[10px]">▶ LIVE</span>
-                  </div>
-
-                  <!-- Animated Sound Wave Bars -->
-                  <div class="sound-wave flex items-center gap-0.5">
-                    <span class="bar bar-1"></span>
-                    <span class="bar bar-2"></span>
-                    <span class="bar bar-3"></span>
-                    <span class="bar bar-4"></span>
-                  </div>
-
-                  <!-- Time -->
-                  <span class="font-mono text-zinc-400 text-[10px]">0:42</span>
-                </div>
+        <div class="mx-auto max-w-sm sm:max-w-md lg:max-w-none flex justify-center">
+          <!-- YouTube Shorts Card Container -->
+          <div class="w-72 sm:w-80 rounded-2xl bg-zinc-950 p-4 shadow-2xl border border-zinc-800 text-white relative">
+            <!-- Shorts Header -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800/80">
+              <div class="flex items-center gap-2">
+                <!-- Red YouTube Shorts Icon -->
+                <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 14.65v-5.3L15 12l-5 2.65zm7.8-6.17c-.4-1.22-1.37-2.18-2.6-2.58C13.02 5.37 8 5.37 8 5.37s-5.02 0-7.2.5c-1.23.4-2.2 1.36-2.6 2.58C-2.3 10.65-2.3 12-2.3 12s0 1.35.5 3.52c.4 1.23 1.37 2.18 2.6 2.58 2.18.5 7.2.5 7.2.5s5.02 0 7.2-.5c1.23-.4 2.2-1.35 2.6-2.58.5-2.17.5-3.52.5-3.52s0-1.35-.5-3.52zM17.8 17.5c-.23.72-.8 1.28-1.52 1.5-1.4.38-4.28.38-4.28.38s-2.88 0-4.28-.38c-.72-.22-1.3-.78-1.52-1.5-.38-1.4-.38-4.32-.38-4.32s0-2.92.38-4.32c.22-.72.8-1.28 1.52-1.5 1.4-.38 4.28-.38 4.28-.38s2.88 0 4.28.38c.72.22 1.3.78 1.52 1.5.38 1.4.38 4.32.38 4.32s0 2.92-.38 4.32z"/>
+                </svg>
+                <span class="text-xs font-bold tracking-wide">YouTube Shorts</span>
               </div>
-
-              <!-- Reel Card Preview Content -->
-              <div class="reel-content my-auto space-y-3">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FE6019]/20 border border-[#FE6019]/40 text-[#FE6019] text-[10px] font-bold uppercase tracking-wider">
-                  🔥 System Design
-                </div>
-
-                <h4 class="text-sm font-bold text-white font-secondary leading-snug">
-                  How Redis LRU Eviction Cleans Memory in O(1)
-                </h4>
-
-                <!-- Mini Architecture Diagram Graphic -->
-                <div class="p-3 rounded-2xl bg-zinc-900/90 border border-zinc-800/80 text-[11px] font-mono space-y-2">
-                  <div class="flex items-center justify-between text-zinc-400 text-[10px]">
-                    <span>Cache Hit: 99.4%</span>
-                    <span class="text-emerald-400 font-bold">RAM: 4.2 GB</span>
-                  </div>
-                  <!-- Visual Memory Block -->
-                  <div class="flex gap-1">
-                    <div class="flex-1 h-5 rounded-md bg-emerald-500/80 flex items-center justify-center text-[9px] text-white font-bold">Hot Key</div>
-                    <div class="flex-1 h-5 rounded-md bg-blue-500/80 flex items-center justify-center text-[9px] text-white font-bold">Session</div>
-                    <div class="w-14 h-5 rounded-md bg-rose-500/80 flex items-center justify-center text-[9px] text-white font-bold animate-pulse">Evict</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Bottom Video Controls & Engagement -->
-              <div class="reel-footer pt-3 border-t border-zinc-800/80">
-                <!-- Video Progress Bar -->
-                <div class="h-1 w-full bg-zinc-800 rounded-full overflow-hidden mb-3">
-                  <div class="h-full bg-gradient-to-r from-[#FE6019] to-rose-500 rounded-full w-[70%]"></div>
-                </div>
-                <!-- Action Pills -->
-                <div class="flex items-center justify-between text-[11px] text-zinc-400">
-                  <div class="flex items-center gap-3">
-                    <span class="flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
-                      ❤️ 4.8k
-                    </span>
-                    <span class="flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
-                      💬 320
-                    </span>
-                  </div>
-                  <span class="text-zinc-500 font-mono text-[10px]">60 FPS • HD</span>
-                </div>
-              </div>
-
+              <span class="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded">60s Series</span>
             </div>
-          </div>
 
-          <!-- Floating Satellite Dynamic Island 1 (Left) -->
-          <div class="floating-island island-1 absolute top-20 -left-6 sm:-left-10 z-30">
-            <div class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/95 border border-zinc-200/90 shadow-lg backdrop-blur-md">
-              <span class="flex items-center justify-center w-7 h-7 rounded-xl bg-rose-100 text-rose-600 text-xs font-black">
-                ⚡
-              </span>
+            <!-- Video Thumbnail & Content Area -->
+            <div class="relative rounded-xl bg-gradient-to-b from-zinc-900 to-zinc-950 p-4 border border-zinc-800/80 min-h-[300px] flex flex-col justify-between">
+              <!-- Topic Tag -->
               <div>
-                <div class="text-[11px] font-bold text-zinc-900">Zero Fluff</div>
-                <div class="text-[10px] text-zinc-500">60-second concept density</div>
+                <span class="inline-block px-2 py-0.5 rounded bg-red-600/20 border border-red-500/40 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                  System Design
+                </span>
+              </div>
+
+              <!-- Graphic / Concept Simulation in Video -->
+              <div class="my-auto py-3 text-center space-y-2.5">
+                <!-- Center Play Button -->
+                <div class="w-12 h-12 rounded-full bg-white/90 text-zinc-900 shadow-xl mx-auto flex items-center justify-center hover:scale-105 transition-transform cursor-pointer">
+                  <svg class="w-5 h-5 ml-0.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <div class="p-2.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-[11px] font-mono text-zinc-300">
+                  Call Stack ➔ Libuv Threadpool ➔ Event Loop
+                </div>
+              </div>
+
+              <!-- Shorts Video Overlay Info -->
+              <div class="space-y-1.5 text-left">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-white">
+                  <span>@CSPrimer</span>
+                  <span class="text-[10px] text-zinc-400">✓</span>
+                </div>
+                <p class="text-xs font-medium text-zinc-200 line-clamp-2 leading-snug">
+                  How the Node.js Event Loop handles 10,000 concurrent requests in 60s #shorts
+                </p>
+                <div class="text-[10px] text-zinc-400">
+                  #systemdesign #nodejs #csfundamentals
+                </div>
+              </div>
+
+              <!-- Right Vertical Action Icons (Classic Shorts Style) -->
+              <div class="absolute right-3 bottom-14 flex flex-col items-center gap-3 text-zinc-300 text-[10px]">
+                <div class="flex flex-col items-center gap-0.5">
+                  <span class="w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-xs">👍</span>
+                  <span>14K</span>
+                </div>
+                <div class="flex flex-col items-center gap-0.5">
+                  <span class="w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-xs">💬</span>
+                  <span>340</span>
+                </div>
+                <div class="flex flex-col items-center gap-0.5">
+                  <span class="w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-xs">↗</span>
+                  <span>Share</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Floating Satellite Dynamic Island 2 (Right) -->
-          <div class="floating-island island-2 absolute bottom-12 -right-4 sm:-right-8 z-30">
-            <div class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/95 border border-zinc-200/90 shadow-lg backdrop-blur-md">
-              <span class="flex items-center justify-center w-7 h-7 rounded-xl bg-orange-100 text-[#FE6019] text-xs font-black">
-                🎧
-              </span>
-              <div>
-                <div class="text-[11px] font-bold text-zinc-900">Visual Audio Sync</div>
-                <div class="text-[10px] text-zinc-500">Intuitive mental models</div>
-              </div>
+            <!-- YouTube Red Scrubber Progress Line -->
+            <div class="mt-3 h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
+              <div class="h-full bg-red-600 rounded-full w-[65%]"></div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -196,46 +158,3 @@ const { totalSeries = "6+", firstShortHref = "#series-grid" } = Astro.props;
     decoding="async"
   />
 </section>
-
-<style lang="scss">
-  .shorts-banner {
-    position: relative;
-  }
-
-  .sound-wave {
-    .bar {
-      display: inline-block;
-      width: 2px;
-      border-radius: 2px;
-      background: #FE6019;
-      animation: soundJump 1s ease-in-out infinite alternate;
-    }
-    .bar-1 { height: 10px; animation-delay: 0.1s; }
-    .bar-2 { height: 14px; animation-delay: 0.3s; }
-    .bar-3 { height: 8px;  animation-delay: 0.2s; }
-    .bar-4 { height: 12px; animation-delay: 0.4s; }
-  }
-
-  @keyframes soundJump {
-    0% { height: 4px; }
-    100% { height: 14px; }
-  }
-
-  .floating-island {
-    animation: floatSmooth 4s ease-in-out infinite;
-  }
-
-  .island-2 {
-    animation-delay: 2s;
-  }
-
-  @keyframes floatSmooth {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
-  }
-</style>
-
