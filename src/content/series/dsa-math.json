@@ -13,11 +13,6 @@
       "link": [
         {
           "type": "articles",
-          "url": "dsa-math-analysis-of-algorithms",
-          "title": "Introduction to Algorithmic Analysis"
-        },
-        {
-          "type": "articles",
           "url": "dsa-math-foundations",
           "title": "Introduction to Math for DSA"
         }

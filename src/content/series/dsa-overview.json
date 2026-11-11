@@ -17,6 +17,12 @@
         },
         {
           "type": "articles",
+          "url": "dsa-math-analysis-of-algorithms",
+          "title": "Analysis of Algorithm",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
           "url": "dsa-overview-selection-sort",
           "title": "Selection Sort"
         },
@@ -58,5 +64,6 @@
       ]
     }
   ],
-  "time": ""
+  "time": "",
+  "resources": []
 }

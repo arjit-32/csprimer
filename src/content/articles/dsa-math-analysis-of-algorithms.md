@@ -1,13 +1,12 @@
 ---
 title: Analysis of Algorithm
-meta_title: dsa
 description: dsa
 author: Arjit Sharma
-series: dsa-math
+series: dsa-overview
 categories:
   - DSA
-featured: false
 draft: false
+featured: false
 ---
 
 Analysis of Algorithms helps us compare solutions and predict performance before writing full programs. Instead of focusing on hardware speed, it focuses on how an algorithm scales with input size.

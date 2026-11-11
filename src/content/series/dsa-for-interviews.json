@@ -23,6 +23,18 @@
           "url": "dsa-for-interviews-range-sum-query",
           "title": "Range Sum Query",
           "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-equilibrium-point",
+          "title": "Equilibrium Point",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-find-the-highest-altitude",
+          "title": "find-the-highest-altitude",
+          "status": "in-progress"
         }
       ]
     }
