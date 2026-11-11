@@ -14,24 +14,8 @@ const seriesCollection = (await getCollection("series")).sort((a, b) => {
   return a.data.title.localeCompare(b.data.title);
 });
 const activeCourses = seriesCollection.filter((s) => s.data.status !== 'planned');
-import roadmapAllImg from "@/assets/images/categories/roadmap.webp";
-import roadmapCoreCSImg from "@/assets/images/categories/1.webp";
-import roadmapDSAImg from "@/assets/images/categories/2.webp";
-import roadmapDevImg from "@/assets/images/categories/3.webp";
-import roadmapSysDesignImg from "@/assets/images/categories/4.webp";
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/*.webp');
-
-// Pre-resolve roadmap images for the client-side switcher
-const roadmaps = {
-  all: await getImage({ src: roadmapAllImg, width: 800 }),
-  'Core-CS': await getImage({ src: roadmapCoreCSImg, width: 800 }),
-  DSA: await getImage({ src: roadmapDSAImg, width: 800 }),
-  Development: await getImage({ src: roadmapDevImg, width: 800 }),
-  'System-Design': await getImage({ src: roadmapSysDesignImg, width: 800 }),
-  'AI-Engineering': await getImage({ src: roadmapSysDesignImg, width: 1200 }),
-};
-
 ---
 <Base title="Courses" description="Master computer science with CSPrimer's comprehensive course series – Core CS, DSA, Web Development, and System Design.">
   <CoursesBanner totalCourses={activeCourses.length || "20+"} />
@@ -49,7 +33,6 @@ const roadmaps = {
               { category: "DSA", label: "Data Structures & Algorithms", color: "red" },
               { category: "Development", label: "Development", color: "green" },
               { category: "System-Design", label: "System Design", color: "purple" },
-              { category: "AI-Engineering", label: "AI Engineering", color: "pink" },
             ].map(({ category, label, color }) => {
               const bgColor = {
                 gray: "bg-gray-50 hover:bg-gray-100 text-gray-500",
@@ -77,23 +60,21 @@ const roadmaps = {
           </div>
 
           <div id="roadmapContent" class="hidden md:block">
-            <a href="/roadmaps">
-            <p class="text-sm text-gray-500 mb-2 font-semibold">Checkout Roadmap</p>
-            
-            <img
-              id="roadmapImage"
-              src={roadmaps.all.src}
-              data-roadmaps={JSON.stringify({
-                all: roadmaps.all.src,
-                'Core-CS': roadmaps['Core-CS'].src,
-                DSA: roadmaps.DSA.src,
-                Development: roadmaps.Development.src,
-                'System-Design': roadmaps['System-Design'].src,
-                'AI-Engineering': roadmaps['AI-Engineering'].src
-              })}
-              alt="Roadmap"
-              class="max-w-full h-auto rounded-lg shadow-md object-contain"
-            />
+            <a href="/roadmaps" class="block p-5 bg-gradient-to-br from-orange-50/80 to-white rounded-2xl border border-orange-200 shadow-xs hover:shadow-md hover:border-[#FE6019] transition-all group no-underline text-left">
+              <div class="flex items-center gap-2 text-xs font-bold text-[#FE6019] uppercase tracking-wider mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+                <span>Visual Skill Tree</span>
+              </div>
+              <h4 class="text-base font-bold text-zinc-900 group-hover:text-[#FE6019] transition-colors leading-snug">
+                Learning Roadmaps
+              </h4>
+              <p class="text-xs text-zinc-500 mt-1 leading-relaxed">
+                Explore prerequisites, milestones, and structured paths across all subjects.
+              </p>
+              <div class="mt-4 flex items-center gap-1.5 text-xs font-bold text-[#FE6019] group-hover:translate-x-1 transition-transform">
+                <span>Open Interactive Tree</span>
+                <span>→</span>
+              </div>
             </a>
           </div>
         </div>
@@ -203,9 +184,8 @@ const roadmaps = {
     const categoryButtons = document.getElementById("categoryButtons");
     const courseGrid = document.getElementById("courseGrid");
     const courseCards = document.querySelectorAll(".course-card");
-    const roadmapImage = document.getElementById("roadmapImage") as HTMLImageElement;
 
-    if (!categoryButtons || !courseGrid || !roadmapImage) return;
+    if (!categoryButtons || !courseGrid) return;
 
     function filterSeries(category: string) {
       const existingNoResults = document.getElementById("no-results");
@@ -260,11 +240,6 @@ const roadmaps = {
             const allButton = document.querySelector('[data-category="all"]') as HTMLButtonElement;
             if (allButton) allButton.click();
           });
-        }
-        const dataRoadmaps = roadmapImage.dataset.roadmaps;
-        if (dataRoadmaps) {
-          const imagesMap = JSON.parse(dataRoadmaps);
-          roadmapImage.src = imagesMap[category] || imagesMap.all;
         }
         
         // Update the URL with the selected category
