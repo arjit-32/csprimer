@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 14,
+  "weight": 13,
   "title": "#12 Binary Trees",
   "image": "../../assets/images/thumbnails/dsa-binary-tree.webp",
   "subtitle": "Master tree data structures and algorithms for hierarchical problem-solving.",

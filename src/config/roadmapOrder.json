@@ -24,45 +24,66 @@
       }
     ],
     "edges": [
-      { "from": "dm", "to": "dl" },
-      { "from": "dl", "to": "coa" },
-      { "from": "coa", "to": "toc" },
-      { "from": "toc", "to": "compiler" },
-      { "from": "os", "to": "cn" },
-      { "from": "os", "to": "dbms" }
+      {
+        "from": "dm",
+        "to": "dl"
+      },
+      {
+        "from": "dl",
+        "to": "coa"
+      },
+      {
+        "from": "coa",
+        "to": "toc"
+      },
+      {
+        "from": "toc",
+        "to": "compiler"
+      },
+      {
+        "from": "os",
+        "to": "cn"
+      },
+      {
+        "from": "os",
+        "to": "dbms"
+      }
     ]
   },
   "DSA": {
     "layout": "branching",
     "paths": [
       {
-        "id": "foundations",
+        "id": "dsa-interviews",
         "title": "For Interviews",
         "courses": [
           "java",
           "dsa-for-interviews"
         ]
-      },{
-        "id": "foundations",
-        "title": "Foundations & Basics",
+      },
+      {
+        "id": "dsa-foundations",
+        "title": "Foundations & Math",
         "courses": [
+          "dsa-overview",
           "dsa-math",
           "dsa-bit-manipulation"
         ]
       },
       {
-        "id": "linear",
-        "title": "Linear Structures",
+        "id": "dsa-core",
+        "title": "Core Data Structures",
         "courses": [
           "dsa-array",
           "dsa-strings",
+          "dsa-hashing",
           "dsa-linklist",
           "dsa-stacks",
           "dsa-queues"
         ]
       },
       {
-        "id": "non-linear",
+        "id": "dsa-advanced-structs",
         "title": "Trees & Graphs",
         "courses": [
           "dsa-recursion",
@@ -73,8 +94,8 @@
         ]
       },
       {
-        "id": "algorithms",
-        "title": "Algorithms & Interviews",
+        "id": "dsa-algorithms",
+        "title": "Advanced Algorithms",
         "courses": [
           "dsa-greedy",
           "dsa-backtracking",
@@ -84,19 +105,82 @@
       }
     ],
     "edges": [
-      { "from": "java", "to": "dsa-for-interviews" },
-      { "from": "dsa-math", "to": "dsa-bit-manipulation" },
-      { "from": "dsa-array", "to": "dsa-strings" },
-      { "from": "dsa-strings", "to": "dsa-linklist" },
-      { "from": "dsa-linklist", "to": "dsa-stacks" },
-      { "from": "dsa-stacks", "to": "dsa-queues" },
-      { "from": "dsa-recursion", "to": "dsa-trees" },
-      { "from": "dsa-trees", "to": "dsa-bst" },
-      { "from": "dsa-bst", "to": "dsa-heaps" },
-      { "from": "dsa-heaps", "to": "dsa-graphs" },
-      { "from": "dsa-greedy", "to": "dsa-backtracking" },
-      { "from": "dsa-backtracking", "to": "dsa-dynamic-programming" },
-      { "from": "dsa-dynamic-programming", "to": "dsa-advanced" }      
+      {
+        "from": "java",
+        "to": "dsa-overview"
+      },
+      {
+        "from": "dsa-overview",
+        "to": "dsa-math"
+      },
+      {
+        "from": "dsa-math",
+        "to": "dsa-bit-manipulation"
+      },
+      {
+        "from": "dsa-bit-manipulation",
+        "to": "dsa-array"
+      },
+      {
+        "from": "dsa-array",
+        "to": "dsa-strings"
+      },
+      {
+        "from": "dsa-strings",
+        "to": "dsa-hashing"
+      },
+      {
+        "from": "dsa-hashing",
+        "to": "dsa-linklist"
+      },
+      {
+        "from": "dsa-linklist",
+        "to": "dsa-stacks"
+      },
+      {
+        "from": "dsa-stacks",
+        "to": "dsa-queues"
+      },
+      {
+        "from": "dsa-queues",
+        "to": "dsa-recursion"
+      },
+      {
+        "from": "dsa-recursion",
+        "to": "dsa-trees"
+      },
+      {
+        "from": "dsa-trees",
+        "to": "dsa-bst"
+      },
+      {
+        "from": "dsa-bst",
+        "to": "dsa-heaps"
+      },
+      {
+        "from": "dsa-heaps",
+        "to": "dsa-graphs"
+      },
+      {
+        "from": "dsa-graphs",
+        "to": "dsa-greedy"
+      },
+      {
+        "from": "dsa-greedy",
+        "to": "dsa-backtracking"
+      },
+      {
+        "from": "dsa-backtracking",
+        "to": "dsa-dynamic-programming"
+      },
+      {
+        "from": "dsa-dynamic-programming",
+        "to": "dsa-advanced"
+      },
+      {
+        "from": "java",
+        "to": "dsa-for-interviews"
+      }
     ]
   },
   "Development": {
@@ -112,14 +196,27 @@
       },
       {
         "id": "dev-backend",
-        "title": "Backend & Databases",
+        "title": "Backend",
         "courses": [
           "nodejs",
           "express",
           "auth",
-          "sql",
-          "mongo",
           "production-grade"
+        ]
+      },
+      {
+        "id": "dev-databases",
+        "title": "Databases",
+        "courses": [
+          "sql",
+          "mongo"
+        ]
+      },
+      {
+        "id": "dev-frontend",
+        "title": "Frontend",
+        "courses": [
+          "react"
         ]
       },
       {
@@ -127,20 +224,36 @@
         "title": "Extras",
         "courses": [
           "git",
-          "ui"
+          "ui",
+          "typescript"
         ]
       }
     ],
     "edges": [
-      { "from": "html-css", "to": "javascript" },
-      { "from": "javascript", "to": "typescript" },
-      { "from": "typescript", "to": "react" },
-      { "from": "javascript", "to": "nodejs" },
-      { "from": "nodejs", "to": "express" },
-      { "from": "express", "to": "auth" },
-      { "from": "auth", "to": "sql" },
-      { "from": "sql", "to": "mongo" },
-      { "from": "mongo", "to": "production-grade" }
+      {
+        "from": "html-css",
+        "to": "javascript"
+      },
+      {
+        "from": "javascript",
+        "to": "nodejs"
+      },
+      {
+        "from": "nodejs",
+        "to": "express"
+      },
+      {
+        "from": "express",
+        "to": "auth"
+      },
+      {
+        "from": "express",
+        "to": "sql"
+      },
+      {
+        "from": "sql",
+        "to": "mongo"
+      }
     ]
   },
   "System-Design": {
@@ -148,19 +261,40 @@
     "paths": [
       {
         "id": "sys-design",
-        "title": "Distributed Systems & Cloud",
+        "title": "Foundations",
         "courses": [
-          "distributed",
+          "distributed"
+        ]
+      },
+      {
+        "id": "sys-design",
+        "title": "System Design Core",
+        "courses": [
+          "high-level-system-design"
+        ]
+      },
+      {
+        "id": "sys-design",
+        "title": "Practical",
+        "courses": [
           "api",
-          "high-level-system-design",
           "aws"
         ]
       }
     ],
     "edges": [
-      { "from": "distributed", "to": "api" },
-      { "from": "api", "to": "high-level-system-design" },
-      { "from": "high-level-system-design", "to": "aws" }
+      {
+        "from": "distributed",
+        "to": "high-level-system-design"
+      },
+      {
+        "from": "high-level-system-design",
+        "to": "api"
+      },
+      {
+        "from": "high-level-system-design",
+        "to": "aws"
+      }
     ]
   },
   "AI-Engineering": {

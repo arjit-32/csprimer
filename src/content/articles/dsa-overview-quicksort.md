@@ -1,10 +1,14 @@
 ---
 title: Quicksort
 meta_title: Quicksort Explained with Divide & Conquer  Recursion in DSA
-description: Master the Quicksort algorithm using Divide and Conquer strategy. Learn through examples, code, and recursion-based logic—ideal for beginners in Data Structures and Algorithms.
+description: >-
+  Master the Quicksort algorithm using Divide and Conquer strategy. Learn
+  through examples, code, and recursion-based logic—ideal for beginners in Data
+  Structures and Algorithms.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---

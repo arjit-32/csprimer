@@ -13,13 +13,9 @@
       "link": [
         {
           "type": "articles",
-          "url": "dasasd",
-          "title": "asdsads"
-        },
-        {
-          "type": "articles",
-          "url": "asdasd",
-          "title": "asdasd"
+          "url": "production-grade-introduction",
+          "title": "Introduction to Production Grade Engineering",
+          "status": "planned"
         }
       ]
     }

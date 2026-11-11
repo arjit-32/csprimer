@@ -4,7 +4,8 @@ meta_title: dsa
 description: dsa
 author: Arjit Sharma
 series: dsa-math
-categories: ["DSA"]
+categories:
+  - DSA
 featured: false
 draft: false
 ---

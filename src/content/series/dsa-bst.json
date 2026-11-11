@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 15,
+  "weight": 14,
   "title": "#13 Binary Search Tree (BST)",
   "image": "../../assets/images/thumbnails/dsa-bst.webp",
   "subtitle": "Master Binary Search Trees for efficient searching and sorting.",

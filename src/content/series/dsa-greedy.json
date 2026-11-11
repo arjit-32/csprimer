@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 18,
+  "weight": 17,
   "title": "#16 Greedy Algorithms",
   "image": "../../assets/images/thumbnails/dsa-greedy.webp",
   "subtitle": "Master greedy algorithms for optimal problem-solving.",

@@ -1,8 +1,9 @@
 ---
-title: "running sum"
-author: "Arjit Sharma"
-series: "dsa-math"
-categories: ["DSA"]
+title: running sum
+author: Arjit Sharma
+series: dsa-math
+categories:
+  - DSA
 draft: false
 featured: false
 ---

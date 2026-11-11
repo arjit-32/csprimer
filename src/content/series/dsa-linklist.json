@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 10,
+  "weight": 9,
   "title": "#8 Linked List",
   "image": "../../assets/images/thumbnails/dsa-linklist.webp",
   "subtitle": "Learn the fundamentals and advanced techniques of linked lists.",
@@ -13,7 +13,7 @@
       "link": [
         {
           "type": "articles",
-          "url": "dsa-linked-list-introduction",
+          "url": "dsa-linklist-introduction",
           "title": "What is a Linked List?"
         }
       ]

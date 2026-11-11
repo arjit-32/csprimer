@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 11,
+  "weight": 10,
   "title": "#9 Stacks",
   "image": "../../assets/images/thumbnails/dsa-stacks.webp",
   "subtitle": "Master stack operations and algorithms for efficient problem-solving.",

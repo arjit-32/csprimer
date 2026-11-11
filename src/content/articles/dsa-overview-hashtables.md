@@ -1,10 +1,13 @@
 ---
 title: HashTables
 meta_title: Hash Tables & Hash Functions Explained | DSA
-description: Understand hash functions, hash tables, collisions, and their performance with simple examples in JavaScript.
+description: >-
+  Understand hash functions, hash tables, collisions, and their performance with
+  simple examples in JavaScript.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---

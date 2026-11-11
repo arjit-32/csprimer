@@ -1,10 +1,13 @@
 ---
-title: Arrays, Linked Lists & Selection Sort
-meta_title: Arrays, Linked Lists & Selection Sort Explained | DSA
-description: A quick introduction to arrays, linked lists, and Selection Sort with simple examples in JavaScript.
+title: 'Arrays, Linked Lists & Selection Sort'
+meta_title: 'Arrays, Linked Lists & Selection Sort Explained | DSA'
+description: >-
+  A quick introduction to arrays, linked lists, and Selection Sort with simple
+  examples in JavaScript.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---

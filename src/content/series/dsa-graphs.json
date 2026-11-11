@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 17,
+  "weight": 16,
   "title": "#15 Graphs",
   "image": "../../assets/images/thumbnails/dsa-graph.webp",
   "subtitle": "Master graph theory and algorithms for solving complex network problems.",

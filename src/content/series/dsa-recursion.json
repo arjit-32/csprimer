@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 13,
+  "weight": 12,
   "title": "#11 Recursion",
   "image": "../../assets/images/thumbnails/dsa-recursion.webp",
   "subtitle": "Master the art of solving problems with recursion.",

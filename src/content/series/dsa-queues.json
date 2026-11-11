@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 12,
+  "weight": 11,
   "title": "#10 Queues",
   "image": "../../assets/images/thumbnails/dsa-queue.webp",
   "subtitle": "Master queue operations and algorithms for efficient data handling.",

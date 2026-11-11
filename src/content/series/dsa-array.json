@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 5,
+  "weight": 6,
   "title": "#3 Arrays",
   "image": "../../assets/images/thumbnails/dsa-array.webp",
   "subtitle": "Master the fundamentals and advanced techniques of array manipulation.",

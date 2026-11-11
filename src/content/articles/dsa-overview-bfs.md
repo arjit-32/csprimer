@@ -1,10 +1,14 @@
 ---
 title: Breadth-First Search
-meta_title: Breadth-First Search (BFS) Made Simple - Graphs, Queues & JavaScript Examples
-description: Understand Breadth-First Search with intuitive examples, graphs, queues, and JavaScript. Learn how BFS explores nodes level by level and finds shortest paths in unweighted graphs.
+meta_title: 'Breadth-First Search (BFS) Made Simple - Graphs, Queues & JavaScript Examples'
+description: >-
+  Understand Breadth-First Search with intuitive examples, graphs, queues, and
+  JavaScript. Learn how BFS explores nodes level by level and finds shortest
+  paths in unweighted graphs.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---

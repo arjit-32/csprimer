@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 16,
+  "weight": 15,
   "title": "#14 Heaps",
   "image": "../../assets/images/thumbnails/dsa-heap.webp",
   "subtitle": "Master heap data structures for efficient priority management.",

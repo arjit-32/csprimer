@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 3,
+  "weight": 4,
   "title": "#1 DSA Math",
   "image": "../../assets/images/thumbnails/dsa-math.webp",
   "subtitle": "Starting with math concepts, building foundations for more advance topics.",
@@ -13,7 +13,7 @@
       "link": [
         {
           "type": "articles",
-          "url": "dsa-analysis-of-algorithms",
+          "url": "dsa-math-analysis-of-algorithms",
           "title": "Introduction to Algorithmic Analysis"
         },
         {
@@ -28,22 +28,22 @@
       "link": [
         {
           "type": "articles",
-          "url": "dsa-problem-1-count-digits",
+          "url": "dsa-math-problem-1-count-digits",
           "title": "Count Digits"
         },
         {
           "type": "articles",
-          "url": "dsa-problem-2-reverse-number",
+          "url": "dsa-math-problem-2-reverse-number",
           "title": "Reverse a Number"
         },
         {
           "type": "articles",
-          "url": "dsa-problem-3-pallindrome-number",
+          "url": "dsa-math-problem-3-pallindrome-number",
           "title": "Pallindrome Number"
         },
         {
           "type": "articles",
-          "url": "dsa-problem-4-armstrong-number",
+          "url": "dsa-math-problem-4-armstrong-number",
           "title": "Armstrong Number",
           "status": "in-progress"
         }
@@ -66,7 +66,7 @@
         },
         {
           "type": "articles",
-          "url": "dsa-problem-3-pallindrome-number",
+          "url": "dsa-math-trailing-zeros-in-factorial",
           "title": "Trailing zeros in Factorial",
           "status": "planned"
         }

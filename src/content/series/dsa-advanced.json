@@ -1,7 +1,7 @@
 {
   "ongoing": "false",
   "status": "planned",
-  "weight": 21,
+  "weight": 20,
   "title": "#19 Advanced Topics",
   "image": "../../assets/images/thumbnails/dsa-advanced.webp",
   "subtitle": "Master advanced data structures and algorithms for cutting-edge problem-solving.",

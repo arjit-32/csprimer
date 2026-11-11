@@ -1,10 +1,14 @@
 ---
 title: Greedy Algorithms
-meta_title: Greedy Algorithms in Action  Scheduling, Knapsack & Set Cover Problems
-description: Learn how greedy algorithms solve real-world problems efficiently—like class scheduling, knapsack optimization, and set covering. Explore strengths, pitfalls, and Java implementation in this DSA guide.
+meta_title: 'Greedy Algorithms in Action  Scheduling, Knapsack & Set Cover Problems'
+description: >-
+  Learn how greedy algorithms solve real-world problems efficiently—like class
+  scheduling, knapsack optimization, and set covering. Explore strengths,
+  pitfalls, and Java implementation in this DSA guide.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---

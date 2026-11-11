@@ -1,10 +1,14 @@
 ---
 title: Dijkstra's Algorithm
-meta_title: Dijkstra’s Algorithm Explained - Weighted Graphs, Shortest Paths & Code
-description: Learn Dijkstra's Algorithm with intuitive examples, weighted graphs, and JavaScript. Understand how Dijkstra finds the shortest path and why it works with non-negative edge weights.
+meta_title: 'Dijkstra’s Algorithm Explained - Weighted Graphs, Shortest Paths & Code'
+description: >-
+  Learn Dijkstra's Algorithm with intuitive examples, weighted graphs, and
+  JavaScript. Understand how Dijkstra finds the shortest path and why it works
+  with non-negative edge weights.
 author: Arjit Sharma
-series: dsa-for-interviews
-categories: ["DSA"]
+series: dsa-overview
+categories:
+  - DSA
 featured: false
 draft: false
 ---
