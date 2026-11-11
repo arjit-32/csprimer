@@ -1,0 +1,130 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+const allArticles = await getCollection("articles");
+
+// Show only articles explicitly marked as featured: true
+const featuredArticles = allArticles.filter((a) => a.data.featured);
+
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/thumbnails/*.webp");
+---
+
+<section class="section articles-showcase-section py-14 md:py-20 bg-white relative overflow-hidden border-t border-zinc-200/80" id="projects-showcase">
+  <div class="container mx-auto px-4 max-w-6xl">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-5 border-b border-zinc-200 gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold tracking-wider mb-3 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+          Hands-On Engineering
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black font-secondary text-zinc-900 tracking-tight leading-tight">
+          Featured Projects
+        </h2>
+        <p class="text-zinc-600 text-sm md:text-base mt-2 max-w-2xl leading-relaxed">
+          The best way to understand systems is to build them from scratch. Hands-on build retrospectives with source code and demos.
+        </p>
+      </div>
+
+      <a 
+        href="/articles" 
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-zinc-200 text-sm font-bold text-zinc-800 hover:text-[#FE6019] hover:border-[#FE6019] shadow-sm hover:shadow-md transition-all self-start md:self-auto shrink-0 group"
+      >
+        <span>Browse All Projects</span>
+        <svg class="w-4 h-4 text-[#FE6019] group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- 2-Card Featured Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {featuredArticles.map((article) => {
+        let imagePath = article.data.image || "/images/thumbnails/shell.webp";
+        if (imagePath.startsWith("/images/")) {
+          imagePath = `/src/assets${imagePath}`;
+        }
+
+        if (!images[imagePath]) {
+          const lowercasePath = imagePath.toLowerCase();
+          const matchedKey = Object.keys(images).find((key) => key.toLowerCase() === lowercasePath);
+          if (matchedKey) imagePath = matchedKey;
+        }
+
+        return (
+          <div class="flex flex-col justify-between bg-white rounded-2xl border border-zinc-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+            <!-- Article Image -->
+            <a href={`/articles/${article.slug}`} class="block relative aspect-[16/9] bg-zinc-100 overflow-hidden no-underline">
+              {images[imagePath] ? (
+                <Image
+                  src={images[imagePath]()}
+                  alt={article.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width={560}
+                  height={315}
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center bg-zinc-200 text-zinc-400 font-bold text-xs">
+                  {article.data.title}
+                </div>
+              )}
+              <span class="absolute top-3 left-3 bg-[#FE6019] text-white font-mono text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow">
+                Featured Build
+              </span>
+            </a>
+
+            <!-- Article Body -->
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-2.5">
+                  {(article.data.categories || []).map((cat: string) => (
+                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-100 text-zinc-600 border border-zinc-200">
+                      {cat}
+                    </span>
+                  ))}
+                  {article.data.year && (
+                    <span class="text-[10px] font-mono text-zinc-400">
+                      {article.data.year}
+                    </span>
+                  )}
+                </div>
+
+                <a href={`/articles/${article.slug}`} class="block no-underline">
+                  <h3 class="text-xl font-bold font-secondary text-zinc-900 group-hover:text-[#FE6019] transition-colors leading-snug">
+                    {article.data.title}
+                  </h3>
+                </a>
+
+                <p class="text-xs sm:text-sm text-zinc-500 mt-2 line-clamp-3 leading-relaxed">
+                  {article.data.subtitle || article.data.description}
+                </p>
+              </div>
+
+              <!-- Footer -->
+              <div class="mt-6 pt-4 border-t border-zinc-100 flex items-center justify-between">
+                <a
+                  href={`/articles/${article.slug}`}
+                  class="text-xs font-bold text-[#FE6019] group-hover:translate-x-0.5 transition-transform flex items-center gap-1 no-underline"
+                >
+                  <span>Explore Project</span>
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+
+                {article.data.author && (
+                  <span class="text-[11px] font-medium text-zinc-400">
+                    By {article.data.author}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

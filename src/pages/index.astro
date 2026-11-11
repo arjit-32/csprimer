@@ -1,10 +1,11 @@
 ---
 import Base from "@/layouts/Base.astro";
 import Banner from "@/components/ui/Banner.astro";
-import VideoFeatureBanner from "@/components/ui/VideoFeatureBanner.astro";
 import Categories from "@/components/features/blog/Categories.astro";
+import ShortsShowcase from "@/components/home/ShortsShowcase.astro";
 import InterviewBytesShowcase from "@/components/home/InterviewBytesShowcase.astro";
 import RevisionSheetsShowcase from "@/components/home/RevisionSheetsShowcase.astro";
+import ArticlesShowcase from "@/components/home/ArticlesShowcase.astro";
 import Cta from "@/components/layout/Cta.astro";
 ---
 
@@ -13,9 +14,10 @@ import Cta from "@/components/layout/Cta.astro";
   description="Level up your tech skills with CSPrimer! Follow structured courses in system design, DSA, core CS, and full-stack development. Free and open-source."
 >
   <Banner />
-  <!-- <VideoFeatureBanner /> -->
   <Categories />
+  <ShortsShowcase />
   <InterviewBytesShowcase />
   <RevisionSheetsShowcase />
+  <ArticlesShowcase />
   <Cta />
 </Base>

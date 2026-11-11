@@ -1,5 +1,5 @@
 ---
-// Structured Learning - Interactive Roadmap Tree with Non-Linear Branching & Rotating Pulse
+// Structured Learning - Interactive Roadmap Tree with Clean 3-Node Tracks
 const categories = [
   {
     id: 0,
@@ -13,25 +13,10 @@ const categories = [
     accentText: "text-red-700",
     dotColor: "bg-red-500",
     glowShadow: "rgba(239, 68, 68, 0.35)",
-    branches: [
-      {
-        id: "dsa-b1",
-        label: "Linear",
-        nodes: [
-          { title: "Arrays & Strings", sub: "Foundations" },
-          { title: "Two Pointers", sub: "Sliding Window" },
-        ],
-        hasMore: false,
-      },
-      {
-        id: "dsa-b2",
-        label: "Complex",
-        nodes: [
-          { title: "Trees & Graphs", sub: "Recursion & BFS/DFS" },
-          { title: "Dynamic Programming", sub: "Optimization" },
-        ],
-        hasMore: true,
-      },
+    nodes: [
+      { id: "dsa-overview", title: "DSA Overview", sub: "Complexity & Big-O", url: "/courses/dsa-overview" },
+      { id: "dsa-array", title: "Arrays & Strings", sub: "Pointers & Sliding Window", url: "/courses/dsa-array" },
+      { id: "dsa-dynamic-programming", title: "Dynamic Programming", sub: "Memoization & Grids", url: "/courses/dsa-dynamic-programming" },
     ],
   },
   {
@@ -39,40 +24,17 @@ const categories = [
     category: "Development",
     name: "Fullstack Dev",
     fullName: "Full-Stack Web Development",
-    tag: "Core Engineering",
+    tag: "Engineering",
     color: "#10b981",
     accentBg: "bg-emerald-50",
     accentBorder: "border-emerald-500",
     accentText: "text-emerald-700",
     dotColor: "bg-emerald-500",
     glowShadow: "rgba(16, 185, 129, 0.35)",
-    branches: [
-      {
-        id: "fs-b1",
-        label: "Frontend",
-        nodes: [
-          { title: "HTML, CSS & JS", sub: "Web Basics" },
-          { title: "React & Modern UI", sub: "State & Components" },
-        ],
-        hasMore: false,
-      },
-      {
-        id: "fs-b2",
-        label: "Backend & Systems",
-        nodes: [
-          { title: "Backend & DB", sub: "Node, APIs & SQL" },
-          { title: "Production Grade Eng", sub: "Docker & Scale" },
-        ],
-        hasMore: true,
-      },
-      {
-        id: "fs-b3",
-        label: "Workflow",
-        nodes: [
-          { title: "Extras & Git", sub: "Dev Tools" },
-        ],
-        hasMore: false,
-      },
+    nodes: [
+      { id: "javascript", title: "JavaScript Core", sub: "Async, Closures & DOM", url: "/courses/javascript" },
+      { id: "nodejs", title: "Node.js & Express", sub: "REST APIs & Middleware", url: "/courses/nodejs" },
+      { id: "sql", title: "MySQL & Prisma", sub: "Relational Queries & ORM", url: "/courses/sql" },
     ],
   },
   {
@@ -87,62 +49,31 @@ const categories = [
     accentText: "text-purple-700",
     dotColor: "bg-purple-500",
     glowShadow: "rgba(168, 85, 247, 0.35)",
-    branches: [
-      {
-        id: "sd-b1",
-        label: "Distributed",
-        nodes: [
-          { title: "Distributed Core", sub: "REST, Caching, Queues" },
-          { title: "High-Level Arch", sub: "Microservices & Load Balancing" },
-        ],
-        hasMore: false,
-      },
-      {
-        id: "sd-b2",
-        label: "Cloud & Scale",
-        nodes: [
-          { title: "Databases & Storage", sub: "Replication & Sharding" },
-          { title: "Cloud Scale (AWS)", sub: "CDN, VPC & Infra" },
-        ],
-        hasMore: true,
-      },
+    nodes: [
+      { id: "distributed", title: "Distributed Systems", sub: "CAP, Consensus & Sharding", url: "/courses/distributed" },
+      { id: "high-level-system-design", title: "High Level Design", sub: "Microservices & Caching", url: "/courses/high-level-system-design" },
+      { id: "api", title: "API Design", sub: "REST, GraphQL & gRPC", url: "/courses/api" },
     ],
   },
   {
     id: 3,
-    category: "AI-Engineering",
-    name: "AI Engineering",
-    fullName: "AI Engineering & LLMs",
-    tag: "AI & Agents",
-    color: "#ec4899",
-    accentBg: "bg-pink-50",
-    accentBorder: "border-pink-500",
-    accentText: "text-pink-700",
-    dotColor: "bg-pink-500",
-    glowShadow: "rgba(236, 72, 153, 0.35)",
-    branches: [
-      {
-        id: "ai-b1",
-        label: "Models",
-        nodes: [
-          { title: "LLMs & Prompting", sub: "Transformers & Attention" },
-          { title: "RAG & Vector Stores", sub: "Embeddings & Retrieval" },
-        ],
-        hasMore: false,
-      },
-      {
-        id: "ai-b2",
-        label: "Autonomous",
-        nodes: [
-          { title: "Agents & Tool Calling", sub: "ReAct & Multi-Agent Loops" },
-          { title: "Guardrails & Eval", sub: "Production Safety" },
-        ],
-        hasMore: true,
-      },
+    category: "Core-CS",
+    name: "Core CS",
+    fullName: "Core Computer Science",
+    tag: "Fundamentals",
+    color: "#0284c7",
+    accentBg: "bg-sky-50",
+    accentBorder: "border-sky-500",
+    accentText: "text-sky-700",
+    dotColor: "bg-sky-500",
+    glowShadow: "rgba(2, 132, 199, 0.35)",
+    nodes: [
+      { id: "os", title: "Operating Systems", sub: "Processes, Threads & Memory", url: "/courses/os" },
+      { id: "cn", title: "Computer Networks", sub: "TCP/IP, Routing & DNS", url: "/courses/cn" },
+      { id: "dbms", title: "Database Systems", sub: "ACID, B-Trees & Indexing", url: "/courses/dbms" },
     ],
   },
 ];
-
 ---
 
 <section class="section structured-learning-section py-12 md:py-16 bg-[#fafafa] relative overflow-hidden" id="structured-learning">
@@ -151,15 +82,15 @@ const categories = [
     <!-- Section Header -->
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-5 border-b border-zinc-200 gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold tracking-wider mb-3 shadow-xs">
           <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
-          Visual Skill Tree
+          Structured Learning Paths
         </div>
         <h2 class="text-3xl md:text-4xl font-black font-secondary text-zinc-900 tracking-tight leading-tight">
-          Structured Learning
+          Learning Roadmaps
         </h2>
         <p class="text-zinc-600 text-sm md:text-base mt-2 max-w-2xl leading-relaxed">
-          Master computer science fundamentals first, then branch into specialized tracks. The active path rotates automatically to preview each curriculum.
+          From computer science fundamentals to algorithms, full-stack systems, and distributed architecture. Select any track to preview its progression.
         </p>
       </div>
 
@@ -192,7 +123,7 @@ const categories = [
           {categories.map((cat) => (
             <button
               type="button"
-              class={`cat-pill-btn px-2.5 py-1 rounded-lg text-[11px] font-bold tracking-tight transition-all cursor-pointer border`}
+              class="cat-pill-btn px-2.5 py-1 rounded-lg text-[11px] font-bold tracking-tight transition-all cursor-pointer border"
               data-target-track={cat.id}
               style={`--cat-color: ${cat.color};`}
             >
@@ -203,26 +134,26 @@ const categories = [
         </div>
       </div>
 
-      <!-- Canvas Body (Responsive: clean horizontal tree on desktop; responsive stacked branch on mobile) -->
+      <!-- Canvas Body -->
       <div 
         id="treeCanvas" 
         class="p-5 sm:p-8 md:p-10 bg-[#fdfdfd] relative bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:18px_18px] overflow-x-auto"
-        data-active-cat="1"
+        data-active-cat="0"
       >
-        <div class="min-w-[820px] lg:min-w-[1040px] py-4 flex items-center justify-start lg:justify-center select-none gap-0">
+        <div class="min-w-[820px] lg:min-w-[980px] py-4 flex items-center justify-start lg:justify-center select-none gap-0">
           
           <!-- Column 1: Start Node -->
           <div class="flex items-center shrink-0">
             <a
               href="/roadmaps"
-              class="group relative flex items-center justify-between w-32 sm:w-36 p-3 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 border border-zinc-700 no-underline shrink-0"
-              title="Start Here"
+              class="group relative flex items-center justify-between w-32 sm:w-36 p-3 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 border border-zinc-700 no-underline shrink-0 bg-zinc-900"
+              title="Start Your Journey"
             >
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
                 <div>
-                  <!-- <div class="text-[9px] font-mono uppercase tracking-wider text-orange-400 font-bold leading-none">Step 0</div> -->
-                  <div class="text-xs font-bold font-secondary text-black mt-1">Noob</div>
+                  <div class="text-[9px] font-mono uppercase tracking-wider text-orange-400 font-bold leading-none">Step 0</div>
+                  <div class="text-xs font-bold font-secondary text-white mt-1">Start Here</div>
                 </div>
               </div>
               <svg class="w-3.5 h-3.5 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,18 +161,18 @@ const categories = [
               </svg>
             </a>
 
-            <!-- Connector from Start to Core CS with animated pulse -->
+            <!-- Connector from Start to Prerequisites with animated pulse -->
             <div class="relative w-8 h-0.5 bg-zinc-300 shrink-0 overflow-hidden">
               <div class="line-pulse-beam"></div>
             </div>
           </div>
 
-          <!-- Column 2: Core CS Node -->
+          <!-- Column 2: Foundations Node -->
           <div class="flex items-center shrink-0">
             <a
               href="/roadmaps?category=Core-CS"
               class="group relative flex flex-col justify-between w-40 sm:w-44 p-3 rounded-xl border-2 border-sky-300 bg-white shadow-xs hover:border-sky-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 no-underline shrink-0"
-              title="Core Computer Science"
+              title="Core Computer Science Prerequisite"
             >
               <div class="flex items-center justify-between mb-1">
                 <span class="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">
@@ -250,17 +181,16 @@ const categories = [
                 <span class="w-2 h-2 rounded-full bg-sky-500"></span>
               </div>
               <div class="text-xs sm:text-sm font-bold text-zinc-900 group-hover:text-sky-700 transition-colors font-secondary">
-                Core CS
+                CS Core
               </div>
               <div class="text-[10px] text-zinc-500 mt-0.5 truncate">
-                OS, Networks, DBMS
+                OS, Networks, DBMS &amp; Arch
               </div>
             </a>
           </div>
 
           <!-- Center Spine & Connector into Categories List -->
           <div class="relative flex items-center shrink-0">
-            <!-- Horizontal stem out of Core CS right edge -->
             <div class="w-6 h-0.5 bg-zinc-300 shrink-0"></div>
           </div>
 
@@ -269,7 +199,7 @@ const categories = [
             <!-- Vertical Spine connecting all 4 categories at their exact centers -->
             <div class="cat-spine absolute left-0 top-[26px] bottom-[26px] w-0.5 bg-zinc-300">
               <!-- Animated traveling indicator on the spine -->
-              <div id="spineIndicator" class="absolute left-[-2px] w-1.5 h-6 rounded-full bg-[#10b981] transition-all duration-500 shadow-sm"></div>
+              <div id="spineIndicator" class="absolute left-[-2px] w-1.5 h-6 rounded-full bg-[#ef4444] transition-all duration-500 shadow-sm"></div>
             </div>
 
             {categories.map((cat) => (
@@ -303,80 +233,46 @@ const categories = [
             ))}
           </div>
 
-          <!-- Column 4: Dynamic Branching Subtree (ONLY shown for the currently active category) -->
+          <!-- Column 4: Dynamic 3-Course Pathway for Active Category -->
           <div class="relative flex items-center shrink-0 pl-2">
             {categories.map((cat) => (
               <div 
                 class={`category-branch-panel cat-branch-panel-${cat.id} flex items-center transition-all duration-300`}
                 data-panel-id={cat.id}
               >
-                <!-- Connector Stem leading out of active category into branches -->
-                <div class="w-6 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
+                <!-- Connector Stem leading out of active category into nodes -->
+                <div class="w-8 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
                   <div class="sub-beep-beam" style={`--accent-color: ${cat.color};`}></div>
                 </div>
 
-                <!-- Multi-Branching Tree (Non-Linear Forks: 2 to 3 branches!) -->
-                <div class="relative flex flex-col gap-3 py-1.5 pl-6">
-                  <!-- Branching Spine connecting the 2-3 branches -->
-                  <div 
-                    class="absolute left-0 w-0.5 bg-zinc-300"
-                    style={`top: ${cat.branches.length === 3 ? "24px" : "22px"}; bottom: ${cat.branches.length === 3 ? "24px" : "22px"};`}
-                  ></div>
+                <!-- Sequential 2-3 Courses Row -->
+                <div class="flex items-center gap-0">
+                  {cat.nodes.map((node, nIdx) => (
+                    <div class="flex items-center">
+                      {/* Connector between nodes */}
+                      {nIdx > 0 && (
+                        <div class="w-6 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
+                          <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: ${nIdx * 0.3}s;`}></div>
+                        </div>
+                      )}
 
-                  {cat.branches.map((branch, bIdx) => (
-                    <div class="relative flex items-center">
-                      <!-- Horizontal arm from spine to first node in this branch -->
-                      <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-zinc-300 overflow-hidden">
-                        <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: ${(bIdx + 1) * 0.2}s;`}></div>
-                      </div>
-
-                      <!-- Chain of nodes along this branch -->
-                      <div class="flex items-center gap-0">
-                        {branch.nodes.map((node, nIdx) => (
-                          <div class="flex items-center">
-                            {/* Connector between nodes in the branch */}
-                            {nIdx > 0 && (
-                              <div class="w-5 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
-                                <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: ${(bIdx * 2 + nIdx) * 0.3}s;`}></div>
-                              </div>
-                            )}
-
-                            <!-- Node Box -->
-                            <a
-                              href={`/roadmaps?category=${cat.category}`}
-                              class={`subnode-card relative flex flex-col justify-center px-3 py-2 rounded-lg border border-zinc-200 bg-white shadow-xs hover:border-[var(--card-accent)] hover:shadow-md transition-all duration-200 no-underline shrink-0 ${
-                                node.title.includes("Production Grade") ? "w-44" : "w-36 sm:w-40"
-                              }`}
-                              style={`--card-accent: ${cat.color};`}
-                              title={node.title}
-                            >
-                              <div class="text-[11px] font-bold text-zinc-800 leading-snug truncate">
-                                {node.title}
-                              </div>
-                              <div class="text-[9px] font-mono text-zinc-400 truncate mt-0.5">
-                                {node.sub}
-                              </div>
-                            </a>
-                          </div>
-                        ))}
-
-                        {/* If branch has overflow: Show connector and "..." Box */}
-                        {branch.hasMore && (
-                          <div class="flex items-center">
-                            <div class="w-5 h-0.5 bg-zinc-300 relative overflow-hidden shrink-0">
-                              <div class="sub-beep-beam" style={`--accent-color: ${cat.color}; animation-delay: 0.9s;`}></div>
-                            </div>
-                            <a
-                              href={`/roadmaps?category=${cat.category}`}
-                              class="more-pill w-10 h-8 flex items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 bg-white font-mono font-black text-xs text-zinc-400 hover:text-zinc-900 transition-all duration-300 no-underline shrink-0 shadow-xs"
-                              title={`Explore more topics in ${cat.name} roadmap...`}
-                              style={`--card-accent: ${cat.color};`}
-                            >
-                              <span>...</span>
-                            </a>
-                          </div>
-                        )}
-                      </div>
+                      <!-- Node Card -->
+                      <a
+                        href={node.url}
+                        class="subnode-card relative flex flex-col justify-center px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white shadow-xs hover:border-[var(--card-accent)] hover:shadow-md transition-all duration-200 no-underline shrink-0 w-36 sm:w-44"
+                        style={`--card-accent: ${cat.color};`}
+                        title={`View ${node.title} Course`}
+                      >
+                        <div class="text-[9px] font-mono text-zinc-400 font-bold uppercase tracking-wider mb-0.5">
+                          Milestone {nIdx + 1}
+                        </div>
+                        <div class="text-xs font-bold text-zinc-900 leading-snug truncate">
+                          {node.title}
+                        </div>
+                        <div class="text-[10px] text-zinc-500 truncate mt-0.5">
+                          {node.sub}
+                        </div>
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -393,7 +289,7 @@ const categories = [
           <svg class="w-4 h-4 text-[#FE6019] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>Click any category, milestone node, or &quot;...&quot; box to open the full interactive skill tree.</span>
+          <span>Click any course milestone to open its syllabus, or explore the full interactive skill tree.</span>
         </div>
         <a
           href="/roadmaps"
@@ -412,7 +308,7 @@ const categories = [
 </section>
 
 <style>
-  /* Continuous beam from Start to Core CS */
+  /* Continuous beam from Start to Prerequisites */
   .line-pulse-beam {
     position: absolute;
     top: 0;
@@ -467,7 +363,7 @@ const categories = [
   #treeCanvas[data-active-cat="1"] .cat-row-1 .cat-node-btn,
   #treeCanvas[data-active-cat="2"] .cat-row-2 .cat-node-btn,
   #treeCanvas[data-active-cat="3"] .cat-row-3 .cat-node-btn {
-    box-shadow: 0 4px 14px var(--glow-color, rgba(16, 185, 129, 0.35));
+    box-shadow: 0 4px 14px var(--glow-color, rgba(239, 68, 68, 0.25));
     transform: translateY(-2px);
   }
 
@@ -492,24 +388,6 @@ const categories = [
     animation: sweep-beep-active 0.9s ease-out infinite;
   }
 
-  .category-branch-panel.panel-active .more-pill {
-    animation: gentle-more-pulse 1.2s ease-in-out infinite;
-  }
-
-  @keyframes gentle-more-pulse {
-    0%, 100% {
-      transform: scale(1);
-      border-color: #cbd5e1;
-      color: #94a3b8;
-    }
-    50% {
-      transform: scale(1.12);
-      border-color: var(--card-accent, #10b981);
-      color: var(--card-accent, #10b981);
-      box-shadow: 0 0 10px var(--card-accent, rgba(16, 185, 129, 0.4));
-    }
-  }
-
   /* Top Pill Button active styles */
   .cat-pill-btn.active {
     background-color: #ffffff;
@@ -528,7 +406,7 @@ const categories = [
 <script>
   let rotateTimer: ReturnType<typeof setInterval> | null = null;
   const spineTopOffsets = ["26px", "74px", "122px", "170px"];
-  const spineColors = ["#ef4444", "#10b981", "#a855f7", "#ec4899"];
+  const spineColors = ["#ef4444", "#10b981", "#a855f7", "#0284c7"];
 
   function initStructuredTree() {
     const canvas = document.getElementById("treeCanvas");
@@ -541,7 +419,7 @@ const categories = [
 
     if (rotateTimer) clearInterval(rotateTimer);
 
-    let currentTrack = parseInt(canvas.getAttribute("data-active-cat") || "1", 10);
+    let currentTrack = parseInt(canvas.getAttribute("data-active-cat") || "0", 10);
     let isUserHovered = false;
 
     function applyActiveTrack(index: number) {
@@ -550,11 +428,11 @@ const categories = [
 
       // Update spine indicator position & color
       if (spineIndicator) {
-        spineIndicator.style.top = spineTopOffsets[currentTrack] || "74px";
-        spineIndicator.style.backgroundColor = spineColors[currentTrack] || "#10b981";
+        spineIndicator.style.top = spineTopOffsets[currentTrack] || "26px";
+        spineIndicator.style.backgroundColor = spineColors[currentTrack] || "#ef4444";
       }
 
-      // Show ONLY the active category's branch panel!
+      // Show ONLY the active category's branch panel
       branchPanels.forEach((panel) => {
         const panelId = parseInt(panel.getAttribute("data-panel-id") || "0", 10);
         if (panelId === currentTrack) {
@@ -578,13 +456,13 @@ const categories = [
     // Initialize with current track
     applyActiveTrack(currentTrack);
 
-    // Auto-rotate every 3.5 seconds
+    // Auto-rotate every 4 seconds
     rotateTimer = setInterval(() => {
       if (!isUserHovered) {
         const nextTrack = (currentTrack + 1) % 4;
         applyActiveTrack(nextTrack);
       }
-    }, 3500);
+    }, 4000);
 
     // Interactive button clicks (instant switch)
     pillButtons.forEach((btn) => {

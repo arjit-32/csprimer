@@ -1,0 +1,472 @@
+---
+import { getCollection } from "astro:content";
+
+const allShorts = await getCollection("shorts");
+const sortedShorts = allShorts.sort((a, b) => a.data.order - b.data.order);
+
+const shortsData = sortedShorts.map((s) => {
+  const shortId = s.slug.split("/").pop();
+  return {
+    id: shortId,
+    title: s.data.title,
+    youtubeId: s.data.youtubeId,
+    series: s.data.series,
+    seriesName: s.data.seriesName || "Oracle Cloud",
+    order: s.data.order,
+    url: `/shorts/${s.data.series}/${shortId}`,
+    thumbnail: `https://img.youtube.com/vi/${s.data.youtubeId}/hqdefault.jpg`,
+    embedUrl: `https://www.youtube.com/embed/${s.data.youtubeId}?autoplay=1&rel=0&modestbranding=1`,
+  };
+});
+---
+
+<section class="section shorts-showcase-section py-14 md:py-20 bg-zinc-900 text-white relative overflow-hidden" id="shorts-showcase">
+  <!-- Subtle background glow -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#FE6019]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="container mx-auto px-4 max-w-7xl relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      
+      <!-- Left Column: Context, Value Proposition & Interactive Playlist -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold tracking-wider mb-4">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          Quick Learning
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black font-secondary text-white tracking-tight leading-tight">
+          Master Tech Concepts <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-[#FE6019] to-amber-300">
+            In 60 Seconds
+          </span>
+        </h2>
+
+        <p class="mt-4 text-zinc-300 text-sm sm:text-base leading-relaxed max-w-xl">
+          High-density vertical video lessons breaking down cloud infrastructure, networking, and system design into quick, visual explanations. Zero fluff.
+        </p>
+
+        <!-- Current Series Chip -->
+        <div class="mt-6 flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 text-xs font-mono font-semibold border border-zinc-700">
+            Series: Oracle Cloud Infrastructure
+          </span>
+          <span class="text-xs text-zinc-400 font-medium">
+            {shortsData.length} Lessons Available
+          </span>
+        </div>
+
+        <!-- Interactive Playlist (Syncs with the card stack) -->
+        <div class="mt-6 space-y-2 max-w-lg" id="shortsPlaylist">
+          {shortsData.map((item, idx) => (
+            <button
+              type="button"
+              class={`playlist-item-btn w-full text-left px-3.5 py-2.5 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+                idx === 0
+                  ? "bg-zinc-800/90 border-[#FE6019] text-white shadow-sm"
+                  : "bg-zinc-800/40 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/70"
+              }`}
+              data-index={idx}
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="font-mono text-xs font-bold text-zinc-400 shrink-0">
+                  {String(item.order).padStart(2, "0")}
+                </span>
+                <span class="text-xs sm:text-sm font-semibold truncate text-zinc-200">
+                  {item.title}
+                </span>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[10px] font-mono text-zinc-500 bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                  ~60s
+                </span>
+                <svg class="w-3.5 h-3.5 text-zinc-400 playlist-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a
+            id="shortsWatchCurrentBtn"
+            href={shortsData[0]?.url || "/shorts"}
+            class="px-5 py-2.5 rounded-full bg-[#FE6019] hover:bg-orange-600 text-white font-bold text-xs sm:text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-2 no-underline"
+          >
+            <span>Watch in Shorts Viewer</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+
+          <a
+            href="/shorts"
+            class="px-5 py-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 font-bold text-xs sm:text-sm transition-all flex items-center gap-2 no-underline"
+          >
+            <span>All Shorts Series</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Compact Tinder Card Deck -->
+      <div class="lg:col-span-5 flex flex-col items-center justify-center">
+        <!-- Hidden Serialized Data for Client JS -->
+        <div id="shortsDataStore" class="hidden">
+          {JSON.stringify(shortsData)}
+        </div>
+
+        <div class="w-full max-w-[300px] flex flex-col items-center">
+          
+          <!-- Tinder Stack Container (Proportioned to 9:16 vertical video) -->
+          <div class="relative w-full h-[450px] flex items-center justify-center select-none" id="shortsCardDeck">
+            
+            <!-- Layer 2 (Bottom card) -->
+            <div id="deckCard2" class="deck-card absolute w-full h-[430px] rounded-2xl border border-zinc-700 bg-zinc-800/60 shadow-lg pointer-events-none transition-all duration-300 overflow-hidden">
+              <div class="w-full h-full opacity-30 bg-cover bg-center" style={`background-image: url('${shortsData[2]?.thumbnail || shortsData[0]?.thumbnail}');`}></div>
+            </div>
+
+            <!-- Layer 1 (Middle card) -->
+            <div id="deckCard1" class="deck-card absolute w-full h-[430px] rounded-2xl border border-zinc-600 bg-zinc-800/80 shadow-xl pointer-events-none transition-all duration-300 overflow-hidden">
+              <div class="w-full h-full opacity-50 bg-cover bg-center" style={`background-image: url('${shortsData[1]?.thumbnail || shortsData[0]?.thumbnail}');`}></div>
+            </div>
+
+            <!-- Layer 0 (Top Active Card) -->
+            <div
+              id="deckCard0"
+              class="deck-card active-card absolute w-full h-[430px] rounded-2xl border-2 border-zinc-600/90 bg-zinc-800 shadow-2xl overflow-hidden cursor-grab transition-all duration-300 flex flex-col justify-between"
+            >
+              <!-- Poster Thumbnail & Dark Overlay -->
+              <div class="absolute inset-0 z-0 bg-cover bg-center" id="activeCardPoster" style={`background-image: url('${shortsData[0]?.thumbnail}');`}>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60"></div>
+              </div>
+
+              <!-- Inline Video Player Container (Hidden by default, shown on play click) -->
+              <div id="activeVideoEmbedWrapper" class="absolute inset-0 z-20 bg-black hidden">
+                <iframe
+                  id="activeVideoEmbed"
+                  src=""
+                  class="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+                <button
+                  type="button"
+                  id="closeInlineVideoBtn"
+                  class="absolute top-3 right-3 z-30 p-1.5 rounded-full bg-black/70 text-white hover:bg-black border border-white/20 transition-all text-xs"
+                  title="Close Video"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <!-- Top Card Info Bar -->
+              <div class="relative z-10 p-4 flex items-center justify-between text-xs">
+                <span class="px-2 py-0.5 rounded bg-[#FE6019]/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow">
+                  Oracle Cloud
+                </span>
+                <span id="activeCardOrder" class="font-mono text-zinc-300 text-xs font-bold bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm border border-white/10">
+                  01 / 05
+                </span>
+              </div>
+
+              <!-- Center Big Play Button (Triggers inline play) -->
+              <div class="relative z-10 flex flex-col items-center justify-center">
+                <button
+                  type="button"
+                  id="playInlineShortBtn"
+                  class="w-16 h-16 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer group"
+                  title="Play Short"
+                >
+                  <svg class="w-8 h-8 ml-1 text-white group-hover:scale-105 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <span class="mt-2 text-[11px] font-medium text-zinc-300/80 tracking-wide drop-shadow">
+                  Click to play preview
+                </span>
+              </div>
+
+              <!-- Bottom Card Details -->
+              <div class="relative z-10 p-4 bg-gradient-to-t from-black via-black/90 to-transparent">
+                <div class="text-[10px] font-mono text-orange-400 font-bold uppercase tracking-wider mb-1">
+                  60-Second Micro-Lesson
+                </div>
+                <h3 id="activeCardTitle" class="text-base font-bold text-white font-secondary leading-snug line-clamp-2">
+                  {shortsData[0]?.title}
+                </h3>
+
+                <div class="mt-3 flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-white/10">
+                  <span class="text-[11px]">Swipe or tap Next</span>
+                  <a
+                    id="activeCardDeepLink"
+                    href={shortsData[0]?.url}
+                    class="text-[#FE6019] hover:underline font-semibold flex items-center gap-1"
+                  >
+                    <span>Full lesson</span>
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Bottom Control Bar -->
+          <div class="mt-4 flex items-center justify-center gap-3 w-full">
+            <!-- Prev Card Button -->
+            <button
+              type="button"
+              id="tinderShortsPrevBtn"
+              class="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 flex items-center justify-center transition-all cursor-pointer text-sm font-bold"
+              title="Previous Short"
+            >
+              ⟲
+            </button>
+
+            <!-- Play Inline Button -->
+            <button
+              type="button"
+              id="tinderShortsPlayBtn"
+              class="flex-1 py-2.5 px-4 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition-all shadow hover:shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <span>Play Video</span>
+            </button>
+
+            <!-- Next Card Button (Tinder Swipe) -->
+            <button
+              type="button"
+              id="tinderShortsNextBtn"
+              class="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 flex items-center justify-center transition-all cursor-pointer text-sm font-bold"
+              title="Next Short"
+            >
+              ✕
+            </button>
+          </div>
+
+          <!-- Progress Dots -->
+          <div class="flex items-center justify-center gap-1.5 mt-3" id="shortsDotsContainer">
+            {shortsData.map((_, i) => (
+              <span
+                class={`short-dot w-2 h-2 rounded-full transition-all ${
+                  i === 0 ? "bg-[#FE6019] scale-125" : "bg-zinc-700"
+                }`}
+                data-dot-index={i}
+              ></span>
+            ))}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 3D Stack Layer Styling */
+  #deckCard2 {
+    transform: translateY(18px) scale(0.92);
+    z-index: 10;
+  }
+  #deckCard1 {
+    transform: translateY(9px) scale(0.96);
+    z-index: 20;
+  }
+  #deckCard0 {
+    transform: translateY(0) scale(1);
+    z-index: 30;
+  }
+
+  /* Fly-out Animations */
+  .swipe-left-anim {
+    transform: translateX(-120%) rotate(-18deg) !important;
+    opacity: 0 !important;
+  }
+  .swipe-right-anim {
+    transform: translateX(120%) rotate(18deg) !important;
+    opacity: 0 !important;
+  }
+</style>
+
+<script>
+  function initShortsTinderShowcase() {
+    const dataStore = document.getElementById("shortsDataStore");
+    const card0 = document.getElementById("deckCard0");
+    const card1 = document.getElementById("deckCard1");
+    const card2 = document.getElementById("deckCard2");
+    const poster = document.getElementById("activeCardPoster");
+    const orderEl = document.getElementById("activeCardOrder");
+    const titleEl = document.getElementById("activeCardTitle");
+    const deepLinkEl = document.getElementById("activeCardDeepLink") as HTMLAnchorElement | null;
+    const watchCurrentBtn = document.getElementById("shortsWatchCurrentBtn") as HTMLAnchorElement | null;
+
+    const playInlineBtn = document.getElementById("playInlineShortBtn");
+    const playBarBtn = document.getElementById("tinderShortsPlayBtn");
+    const embedWrapper = document.getElementById("activeVideoEmbedWrapper");
+    const embedIframe = document.getElementById("activeVideoEmbed") as HTMLIFrameElement | null;
+    const closeEmbedBtn = document.getElementById("closeInlineVideoBtn");
+
+    const prevBtn = document.getElementById("tinderShortsPrevBtn");
+    const nextBtn = document.getElementById("tinderShortsNextBtn");
+    const dots = document.querySelectorAll<HTMLElement>(".short-dot");
+    const playlistBtns = document.querySelectorAll<HTMLButtonElement>(".playlist-item-btn");
+
+    if (!dataStore || !card0) return;
+
+    let items: any[] = [];
+    try {
+      items = JSON.parse(dataStore.textContent || "[]");
+    } catch (e) {
+      return;
+    }
+
+    if (!items.length) return;
+
+    let currentIndex = 0;
+
+    function renderCard(index: number) {
+      const current = items[index];
+      const next1 = items[(index + 1) % items.length];
+      const next2 = items[(index + 2) % items.length];
+      if (!current) return;
+
+      // Close inline video when changing cards
+      if (embedWrapper) embedWrapper.classList.add("hidden");
+      if (embedIframe) embedIframe.src = "";
+
+      // Update Top Card (Layer 0)
+      if (poster) poster.style.backgroundImage = `url('${current.thumbnail}')`;
+      if (orderEl) orderEl.textContent = `${String(current.order).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}`;
+      if (titleEl) titleEl.textContent = current.title;
+      if (deepLinkEl) deepLinkEl.href = current.url;
+      if (watchCurrentBtn) watchCurrentBtn.href = current.url;
+
+      // Update Middle Card (Layer 1) & Bottom Card (Layer 2)
+      if (card1) {
+        const bg = card1.querySelector("div");
+        if (bg && next1) bg.style.backgroundImage = `url('${next1.thumbnail}')`;
+      }
+      if (card2) {
+        const bg = card2.querySelector("div");
+        if (bg && next2) bg.style.backgroundImage = `url('${next2.thumbnail}')`;
+      }
+
+      // Update Dots
+      dots.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add("bg-[#FE6019]", "scale-125");
+          dot.classList.remove("bg-zinc-700");
+        } else {
+          dot.classList.remove("bg-[#FE6019]", "scale-125");
+          dot.classList.add("bg-zinc-700");
+        }
+      });
+
+      // Update Left Playlist Items
+      playlistBtns.forEach((btn, idx) => {
+        if (idx === index) {
+          btn.classList.add("bg-zinc-800/90", "border-[#FE6019]", "text-white");
+          btn.classList.remove("bg-zinc-800/40", "border-zinc-800", "text-zinc-400");
+        } else {
+          btn.classList.remove("bg-zinc-800/90", "border-[#FE6019]", "text-white");
+          btn.classList.add("bg-zinc-800/40", "border-zinc-800", "text-zinc-400");
+        }
+      });
+    }
+
+    function swipeNext(direction = "left") {
+      card0?.classList.add(direction === "left" ? "swipe-left-anim" : "swipe-right-anim");
+      setTimeout(() => {
+        card0?.classList.remove("swipe-left-anim", "swipe-right-anim");
+        currentIndex = (currentIndex + 1) % items.length;
+        renderCard(currentIndex);
+      }, 260);
+    }
+
+    function swipePrev() {
+      card0?.classList.add("swipe-right-anim");
+      setTimeout(() => {
+        card0?.classList.remove("swipe-right-anim");
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        renderCard(currentIndex);
+      }, 260);
+    }
+
+    function playCurrentVideo() {
+      const current = items[currentIndex];
+      if (!current || !embedWrapper || !embedIframe) return;
+      embedIframe.src = current.embedUrl;
+      embedWrapper.classList.remove("hidden");
+    }
+
+    playInlineBtn?.addEventListener("click", playCurrentVideo);
+    playBarBtn?.addEventListener("click", playCurrentVideo);
+
+    closeEmbedBtn?.addEventListener("click", () => {
+      if (embedWrapper) embedWrapper.classList.add("hidden");
+      if (embedIframe) embedIframe.src = "";
+    });
+
+    nextBtn?.addEventListener("click", () => swipeNext("left"));
+    prevBtn?.addEventListener("click", swipePrev);
+
+    // Click on playlist items to jump
+    playlistBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetIdx = parseInt(btn.getAttribute("data-index") || "0", 10);
+        if (targetIdx !== currentIndex) {
+          currentIndex = targetIdx;
+          renderCard(currentIndex);
+        }
+      });
+    });
+
+    // Touch & Drag Swipe Gesture Support
+    let startX = 0;
+    let isDragging = false;
+
+    card0.addEventListener("mousedown", (e) => {
+      startX = e.clientX;
+      isDragging = true;
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const diffX = e.clientX - startX;
+      if (diffX < -50) {
+        swipeNext("left");
+      } else if (diffX > 50) {
+        swipePrev();
+      }
+    });
+
+    card0.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    card0.addEventListener("touchend", (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - startX;
+      if (diffX < -50) {
+        swipeNext("left");
+      } else if (diffX > 50) {
+        swipePrev();
+      }
+    }, { passive: true });
+
+    // Initial render
+    renderCard(currentIndex);
+  }
+
+  document.addEventListener("astro:page-load", initShortsTinderShowcase);
+</script>
+
