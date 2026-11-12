@@ -31,7 +31,7 @@ npm run admin
 
 Open **`http://localhost:4322`** in your browser.
 
-- **Tab 1: Course Series Cards**: Interactive card grid of all 45 courses to set status (`🟢 Live`, `⏳ In Progress`, `🔒 Planned`, `🔁 Revisiting`), toggle On-going, and edit details (title, description, time, weight).
+- **Tab 1: Course Series Cards**: Interactive card grid of all 45 courses to set status (`🟢 Live`, `⏳ In Progress`, `🔒 Planned`, `🔁 Revisiting`), and edit details (title, description, time, weight).
 - **Tab 2: Syllabus & Lessons**: Organize chapters and lessons with `▲`/`▼` reordering, accurate status toggles, and detection of unassigned files on disk.
 - **Tab 3: Create Lesson / Project**: Smart switcher between **Course Lesson** (category strictly locked to course track), **Hands-on Project** (surfaced on `/articles`), and **Standalone Deep Dive**.
 - **Tab 4: Reorder Roadmaps**: Visual track manager with `▲ Up` and `▼ Down` buttons to reorder courses along learning paths, plus a 1-click **Sync Weights to Courses** button.
@@ -347,8 +347,8 @@ export interface ArticleFrontmatter {
 | `description` | `string` | **Yes** | — | Any string | Course summary on course overview cards |
 | `image` | `string` | No | `undefined` | Path to thumbnail | Cover banner image |
 | `category` | `string` | No | `"Course"` | `"Core-CS"`, `"DSA"`, `"Development"`, `"System-Design"`, `"AI-Engineering"` | Learning track bucket |
-| `ongoing` | `boolean \| string` | No | `false` | `true`, `false`, `"On-going"` | Indicates course is actively receiving updates |
-| `status` | `string` | No | `undefined` | `'planned'`, `'in-progress'`, `'re-visiting'` | Global course progress status |
+| `status` | `string` | No | `undefined` | `'planned'`, `'in-progress'`, `'re-visiting'` | Global course progress status (replaces legacy `ongoing`) |
+| `ongoing` | `boolean \| string` | No | `false` | `true`, `false` | *(Deprecated)* Replaced by `status: "re-visiting"` / `"in-progress"` |
 | `time` | `string` | No | `undefined` | e.g. `"4 hours"`, `"12 lessons"` | Estimated completion time |
 | `weight` | `number` | No | `100` | Integer | Sort weight (lower appears first) |
 | `navbar` | `Array<Section>` | **Yes** | — | Array of syllabus sections | Ordered chapters and lesson links (see below) |

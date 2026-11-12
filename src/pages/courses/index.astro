@@ -100,9 +100,6 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
 
             const cardInner = (
               <>
-                {series.ongoing && (
-                  <p class="py-1 bg-slate-200 text-zinc-900 text-center text-xs">On-going</p>
-                )}
                 <div class="p-4">
                   {(() => {
                     let imagePath = series.image || "../../assets/images/collaboration.webp";
@@ -333,6 +330,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
     background: #dbeafe;
     color: #1d4ed8;
     border-color: #93c5fd;
+  }
+
+  .status-pill--re-visiting {
+    background: #fef3c7;
+    color: #b45309;
+    border-color: #fcd34d;
   }
 
   .status-pill--proofreading {

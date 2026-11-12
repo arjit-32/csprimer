@@ -1,5 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 
+// Status enums - separate for courses and articles
+const courseStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
+const articleStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
+
 // Blog collection schema
 const blogCollection = defineCollection({
   schema: z.object({
@@ -14,6 +18,7 @@ const blogCollection = defineCollection({
     draft: z.boolean().optional(),
     year: z.number().optional(),
     featured: z.boolean().optional(),
+    status: articleStatusEnum,
   }),
 });
 
@@ -25,10 +30,6 @@ const pagesCollection = defineCollection({
   }),
 });
 
-// Status enums - separate for courses and articles
-const courseStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
-const articleStatusEnum = z.enum(['planned', 'in-progress', 're-visiting']).optional();
-
 // Series collection schema
 const seriesCollection = defineCollection({
   type: 'data', // JSON/YAML based
@@ -38,7 +39,7 @@ const seriesCollection = defineCollection({
     description: z.string(),
     image: z.string().optional(),
     category: z.string().default('Course'),
-    ongoing: z.union([z.boolean(), z.string()]).transform(val => val === true || val === 'On-going' || val === 'true'), // Normalize legacy data
+    ongoing: z.union([z.boolean(), z.string()]).optional(),
     status: courseStatusEnum,
     time: z.string().optional(),
     weight: z.number().default(100),

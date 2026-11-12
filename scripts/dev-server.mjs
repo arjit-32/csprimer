@@ -1490,10 +1490,6 @@ const HTML_DASHBOARD = `
             <input type="number" id="modal-series-weight" value="100">
           </div>
         </div>
-        <div class="checkbox-group" style="margin-bottom: 1.5rem;">
-          <input type="checkbox" id="modal-series-ongoing">
-          <label for="modal-series-ongoing" style="margin: 0; cursor: pointer;">Mark as On-going Course</label>
-        </div>
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
           <button type="button" class="btn-danger" onclick="handleDeleteSeriesModal()">🗑️ Delete Course</button>
           <button type="submit" class="submit-btn" style="margin: 0; flex: 1;">💾 Save Series Metadata</button>
@@ -2039,9 +2035,6 @@ const HTML_DASHBOARD = `
               <span class="hint">• 📚 \${s.resourceCount || 0} resources</span>
               <span class="hint">• ⏱️ \${s.time || 'N/A'}</span>
               <span class="hint">• ⚖️ Weight: \${s.weight}</span>
-              <span class="pill-ongoing \${s.ongoing ? 'active' : 'inactive'}" onclick="toggleOngoing('\${s.id}', \${!s.ongoing})" title="Click to toggle On-going status">
-                \${s.ongoing ? '🟢 On-going' : '⚪ Completed'}
-              </span>
             </div>
           </div>
 
