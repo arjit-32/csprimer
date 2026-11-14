@@ -30,6 +30,7 @@ export default defineConfig({
         "@/components/mdx/Tab.astro",
         "@/components/mdx/Tabs.astro",
         "@/components/features/editor/TryCode.astro",
+        "@/components/features/visualizer/AlgoVisualizer.astro",
       ],
     }),
     mdx({
@@ -58,6 +59,9 @@ export default defineConfig({
       cssMinify: true,
       minify: 'esbuild',
       assetsInlineLimit: 4096,
+      rollupOptions: {
+        maxParallelFileOps: 20,
+      },
     },
   },
 });

@@ -1,0 +1,311 @@
+---
+import { getAlgorithm } from "../../../problems/algorithms";
+import { renderArray } from "./renderers/array-renderer";
+import { renderHashMap, renderSet } from "./renderers/hashmap-renderer";
+import { renderLinkedList } from "./renderers/linkedlist-renderer";
+import { renderStack, renderQueue, renderDeque } from "./renderers/stack-queue-renderer";
+import { renderTree, renderGraph } from "./renderers/tree-graph-renderer";
+import { renderHeap, renderDPTable } from "./renderers/heap-dptable-renderer";
+
+interface Props {
+  problemId: string;
+  title?: string;
+}
+
+const { problemId, title: customTitle } = Astro.props;
+
+const problem = getAlgorithm(problemId);
+
+if (!problem) {
+  throw new Error(
+    `Algorithm definition not found for problemId: "${problemId}". Please ensure src/problems/algorithms/${problemId}.ts exists and is registered.`
+  );
+}
+
+const resolvedTitle = customTitle || problem.title;
+const initialSteps = problem.generateSteps(problem.defaultInputs);
+const firstStep = initialSteps[0] || {
+  stepNumber: 0,
+  title: 'Initial State',
+  description: problem.description,
+};
+
+let initialCanvasHtml = "";
+if (firstStep.arrays) initialCanvasHtml += renderArray(firstStep.arrays);
+else if (firstStep.array) initialCanvasHtml += renderArray(firstStep.array);
+if (firstStep.hashmap) initialCanvasHtml += renderHashMap(firstStep.hashmap);
+if (firstStep.set) initialCanvasHtml += renderSet(firstStep.set);
+if (firstStep.linkedList) initialCanvasHtml += renderLinkedList(firstStep.linkedList);
+if (firstStep.stack) initialCanvasHtml += renderStack(firstStep.stack);
+if (firstStep.queue) initialCanvasHtml += renderQueue(firstStep.queue);
+if (firstStep.deque) initialCanvasHtml += renderDeque(firstStep.deque);
+if (firstStep.tree) initialCanvasHtml += renderTree(firstStep.tree);
+if (firstStep.graph) initialCanvasHtml += renderGraph(firstStep.graph);
+if (firstStep.heap) initialCanvasHtml += renderHeap(firstStep.heap);
+if (firstStep.dpTable) initialCanvasHtml += renderDPTable(firstStep.dpTable);
+
+const clientPayload = {
+  problemId,
+  meta: {
+    id: problem.id,
+    title: resolvedTitle,
+    category: problem.category,
+    difficulty: problem.difficulty,
+    description: problem.description,
+    timeComplexity: problem.timeComplexity,
+    spaceComplexity: problem.spaceComplexity,
+    visualizationTypes: problem.visualizationTypes,
+    defaultInputs: problem.defaultInputs,
+    inputSchema: problem.inputSchema,
+  },
+  steps: initialSteps,
+};
+---
+
+<div
+  class="algo-visualizer-container my-8 border border-gray-300 dark:border-gray-800 rounded-2xl overflow-hidden bg-white dark:bg-[#1a1a1a] shadow-md transition-colors"
+  data-problem-id={problemId}
+>
+  <!-- Embedded Data Payload for Client Hydration -->
+  <script type="application/json" class="visualizer-data" set:html={JSON.stringify(clientPayload)} />
+
+  <!-- Visualizer Header -->
+  <div class="px-5 py-3.5 border-b border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-[#222222] flex flex-wrap gap-3 items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-gray-800 dark:text-gray-100 m-0">
+          {resolvedTitle}
+        </h3>
+        {problem.description && (
+          <p class="text-xs text-gray-500 dark:text-gray-400 m-0 font-medium">{problem.description}</p>
+        )}
+      </div>
+    </div>
+
+    <!-- Header Action -->
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="viz-custom-input-toggle px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#2d2d2d] text-gray-700 dark:text-gray-300 text-xs font-medium flex items-center gap-1.5 transition-colors"
+        title="Customize input values"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+        <span>Customize</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Custom Input Collapsible Drawer -->
+  <div class="viz-custom-input-drawer hidden p-5 bg-gray-100/90 dark:bg-[#232323] border-b border-gray-200 dark:border-gray-800 transition-all">
+    <div class="max-w-2xl">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-2 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        Custom Inputs for {resolvedTitle}
+      </h4>
+      <div class="viz-custom-input-error hidden mb-3 p-3 rounded-lg bg-rose-100 dark:bg-rose-950/50 border border-rose-300 dark:border-rose-800 text-xs font-mono text-rose-700 dark:text-rose-300"></div>
+
+      <form class="viz-custom-input-form flex flex-col gap-3">
+        {problem.inputSchema.map((field) => (
+          <div class="flex flex-col gap-1">
+            <label class="text-xs font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-between">
+              <span>{field.label}</span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase">{field.type}</span>
+            </label>
+            <input
+              type={field.type === 'number' ? 'number' : 'text'}
+              name={field.name}
+              class="w-full px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              value={Array.isArray(field.defaultValue) ? field.defaultValue.join(', ') : field.defaultValue}
+              placeholder={field.placeholder || ''}
+            />
+            {field.description && (
+              <p class="text-[11px] text-gray-400 dark:text-gray-500 m-0">{field.description}</p>
+            )}
+          </div>
+        ))}
+
+        <div class="flex items-center gap-2 mt-2">
+          <button
+            type="submit"
+            class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 21"></polygon></svg>
+            Apply & Run
+          </button>
+          <button
+            type="button"
+            class="viz-reset-defaults-btn px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-xs font-medium transition-colors"
+          >
+            Reset to Default
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Visualization Stage -->
+  <div class="p-5 flex flex-col gap-4">
+    <!-- Active Step Commentary & Code Panel -->
+    <div class="p-4 rounded-xl bg-gray-50/80 dark:bg-[#202020] border border-gray-200 dark:border-gray-800 flex flex-col gap-2.5">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <h4 class="viz-step-title text-sm font-bold text-gray-800 dark:text-gray-100 m-0 flex items-center gap-2">
+          {firstStep.title || 'Step 1'}
+        </h4>
+        <!-- Variables Pill List -->
+        <div class="viz-variables flex items-center gap-1.5 flex-wrap">
+          {firstStep.variables &&
+            Object.entries(firstStep.variables).map(([k, v]) => (
+              <div class="px-2.5 py-1 rounded-lg bg-white dark:bg-[#282828] border border-gray-200 dark:border-gray-700 text-xs font-mono flex items-center gap-1.5 shadow-xs">
+                <span class="text-gray-500 dark:text-gray-400 font-semibold">{k}:</span>
+                <span class="text-gray-800 dark:text-gray-100 font-bold">{Array.isArray(v) ? JSON.stringify(v) : v}</span>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <p class="viz-step-desc text-xs text-gray-600 dark:text-gray-300 m-0 leading-relaxed font-sans">
+        {firstStep.description}
+      </p>
+
+      <!-- Code Line -->
+      <div class={`viz-code-line-wrapper ${firstStep.codeLine ? '' : 'hidden'} px-3 py-2 rounded-lg bg-gray-900 text-emerald-400 text-xs font-mono border border-gray-800 flex items-center gap-2 overflow-x-auto`}>
+        <span class="text-gray-500 select-none">$</span>
+        <code class="viz-code-line text-emerald-400">{firstStep.codeLine || ''}</code>
+      </div>
+    </div>
+
+    <!-- Visualization Data Structure Canvases -->
+    <div class="viz-canvases flex flex-col gap-4" set:html={initialCanvasHtml} />
+  </div>
+
+  <!-- Player Controls Bar -->
+  <div class="px-5 py-3.5 border-t border-gray-200 dark:border-gray-800 bg-gray-50/90 dark:bg-[#222222] flex flex-wrap items-center justify-between gap-3 select-none">
+    <!-- Playback buttons -->
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="viz-play-pause px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+        title="Play / Pause"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Play</span>
+      </button>
+
+      <button
+        type="button"
+        class="viz-prev p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2d2d2d] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        title="Previous Step"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <button
+        type="button"
+        class="viz-next p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2d2d2d] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        title="Next Step"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <button
+        type="button"
+        class="viz-reset p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2d2d2d] transition-colors"
+        title="Reset to Start"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+      </button>
+    </div>
+
+    <!-- Scrubber Progress Slider -->
+    <div class="flex-1 min-w-[180px] max-w-md flex items-center gap-3">
+      <input
+        type="range"
+        class="viz-scrubber w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-500"
+        min="0"
+        max={initialSteps.length - 1}
+        value="0"
+        title="Drag or click to scrub steps"
+      />
+      <span class="viz-step-counter text-xs font-mono font-semibold text-gray-600 dark:text-gray-400 whitespace-nowrap">
+        Step 1 of {initialSteps.length}
+      </span>
+    </div>
+
+    <!-- Speed Control Selector -->
+    <div class="flex items-center gap-1 bg-white dark:bg-[#1a1a1a] p-1 rounded-lg border border-gray-300 dark:border-gray-700">
+      <span class="text-[10px] font-mono text-gray-400 uppercase px-1.5 select-none">Speed</span>
+      <button type="button" class="viz-speed-btn px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-gray-100 dark:bg-[#2d2d2d] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#383838] transition-colors" data-speed="0.5">0.5x</button>
+      <button type="button" class="viz-speed-btn px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-blue-600 text-white transition-colors" data-speed="1">1x</button>
+      <button type="button" class="viz-speed-btn px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-gray-100 dark:bg-[#2d2d2d] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#383838] transition-colors" data-speed="1.5">1.5x</button>
+      <button type="button" class="viz-speed-btn px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-gray-100 dark:bg-[#2d2d2d] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#383838] transition-colors" data-speed="2">2x</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { VisualizerController } from './engine/visualizer-controller';
+
+  const activeVisualizers = new Set<VisualizerController>();
+
+  function mountAllVisualizers() {
+    document.querySelectorAll('.algo-visualizer-container').forEach((el) => {
+      if (!(el as any)._visualizerMounted) {
+        try {
+          const controller = new VisualizerController(el as HTMLElement);
+          activeVisualizers.add(controller);
+          (el as any)._visualizerMounted = true;
+        } catch (err) {
+          console.error('[AlgoVisualizer] Failed to initialize:', err);
+        }
+      }
+    });
+  }
+
+  // Initial load
+  mountAllVisualizers();
+
+  // Astro view transitions support
+  document.addEventListener('astro:page-load', mountAllVisualizers);
+
+  document.addEventListener('astro:before-swap', () => {
+    activeVisualizers.forEach((instance) => {
+      instance.destroy();
+    });
+    activeVisualizers.clear();
+  });
+</script>
+
+<style is:global>
+  .algo-visualizer-container .custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .algo-visualizer-container .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .algo-visualizer-container .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
+  .algo-visualizer-container .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Scrubber Range Thumb */
+  .viz-scrubber::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease;
+  }
+  .viz-scrubber::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+</style>
+

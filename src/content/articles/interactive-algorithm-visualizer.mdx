@@ -1,0 +1,205 @@
+---
+title: 'Algorithm Visualizer Engine: Data Structures, Features & Combinations'
+description: >-
+  Explore the CSPrimer Algorithm Visualizer Engine by data structure, core
+  visual features, and powerful multi-structure combinations for Java DSA.
+author: Arjit Sharma
+categories:
+  - DSA
+draft: true
+featured: false
+---
+
+## Overview
+
+The **CSPrimer Algorithm Visualizer Engine** is built around a flexible design: **algorithms are code-driven execution snapshots, not static slide decks.**
+
+Rather than locking visualizations into rigid problem categories, the engine breaks every step into modular **Data Structures** and **Visual Features** that can be mixed and matched freely.
+
+---
+
+## Part I: Supported Data Structures
+
+The visualizer engine provides dedicated visual models for all standard DSA data structures:
+
+### 1. Arrays & Strings
+- **1D Arrays**: Sequenced boxes displaying element values, zero-based indices, and state colors.
+- **Multi-Arrays**: Two or more distinct arrays in the same frame (e.g. `nums1` and `nums2`), each with independent labels and pointers.
+- **String Characters**: Character-by-character array boxes with string cursor pointers.
+
+### 2. Linked Lists
+Singly linked lists display nodes containing their payload and a pointer node partition.
+- **Dynamic Forward Links**: Forward arrows (`→`) connecting each node to `node.next`.
+- **In-Place Reversal**: When a link is redirected backwards (`curr.next = prev`), the arrow flips to `← prev`.
+- **Head & Null Indicators**: A prominent `HEAD` badge marks the entry node, and `null` terminator boxes represent list boundaries:
+
+<AlgoVisualizer problemId="reverse-linked-list" />
+
+---
+
+### 3. Stacks, Queues & Deques (Containers)
+
+How does the visualizer know whether a **Stack**, a **Queue**, or a **Deque** is being used? Each container has its own explicit data property, operation set, and visual layout:
+
+| Container Type | Step Property | Visual Layout & Identifiers | Common Java Operations |
+| :--- | :--- | :--- | :--- |
+| **Stack (LIFO)** | `step.stack` | **Vertical Container**: Elements stack from bottom to top with a prominent **`TOP`** pointer indicator and a depth counter. | `push()`, `pop()`, `peek()` |
+| **Queue (FIFO)** | `step.queue` | **Horizontal Pipeline**: Flow clearly shows **`← FRONT (Out)`** on the left where elements are dequeued, and **`REAR (In) ←`** on the right where elements are enqueued. | `offer()` / `enqueue()`, `poll()` / `dequeue()` |
+| **Deque (Double-Ended)** | `step.deque` | **Dual-Ended Queue**: Displays both **`FRONT`** and **`BACK`** entry/exit markers, enabling operations on both extremes. | `addFirst()`, `removeFirst()`, `addLast()`, `removeLast()` |
+
+Below is a live **Stack (LIFO)** visualizer tracking open bracket characters:
+
+<AlgoVisualizer problemId="valid-parentheses" />
+
+---
+
+### 4. Hash Maps & Sets
+
+- **Hash Map (`step.hashmap`)**: Key $\rightarrow$ Value pairs rendered with instant lookup query feedback banners (`map.get(key) → value`).
+- **HashSet (`step.set`)**: Collection of unique items rendered with an instantaneous membership verification banner (`set.contains(x) → true / false`):
+
+<AlgoVisualizer problemId="contains-duplicate" />
+
+---
+
+### 5. Binary Trees & Hierarchies
+- **Level-Order SVG Layout**: Nodes rendered as circles with connecting parent-to-child edges computed automatically.
+- **Node States**: Color transitions for `current` (active traversal), `visited` (processed), and `target` (search hits).
+
+---
+
+### 6. Dynamic Programming Tables (State Matrix)
+- **1D / 2D Grid**: Displays subproblem cache values alongside their respective coordinates (`dp[i]`).
+- **Recurrence Formula Banner**: Displays the exact mathematical transition currently executing (e.g. `dp[i] = dp[i-1] + dp[i-2]`).
+- **Active & Dependency Cells**: Highlights the cell currently being computed alongside the previous cells it depends on:
+
+<AlgoVisualizer problemId="climbing-stairs" />
+
+---
+
+## Part II: Core Visual Features
+
+Any data structure above can be annotated with the following visual features:
+
+### 1. Interactive Pointers & Badges
+- Point to any array index or linked list node using named pointers (e.g. `low`, `mid`, `high`, `i`, `j`, `prev`, `curr`, `next`).
+- Each pointer is rendered as an arrow with a color-coded badge (`blue`, `purple`, `amber`, `emerald`).
+- Multiple pointers can point to the same index or separate indices simultaneously.
+
+Below, three pointers (`low`, `mid`, `high`) dynamically converge on the target element:
+
+<AlgoVisualizer problemId="binary-search" />
+
+### 2. Subarray Windows
+- Outline an active subarray interval using `window: [start, end]`.
+- Encloses the candidate range with a continuous high-contrast border without obstructing element values with text labels.
+
+### 3. Semantic State Colors
+Nodes, array cells, and container elements support state highlights:
+- `default`: Unvisited / neutral state (slate).
+- `current`: Active element under inspection (blue).
+- `match` / `found`: Target found or condition satisfied (emerald/green).
+- `target`: Candidate item being compared (amber/yellow).
+- `reversed`: In-place pointer redirection (indigo/purple).
+
+### 4. Live Variables & Java Statement Bar
+- **Variables Bar**: Sits above the player and tracks running variables in real-time (e.g. `{ low: 0, high: 5, mid: 2, nums[mid]: 3 }`).
+- **Code Line Banner**: Displays the exact Java statement executed at each step (e.g. `int mid = low + (high - low) / 2;`).
+
+---
+
+## Part III: Powerful Multi-Structure Combinations
+
+The real power of the engine is **combining multiple data structures in the same step**:
+
+### Combination 1: Binary Tree + Flat Array (Heaps & Memory Layout)
+Maps flat 0-indexed array memory directly to a binary tree hierarchy where for index `i`, left child is at `2*i + 1` and right child is at `2*i + 2`:
+
+<AlgoVisualizer problemId="tree-with-array" />
+
+---
+
+### Combination 2: Array + Monotonic Deque (Sliding Window Maximum)
+Combines an array with an active sliding window and a double-ended queue to maintain extreme candidates in $O(N)$ time:
+
+<AlgoVisualizer problemId="sliding-window-maximum" />
+
+---
+
+### Combination 3: Array + Hash Map (Two Sum)
+Scans an array with pointer `i` while maintaining and querying a complement hash map in $O(1)$:
+
+<AlgoVisualizer problemId="two-sum" />
+
+---
+
+### Combination 4: Multi-Array Coordination (Merging Two Sorted Arrays)
+Renders two independent arrays (`nums1` and `nums2`) side-by-side with independent pointers (`p1`, `p2`, `p`) moving across arrays in lockstep:
+
+<AlgoVisualizer problemId="merge-sorted-arrays" />
+
+---
+
+## How to Create Visualizations
+
+You can create visualizations either **without writing code** or **via the TypeScript StepBuilder**:
+
+### Option A: No-Code Visual Step Builder (CMS Admin)
+1. Run `npm run admin` and open the **Problem Studio**.
+2. Click **Visual Step Builder** on any algorithm.
+3. Use the dedicated visual panels for each data structure:
+   - **Array & Pointers**: Values, pointers, and window boundary.
+   - **Stack (LIFO)**: Items (bottom to top), push/pop/peek actions.
+   - **Queue (FIFO)**: Items (front to rear), enqueue/dequeue/peek actions.
+   - **Double-Ended Queue (Deque)**: Items (front to back), addFirst/removeFirst/addLast/removeLast.
+   - **Hash Map**: Key-Value entries, search key, and lookup status.
+   - **HashSet**: Elements, membership query, and exists status.
+   - **Linked List**: Node values, named pointers, reversed links, and head index.
+   - **Binary Tree**: Level-order node array, active node, and target highlights.
+   - **DP Table**: Grid values, active recurrence cell, and formula.
+4. Preview the live, distinct rendering in the canvas in real time.
+5. Click **Save Algorithm Steps** to instantly persist changes.
+
+### Option B: Code-Based Authoring (`StepBuilder`)
+Create a file in `src/problems/algorithms/<slug>.ts`:
+
+```typescript
+import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const myAlgorithm: AlgorithmDefinition = {
+  id: 'my-algorithm',
+  title: 'My Custom Algorithm',
+  category: 'General DSA',
+  visualizationTypes: ['array', 'hashmap'],
+  defaultInputs: { nums: [2, 7, 11, 15], target: 9 },
+  inputSchema: [ ... ],
+  generateSteps: (inputs) => {
+    const builder = new StepBuilder();
+
+    // Step 0: Initialize
+    builder.step({
+      title: 'Initialize Array & Map',
+      description: 'Create an empty map to store complements.',
+      codeLine: 'Map<Integer, Integer> map = new HashMap<>();',
+      variables: { target: 9 },
+      array: {
+        values: [2, 7, 11, 15],
+        pointers: { i: 0 },
+        label: 'nums[]',
+      },
+      hashmap: new Map(),
+    });
+
+    return builder.build();
+  },
+};
+
+export default myAlgorithm;
+```
+
+To embed the visualizer in any MDX article or lesson:
+
+```mdx
+<AlgoVisualizer problemId="my-algorithm" />
+```

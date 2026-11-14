@@ -32,7 +32,36 @@
         {
           "type": "articles",
           "url": "dsa-for-interviews-find-the-highest-altitude",
-          "title": "find-the-highest-altitude",
+          "title": "Find the Highest Altitde",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-flipping-game",
+          "title": "Flipping Game",
+          "status": "in-progress"
+        }
+      ]
+    },
+    {
+      "subheading": "Hashing",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-two-sum",
+          "title": "Two Sum",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-count-elements-with-maximum-frequency",
+          "title": "Count Elements With Maximum Frequency",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-find-players-with-zero-or-one-losses",
+          "title": "Find Players With Zero or One Losses",
           "status": "in-progress"
         }
       ]

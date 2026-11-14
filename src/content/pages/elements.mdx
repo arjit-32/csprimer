@@ -5,11 +5,12 @@ description: "Exact step-by-step guide for creating content, all collection sche
 
 # Contributor Playbook & MDX Elements
 
-This page is the living documentation for maintaining and expanding **CSPrimer**. It serves four key functions:
+This page is the living documentation for maintaining and expanding **CSPrimer**. It serves five key functions:
 1. **Local Scaffolding Tools**: One-click visual dashboard and terminal CLI to generate courses, roadmaps, and articles.
 2. **Metadata Architecture**: Clear rules for how Categories, Series, and Roadmaps relate.
 3. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, and TypeScript types.
-4. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for all custom MDX components.
+4. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for custom MDX components.
+5. **Algorithm Visualizer Playbook & AI Prompt Template**: Copy-pasteable prompt and architecture guide to generate visualizers for any Java DSA problem using LLMs.
 
 ---
 
@@ -37,6 +38,10 @@ Open **`http://localhost:4322`** in your browser.
 - **Tab 4: Reorder Roadmaps**: Visual track manager with `▲ Up` and `▼ Down` buttons to reorder courses along learning paths, plus a 1-click **Sync Weights to Courses** button.
 - **Tab 5: New Series**: Form to scaffold a new course series and register it into `roadmapOrder.json`.
 - **Tab 6: All Articles Explorer**: Instant real-time search across all 300+ articles with track filtering and 1-click draft toggling.
+- **Tab 7: Interview Bytes**: Manage flashcard-style interview questions with syntax-highlighted code and topic filters.
+- **Tab 8: Shorts Studio**: Manage YouTube Shorts and micro-learning video explainers.
+- **Tab 9: Images & WebP**: Convert local source images to WebP and upload to Cloudinary.
+- **Tab 10: Problems Studio**: Full code editors, registries, and 1-click article tag inserters for interactive code exercises.
 
 </Tab>
 
@@ -249,27 +254,79 @@ questions:
 
 ### Adding an Interactive TryCode Coding Problem
 
-TryCode embeds an in-browser code editor and automated test runner.
-> <Notice type="warning">TryCode is strictly reserved for frontend JavaScript/TypeScript interview problems. Do not use for DSA theory or compiled languages.</Notice>
+TryCode embeds an in-browser code editor and automated test runner for frontend engineering drills.
+> <Notice type="warning">TryCode is strictly reserved for frontend JavaScript/TypeScript and DOM interview challenges.</Notice>
 
-#### Step 1: Create Problem Definition
+#### Step 1: Choose Execution Mode
+
+TryCode supports two distinct problem modes:
+1. **`mode: "function"` (Default)**: Tests pure functions by invoking the user's exported function with test case arguments and asserting on returned values.
+2. **`mode: "dom"`**: Provides initial HTML markup in an isolated sandbox. The user writes DOM manipulation code (event listeners, state updates), and test cases assert against live DOM state via `document.getElementById` or `document.querySelector`.
+
+#### Step 2: Create Problem Definition File
+
 Create `src/problems/frontend/<problem-id>.ts`:
 
+##### Option A: Function Mode Example (`array-unique.ts`)
+
 ```typescript
-const problem = {
+import type { Problem } from "../../types/problem";
+
+const problem: Problem = {
   id: "array-unique",
-  title: "Remove Duplicates While Preserving Order",
-  starterCode: `function solution(nums) {\n  // Write your code here\n  return [];\n}`,
+  title: "Remove Duplicates Preserving Order",
+  mode: "function",
+  starterCode: `function solution(nums) {
+  // Return array with duplicates removed
+  return [];
+}`,
   tests: [
     { input: [[1, 2, 2, 3, 1, 4]], expected: [1, 2, 3, 4] },
-    { input: [[5, 5, 5]], expected: [5] }
-  ]
+    { input: [[5, 5, 5]], expected: [5] },
+    { input: [[]], expected: [] },
+  ],
 };
 
 export default problem;
 ```
 
-#### Step 2: Embed in any MDX Article
+##### Option B: DOM Mode Example (`counter-dom.ts`)
+
+```typescript
+import type { Problem } from "../../types/problem";
+
+const problem: Problem = {
+  id: "counter-dom",
+  title: "Interactive Click Counter",
+  mode: "dom",
+  html: `<div id="counter-app">
+  <span id="count">0</span>
+  <button id="increment-btn">+1</button>
+</div>`,
+  starterCode: `// Attach click listener to increment counter
+const btn = document.getElementById('increment-btn');
+const countSpan = document.getElementById('count');
+
+btn.addEventListener('click', () => {
+  countSpan.textContent = String(Number(countSpan.textContent) + 1);
+});`,
+  tests: [
+    {
+      input: [],
+      expected: 1,
+      customCheck: `() => {
+        const btn = document.getElementById('increment-btn');
+        btn.click();
+        return Number(document.getElementById('count').textContent);
+      }`,
+    },
+  ],
+};
+
+export default problem;
+```
+
+#### Step 3: Embed in any MDX Article
 
 ```mdx
 <TryCode problemId="array-unique" />
@@ -453,9 +510,27 @@ Root YAML property: `questions: Array<InterviewQuestion>`
 | `id` | `string` | **Yes** | — | Unique problem ID (must match filename) |
 | `title` | `string` | **Yes** | — | Problem title shown in the editor header |
 | `starterCode` | `string` | **Yes** | — | Initial code stub provided to the student |
-| `tests` | `TestCase[]` | **Yes** | — | Array of `{ input: any[], expected: any }` test cases |
-| `mode` | `string` | No | `"function"` | `"function"` (pure algorithm) or `"dom"` (DOM manipulation) |
+| `tests` | `TestCase[]` | **Yes** | — | Array of `{ input: any[], expected: any, customCheck?: string }` test cases |
+| `mode` | `string` | No | `"function"` | `"function"` (pure JS algorithm) or `"dom"` (interactive DOM manipulation) |
 | `html` | `string` | No | `""` | Initial DOM markup for `"dom"` mode problems |
+
+#### TypeScript Interface
+```typescript
+export interface TestCase {
+  input: any[];
+  expected: any;
+  customCheck?: string; // JavaScript function string returning boolean or value
+}
+
+export interface Problem {
+  id: string;
+  title: string;
+  mode?: "function" | "dom";
+  starterCode: string;
+  tests: TestCase[];
+  html?: string;
+}
+```
 
 ---
 
@@ -660,14 +735,24 @@ Content for tab 2...
 
 ### 5.6 Interactive TryCode Runner (`<TryCode>`)
 
-Live, in-browser Monaco-based code editor and test runner for frontend JavaScript drills.
+Live, in-browser Monaco-based code editor and test runner for frontend JavaScript and DOM interview drills.
 
 <TryCode problemId="array-unique" />
+
+#### Props Reference
+
+| Prop | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `problemId` | `string` | **Yes** | — | Unique problem ID corresponding to a file in `src/problems/frontend/<id>.ts` |
 
 #### Usage Code
 
 ```mdx
+<!-- Function Mode (Pure JavaScript algorithms) -->
 <TryCode problemId="array-unique" />
+
+<!-- DOM Mode (Interactive UI & DOM manipulation) -->
+<TryCode problemId="counter-dom" />
 ```
 
 ---
@@ -721,3 +806,363 @@ Before committing or pushing new content:
 - [ ] `series` field matches the exact JSON course ID (if part of a course).
 - [ ] `roadmapOrder.json` updated with new series ID (handled automatically by `npm run admin` / `npm run scaffold`).
 - [ ] `draft: false` set for all live content.
+
+---
+
+## 7. Algorithm Visualizer: AI Prompt & Generator Guide
+
+This section provides the complete reference specification and copy-paste prompt template to generate interactive algorithm visualizers for any DSA problem (Sorting, Searching, HashMaps, Sets, Queues, Deques, Trees, Heaps, Stacks, Linked Lists, DP) using any AI assistant (ChatGPT, Claude, Gemini, Cursor, Antigravity).
+
+### 7.1 Visualizer Architecture Overview
+
+The visualizer system is composed of:
+- **Engine Component**: `<AlgoVisualizer problemId="slug" />` in `src/components/features/visualizer/AlgoVisualizer.astro`.
+- **Step Builder**: `StepBuilder` class in `src/problems/algorithms/builder.ts` with a fluent `.step({ ... })` API.
+- **Type Definitions**: `src/problems/algorithms/types.ts` defining all state models and render options.
+- **Algorithm Directory**: All algorithm definition files live in `src/problems/algorithms/<slug>.ts`.
+- **Registry**: `src/problems/algorithms/index.ts` (automatically updated via `syncAlgorithmIndex()`).
+
+### 7.2 Representation of All DSA Problem Types
+
+The visualization engine supports representing any DSA problem type through flexible combinations of data structures:
+
+| DSA Problem Type | How to Represent with `StepBuilder` | Key Properties Used |
+| :--- | :--- | :--- |
+| **Merge Sort** | Subarrays via `arrays: [left, right, merged]` or single array with `window: [low, high]` and merge pointers `i, j, k` | `arrays` or `array.window`, `pointers` |
+| **Quick Sort** | Single array with partition pointers (`low`, `pivot`, `high`, `i`, `j`), swap highlights, and sub-range windows | `pointers`, `highlights`, `window` |
+| **Binary Search** | Single array with `low`, `mid`, `high` pointers, active search interval `window: [low, high]`, and match highlights | `pointers: { low, mid, high }`, `window: [low, high]` |
+| **Linear Search** | Scanning pointer `i` checking each element with match/visited state highlights | `pointers: { i }`, `highlights` |
+| **Hash Map** | Key-Value dictionary with `searchKey` and status banner (`found`, `not-found`, `searching`) | `hashmap: Map or Record`, `searchKey`, `searchResult` |
+| **Set / HashSet** | Unique element collection with `searchElement` and membership verification banner (`contains(x)`) | `set: Set or string[] or number[]`, `searchElement`, `searchResult` |
+| **Queue (FIFO)** | First-In-First-Out queue with FRONT and REAR markers, showing enqueue at rear and dequeue at front (BFS) | `queue: { items: [...], action: 'enqueue' \| 'dequeue', label: 'Queue (FIFO)' }` |
+| **Deque (Double Queue)** | Double-ended queue with front (`addFirst`/`removeFirst`) and back (`addLast`/`removeLast`) markers (e.g. Monotonic Deque, Sliding Window Max) | `deque: { items: [...], action: 'addFirst' \| 'removeFirst' \| 'addLast' \| 'removeLast', label: 'Double-Ended Queue (Deque)' }` |
+| **Stack (LIFO)** | Last-In-First-Out container with vertical layout, TOP marker, depth count, and push/pop animations (brackets, monotonic stack) | `stack: { items: [...], action: 'push' \| 'pop', label: 'Stack (LIFO)' }` |
+| **Binary Tree & BST** | Node hierarchy with parent-child links, traversal highlights, and search targets | `tree: { nodes: [...], rootId }` |
+| **Tree + Array (Heaps)** | Both `array` and `tree` in the exact same step, mapping array index `i` to tree nodes with children at `2i + 1` and `2i + 2` | `array: { ... }`, `tree: { ... }` |
+| **Linked List** | Node chains with `next` pointers, head/curr/prev markers, and node reversal indicators | `linkedList: { nodes: [...], headId }` |
+| **Dynamic Programming** | 1D or 2D state matrix with active computation cell, dependency cell highlights, and transition formula banner | `dpTable: { grid, activeCell, highlightCells, formula }` |
+
+> [!TIP] Stack vs. Queue vs. Deque Selection
+> - **Stack (LIFO)**: Use `step.stack`. Renders as a vertical container with a `TOP` marker and `push`/`pop` operations.
+> - **Queue (FIFO)**: Use `step.queue`. Renders as a horizontal pipeline with `← FRONT (Out)` on the left and `REAR (In) ←` on the right with `enqueue`/`dequeue` operations.
+> - **Deque (Double-Ended)**: Use `step.deque`. Renders with both `FRONT` and `BACK` markers, supporting `addFirst`, `removeFirst`, `addLast`, and `removeLast`.
+> In the CMS Visual Step Builder, simply pick your desired data structure from the **Container Type** dropdown.
+
+### 7.3 Core Authoring Rules
+
+1. **Idiomatic Java in `codeLine`**: Always display the actual, readable Java statement executed at that step.
+2. **Pointers Only (No Window Text Badges)**: Arrays show labeled pointer arrows (`i`, `j`, `low`, `mid`, `high`, `left`, `right`). Windows outline the active subarray boundary (`window: [start, end]`). **Never put text labels or badge strings on or inside windows.**
+3. **Variable Tracking in Header**: Keep all numeric metrics, accumulators, sums, and status flags in `variables: { ... }`. They render in a clean, dedicated bar above the visualization.
+4. **Freeform Categories**: Category is an open string (e.g. `'Sorting'`, `'Sliding Window'`, `'Two Pointers'`, `'Trees & Heaps'`, or `'General DSA'`).
+5. **No Forced Complexity / Difficulty Tags**: The visualizer player stays clean, focused entirely on the execution flow and intuitive mental model.
+
+---
+
+### 7.4 Copy-Paste AI Prompt Template
+
+Copy the prompt below and paste it into any LLM or AI coding agent alongside your Java solution:
+
+````markdown
+You are an expert DSA educator and TypeScript engineer building algorithm visualizers for CSPrimer.
+
+Given the Java solution and problem below, create a fully working TypeScript algorithm definition file for the CSPrimer Algorithm Visualizer Engine.
+
+### Output Destination
+File path: `src/problems/algorithms/<problem-slug>.ts`
+
+### Requirements
+1. Import `AlgorithmDefinition`, `ExecutionStep` from `./types` and `StepBuilder` from `./builder`.
+2. Export an object adhering to `AlgorithmDefinition`:
+   - `id`: `<problem-slug>`
+   - `title`: Clean Problem Title
+   - `category`: Freeform topic name (e.g. 'Sorting', 'Binary Search', 'Sliding Window', 'Hash Map', 'Set', 'Trees', 'Deques', or 'General DSA')
+   - `description`: 1-2 sentence high-level explanation
+   - `visualizationTypes`: Array of data structure renderers used: `['array']`, `['array', 'hashmap']`, `['set']`, `['deque']`, `['array', 'tree']`, etc.
+   - `defaultInputs`: Object containing default parameters (e.g. `{ nums: [4, 2, 7, 1, 3] }`)
+   - `inputSchema`: Array of input field schemas for the interactive "Customize" drawer
+   - `generateSteps(inputs)`: Returns `ExecutionStep[]` using `StepBuilder`.
+
+3. Visualizer Step Rules:
+   - Use `const builder = new StepBuilder();`
+   - Call `builder.step({ title, description, codeLine, variables, ...structures })` for each step.
+   - `codeLine`: Exact line of standard Java code executed at this step.
+   - `variables`: Key-value map of current variables (e.g. `{ low: 0, high: 5, mid: 2 }`).
+   - `pointers`: Named indices pointing to array elements (e.g. `pointers: { low: 0, mid: 2, high: 5 }`).
+   - `window`: Active subarray window `window: [start, end]`. Never place text labels or badge strings in the window.
+   - `highlights`: Array of cell indices to highlight with visual states: `[0, 1]`.
+   - Data Structure Renderers Supported:
+     - **Array / Sorting / Searching**: `array: { values: [...], pointers: { ... }, highlights: [...], window: [start, end] }`
+     - **Multiple Arrays**: `arrays: [ { values: [...], label: 'A' }, { values: [...], label: 'B' } ]`
+     - **Hash Map**: `hashmap: map, searchKey: key, searchResult: 'found' | 'not-found'`
+     - **Set / HashSet**: `set: Array.from(set), searchElement: val, searchResult: 'found' | 'not-found'`
+     - **Queue**: `queue: [...queueItems]`
+     - **Deque (Double Queue)**: `deque: [...dequeItems]`
+     - **Stack**: `stack: [...stackItems]`
+     - **Binary Tree**: `tree: { nodes: [...], rootId: 'root' }`
+     - **Tree + Array (Heap)**: combine `array` and `tree` in the same step
+     - **Linked List**: `linkedList: { nodes: [...], headId: '0' }`
+     - **Dynamic Programming**: `dpTable: { grid: [...], activeCell: { row, col }, formula: '...' }`
+
+4. Registration & MDX Embed:
+   - Provide the 1-line command to register the problem:
+     `node -e "import('./scripts/scaffold.mjs').then(m => m.syncAlgorithmIndex())"`
+   - Provide the MDX embed snippet:
+     `<AlgoVisualizer problemId="<problem-slug>" />`
+
+---
+
+### Java Code & Problem Details:
+[PASTE YOUR JAVA SOLUTION AND PROBLEM DESCRIPTION HERE]
+````
+
+---
+
+### 7.5 Reference Implementation Blueprints
+
+#### Blueprint 1: Binary Search (Array + Pointers + Search Window)
+
+```typescript
+import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const binarySearch: AlgorithmDefinition = {
+  id: 'binary-search',
+  title: 'Binary Search',
+  category: 'Searching',
+  description: 'Searches for a target value within a sorted array by halving the search space each step.',
+  visualizationTypes: ['array'],
+  defaultInputs: {
+    nums: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
+    target: 23,
+  },
+  inputSchema: [
+    {
+      name: 'nums',
+      label: 'Sorted Array (comma-separated)',
+      type: 'number-array',
+      defaultValue: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
+      placeholder: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91',
+      description: 'Ascending sorted array',
+    },
+    {
+      name: 'target',
+      label: 'Target Value',
+      type: 'number',
+      defaultValue: 23,
+      placeholder: '23',
+      description: 'Number to search for',
+    },
+  ],
+  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    const rawNums = inputs.nums;
+    const nums: number[] = Array.isArray(rawNums)
+      ? rawNums.map(Number).filter((n) => !isNaN(n))
+      : [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+    const target = Number(inputs.target ?? 23);
+
+    const builder = new StepBuilder();
+    let low = 0;
+    let high = nums.length - 1;
+
+    builder.step({
+      title: 'Initialize Binary Search',
+      description: `Target is ${target}. Set low = 0 and high = ${high}.`,
+      codeLine: 'int low = 0, high = nums.length - 1;',
+      variables: { low, high, target },
+      array: {
+        values: [...nums],
+        pointers: { low, high },
+        window: [low, high],
+        label: 'nums[]',
+      },
+    });
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const midVal = nums[mid];
+
+      builder.step({
+        title: `Calculate Midpoint: mid = ${mid} (nums[mid] = ${midVal})`,
+        description: `Inspect middle element at index ${mid}.`,
+        codeLine: 'int mid = low + (high - low) / 2;',
+        variables: { low, mid, high, 'nums[mid]': midVal, target },
+        array: {
+          values: [...nums],
+          pointers: { low, mid, high },
+          highlights: [mid],
+          window: [low, high],
+          label: 'nums[]',
+        },
+      });
+
+      if (midVal === target) {
+        builder.step({
+          title: `Target Found at Index ${mid}!`,
+          description: `nums[${mid}] == ${target}. Return index ${mid}.`,
+          codeLine: 'if (nums[mid] == target) return mid;',
+          variables: { low, mid, high, resultIndex: mid, status: 'FOUND' },
+          array: {
+            values: [...nums],
+            pointers: { mid },
+            highlights: [{ index: mid, state: 'match' }],
+            label: 'nums[]',
+          },
+        });
+        return builder.build();
+      } else if (midVal < target) {
+        builder.step({
+          title: `nums[mid] = ${midVal} < ${target}: Discard Left Half`,
+          description: `Target must lie in the right half. Move low to mid + 1.`,
+          codeLine: 'low = mid + 1;',
+          variables: { low: mid + 1, mid, high, target },
+          array: {
+            values: [...nums],
+            pointers: { low: mid + 1, high },
+            window: [mid + 1, high],
+            label: 'nums[]',
+          },
+        });
+        low = mid + 1;
+      } else {
+        builder.step({
+          title: `nums[mid] = ${midVal} > ${target}: Discard Right Half`,
+          description: `Target must lie in the left half. Move high to mid - 1.`,
+          codeLine: 'high = mid - 1;',
+          variables: { low, mid, high: mid - 1, target },
+          array: {
+            values: [...nums],
+            pointers: { low, high: mid - 1 },
+            window: [low, Math.max(low, mid - 1)],
+            label: 'nums[]',
+          },
+        });
+        high = mid - 1;
+      }
+    }
+
+    builder.step({
+      title: 'Target Not Found',
+      description: `Search space exhausted (low > high). Target ${target} is not in the array.`,
+      codeLine: 'return -1;',
+      variables: { low, high, target, status: 'NOT FOUND' },
+      array: { values: [...nums], label: 'nums[]' },
+    });
+
+    return builder.build();
+  },
+};
+
+export default binarySearch;
+```
+
+#### Blueprint 2: Sliding Window Maximum (Array + Double Queue / Deque)
+
+```typescript
+import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const slidingWindowMax: AlgorithmDefinition = {
+  id: 'sliding-window-maximum',
+  title: 'Sliding Window Maximum',
+  category: 'Deques & Sliding Window',
+  description: 'Maintains a monotonic decreasing deque storing indices to find the maximum in each sliding window in O(N) time.',
+  visualizationTypes: ['array', 'deque'],
+  defaultInputs: {
+    nums: [1, 3, -1, -3, 5, 3, 6, 7],
+    k: 3,
+  },
+  inputSchema: [
+    {
+      name: 'nums',
+      label: 'Array',
+      type: 'number-array',
+      defaultValue: [1, 3, -1, -3, 5, 3, 6, 7],
+      placeholder: '1, 3, -1, -3, 5, 3, 6, 7',
+      description: 'Input numbers array',
+    },
+    {
+      name: 'k',
+      label: 'Window Size (k)',
+      type: 'number',
+      defaultValue: 3,
+      placeholder: '3',
+      description: 'Sliding window width',
+    },
+  ],
+  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    const rawNums = inputs.nums;
+    const nums: number[] = Array.isArray(rawNums)
+      ? rawNums.map(Number).filter((n) => !isNaN(n))
+      : [1, 3, -1, -3, 5, 3, 6, 7];
+    const k = Math.max(1, Number(inputs.k ?? 3));
+
+    const builder = new StepBuilder();
+    const deque: number[] = []; // Stores indices
+    const result: number[] = [];
+
+    builder.step({
+      title: 'Initialize Monotonic Deque',
+      description: `Create an ArrayDeque to store indices of potential maximum elements in decreasing value order.`,
+      codeLine: 'Deque<Integer> deque = new ArrayDeque<>();',
+      variables: { k, dequeSize: 0 },
+      array: { values: [...nums], pointers: { i: 0 }, label: 'nums[]' },
+      deque: [],
+    });
+
+    for (let i = 0; i < nums.length; i++) {
+      // Remove elements outside current window
+      while (deque.length > 0 && deque[0] < i - k + 1) {
+        const removed = deque.shift()!;
+        builder.step({
+          title: `deque.removeFirst(): Out of Window`,
+          description: `Index ${removed} falls outside window [${i - k + 1}, ${i}]. Remove from front.`,
+          codeLine: 'if (!deque.isEmpty() && deque.peekFirst() < i - k + 1) deque.pollFirst();',
+          variables: { i, removedIndex: removed, 'deque.size()': deque.length },
+          array: { values: [...nums], pointers: { i }, window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
+          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
+        });
+      }
+
+      // Remove smaller elements from back
+      while (deque.length > 0 && nums[deque[deque.length - 1]] < nums[i]) {
+        const removed = deque.pop()!;
+        builder.step({
+          title: `deque.removeLast(): Monotonic Violation`,
+          description: `nums[${removed}] (${nums[removed]}) < nums[${i}] (${nums[i]}). Pop from back.`,
+          codeLine: 'while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) deque.pollLast();',
+          variables: { i, poppedIndex: removed, currentVal: nums[i] },
+          array: { values: [...nums], pointers: { i }, highlights: [i, removed], window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
+          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
+        });
+      }
+
+      deque.push(i);
+      builder.step({
+        title: `deque.addLast(${i}): Added Current Index`,
+        description: `Pushed index ${i} (value ${nums[i]}) to back of deque.`,
+        codeLine: 'deque.offerLast(i);',
+        variables: { i, currentVal: nums[i], windowMax: nums[deque[0]] },
+        array: { values: [...nums], pointers: { i }, window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
+        deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
+      });
+
+      if (i >= k - 1) {
+        result.push(nums[deque[0]]);
+        builder.step({
+          title: `Record Window Maximum: ${nums[deque[0]]}`,
+          description: `Window [${i - k + 1}, ${i}] maximum is at front of deque: nums[${deque[0]}] = ${nums[deque[0]]}.`,
+          codeLine: 'result[i - k + 1] = nums[deque.peekFirst()];',
+          variables: { windowStart: i - k + 1, windowEnd: i, max: nums[deque[0]], resultSoFar: [...result] },
+          array: { values: [...nums], pointers: { max: deque[0] }, window: [i - k + 1, i], highlights: [deque[0]], label: 'nums[]' },
+          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
+        });
+      }
+    }
+
+    return builder.build();
+  },
+};
+
+export default slidingWindowMax;
+```
+

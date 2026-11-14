@@ -6,6 +6,7 @@ import { exec } from 'node:child_process';
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
 import sharp from 'sharp';
+import esbuild from 'esbuild';
 
 const ROOT_DIR = process.cwd();
 const ARTICLES_DIR = path.join(ROOT_DIR, 'src', 'content', 'articles');
@@ -1371,6 +1372,436 @@ export function deleteShort({ series, slug }) {
   if (!fs.existsSync(targetFile)) throw new Error(`Short "${series}/${slug}" not found.`);
   fs.unlinkSync(targetFile);
   return { success: true, series, slug };
+}
+
+/**
+ * 6. Coding Problems & Algorithm Visualizer Operations
+ */
+const PROBLEMS_FRONTEND_DIR = path.join(ROOT_DIR, 'src', 'problems', 'frontend');
+const PROBLEMS_ALGO_DIR = path.join(ROOT_DIR, 'src', 'problems', 'algorithms');
+
+export function listTryCodeProblems() {
+  if (!fs.existsSync(PROBLEMS_FRONTEND_DIR)) return [];
+  const files = fs.readdirSync(PROBLEMS_FRONTEND_DIR).filter(f => f.endsWith('.ts'));
+  return files.map(file => {
+    const id = file.replace('.ts', '');
+    const fullPath = path.join(PROBLEMS_FRONTEND_DIR, file);
+    const content = fs.readFileSync(fullPath, 'utf8');
+
+    const titleMatch = content.match(/title:\s*["'`](.*?)["'`]/);
+    const modeMatch = content.match(/mode:\s*["'`](.*?)["'`]/);
+    const title = titleMatch ? titleMatch[1] : id;
+    const mode = modeMatch ? modeMatch[1] : 'function';
+
+    return { id, title, mode, filename: file, fullPath };
+  });
+}
+
+export function getTryCodeProblem(id) {
+  const filePath = path.join(PROBLEMS_FRONTEND_DIR, `${id}.ts`);
+  if (!fs.existsSync(filePath)) throw new Error(`TryCode problem "${id}" not found.`);
+  const code = fs.readFileSync(filePath, 'utf8');
+  return { id, code, filePath };
+}
+
+export function saveTryCodeProblem({ id, code, title, mode, starterCode, tests, html }) {
+  if (!id) throw new Error('Problem ID is required.');
+  const safeId = slugify(id);
+  const filePath = path.join(PROBLEMS_FRONTEND_DIR, `${safeId}.ts`);
+
+  let fileContent = code;
+  if (!fileContent) {
+    fileContent = `import type { Problem } from "../../types/problem";\n\nconst problem: Problem = {\n  id: ${JSON.stringify(safeId)},\n  title: ${JSON.stringify(title || safeId)},\n  mode: ${JSON.stringify(mode || 'function')},\n  starterCode: ${JSON.stringify(starterCode || 'function solution() {\\n\\n}')},\n  tests: ${tests ? JSON.stringify(tests, null, 2) : '[]'},\n${html ? `  html: ${JSON.stringify(html)},\n` : ''}};\n\nexport default problem;\n`;
+  }
+
+  fs.mkdirSync(PROBLEMS_FRONTEND_DIR, { recursive: true });
+  fs.writeFileSync(filePath, fileContent, 'utf8');
+  return { success: true, id: safeId, filePath };
+}
+
+export function listAlgorithmProblems() {
+  if (!fs.existsSync(PROBLEMS_ALGO_DIR)) return [];
+  const files = fs.readdirSync(PROBLEMS_ALGO_DIR).filter(f => f.endsWith('.ts') && f !== 'types.ts' && f !== 'index.ts' && f !== 'builder.ts');
+  return files.map(file => {
+    const id = file.replace('.ts', '');
+    const fullPath = path.join(PROBLEMS_ALGO_DIR, file);
+    const content = fs.readFileSync(fullPath, 'utf8');
+
+    const titleMatch = content.match(/title:\s*["'`](.*?)["'`]/);
+    const categoryMatch = content.match(/category:\s*["'`](.*?)["'`]/);
+    const difficultyMatch = content.match(/difficulty:\s*["'`](.*?)["'`]/);
+    const timeMatch = content.match(/timeComplexity:\s*["'`](.*?)["'`]/);
+    const spaceMatch = content.match(/spaceComplexity:\s*["'`](.*?)["'`]/);
+
+    return {
+      id,
+      title: titleMatch ? titleMatch[1] : id,
+      category: categoryMatch ? categoryMatch[1] : 'DSA',
+      difficulty: difficultyMatch ? difficultyMatch[1] : 'Easy',
+      timeComplexity: timeMatch ? timeMatch[1] : 'O(N)',
+      spaceComplexity: spaceMatch ? spaceMatch[1] : 'O(1)',
+      filename: file,
+      fullPath
+    };
+  });
+}
+
+export function getAlgorithmProblem(id) {
+  const filePath = path.join(PROBLEMS_ALGO_DIR, `${id}.ts`);
+  if (!fs.existsSync(filePath)) throw new Error(`Algorithm "${id}" not found.`);
+  const code = fs.readFileSync(filePath, 'utf8');
+  return { id, code, filePath };
+}
+
+export function generateAlgorithmBoilerplate({
+  id,
+  title,
+  category = 'General DSA',
+  difficulty,
+  description,
+  timeComplexity,
+  spaceComplexity,
+  visualizationTypes = ['array'],
+  defaultInputValues = [1, 2, 3, 4, 5]
+}) {
+  const safeId = slugify(id || 'custom-algorithm');
+  const varName = safeId.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+  const nums = Array.isArray(defaultInputValues) && defaultInputValues.length > 0 ? defaultInputValues : [1, 2, 3, 4, 5];
+  const primaryVis = visualizationTypes[0] || 'array';
+
+  let starterStepLogic = `    // Step 0: Initial State
+    builder.step({
+      title: 'Initialize Algorithm',
+      description: \`Start processing array with \${nums.length} elements.\`,
+      codeLine: '// Initialize pointers and state in Java',
+      variables: { n: nums.length },
+      array: {
+        values: [...nums],
+        pointers: { i: 0 },
+        highlights: [0],
+        label: 'nums[]',
+      },
+    });
+
+    for (let i = 0; i < nums.length; i++) {
+      builder.step({
+        title: \`Process Index \${i}: nums[\${i}] = \${nums[i]}\`,
+        description: \`Inspecting element at index \${i}.\`,
+        codeLine: \`int curr = nums[\${i}];\`,
+        variables: { i, 'nums[i]': nums[i] },
+        array: {
+          values: [...nums],
+          pointers: { i },
+          highlights: [i],
+          label: 'nums[]',
+        },
+      });
+    }`;
+
+  if (primaryVis === 'hashmap') {
+    starterStepLogic = `    // Step 0: Initialize
+    builder.step({
+      title: 'Initialize Map',
+      description: 'Create an empty HashMap to record frequencies.',
+      codeLine: 'Map<Integer, Integer> map = new HashMap<>();',
+      variables: { mapSize: 0 },
+      array: { values: [...nums], pointers: { i: 0 }, label: 'nums[]' },
+      hashmap: [],
+    });
+
+    const map = new Map<number, number>();
+    for (let i = 0; i < nums.length; i++) {
+      const val = nums[i];
+      map.set(val, (map.get(val) || 0) + 1);
+      builder.step({
+        title: \`Put nums[\${i}] = \${val} into Map\`,
+        description: \`Update count for key \${val} -> \${map.get(val)}.\`,
+        codeLine: \`map.put(\${val}, map.getOrDefault(\${val}, 0) + 1);\`,
+        variables: { i, val, freq: map.get(val) },
+        array: { values: [...nums], pointers: { i }, highlights: [i], label: 'nums[]' },
+        hashmap: new Map(map),
+        searchKey: val,
+        searchResult: 'found',
+      });
+    }`;
+  } else if (primaryVis === 'set') {
+    starterStepLogic = `    // Step 0: Initialize Set
+    builder.step({
+      title: 'Initialize Set',
+      description: 'Create a HashSet to track unique elements with O(1) lookups.',
+      codeLine: 'Set<Integer> set = new HashSet<>();',
+      variables: { setSize: 0 },
+      array: { values: [...nums], pointers: { i: 0 }, label: 'nums[]' },
+      set: [],
+    });
+
+    const set = new Set<number>();
+    for (let i = 0; i < nums.length; i++) {
+      const val = nums[i];
+      const alreadyHas = set.has(val);
+      set.add(val);
+      builder.step({
+        title: \`Check and Add nums[\${i}] = \${val}\`,
+        description: alreadyHas
+          ? \`Element \${val} is already in the set.\`
+          : \`Inserted unique element \${val} into the set.\`,
+        codeLine: \`set.add(\${val});\`,
+        variables: { i, val, alreadyPresent: alreadyHas },
+        array: { values: [...nums], pointers: { i }, highlights: [i], label: 'nums[]' },
+        set: Array.from(set),
+        searchElement: val,
+        searchResult: 'found',
+      });
+    }`;
+  } else if (primaryVis === 'deque' || primaryVis === 'queue') {
+    starterStepLogic = `    // Step 0: Initialize
+    builder.step({
+      title: 'Initialize Queue / Deque',
+      description: 'Create a double-ended queue for monotonic / window processing.',
+      codeLine: 'Deque<Integer> deque = new ArrayDeque<>();',
+      variables: { dequeSize: 0 },
+      array: { values: [...nums], pointers: { i: 0 }, label: 'nums[]' },
+      deque: [],
+    });
+
+    const deque: number[] = [];
+    for (let i = 0; i < nums.length; i++) {
+      deque.push(nums[i]);
+      builder.step({
+        title: \`deque.addLast(\${nums[i]})\`,
+        description: \`Pushed nums[\${i}] = \${nums[i]} to the back of the deque.\`,
+        codeLine: \`deque.addLast(\${nums[i]});\`,
+        variables: { i, 'deque.size()': deque.length },
+        array: { values: [...nums], pointers: { i }, highlights: [i], label: 'nums[]' },
+        deque: [...deque],
+      });
+    }`;
+  }
+
+  return `import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const ${varName}: AlgorithmDefinition = {
+  id: '${safeId}',
+  title: '${title || 'Algorithm'}',
+  category: '${category || 'General DSA'}',
+  description: '${description || 'Interactive algorithm visualization in Java.'}',
+  visualizationTypes: ${JSON.stringify(visualizationTypes)},
+  defaultInputs: {
+    nums: ${JSON.stringify(nums)},
+  },
+  inputSchema: [
+    {
+      name: 'nums',
+      label: 'Array (comma-separated)',
+      type: 'number-array',
+      defaultValue: ${JSON.stringify(nums)},
+      placeholder: '1, 2, 3, 4, 5',
+      description: 'Input numbers array',
+    },
+  ],
+  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    const rawNums = inputs.nums;
+    const nums: number[] = Array.isArray(rawNums)
+      ? rawNums.map(Number).filter((n) => !isNaN(n))
+      : ${JSON.stringify(nums)};
+
+    const builder = new StepBuilder();
+
+${starterStepLogic}
+
+    return builder.build();
+  },
+};
+
+export default ${varName};
+`;
+}
+
+export function saveAlgorithmProblem({ id, code, title, category, difficulty, timeComplexity, spaceComplexity, visualizationTypes, defaultInputValues }) {
+  if (!id) throw new Error('Algorithm ID is required.');
+  const safeId = slugify(id);
+  const filePath = path.join(PROBLEMS_ALGO_DIR, `${safeId}.ts`);
+
+  let fileContent = code;
+  if (!fileContent) {
+    fileContent = generateAlgorithmBoilerplate({
+      id: safeId,
+      title,
+      category,
+      difficulty,
+      timeComplexity,
+      spaceComplexity,
+      visualizationTypes,
+      defaultInputValues
+    });
+  }
+
+  fs.mkdirSync(PROBLEMS_ALGO_DIR, { recursive: true });
+  fs.writeFileSync(filePath, fileContent, 'utf8');
+
+  syncAlgorithmIndex();
+  return { success: true, id: safeId, filePath };
+}
+
+export function previewAlgorithmSteps({ id, code, inputs }) {
+  let fileContent = code;
+  if (!fileContent && id) {
+    const filePath = path.join(PROBLEMS_ALGO_DIR, `${slugify(id)}.ts`);
+    if (fs.existsSync(filePath)) {
+      fileContent = fs.readFileSync(filePath, 'utf8');
+    }
+  }
+  if (!fileContent) throw new Error('No algorithm code provided to evaluate.');
+
+  const transformed = esbuild.transformSync(fileContent, { loader: 'ts', format: 'cjs' });
+  const mod = { exports: {} };
+  const fn = new Function('module', 'exports', 'require', transformed.code);
+  fn(mod, mod.exports, (modId) => {
+    if (modId === './builder' || modId.endsWith('/builder') || modId === './types' || modId.endsWith('/types')) {
+      const bFile = path.join(PROBLEMS_ALGO_DIR, 'builder.ts');
+      const bCode = fs.readFileSync(bFile, 'utf8');
+      const bTrans = esbuild.transformSync(bCode, { loader: 'ts', format: 'cjs' });
+      const bMod = { exports: {} };
+      new Function('module', 'exports', bTrans.code)(bMod, bMod.exports);
+      return bMod.exports;
+    }
+    return {};
+  });
+
+  let generateFn = null;
+  let algoObj = mod.exports.default || null;
+
+  if (typeof mod.exports.generateSteps === 'function') {
+    generateFn = mod.exports.generateSteps;
+  } else if (algoObj && typeof algoObj.generateSteps === 'function') {
+    generateFn = algoObj.generateSteps;
+  } else {
+    const firstExport = Object.values(mod.exports)[0];
+    if (typeof firstExport === 'function') {
+      generateFn = firstExport;
+    } else if (firstExport && typeof firstExport.generateSteps === 'function') {
+      algoObj = firstExport;
+      generateFn = firstExport.generateSteps;
+    }
+  }
+
+  if (!generateFn) {
+    throw new Error('Algorithm definition does not export generateSteps function.');
+  }
+
+  const runInputs = inputs || (algoObj && algoObj.defaultInputs) || {};
+  const steps = generateFn(runInputs);
+  return {
+    success: true,
+    id: (algoObj && algoObj.id) || id,
+    title: (algoObj && algoObj.title) || id,
+    category: (algoObj && algoObj.category) || 'General DSA',
+    description: (algoObj && algoObj.description) || '',
+    visualizationTypes: (algoObj && algoObj.visualizationTypes) || ['array'],
+    defaultInputs: (algoObj && algoObj.defaultInputs) || {},
+    inputSchema: (algoObj && algoObj.inputSchema) || [],
+    stepsCount: steps.length,
+    steps,
+  };
+}
+
+export function saveStructuredAlgorithmProblem({
+  id,
+  title,
+  category = 'General DSA',
+  description = 'Interactive algorithm visualization in Java.',
+  visualizationTypes = ['array'],
+  defaultInputs,
+  inputSchema,
+  steps = []
+}) {
+  if (!id) throw new Error('Algorithm ID is required.');
+  const safeId = slugify(id);
+  const varName = safeId.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+  const filePath = path.join(PROBLEMS_ALGO_DIR, `${safeId}.ts`);
+
+  const resolvedInputs = defaultInputs || { nums: [1, 2, 3, 4, 5] };
+  const resolvedSchema = inputSchema && inputSchema.length > 0 ? inputSchema : [
+    {
+      name: 'nums',
+      label: 'Array (comma-separated)',
+      type: 'number-array',
+      defaultValue: resolvedInputs.nums || [1, 2, 3, 4, 5],
+      placeholder: '1, 2, 3, 4, 5',
+      description: 'Input numbers array',
+    },
+  ];
+
+  const stepsCode = steps.map((s, idx) => {
+    const stepConfig = {
+      title: s.title || `Step ${idx}`,
+      description: s.description || '',
+      codeLine: s.codeLine || '// Java statement',
+    };
+    if (s.variables && Object.keys(s.variables).length > 0) stepConfig.variables = s.variables;
+    if (s.array) stepConfig.array = s.array;
+    if (s.arrays) stepConfig.arrays = s.arrays;
+    if (s.hashmap) stepConfig.hashmap = s.hashmap;
+    if (s.searchKey !== undefined && s.searchKey !== null && s.searchKey !== '') stepConfig.searchKey = s.searchKey;
+    if (s.searchResult) stepConfig.searchResult = s.searchResult;
+    if (s.set) stepConfig.set = s.set;
+    if (s.searchElement !== undefined && s.searchElement !== null && s.searchElement !== '') stepConfig.searchElement = s.searchElement;
+    if (s.stack) stepConfig.stack = s.stack;
+    if (s.queue) stepConfig.queue = s.queue;
+    if (s.deque) stepConfig.deque = s.deque;
+    if (s.tree) stepConfig.tree = s.tree;
+    if (s.linkedList) stepConfig.linkedList = s.linkedList;
+    if (s.dpTable) stepConfig.dpTable = s.dpTable;
+
+    return `    builder.step(${JSON.stringify(stepConfig, null, 6).trim()});`;
+  }).join('\n\n');
+
+  const fileContent = `import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const ${varName}: AlgorithmDefinition = {
+  id: '${safeId}',
+  title: ${JSON.stringify(title || safeId)},
+  category: ${JSON.stringify(category)},
+  description: ${JSON.stringify(description)},
+  visualizationTypes: ${JSON.stringify(visualizationTypes)},
+  defaultInputs: ${JSON.stringify(resolvedInputs, null, 2)},
+  inputSchema: ${JSON.stringify(resolvedSchema, null, 2)},
+  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    const builder = new StepBuilder();
+
+${stepsCode || '    builder.step({ title: "Start", description: "Algorithm initialized." });'}
+
+    return builder.build();
+  },
+};
+
+export default ${varName};
+`;
+
+  fs.mkdirSync(PROBLEMS_ALGO_DIR, { recursive: true });
+  fs.writeFileSync(filePath, fileContent, 'utf8');
+  syncAlgorithmIndex();
+  return { success: true, id: safeId, filePath };
+}
+
+export function syncAlgorithmIndex() {
+  if (!fs.existsSync(PROBLEMS_ALGO_DIR)) return;
+  const files = fs.readdirSync(PROBLEMS_ALGO_DIR).filter(f => f.endsWith('.ts') && f !== 'types.ts' && f !== 'index.ts' && f !== 'builder.ts');
+  const imports = [];
+  const entries = [];
+
+  files.forEach(f => {
+    const id = f.replace('.ts', '');
+    const varName = id.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+    imports.push(`import ${varName} from './${id}';`);
+    entries.push(`  '${id}': ${varName},`);
+  });
+
+  const indexContent = `import type { AlgorithmDefinition } from './types';\n${imports.join('\n')}\n\nexport * from './types';\nexport * from './builder';\n\nexport const algorithms: Record<string, AlgorithmDefinition> = {\n${entries.join('\n')}\n};\n\nexport function getAlgorithm(id: string): AlgorithmDefinition | undefined {\n  return algorithms[id];\n}\n\nexport default algorithms;\n`;
+
+  fs.writeFileSync(path.join(PROBLEMS_ALGO_DIR, 'index.ts'), indexContent, 'utf8');
 }
 
 /**

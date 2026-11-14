@@ -1,34 +1,35 @@
 ---
-title: "JavaScript Interview Practice: Deduplicate Cart Items"
-meta_title: "JavaScript Interview Practice: Deduplicate Cart Items"
-description: "A frontend-focused JavaScript interview problem that mirrors real product and cart logic in browser-based apps."
+title: 'Interactive Frontend Practice: Function Tests & DOM Playground'
+meta_title: 'Interactive Frontend Practice: Function Tests & DOM Playground'
+description: >-
+  Hands-on frontend interview practice showcasing both JavaScript algorithmic
+  testing with automated testcases and live DOM playground environments.
 author: Arjit Sharma
-categories: ["Development"]
+categories:
+  - Development
 featured: false
 draft: true
 ---
 
-## Problem Statement
+## 1. JavaScript Function Mode: Deduplicate Cart Items
 
 A storefront receives a feed of product IDs from a cart or recommendation system. We need to keep only the first-seen item for each product while preserving the original order.
 
 This is common in frontend work when deduplicating API payloads, shopping cart events, or repeated user actions before rendering.
 
-Examples:
+### Examples
 
 - Input: `["sku-1", "sku-2", "sku-1", "sku-3", "sku-2", "sku-4"]` → Output: `["sku-1", "sku-2", "sku-3", "sku-4"]`
 - Input: `["sku-9", "sku-9", "sku-9"]` → Output: `["sku-9"]`
 - Input: `["p-1", "p-2", "p-1", "p-3", "p-2", "p-4"]` → Output: `["p-1", "p-2", "p-3", "p-4"]`
 
----
+Click **Practice** to launch the editor, write your solution, and run the automated test suite.
 
 <TryCode problemId="array-unique" />
 
----
+### Solution Approach
 
-## Solution
-
-Use a `Set` to track seen IDs and push only unseen values into the output array.
+Use a `Set` to track seen IDs in O(1) time and push only unseen values into the output array.
 
 ```js
 function solution(cartItems) {
@@ -46,4 +47,31 @@ function solution(cartItems) {
 }
 ```
 
-This runs in $O(n)$ time and uses $O(n)$ extra space, which is usually the right tradeoff for frontend data cleanup and UI rendering.
+---
+
+## 2. Interactive DOM Mode: Product Search Filter
+
+Build a product search UI that filters a list of products in real time as the user types.
+
+The page should hide products that do not match the search string and keep matching products visible. This is a common pattern in e-commerce and marketplace interfaces.
+
+Click **Practice** to write HTML, CSS, and JavaScript with live preview rendering.
+
+<TryCode problemId="dom-counter" mode="dom" />
+
+### Starter Approach
+
+```js
+const searchInput = document.getElementById('search');
+const cards = [...document.querySelectorAll('[data-name]')];
+
+searchInput.addEventListener('input', (event) => {
+  const query = event.target.value.trim().toLowerCase();
+
+  cards.forEach((card) => {
+    const name = card.dataset.name.toLowerCase();
+    const matches = name.includes(query);
+    card.style.display = matches ? 'flex' : 'none';
+  });
+});
+```
