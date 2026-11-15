@@ -14,8 +14,7 @@
         {
           "type": "articles",
           "url": "dsa-for-interviews-running-sum-of-1d-array",
-          "title": "Running Sum of 1D Array",
-          "status": "in-progress"
+          "title": "Running Sum of 1D Array"
         },
         {
           "type": "articles",
@@ -62,6 +61,53 @@
           "type": "articles",
           "url": "dsa-for-interviews-find-players-with-zero-or-one-losses",
           "title": "Find Players With Zero or One Losses",
+          "status": "in-progress"
+        }
+      ]
+    },
+    {
+      "subheading": "Two Pointer",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-valid-pallindrome",
+          "title": "Valid Pallindrome",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-two-sum-2",
+          "title": "Two Sum (2)",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-square-of-sorted-array",
+          "title": "Square of Sorted Array",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-sort-colors",
+          "title": "Sort Colors",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-partition-labels",
+          "title": "Partition Labels",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-merge-sorted-array",
+          "title": "Merge Sorted Array",
+          "status": "in-progress"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-3-sum-closest",
+          "title": "3 Sum Closest",
           "status": "in-progress"
         }
       ]

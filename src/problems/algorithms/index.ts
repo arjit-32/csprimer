@@ -4,6 +4,7 @@ import climbingStairs from './climbing-stairs';
 import containsDuplicate from './contains-duplicate';
 import mergeSortedArrays from './merge-sorted-arrays';
 import reverseLinkedList from './reverse-linked-list';
+import runningSum from './running-sum';
 import slidingWindowMaximum from './sliding-window-maximum';
 import treeWithArray from './tree-with-array';
 import twoSum from './two-sum';
@@ -18,6 +19,7 @@ export const algorithms: Record<string, AlgorithmDefinition> = {
   'contains-duplicate': containsDuplicate,
   'merge-sorted-arrays': mergeSortedArrays,
   'reverse-linked-list': reverseLinkedList,
+  'running-sum': runningSum,
   'sliding-window-maximum': slidingWindowMaximum,
   'tree-with-array': treeWithArray,
   'two-sum': twoSum,
