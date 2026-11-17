@@ -19,6 +19,11 @@ const blogCollection = defineCollection({
     year: z.number().optional(),
     featured: z.boolean().optional(),
     status: articleStatusEnum,
+    project: z.boolean().optional(),
+    part: z.number().optional(),
+    difficulty: z.enum(['Beginner', 'Intermediate', 'Advanced']).optional(),
+    github_url: z.string().optional(),
+    live_url: z.string().optional(),
   }),
 });
 
@@ -39,6 +44,8 @@ const seriesCollection = defineCollection({
     description: z.string(),
     image: z.string().optional(),
     category: z.string().default('Course'),
+    type: z.enum(['course', 'project']).default('course').optional(),
+    featured: z.boolean().optional(),
     ongoing: z.union([z.boolean(), z.string()]).optional(),
     status: courseStatusEnum,
     time: z.string().optional(),

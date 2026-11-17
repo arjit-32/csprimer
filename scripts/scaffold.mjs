@@ -48,12 +48,15 @@ export function listExistingSeries() {
       const id = file.replace(/\.json$/, '');
       try {
         const data = JSON.parse(fs.readFileSync(path.join(SERIES_DIR, file), 'utf8'));
+        const type = data.type || (data.category === 'Project' ? 'project' : 'course');
         return {
           id,
           title: data.title || id,
           subtitle: data.subtitle || '',
           description: data.description || '',
           category: data.category || 'Development',
+          type,
+          isProject: type === 'project',
           weight: data.weight ?? 100,
           status: data.status || '',
           ongoing: Boolean(data.ongoing === true || data.ongoing === 'true' || data.ongoing === 'On-going'),
@@ -65,7 +68,7 @@ export function listExistingSeries() {
           resourceCount: Array.isArray(data.resources) ? data.resources.length : 0
         };
       } catch {
-        return { id, title: id, category: 'Development', weight: 100, status: '', ongoing: false, lessonCount: 0, resourceCount: 0 };
+        return { id, title: id, category: 'Development', type: 'course', isProject: false, weight: 100, status: '', ongoing: false, lessonCount: 0, resourceCount: 0 };
       }
     })
     .sort((a, b) => (a.weight - b.weight) || a.title.localeCompare(b.title));
@@ -97,7 +100,9 @@ export function listAllArticles() {
         categories: Array.isArray(parsed.data.categories) ? parsed.data.categories : ['Development'],
         draft: Boolean(parsed.data.draft),
         featured: Boolean(parsed.data.featured),
-        year: parsed.data.year || null
+        year: parsed.data.year || null,
+        project: Boolean(parsed.data.project),
+        part: parsed.data.part || null
       });
     } catch {}
   }
@@ -112,7 +117,13 @@ export function getSiteStats() {
   const totalInterviewQuestions = interviewTopics.reduce((acc, t) => acc + (t.questions ? t.questions.length : 0), 0);
   const totalShorts = listAllShorts().length;
 
-  const totalLessons = allArticles.filter(a => !!a.series).length;
+  const totalCourses = seriesList.filter(s => s.type !== 'project').length;
+  const totalProjectSeries = seriesList.filter(s => s.type === 'project').length;
+  const projectSeriesIds = new Set(seriesList.filter(s => s.type === 'project').map(s => s.id));
+  const courseSeriesIds = new Set(seriesList.filter(s => s.type !== 'project').map(s => s.id));
+
+  const totalLessons = allArticles.filter(a => !!a.series && courseSeriesIds.has(a.series)).length;
+  const totalProjectArticles = allArticles.filter(a => a.project || !a.series || projectSeriesIds.has(a.series)).length;
   const totalStandalone = allArticles.filter(a => !a.series).length;
   const totalDrafts = allArticles.filter(a => a.draft).length;
   const totalImages = fs.existsSync(CONVERTED_IMAGES_DIR)
@@ -121,8 +132,11 @@ export function getSiteStats() {
 
   return {
     totalSeries: seriesList.length,
+    totalCourses,
+    totalProjectSeries,
     totalArticles: allArticles.length,
     totalLessons,
+    totalProjectArticles,
     totalStandalone,
     totalDrafts,
     totalInterviewQuestions,
@@ -586,6 +600,7 @@ export function updateSeriesMetadata(seriesId, metadata) {
   if (metadata.subtitle !== undefined) sData.subtitle = metadata.subtitle;
   if (metadata.description !== undefined) sData.description = metadata.description;
   if (metadata.category) sData.category = metadata.category;
+  if (metadata.type !== undefined) sData.type = metadata.type;
   if (metadata.status !== undefined) {
     if (!metadata.status || metadata.status === 'published' || metadata.status === 'live' || metadata.status === 'ready' || metadata.status === 'none') {
       delete sData.status; // Remove so it renders as standard published course
@@ -599,6 +614,7 @@ export function updateSeriesMetadata(seriesId, metadata) {
   if (metadata.time !== undefined) sData.time = metadata.time;
   if (metadata.weight !== undefined) sData.weight = Number(metadata.weight);
   if (metadata.image !== undefined) sData.image = metadata.image;
+  if (metadata.featured !== undefined) sData.featured = Boolean(metadata.featured);
 
   fs.writeFileSync(seriesFilePath, JSON.stringify(sData, null, 2) + '\n', 'utf8');
   return { success: true, message: `Series "${seriesId}" updated successfully.`, series: sData };
@@ -739,9 +755,11 @@ export function createSeries({
   title,
   description,
   category = 'Development',
+  type = 'course',
   subtitle = '',
   status = 'in-progress',
   time = '4 hours',
+  featured = false,
   createIntroArticle = true,
   addToRoadmaps = true,
   pathId
@@ -757,27 +775,30 @@ export function createSeries({
     throw new Error(`Series "${seriesId}" already exists at: ${seriesFilePath}`);
   }
 
-  const catKey = CANONICAL_CATEGORIES.find(c => c.toLowerCase() === category.toLowerCase()) || category;
-  const introSlug = `intro-${seriesId}`;
+  const isProj = type === 'project' || category === 'Project';
+  const catKey = isProj ? (category || 'Development') : (CANONICAL_CATEGORIES.find(c => c.toLowerCase() === category.toLowerCase()) || category);
+  const introSlug = isProj ? `part-1-${seriesId}` : `intro-${seriesId}`;
 
   const seriesData = {
     ongoing: false,
     weight: 50,
     title,
-    subtitle: subtitle || `Master ${title} from first principles`,
-    description: description || `Complete guide and curriculum for ${title}.`,
+    subtitle: subtitle || (isProj ? `Build ${title} step by step from scratch` : `Master ${title} from first principles`),
+    description: description || (isProj ? `Complete hands-on engineering build guide for ${title}.` : `Complete guide and curriculum for ${title}.`),
     category: catKey,
+    type: isProj ? 'project' : 'course',
+    featured: Boolean(featured),
     status,
     time,
     image: `../../assets/images/thumbnails/${seriesId}.webp`,
     navbar: [
       {
-        subheading: '1. Foundations',
+        subheading: isProj ? '1. Blueprint & Implementation' : '1. Foundations',
         link: [
           {
             type: 'articles',
             url: introSlug,
-            title: `Introduction to ${title}`,
+            title: isProj ? `Part 1: Setting up ${title}` : `Introduction to ${title}`,
             status
           }
         ]
@@ -790,24 +811,28 @@ export function createSeries({
   fs.writeFileSync(seriesFilePath, JSON.stringify(seriesData, null, 2) + '\n', 'utf8');
 
   let roadmapResult = null;
-  if (addToRoadmaps) {
+  if (addToRoadmaps && !isProj) {
     roadmapResult = addToRoadmap({ seriesId, category: catKey, pathId });
   }
 
   let introArticleResult = null;
   if (createIntroArticle) {
     introArticleResult = createArticle({
-      title: `Introduction to ${title}`,
+      title: isProj ? `Part 1: Setting up ${title}` : `Introduction to ${title}`,
       slug: introSlug,
       seriesId,
-      description: `Welcome to ${title}. Learn the core concepts and what we will build.`,
-      addToNavbar: false
+      description: isProj ? `First part of ${title} series. Setup and core blueprint.` : `Welcome to ${title}. Learn the core concepts and what we will build.`,
+      addToNavbar: false,
+      contentType: isProj ? 'project' : 'lesson',
+      project: isProj,
+      part: 1
     });
   }
 
   return {
     success: true,
     seriesId,
+    type: seriesData.type,
     seriesPath: seriesFilePath,
     roadmapResult,
     introArticleResult
@@ -829,7 +854,10 @@ export function createArticle({
   isMdx = false,
   addToNavbar = true,
   sectionIndex = 0,
-  contentType = 'lesson'
+  contentType = 'lesson',
+  part = null,
+  featured = false,
+  project = false
 }) {
   if (!title) {
     throw new Error('Article "title" is required.');
@@ -852,6 +880,7 @@ export function createArticle({
   // CRITICAL RULE: If seriesId is specified, the category MUST be strictly locked
   // to the series category so there is zero divergence.
   let finalCategories = categories;
+  let isSeriesProject = false;
   if (seriesId) {
     const seriesFilePath = path.join(SERIES_DIR, `${seriesId}.json`);
     if (fs.existsSync(seriesFilePath)) {
@@ -860,12 +889,17 @@ export function createArticle({
         if (sData.category) {
           finalCategories = [sData.category]; // Strictly inherited and locked!
         }
+        if (sData.type === 'project' || sData.category === 'Project') {
+          isSeriesProject = true;
+        }
       } catch {}
     }
   }
 
+  const isProj = contentType === 'project' || project || isSeriesProject;
+
   if (!finalCategories || finalCategories.length === 0) {
-    finalCategories = ['Development'];
+    finalCategories = isProj ? ['Development'] : ['Development'];
   }
 
   const frontmatterLines = [
@@ -879,18 +913,20 @@ export function createArticle({
   if (seriesId) frontmatterLines.push(`series: "${seriesId}"`);
   frontmatterLines.push(`categories: ${JSON.stringify(finalCategories)}`);
   frontmatterLines.push(`draft: ${draft}`);
-  frontmatterLines.push(`featured: false`);
+  frontmatterLines.push(`featured: ${Boolean(featured)}`);
+  if (isProj) frontmatterLines.push(`project: true`);
+  if (part) frontmatterLines.push(`part: ${Number(part)}`);
   frontmatterLines.push('---\n');
 
-  const headline = contentType === 'project'
+  const headline = isProj
     ? `# 🛠️ ${title}\n`
     : `# ${title}\n`;
 
   const initialBody = [
     headline,
     description ? `${description}\n` : '',
-    contentType === 'project'
-      ? '## Overview & Objectives\n\nIn this hands-on project, we will build...\n\n## Requirements\n\n- Node.js or relevant runtime\n- Code editor\n\n## Step-by-Step Implementation\n\nWrite your implementation details here...\n'
+    isProj
+      ? '## Overview & Objectives\n\nIn this hands-on project part, we will build...\n\n## System Architecture & Blueprint\n\nArchitecture breakdown, data flow, and components...\n\n## Prerequisites\n\n- Runtime environment or compiler\n- Basic tools and packages\n\n## Step-by-Step Implementation\n\nFollow the step-by-step engineering implementation...\n\n### Core Algorithm & Logic\n\nBreakdown of critical algorithms and data structures...\n\n## Verification & Testing\n\nCommands and test cases to verify the build...\n\n## Summary & What\'s Next\n\nNext steps in this build sequence...\n'
       : '## 1. Overview\n\nWrite your lesson content here...\n'
   ].filter(Boolean).join('\n');
 
@@ -1025,7 +1061,7 @@ export function updateSeriesLinkSlug(oldSlug, newSlug, newTitle) {
   }
 }
 
-export function saveArticleContent({ slug, oldSlug, frontmatter, content, isMdx }) {
+export function saveArticleContent({ slug, oldSlug, frontmatter, content, isMdx, targetChapterIdx }) {
   if (!slug) throw new Error('Article slug is required.');
   const newSlug = slugify(slug);
   const targetOldSlug = oldSlug ? slugify(oldSlug) : newSlug;
@@ -1036,7 +1072,11 @@ export function saveArticleContent({ slug, oldSlug, frontmatter, content, isMdx 
   ];
   const existingOldFile = oldFiles.find(f => fs.existsSync(f));
 
-  const ext = isMdx ? 'mdx' : (existingOldFile ? path.extname(existingOldFile).slice(1) : 'md');
+  // Auto-detect components that require MDX support
+  const MDX_FEATURE_REGEX = /<(AlgoVisualizer|TryCode|Button|Accordion|Notice|Video|Youtube|Badge|Changelog|Tab|Tabs)\b/i;
+  const shouldBeMdx = Boolean(isMdx) || MDX_FEATURE_REGEX.test(content || '');
+
+  const ext = shouldBeMdx ? 'mdx' : (existingOldFile ? path.extname(existingOldFile).slice(1) : 'md');
   const newFilePath = path.join(ARTICLES_DIR, `${newSlug}.${ext}`);
 
   const cleanFrontmatter = {
@@ -1053,6 +1093,11 @@ export function saveArticleContent({ slug, oldSlug, frontmatter, content, isMdx 
   if (frontmatter.featured !== undefined) cleanFrontmatter.featured = Boolean(frontmatter.featured);
   if (frontmatter.year) cleanFrontmatter.year = Number(frontmatter.year);
   if (frontmatter.image) cleanFrontmatter.image = frontmatter.image;
+  if (frontmatter.project !== undefined) cleanFrontmatter.project = Boolean(frontmatter.project);
+  if (frontmatter.part !== undefined && frontmatter.part !== '') cleanFrontmatter.part = Number(frontmatter.part);
+  if (frontmatter.difficulty) cleanFrontmatter.difficulty = frontmatter.difficulty;
+  if (frontmatter.github_url) cleanFrontmatter.github_url = frontmatter.github_url;
+  if (frontmatter.live_url) cleanFrontmatter.live_url = frontmatter.live_url;
 
   let oldSeriesId = null;
   if (existingOldFile) {
@@ -1070,30 +1115,53 @@ export function saveArticleContent({ slug, oldSlug, frontmatter, content, isMdx 
         const sData = JSON.parse(fs.readFileSync(sPath, 'utf8'));
         if (sData.category) cleanFrontmatter.categories = [sData.category];
 
-        // Ensure article is present in the series navbar
+        // Ensure series navbar exists
         if (!Array.isArray(sData.navbar) || sData.navbar.length === 0) {
           sData.navbar = [{ subheading: '1. Lessons', link: [] }];
         }
-        let inNavbar = false;
-        for (const sec of sData.navbar) {
+
+        // Determine destination chapter
+        let destChapterIdx = 0;
+        let existingStatus = 'in-progress';
+
+        // Check if article already exists in navbar and grab its status & index
+        let foundChapterIdx = -1;
+        let foundLinkIdx = -1;
+        for (let i = 0; i < sData.navbar.length; i++) {
+          const sec = sData.navbar[i];
           if (Array.isArray(sec.link)) {
-            const found = sec.link.find(l => l.type === 'articles' && (l.url === newSlug || l.url === targetOldSlug));
-            if (found) {
-              found.url = newSlug;
-              found.title = cleanFrontmatter.title;
-              inNavbar = true;
+            const idx = sec.link.findIndex(l => l.type === 'articles' && (l.url === newSlug || l.url === targetOldSlug));
+            if (idx !== -1) {
+              existingStatus = sec.link[idx].status || existingStatus;
+              foundChapterIdx = i;
+              foundLinkIdx = idx;
               break;
             }
           }
         }
-        if (!inNavbar) {
-          sData.navbar[0].link.push({
-            type: 'articles',
-            url: newSlug,
-            title: cleanFrontmatter.title,
-            status: 'in-progress'
-          });
+
+        if (targetChapterIdx !== undefined && targetChapterIdx !== null && Number(targetChapterIdx) >= 0) {
+          destChapterIdx = Math.min(Number(targetChapterIdx), sData.navbar.length - 1);
+        } else if (foundChapterIdx !== -1) {
+          destChapterIdx = foundChapterIdx;
         }
+
+        // If it was in navbar, remove from old location if moving or updating
+        if (foundChapterIdx !== -1) {
+          sData.navbar[foundChapterIdx].link.splice(foundLinkIdx, 1);
+        }
+
+        if (!Array.isArray(sData.navbar[destChapterIdx].link)) {
+          sData.navbar[destChapterIdx].link = [];
+        }
+
+        sData.navbar[destChapterIdx].link.push({
+          type: 'articles',
+          url: newSlug,
+          title: cleanFrontmatter.title,
+          status: existingStatus
+        });
+
         fs.writeFileSync(sPath, JSON.stringify(sData, null, 2) + '\n', 'utf8');
       } catch (err) {
         console.warn(`Could not sync series navbar for "${cleanFrontmatter.series}":`, err.message);
@@ -1422,6 +1490,32 @@ export function saveTryCodeProblem({ id, code, title, mode, starterCode, tests, 
 export function listAlgorithmProblems() {
   if (!fs.existsSync(PROBLEMS_ALGO_DIR)) return [];
   const files = fs.readdirSync(PROBLEMS_ALGO_DIR).filter(f => f.endsWith('.ts') && f !== 'types.ts' && f !== 'index.ts' && f !== 'builder.ts');
+  files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
+  // Pre-load article files once to quickly map visualizer usages
+  const articleFiles = fs.existsSync(ARTICLES_DIR)
+    ? fs.readdirSync(ARTICLES_DIR).filter(f => f.endsWith('.md') || f.endsWith('.mdx'))
+    : [];
+  const articles = articleFiles.map(file => {
+    try {
+      const fullPath = path.join(ARTICLES_DIR, file);
+      const raw = fs.readFileSync(fullPath, 'utf8');
+      const parsed = matter(raw);
+      const ext = path.extname(file);
+      const slug = path.basename(file, ext);
+      return {
+        file,
+        slug,
+        title: parsed.data?.title || slug,
+        series: parsed.data?.series || null,
+        url: `/articles/${slug}`,
+        raw
+      };
+    } catch {
+      return null;
+    }
+  }).filter(Boolean);
+
   return files.map(file => {
     const id = file.replace('.ts', '');
     const fullPath = path.join(PROBLEMS_ALGO_DIR, file);
@@ -1433,6 +1527,17 @@ export function listAlgorithmProblems() {
     const timeMatch = content.match(/timeComplexity:\s*["'`](.*?)["'`]/);
     const spaceMatch = content.match(/spaceComplexity:\s*["'`](.*?)["'`]/);
 
+    const tagRegex = new RegExp(`<AlgoVisualizer[\\s\\S]*?problemId=["']${id}["']`, 'i');
+    const usages = articles
+      .filter(art => tagRegex.test(art.raw))
+      .map(art => ({
+        file: art.file,
+        slug: art.slug,
+        title: art.title,
+        series: art.series,
+        url: art.url
+      }));
+
     return {
       id,
       title: titleMatch ? titleMatch[1] : id,
@@ -1441,9 +1546,50 @@ export function listAlgorithmProblems() {
       timeComplexity: timeMatch ? timeMatch[1] : 'O(N)',
       spaceComplexity: spaceMatch ? spaceMatch[1] : 'O(1)',
       filename: file,
-      fullPath
+      fullPath,
+      usages,
+      usageCount: usages.length
     };
   });
+}
+
+export function getAlgorithmUsages(id) {
+  const safeId = slugify(id || '');
+  if (!fs.existsSync(ARTICLES_DIR)) return [];
+  const files = fs.readdirSync(ARTICLES_DIR).filter(f => f.endsWith('.md') || f.endsWith('.mdx'));
+  const tagRegex = new RegExp(`<AlgoVisualizer[\\s\\S]*?problemId=["']${safeId}["']`, 'i');
+  const usages = [];
+
+  for (const file of files) {
+    try {
+      const fullPath = path.join(ARTICLES_DIR, file);
+      const raw = fs.readFileSync(fullPath, 'utf8');
+      if (tagRegex.test(raw)) {
+        const parsed = matter(raw);
+        const ext = path.extname(file);
+        const slug = path.basename(file, ext);
+        usages.push({
+          file,
+          slug,
+          title: parsed.data?.title || slug,
+          series: parsed.data?.series || null,
+          url: `/articles/${slug}`
+        });
+      }
+    } catch {}
+  }
+  return usages;
+}
+
+export function deleteAlgorithmProblem(id) {
+  const safeId = slugify(id || '');
+  const filePath = path.join(PROBLEMS_ALGO_DIR, `${safeId}.ts`);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Algorithm visualizer "${safeId}" does not exist on disk.`);
+  }
+  fs.unlinkSync(filePath);
+  syncAlgorithmIndex();
+  return { success: true, id: safeId };
 }
 
 export function getAlgorithmProblem(id) {
@@ -1451,6 +1597,14 @@ export function getAlgorithmProblem(id) {
   if (!fs.existsSync(filePath)) throw new Error(`Algorithm "${id}" not found.`);
   const code = fs.readFileSync(filePath, 'utf8');
   return { id, code, filePath };
+}
+
+export function toValidAlgoIdentifier(id) {
+  let cleanVar = id.replace(/[-_\s]+([a-zA-Z0-9])/g, (_, g) => g.toUpperCase());
+  if (/^[0-9]/.test(cleanVar)) {
+    cleanVar = `algo${cleanVar}`;
+  }
+  return cleanVar;
 }
 
 export function generateAlgorithmBoilerplate({
@@ -1465,7 +1619,7 @@ export function generateAlgorithmBoilerplate({
   defaultInputValues = [1, 2, 3, 4, 5]
 }) {
   const safeId = slugify(id || 'custom-algorithm');
-  const varName = safeId.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+  const varName = toValidAlgoIdentifier(safeId);
   const nums = Array.isArray(defaultInputValues) && defaultInputValues.length > 0 ? defaultInputValues : [1, 2, 3, 4, 5];
   const primaryVis = visualizationTypes[0] || 'array';
 
@@ -1718,7 +1872,7 @@ export function saveStructuredAlgorithmProblem({
 }) {
   if (!id) throw new Error('Algorithm ID is required.');
   const safeId = slugify(id);
-  const varName = safeId.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+  const varName = toValidAlgoIdentifier(safeId);
   const filePath = path.join(PROBLEMS_ALGO_DIR, `${safeId}.ts`);
 
   const resolvedInputs = defaultInputs || { nums: [1, 2, 3, 4, 5] };
@@ -1789,17 +1943,47 @@ export default ${varName};
 export function syncAlgorithmIndex() {
   if (!fs.existsSync(PROBLEMS_ALGO_DIR)) return;
   const files = fs.readdirSync(PROBLEMS_ALGO_DIR).filter(f => f.endsWith('.ts') && f !== 'types.ts' && f !== 'index.ts' && f !== 'builder.ts');
+  files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
   const imports = [];
   const entries = [];
 
+  // Sort files: natural numeric order so 01-, 02- come first, then sample-
+  files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
   files.forEach(f => {
     const id = f.replace('.ts', '');
-    const varName = id.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+    const varName = toValidAlgoIdentifier(id);
     imports.push(`import ${varName} from './${id}';`);
     entries.push(`  '${id}': ${varName},`);
   });
 
-  const indexContent = `import type { AlgorithmDefinition } from './types';\n${imports.join('\n')}\n\nexport * from './types';\nexport * from './builder';\n\nexport const algorithms: Record<string, AlgorithmDefinition> = {\n${entries.join('\n')}\n};\n\nexport function getAlgorithm(id: string): AlgorithmDefinition | undefined {\n  return algorithms[id];\n}\n\nexport default algorithms;\n`;
+  // Provide backward compatibility aliases for renamed legacy problemIds
+  const aliases = [
+    { from: 'running-sum', to: '01-running-sum' },
+    { from: 'two-sum', to: '02-two-sum' },
+    { from: 'max-sum-subarray-of-size-k', to: '03-max-sum-subarray-of-size-k' },
+    { from: 'binary-search', to: 'sample-binary-search' },
+    { from: 'reverse-linked-list', to: 'sample-linked-list' },
+    { from: 'valid-parentheses', to: 'sample-stack' },
+    { from: 'contains-duplicate', to: 'sample-set' },
+    { from: 'climbing-stairs', to: 'sample-dp' },
+    { from: 'tree-with-array', to: 'sample-tree' },
+    { from: 'sliding-window-maximum', to: 'sample-deque' },
+    { from: 'merge-sorted-arrays', to: 'sample-multi-array' },
+  ];
+
+  const aliasEntries = [];
+  aliases.forEach(a => {
+    const targetFile = `${a.to}.ts`;
+    if (files.includes(targetFile) && !files.includes(`${a.from}.ts`)) {
+      const varName = toValidAlgoIdentifier(a.to);
+      aliasEntries.push(`  '${a.from}': ${varName},`);
+    }
+  });
+
+  const allEntries = [...entries, ...(aliasEntries.length > 0 ? ['', '  // Backward Compatibility Aliases', ...aliasEntries] : [])];
+
+  const indexContent = `import type { AlgorithmDefinition } from './types';\n${imports.join('\n')}\n\nexport * from './types';\nexport * from './builder';\n\nexport const algorithms: Record<string, AlgorithmDefinition> = {\n${allEntries.join('\n')}\n};\n\nexport function getAlgorithm(id: string): AlgorithmDefinition | undefined {\n  return algorithms[id];\n}\n\nexport default algorithms;\n`;
 
   fs.writeFileSync(path.join(PROBLEMS_ALGO_DIR, 'index.ts'), indexContent, 'utf8');
 }

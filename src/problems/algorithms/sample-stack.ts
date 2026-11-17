@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const validParentheses: AlgorithmDefinition = {
-  id: 'valid-parentheses',
-  title: "Valid Parentheses",
+export const sampleStack: AlgorithmDefinition = {
+  id: 'sample-stack',
+  title: 'Sample: Stack (LIFO)',
   category: "Stack",
   description: "Given a string containing characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid using a LIFO Stack.",
   visualizationTypes: ["array","stack"],
@@ -366,4 +366,4 @@ export const validParentheses: AlgorithmDefinition = {
   },
 };
 
-export default validParentheses;
+export default sampleStack;

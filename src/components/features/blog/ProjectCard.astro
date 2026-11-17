@@ -1,0 +1,98 @@
+---
+import readingTime from "@/lib/utils/readingTime";
+import { humanize, plainify } from "@/lib/utils/textConverter";
+import config from "@/config/config.json";
+import { Image } from "astro:assets";
+
+interface Props {
+  post: any;
+}
+
+const { post } = Astro.props;
+const { summary_length } = config.settings;
+
+const description = plainify(post.data.description || post.data.subtitle || "") || "";
+const trimmedDescription = description.length > Number(summary_length)
+  ? `${description.slice(0, Number(summary_length))}...`
+  : description;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/**/*.{jpeg,jpg,png,gif,webp}');
+let imagePath = post.data.image || "";
+if (imagePath.startsWith("../../assets")) {
+  imagePath = imagePath.replace("../../assets", "/src/assets");
+} else if (imagePath.startsWith("/images/")) {
+  imagePath = `/src/assets${imagePath}`;
+}
+if (imagePath && !images[imagePath]) {
+  const lowercasePath = imagePath.toLowerCase();
+  const matchedKey = Object.keys(images).find(key => key.toLowerCase() === lowercasePath);
+  if (matchedKey) imagePath = matchedKey;
+}
+const hasImage = imagePath && images[imagePath];
+---
+
+<div class="project-single-card group relative bg-white rounded-2xl border border-gray-200 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden h-full">
+  {hasImage && (
+    <div class="relative overflow-hidden h-44 w-full">
+      <Image
+        src={images[imagePath]()}
+        alt={post.data.title}
+        width={500}
+        height={220}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+    </div>
+  )}
+
+  <div class="p-6 flex-1 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-zinc-100 text-zinc-700 border border-zinc-200">
+          <span>📄</span>
+          <span>Article</span>
+        </span>
+        <span class="inline-flex items-center text-xs text-gray-500 font-medium">
+          <svg class="mr-1 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+            <polyline points="12 6 12 12 16 14" stroke-width="2"/>
+          </svg>
+          {readingTime(post.body)}
+        </span>
+      </div>
+
+      <h3 class="text-xl font-bold text-gray-900 group-hover:text-[#FE6019] transition-colors leading-snug mb-2">
+        <a href={`/articles/${post.slug}`}>
+          {post.data.title}
+        </a>
+      </h3>
+
+      <p class="text-sm text-gray-600 line-clamp-3 mb-4 leading-relaxed">
+        {trimmedDescription}
+      </p>
+
+      {post.data.categories && post.data.categories.length > 0 && (
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          {post.data.categories.map((cat: string) => (
+            <span class="px-2 py-0.5 text-[11px] font-semibold bg-gray-50 text-gray-600 border border-gray-200 rounded-md">
+              {humanize(cat)}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
+      <span class="text-xs text-gray-400 font-mono">
+        {post.data.year || (post.data.author ? humanize(post.data.author) : 'CSPrimer')}
+      </span>
+      <a
+        href={`/articles/${post.slug}`}
+        class="inline-flex items-center gap-1 text-xs font-bold text-[#FE6019] group-hover:translate-x-1 transition-transform"
+      >
+        <span>Read Guide</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</div>

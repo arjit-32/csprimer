@@ -9,6 +9,7 @@ image: /images/thumbnails/hindilang.webp
 featured: true
 year: 2025
 draft: false
+project: true
 ---
 
 Programming languages are fascinating. But have you ever wondered **how they work under the hood?** As an academic exercise, I set out to build my own programming language [hindilang](https://github.com/arjit-32/hindilang), a Hindi inspired scripting language that transpiles to JavaScript!

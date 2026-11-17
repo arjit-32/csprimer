@@ -1,0 +1,151 @@
+---
+interface Props {
+  seriesData: any;
+  seriesId: string;
+  currentSlug: string;
+}
+
+const { seriesData, seriesId, currentSlug } = Astro.props;
+
+// Flatten all links across navbar sections for project series
+const allSeriesLinks = (seriesData?.navbar || [])
+  .flatMap((sec: any) => sec.link || [])
+  .filter((l: any) => l.type === 'articles');
+
+const currentIndex = allSeriesLinks.findIndex((l: any) => l.url === currentSlug);
+const currentPartNum = currentIndex >= 0 ? currentIndex + 1 : 1;
+const totalParts = allSeriesLinks.length;
+
+const previousLink = currentIndex > 0 ? allSeriesLinks[currentIndex - 1] : null;
+const nextLink = currentIndex >= 0 && currentIndex < allSeriesLinks.length - 1 ? allSeriesLinks[currentIndex + 1] : null;
+---
+
+<div class="project-series-container mb-8">
+  <!-- Top Series Context Box -->
+  <div class="project-series-banner">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-[#FE6019] border border-orange-200">
+          <span>🛠️</span>
+          <span>Project Series</span>
+        </span>
+        <span class="text-xs font-mono font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+          Part {currentPartNum} of {totalParts}
+        </span>
+      </div>
+      <a href="/articles" class="text-xs font-semibold text-gray-500 hover:text-[#FE6019] flex items-center gap-1 transition-colors">
+        <span>← All Projects</span>
+      </a>
+    </div>
+
+    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-1">
+      {seriesData.title}
+    </h3>
+    {seriesData.subtitle && (
+      <p class="text-xs sm:text-sm text-gray-600 mb-4 line-clamp-2">
+        {seriesData.subtitle}
+      </p>
+    )}
+
+    <!-- Horizontal Part Pills Stepper -->
+    {totalParts > 1 && (
+      <div class="project-parts-stepper">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar">
+          {allSeriesLinks.map((item: any, idx: number) => {
+            const isCurrent = item.url === currentSlug;
+            const partNumber = idx + 1;
+            return (
+              <a
+                href={`/articles/${item.url}`}
+                class={`part-pill ${isCurrent ? 'part-pill--active' : ''}`}
+                title={`Part ${partNumber}: ${item.title}`}
+              >
+                <span class="part-pill-num">{partNumber}</span>
+                <span class="part-pill-title">{item.title}</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+<style lang="scss">
+  .project-series-banner {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+    border: 1px solid #fed7aa;
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(254, 96, 25, 0.05);
+  }
+
+  .project-parts-stepper {
+    border-top: 1px solid #ffedd5;
+    padding-top: 12px;
+  }
+
+  .part-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #4b5563;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      border-color: #FE6019;
+      color: #FE6019;
+      background: #fffaf7;
+      transform: translateY(-1px);
+    }
+
+    &--active {
+      background: #FE6019;
+      border-color: #FE6019;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(254, 96, 25, 0.25);
+
+      .part-pill-num {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+      }
+    }
+  }
+
+  .part-pill-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .part-pill-title {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const mergeSortedArrays: AlgorithmDefinition = {
-  id: 'merge-sorted-arrays',
-  title: 'Merge Sorted Arrays (Three Pointers, In-Place)',
+export const sampleMultiArray: AlgorithmDefinition = {
+  id: 'sample-multi-array',
+  title: 'Sample: Multi-Array Coordination',
   category: 'Two Pointers',
   difficulty: 'Easy',
   description:
@@ -165,5 +165,5 @@ export const mergeSortedArrays: AlgorithmDefinition = {
   },
 };
 
-export default mergeSortedArrays;
+export default sampleMultiArray;
 

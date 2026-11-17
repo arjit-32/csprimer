@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const binarySearch: AlgorithmDefinition = {
-  id: 'binary-search',
-  title: 'Binary Search (Pointers & Complete Search Window)',
+export const sampleBinarySearch: AlgorithmDefinition = {
+  id: 'sample-binary-search',
+  title: 'Sample: Binary Search',
   category: 'Searching',
   description:
     'Demonstrates halving the search space using low, mid, and high pointers along with an active subarray window bounding the candidate range.',
@@ -129,5 +129,5 @@ export const binarySearch: AlgorithmDefinition = {
   },
 };
 
-export default binarySearch;
+export default sampleBinarySearch;
 

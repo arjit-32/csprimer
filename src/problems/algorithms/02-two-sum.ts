@@ -1,7 +1,7 @@
 import type { AlgorithmDefinition, ExecutionStep, HashMapEntry } from './types';
 
-export const twoSum: AlgorithmDefinition = {
-  id: 'two-sum',
+export const algo02TwoSum: AlgorithmDefinition = {
+  id: '02-two-sum',
   title: 'Two Sum',
   category: 'Arrays & Hashing',
   difficulty: 'Easy',
@@ -204,5 +204,5 @@ export const twoSum: AlgorithmDefinition = {
   },
 };
 
-export default twoSum;
+export default algo02TwoSum;
 

@@ -1,8 +1,8 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 
-export const climbingStairs: AlgorithmDefinition = {
-  id: 'climbing-stairs',
-  title: 'Climbing Stairs (Dynamic Programming)',
+export const sampleDp: AlgorithmDefinition = {
+  id: 'sample-dp',
+  title: 'Sample: Dynamic Programming (Climbing Stairs)',
   category: 'Dynamic Programming',
   difficulty: 'Easy',
   description:
@@ -162,5 +162,5 @@ export const climbingStairs: AlgorithmDefinition = {
   },
 };
 
-export default climbingStairs;
+export default sampleDp;
 

@@ -8,7 +8,7 @@ import { Image } from "astro:assets";
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/*.webp');
 
 export async function getStaticPaths() {
-  const seriesEntries = await getCollection("series");
+  const seriesEntries = (await getCollection("series")).filter((e) => e.data.type !== 'project' && e.data.category !== 'Project');
   return seriesEntries.map((entry) => ({
     params: { course: entry.id },
     props: { seriesData: entry.data },

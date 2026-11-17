@@ -9,7 +9,7 @@ const { posts } = Astro.props;
 <div class="row">
   {
     posts.map((item: any) => {
-      const description = plainify(item.data.description || item.data.subtitle || "");
+      const description = plainify(item.data.description || item.data.subtitle || "") || "";
       const trimmedDescription = description.length > Number(summary_length)
         ? `${description.slice(0, Number(summary_length))}...`
         : description;

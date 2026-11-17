@@ -48,6 +48,8 @@ import {
   listAlgorithmProblems,
   getAlgorithmProblem,
   saveAlgorithmProblem,
+  deleteAlgorithmProblem,
+  getAlgorithmUsages,
   saveStructuredAlgorithmProblem,
   previewAlgorithmSteps
 } from './scaffold.mjs';
@@ -1032,6 +1034,11 @@ const HTML_DASHBOARD = `
           <p class="hint">Inspect all courses, change status (Live, Planned, In-Progress), toggle On-going, and edit metadata.</p>
         </div>
         <div style="display: flex; gap: 0.6rem;">
+          <select id="sc-filter-type" onchange="renderSeriesCards()" style="width: 170px;">
+            <option value="all">All Series</option>
+            <option value="courses">📚 Courses Only</option>
+            <option value="projects">🛠️ Project Series Only</option>
+          </select>
           <select id="sc-filter-cat" onchange="renderSeriesCards()" style="width: 180px;">
             <option value="all">All Tracks</option>
             <option value="Development">Development</option>
@@ -1064,19 +1071,19 @@ const HTML_DASHBOARD = `
 
     <!-- 3. Create Article / Project Form -->
     <div id="panel-article" class="tab-panel">
-      <label style="margin-bottom: 0.6rem;">Content Purpose *</label>
+      <label style="margin-bottom: 0.6rem;">Content Type *</label>
       <div class="purpose-selector">
         <div class="purpose-card active" id="purpose-lesson" onclick="setPurpose('lesson')">
           <h4>🎓 Course Lesson</h4>
-          <p>Attached to a Course. Category is strictly locked to course track.</p>
+          <p>Attached to a Course Series (e.g. Operating Systems, Networks).</p>
         </div>
         <div class="purpose-card" id="purpose-project" onclick="setPurpose('project')">
-          <h4>🛠️ Hands-on Project</h4>
-          <p>Standalone build (compiler, shell, app) surfaced on /articles.</p>
+          <h4>🛠️ Project Series Part</h4>
+          <p>Part of a multi-chapter project build (e.g. HTTP Server).</p>
         </div>
         <div class="purpose-card" id="purpose-article" onclick="setPurpose('article')">
-          <h4>💡 Standalone Deep Dive</h4>
-          <p>Single-topic technical article surfaced on /articles.</p>
+          <h4>📄 Standalone Article</h4>
+          <p>Independent article not attached to any series (surfaced on /articles).</p>
         </div>
       </div>
 
@@ -1095,10 +1102,15 @@ const HTML_DASHBOARD = `
 
         <div class="grid-2" id="grid-art-course-row">
           <div class="form-group" id="group-series">
-            <label>Assign to Course Series *</label>
+            <label id="group-series-label">Assign to Course Series *</label>
             <select id="art-series" onchange="handleSeriesSelectionChange()">
               <option value="">-- Select Series --</option>
             </select>
+          </div>
+          <div class="form-group" id="group-art-part" style="display: none;">
+            <label>Project Part # (optional)</label>
+            <input type="number" id="art-part" placeholder="e.g. 1" min="1">
+            <div class="hint">Step number in multi-part series</div>
           </div>
           <div class="form-group" id="group-art-section" style="display: none;">
             <label>Target Chapter / Section *</label>
@@ -1179,7 +1191,20 @@ const HTML_DASHBOARD = `
 
     <!-- 5. Create Series Form -->
     <div id="panel-new-series" class="tab-panel">
-      <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">➕ Create New Course Series</h3>
+      <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">➕ Create New Series (Course or Project)</h3>
+      
+      <label style="margin-bottom: 0.6rem; font-weight: 700;">Series Type *</label>
+      <div class="purpose-selector" style="margin-bottom: 1.2rem;">
+        <div class="purpose-card active" id="stype-course" onclick="setSeriesType('course')">
+          <h4>🎓 Course Curriculum</h4>
+          <p>Academic subject series with syllabus modules and roadmap tree integration.</p>
+        </div>
+        <div class="purpose-card" id="stype-project" onclick="setSeriesType('project')">
+          <h4>🛠️ Project Series</h4>
+          <p>Multi-part hands-on build series on /articles with card stacked design and series TOC.</p>
+        </div>
+      </div>
+
       <form onsubmit="handleCreateSeries(event)">
         <div class="grid-2">
           <div class="form-group">
@@ -1244,7 +1269,9 @@ const HTML_DASHBOARD = `
           <select id="exp-filter-type" onchange="renderArticlesExplorer()" style="width: 170px;">
             <option value="all">All Content</option>
             <option value="lessons">Course Lessons</option>
-            <option value="projects">Standalone Projects</option>
+            <option value="projects">All Projects</option>
+            <option value="project-series">Project Series Parts</option>
+            <option value="standalone">Standalone Builds</option>
             <option value="drafts">Drafts Only</option>
           </select>
           <select id="exp-filter-cat" onchange="renderArticlesExplorer()" style="width: 170px;">
@@ -1537,6 +1564,25 @@ const HTML_DASHBOARD = `
             <input type="number" id="modal-series-weight" value="100">
           </div>
         </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Series Type</label>
+            <select id="modal-series-type">
+              <option value="course">📚 Course Syllabus</option>
+              <option value="project">🛠️ Hands-on Project Series</option>
+            </select>
+          </div>
+          <div class="form-group" style="display: flex; align-items: center; margin-top: 1.5rem; gap: 1.5rem;">
+            <div class="checkbox-group" style="margin: 0;">
+              <input type="checkbox" id="modal-series-featured">
+              <label for="modal-series-featured" style="margin: 0; cursor: pointer; font-size: 0.85rem; font-weight: 700; color: #FE6019;">⭐ Featured Series</label>
+            </div>
+            <div class="checkbox-group" style="margin: 0;">
+              <input type="checkbox" id="modal-series-ongoing">
+              <label for="modal-series-ongoing" style="margin: 0; cursor: pointer; font-size: 0.85rem;">Ongoing</label>
+            </div>
+          </div>
+        </div>
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
           <button type="button" class="btn-danger" onclick="handleDeleteSeriesModal()">🗑️ Delete Course</button>
           <button type="submit" class="submit-btn" style="margin: 0; flex: 1;">💾 Save Series Metadata</button>
@@ -1551,7 +1597,7 @@ const HTML_DASHBOARD = `
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
           <h3 id="ed-modal-title" style="font-size: 1.2rem; font-weight: 800; color: #fff;">✏️ Article Editor</h3>
-          <span id="ed-modal-badge" class="badge-local">Markdown</span>
+          <button type="button" id="ed-modal-badge" class="badge-local" onclick="toggleArticleFormat()" title="Click to toggle format between .md and .mdx" style="cursor: pointer; border: 1px solid var(--border); transition: all 0.2s;">Markdown (.md)</button>
           <span id="ed-stats" style="font-size: 0.8rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">0 words • 0 min read</span>
         </div>
         <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -1565,7 +1611,7 @@ const HTML_DASHBOARD = `
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 0.8rem; flex: 1; min-height: 0;">
-        <div class="grid-3" style="margin-bottom: 0;">
+        <div class="grid-4" style="margin-bottom: 0; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 0.75rem;">
           <div class="form-group" style="margin-bottom: 0;">
             <label style="font-size: 0.8rem;">Article Title *</label>
             <input type="text" id="ed-title" style="padding: 0.55rem 0.8rem; font-size: 0.9rem;" required>
@@ -1579,6 +1625,10 @@ const HTML_DASHBOARD = `
             <label style="font-size: 0.8rem;">Course Series (or Standalone)</label>
             <select id="ed-series" style="padding: 0.55rem 0.8rem; font-size: 0.85rem;" onchange="handleEditorSeriesChange()"></select>
           </div>
+          <div class="form-group" id="ed-chapter-group" style="margin-bottom: 0;">
+            <label style="font-size: 0.8rem;">Target Chapter / Section</label>
+            <select id="ed-chapter" style="padding: 0.55rem 0.8rem; font-size: 0.85rem;" title="Select chapter within this course"></select>
+          </div>
         </div>
 
         <div class="grid-3" style="margin-bottom: 0;">
@@ -1590,7 +1640,7 @@ const HTML_DASHBOARD = `
             <label style="font-size: 0.8rem;">Description</label>
             <input type="text" id="ed-desc" placeholder="Summary..." style="padding: 0.55rem 0.8rem; font-size: 0.85rem;">
           </div>
-          <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.4rem;">
+          <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1.4rem;">
             <div class="checkbox-group" style="margin: 0;">
               <input type="checkbox" id="ed-draft">
               <label for="ed-draft" style="margin: 0; cursor: pointer; font-size: 0.85rem;">Draft (Hidden)</label>
@@ -1610,7 +1660,7 @@ const HTML_DASHBOARD = `
               <button type="button" onclick="insertFormat('**', '**')">Bold</button>
               <button type="button" onclick="insertFormat('*', '*')">Italic</button>
               <button type="button" onclick="insertFormat('\`', '\`')">Code</button>
-              <button type="button" onclick="insertFormat('\\n\`\`\`js\\n', '\\n\`\`\`\\n')">Code Block</button>
+              <button type="button" onclick="insertCodeBlock('java')" title="Insert Java code block (Default)" style="color: #fbbf24; font-weight: 700;">☕ Code Block (Java)</button>
               <button type="button" onclick="insertFormat('\\n> ', '')">Quote</button>
               <button type="button" onclick="insertFormat('[', '](https://)')">Link</button>
               <button type="button" onclick="insertFormat('![alt](', ')')">Image</button>
@@ -1857,6 +1907,7 @@ const HTML_DASHBOARD = `
         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
           <h3 id="epm-modal-title" style="font-size: 1.2rem; font-weight: 800; color: #fff;">✨ Problem Studio</h3>
           <span id="epm-modal-badge" class="badge-local">Algorithm</span>
+          <span id="epm-usage-badge" class="badge-local" style="font-size: 0.72rem; padding: 0.2rem 0.6rem; display: none;">0 usages</span>
           <div id="epm-mode-switcher" style="display: inline-flex; gap: 0.2rem; background: #070d18; padding: 0.2rem; border-radius: 6px; border: 1px solid var(--border);">
             <button type="button" id="epm-btn-mode-visual" class="btn-secondary" style="font-size: 0.74rem; padding: 0.25rem 0.6rem; background: var(--accent); color: #000; font-weight: 700; border: none;" onclick="switchVisualEditorMode('visual')">✨ Visual Builder</button>
             <button type="button" id="epm-btn-mode-code" class="btn-secondary" style="font-size: 0.74rem; padding: 0.25rem 0.6rem; border: none;" onclick="switchVisualEditorMode('code')">💻 Code Mode</button>
@@ -2155,7 +2206,10 @@ const HTML_DASHBOARD = `
 
       <!-- Modal Footer -->
       <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 0.8rem; border-top: 1px solid var(--border); padding-top: 0.8rem;">
-        <span class="hint" id="epm-footer-hint" style="margin: 0;">✨ Visual Step Builder: changes compile and save cleanly without touching code.</span>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+          <button type="button" class="btn-danger" id="epm-delete-btn" onclick="handleDeleteAlgorithmFromModal()" style="font-size: 0.8rem; padding: 0.45rem 0.9rem; display: none;">🗑️ Delete Visualizer</button>
+          <span class="hint" id="epm-footer-hint" style="margin: 0;">✨ Visual Step Builder: changes compile and save cleanly without touching code.</span>
+        </div>
         <div style="display: flex; gap: 0.8rem;">
           <button type="button" class="btn-secondary" onclick="closeEditProblemModal()">Close</button>
           <div id="epm-code-actions" style="display: none; gap: 0.6rem;">
@@ -2341,36 +2395,93 @@ const HTML_DASHBOARD = `
       if (tab === 'problems') loadProblemsStudio();
     }
 
+    let currentSeriesType = 'course';
+    function setSeriesType(type) {
+      currentSeriesType = type;
+      document.querySelectorAll('#panel-new-series .purpose-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('stype-' + type)?.classList.add('active');
+
+      const addRoadmapCb = document.getElementById('series-add-roadmap');
+      const submitBtn = document.querySelector('#panel-new-series .submit-btn');
+
+      if (type === 'project') {
+        if (addRoadmapCb) {
+          addRoadmapCb.checked = false;
+          addRoadmapCb.parentElement.style.display = 'none';
+        }
+        if (submitBtn) submitBtn.textContent = '🚀 Create Project Series';
+      } else {
+        if (addRoadmapCb) {
+          addRoadmapCb.checked = true;
+          addRoadmapCb.parentElement.style.display = 'flex';
+        }
+        if (submitBtn) submitBtn.textContent = '🚀 Create Series & Register Roadmap';
+      }
+    }
+
+    function populateSeriesSelect(kind = 'course') {
+      const artSelect = document.getElementById('art-series');
+      if (!artSelect) return;
+      artSelect.innerHTML = kind === 'project' 
+        ? '<option value="">-- Standalone Project (No Series) --</option>' 
+        : '<option value="">-- Select Series --</option>';
+
+      allSeries
+        .filter(s => kind === 'project' ? (s.type === 'project' || s.category === 'Project') : (s.type !== 'project' && s.category !== 'Project'))
+        .forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.title + ' (' + s.id + ')';
+          artSelect.appendChild(opt);
+        });
+    }
+
     function setPurpose(purpose) {
       currentPurpose = purpose;
-      document.querySelectorAll('.purpose-card').forEach(c => c.classList.remove('active'));
-      document.getElementById('purpose-' + purpose).classList.add('active');
+      document.querySelectorAll('#panel-article .purpose-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('purpose-' + purpose)?.classList.add('active');
 
       const seriesGroup = document.getElementById('group-series');
+      const seriesLabel = document.getElementById('group-series-label');
+      const partGroup = document.getElementById('group-art-part');
       const sectionGroup = document.getElementById('group-art-section');
       const navbarCheckbox = document.getElementById('group-navbar-checkbox');
       const submitBtn = document.getElementById('art-submit-btn');
       const categorySelect = document.getElementById('art-category');
       const categoryHint = document.getElementById('art-category-hint');
+      const artSelect = document.getElementById('art-series');
 
       if (purpose === 'lesson') {
         seriesGroup.style.display = 'block';
+        if (seriesLabel) seriesLabel.textContent = 'Assign to Course Series *';
+        if (partGroup) partGroup.style.display = 'none';
         navbarCheckbox.style.display = 'flex';
-        submitBtn.textContent = '📄 Create Course Lesson';
+        navbarCheckbox.querySelector('label').textContent = 'Append lesson to series syllabus navbar';
+        submitBtn.textContent = '🎓 Create Course Lesson';
+        populateSeriesSelect('course');
         handleSeriesSelectionChange();
+      } else if (purpose === 'project') {
+        seriesGroup.style.display = 'block';
+        if (seriesLabel) seriesLabel.textContent = 'Assign to Project Series *';
+        if (partGroup) partGroup.style.display = 'block';
+        if (sectionGroup) sectionGroup.style.display = 'none';
+        navbarCheckbox.style.display = 'flex';
+        navbarCheckbox.querySelector('label').textContent = 'Append to Project Series Blueprint';
+        submitBtn.textContent = '🛠️ Create Project Series Part';
+        categorySelect.disabled = false;
+        categoryHint.textContent = 'Select canonical track for this project series.';
+        categoryHint.style.color = 'var(--text-muted)';
+        populateSeriesSelect('project');
       } else {
         seriesGroup.style.display = 'none';
+        if (partGroup) partGroup.style.display = 'none';
         if (sectionGroup) sectionGroup.style.display = 'none';
         navbarCheckbox.style.display = 'none';
-        document.getElementById('art-series').value = '';
+        if (artSelect) artSelect.value = '';
         categorySelect.disabled = false;
-        categoryHint.textContent = 'Select canonical track for this standalone item.';
+        categoryHint.textContent = 'Select canonical track for this standalone article.';
         categoryHint.style.color = 'var(--text-muted)';
-        if (purpose === 'project') {
-          submitBtn.textContent = '🛠️ Create Hands-on Project (Surfaced on /articles)';
-        } else {
-          submitBtn.textContent = '💡 Create Standalone Deep Dive (Surfaced on /articles)';
-        }
+        submitBtn.textContent = '📄 Create Standalone Article';
       }
     }
 
@@ -2512,12 +2623,16 @@ const HTML_DASHBOARD = `
      * 1. Course Series Cards
      */
     function renderSeriesCards() {
+      const typeFilter = document.getElementById('sc-filter-type')?.value || 'all';
       const catFilter = document.getElementById('sc-filter-cat').value;
       const query = document.getElementById('sc-search').value.toLowerCase().trim();
       const container = document.getElementById('series-grid-container');
       container.innerHTML = '';
 
       const filtered = allSeries.filter(s => {
+        const isProj = s.type === 'project' || s.isProject || s.category === 'Project';
+        if (typeFilter === 'courses' && isProj) return false;
+        if (typeFilter === 'projects' && !isProj) return false;
         if (catFilter !== 'all' && s.category !== catFilter) return false;
         if (query) {
           const matchTitle = s.title.toLowerCase().includes(query);
@@ -2528,7 +2643,7 @@ const HTML_DASHBOARD = `
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<p class="hint">No course series matched your search.</p>';
+        container.innerHTML = '<p class="hint">No course or project series matched your search.</p>';
         return;
       }
 
@@ -2542,7 +2657,7 @@ const HTML_DASHBOARD = `
                 <div class="series-card-title">\${s.title}</div>
                 <div class="series-card-id">\${s.id}</div>
               </div>
-              <span class="tag-badge tag-\${s.category}">\${s.category}</span>
+              <div style="display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap;">\${(s.type === 'project' || s.isProject) ? '<span style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 999px;">🛠️ Project Series</span>' : '<span style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 999px;">📚 Course</span>'}<span class="tag-badge tag-\${s.category}">\${s.category}</span></div>
             </div>
             <div class="series-card-desc">\${s.description || s.subtitle || 'No description provided.'}</div>
             
@@ -2632,6 +2747,8 @@ const HTML_DASHBOARD = `
       document.getElementById('modal-series-category').value = s.category || 'Development';
       document.getElementById('modal-series-image').value = s.image || '';
       document.getElementById('modal-series-ongoing').checked = Boolean(s.ongoing);
+      document.getElementById('modal-series-type').value = s.type || (s.category === 'Project' ? 'project' : 'course');
+      document.getElementById('modal-series-featured').checked = Boolean(s.featured);
 
       document.getElementById('edit-series-modal').style.display = 'flex';
     }
@@ -2655,6 +2772,8 @@ const HTML_DASHBOARD = `
         weight: Number(document.getElementById('modal-series-weight').value),
         status: document.getElementById('modal-series-status').value,
         ongoing: document.getElementById('modal-series-ongoing').checked,
+        type: document.getElementById('modal-series-type').value,
+        featured: document.getElementById('modal-series-featured').checked,
       };
 
       if (newId !== oldId) {
@@ -2768,6 +2887,7 @@ const HTML_DASHBOARD = `
         description: document.getElementById('series-desc').value,
         addToRoadmaps: document.getElementById('series-add-roadmap').checked,
         createIntroArticle: document.getElementById('series-create-intro').checked,
+        type: currentSeriesType || 'course',
       };
 
       try {
@@ -2811,7 +2931,9 @@ const HTML_DASHBOARD = `
         isMdx: document.getElementById('art-format').value === 'mdx',
         addToNavbar: currentPurpose === 'lesson' && document.getElementById('art-navbar').checked,
         sectionIndex,
-        contentType: currentPurpose
+        contentType: currentPurpose,
+        project: currentPurpose === 'project',
+        part: document.getElementById('art-part')?.value ? Number(document.getElementById('art-part').value) : null
       };
 
       try {
@@ -2960,43 +3082,61 @@ const HTML_DASHBOARD = `
         \`;
 
         const listEl = secDiv.querySelector(\`#syl-sec-\${sIdx}\`);
-        section.link.forEach((link, lIdx) => {
-          const item = document.createElement('div');
-          item.className = 'reorder-item';
-          const currentStatus = link.status || '';
+        listEl.ondragover = (e) => handleSyllabusSectionDragOver(e);
+        listEl.ondrop = (e) => handleSyllabusSectionDrop(e, sIdx);
 
-          item.innerHTML = \`
-            <div class="reorder-left">
-              <span class="reorder-index">#\${lIdx + 1}</span>
-              <div style="flex: 1;">
-                <input type="text"
-                  class="syl-lesson-title"
-                  data-s-idx="\${sIdx}"
-                  data-l-idx="\${lIdx}"
-                  value="\${escapeHtml(link.title)}"
-                  oninput="if(currentSyllabus?.navbar?.[\${sIdx}]?.link?.[\${lIdx}]) currentSyllabus.navbar[\${sIdx}].link[\${lIdx}].title = this.value"
-                  onchange="if(currentSyllabus?.navbar?.[\${sIdx}]?.link?.[\${lIdx}]) currentSyllabus.navbar[\${sIdx}].link[\${lIdx}].title = this.value"
-                  placeholder="Lesson Title"
-                  style="background: transparent; border: none; font-weight: 700; font-size: 0.95rem; color: #fff; padding: 0; width: 100%;">
-                <div class="reorder-slug">/articles/\${link.url}</div>
+        if (!section.link || section.link.length === 0) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'reorder-empty';
+          emptyDiv.textContent = 'Empty chapter. Drag lessons here from other chapters or click "+ Add Lesson".';
+          listEl.appendChild(emptyDiv);
+        } else {
+          section.link.forEach((link, lIdx) => {
+            const item = document.createElement('div');
+            item.className = 'reorder-item';
+            item.draggable = true;
+            item.ondragstart = (e) => handleSyllabusDragStart(e, sIdx, lIdx);
+            item.ondragover = (e) => handleSyllabusDragOver(e, sIdx, lIdx);
+            item.ondragleave = (e) => handleSyllabusDragLeave(e);
+            item.ondrop = (e) => handleSyllabusDrop(e, sIdx, lIdx);
+            item.ondragend = (e) => handleSyllabusDragEnd(e);
+
+            const currentStatus = link.status || '';
+
+            item.innerHTML = \`
+              <div class="reorder-left">
+                <span class="drag-handle" title="Drag to reorder or move between chapters">⠿</span>
+                <span class="reorder-index">#\${lIdx + 1}</span>
+                <div style="flex: 1; min-width: 0;">
+                  <input type="text"
+                    class="syl-lesson-title"
+                    data-s-idx="\${sIdx}"
+                    data-l-idx="\${lIdx}"
+                    value="\${escapeHtml(link.title)}"
+                    oninput="if(currentSyllabus?.navbar?.[\${sIdx}]?.link?.[\${lIdx}]) currentSyllabus.navbar[\${sIdx}].link[\${lIdx}].title = this.value"
+                    onchange="if(currentSyllabus?.navbar?.[\${sIdx}]?.link?.[\${lIdx}]) currentSyllabus.navbar[\${sIdx}].link[\${lIdx}].title = this.value"
+                    placeholder="Lesson Title"
+                    style="background: transparent; border: none; font-weight: 700; font-size: 0.95rem; color: #fff; padding: 0; width: 100%;">
+                  <div class="reorder-slug">/articles/\${link.url}</div>
+                </div>
               </div>
-            </div>
-            <div class="reorder-actions" style="align-items: center;">
-              <select onchange="updateLessonStatus(\${sIdx}, \${lIdx}, this.value)" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; width: 140px;">
-                <option value="" \${currentStatus === '' ? 'selected' : ''}>🟢 Live / Ready</option>
-                <option value="in-progress" \${currentStatus === 'in-progress' ? 'selected' : ''}>⏳ In Progress</option>
-                <option value="planned" \${currentStatus === 'planned' ? 'selected' : ''}>🔒 Planned (Locked)</option>
-                <option value="re-visiting" \${currentStatus === 're-visiting' ? 'selected' : ''}>🔁 Re-visiting</option>
-              </select>
-              <button class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" onclick="openArticleEditor('\${link.url}')">✏️ Edit</button>
-              <button class="icon-btn" onclick="moveSyllabusLesson(\${sIdx}, \${lIdx}, -1)" \${lIdx === 0 ? 'disabled' : ''} title="Move up">▲</button>
-              <button class="icon-btn" onclick="moveSyllabusLesson(\${sIdx}, \${lIdx}, 1)" \${lIdx === section.link.length - 1 ? 'disabled' : ''} title="Move down">▼</button>
-              <button class="icon-btn" style="color: var(--error);" onclick="removeSyllabusLesson(\${sIdx}, \${lIdx})" title="Unlink lesson">✕</button>
-              <a href="/articles/\${link.url}" target="_blank" class="icon-btn" title="View live lesson" style="text-decoration: none;">↗</a>
-            </div>
-          \`;
-          listEl.appendChild(item);
-        });
+              <div class="reorder-actions" style="align-items: center; gap: 0.4rem;">
+                <select onchange="updateLessonStatus(\${sIdx}, \${lIdx}, this.value)" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; width: 135px;">
+                  <option value="" \${currentStatus === '' ? 'selected' : ''}>🟢 Live / Ready</option>
+                  <option value="in-progress" \${currentStatus === 'in-progress' ? 'selected' : ''}>⏳ In Progress</option>
+                  <option value="planned" \${currentStatus === 'planned' ? 'selected' : ''}>🔒 Planned (Locked)</option>
+                  <option value="re-visiting" \${currentStatus === 're-visiting' ? 'selected' : ''}>🔁 Re-visiting</option>
+                </select>
+                <button class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" onclick="openArticleEditor('\${link.url}')">✏️ Edit</button>
+                <button class="icon-btn" onclick="moveSyllabusLesson(\${sIdx}, \${lIdx}, -1)" \${sIdx === 0 && lIdx === 0 ? 'disabled' : ''} title="\${lIdx === 0 ? 'Move up into previous chapter' : 'Move up'}">▲</button>
+                <button class="icon-btn" onclick="moveSyllabusLesson(\${sIdx}, \${lIdx}, 1)" \${sIdx === currentSyllabus.navbar.length - 1 && lIdx === section.link.length - 1 ? 'disabled' : ''} title="\${lIdx === section.link.length - 1 ? 'Move down into next chapter' : 'Move down'}">▼</button>
+                <button class="icon-btn" style="color: var(--error);" onclick="removeSyllabusLesson(\${sIdx}, \${lIdx})" title="Unlink lesson">✕</button>
+                <a href="/articles/\${link.url}" target="_blank" class="icon-btn" title="View live lesson" style="text-decoration: none;">↗</a>
+              </div>
+            \`;
+            listEl.appendChild(item);
+          });
+        }
 
         container.appendChild(secDiv);
       });
@@ -3125,13 +3265,167 @@ const HTML_DASHBOARD = `
 
     function moveSyllabusLesson(sIdx, lIdx, delta) {
       syncSyllabusFromDOM();
-      const links = currentSyllabus.navbar[sIdx].link;
+      const currentSec = currentSyllabus?.navbar?.[sIdx];
+      if (!currentSec || !Array.isArray(currentSec.link)) return;
+      const links = currentSec.link;
+
+      // Move to Top of current chapter
+      if (delta === -999) {
+        if (lIdx === 0) return;
+        const [lesson] = links.splice(lIdx, 1);
+        links.unshift(lesson);
+        renderSyllabusEditor();
+        return;
+      }
+      // Move to Bottom of current chapter
+      if (delta === 999) {
+        if (lIdx === links.length - 1) return;
+        const [lesson] = links.splice(lIdx, 1);
+        links.push(lesson);
+        renderSyllabusEditor();
+        return;
+      }
+
       const target = lIdx + delta;
-      if (target < 0 || target >= links.length) return;
-      const temp = links[lIdx];
-      links[lIdx] = links[target];
-      links[target] = temp;
+      if (target >= 0 && target < links.length) {
+        // Normal swap within same chapter
+        const temp = links[lIdx];
+        links[lIdx] = links[target];
+        links[target] = temp;
+      } else if (delta < 0 && lIdx === 0 && sIdx > 0) {
+        // Move up across chapter boundary into bottom of previous chapter
+        const prevSec = currentSyllabus.navbar[sIdx - 1];
+        if (!Array.isArray(prevSec.link)) prevSec.link = [];
+        const [lesson] = links.splice(lIdx, 1);
+        prevSec.link.push(lesson);
+        const destName = prevSec.subheading || ('Chapter ' + sIdx);
+        showToast('Moved "' + (lesson.title || lesson.url) + '" up to ' + destName + '. Click "Save Course Syllabus" to persist.');
+      } else if (delta > 0 && lIdx === links.length - 1 && sIdx < currentSyllabus.navbar.length - 1) {
+        // Move down across chapter boundary into top of next chapter
+        const nextSec = currentSyllabus.navbar[sIdx + 1];
+        if (!Array.isArray(nextSec.link)) nextSec.link = [];
+        const [lesson] = links.splice(lIdx, 1);
+        nextSec.link.unshift(lesson);
+        const destName = nextSec.subheading || ('Chapter ' + (sIdx + 2));
+        showToast('Moved "' + (lesson.title || lesson.url) + '" down to ' + destName + '. Click "Save Course Syllabus" to persist.');
+      } else {
+        return;
+      }
       renderSyllabusEditor();
+    }
+
+    function moveLessonToChapter(srcSIdx, lIdx, targetSIdx) {
+      syncSyllabusFromDOM();
+      if (srcSIdx === targetSIdx) return;
+      if (!currentSyllabus?.navbar?.[srcSIdx] || !currentSyllabus?.navbar?.[targetSIdx]) return;
+
+      const srcLinks = currentSyllabus.navbar[srcSIdx].link;
+      if (!srcLinks || !srcLinks[lIdx]) return;
+
+      const [lesson] = srcLinks.splice(lIdx, 1);
+      if (!Array.isArray(currentSyllabus.navbar[targetSIdx].link)) {
+        currentSyllabus.navbar[targetSIdx].link = [];
+      }
+      currentSyllabus.navbar[targetSIdx].link.push(lesson);
+      renderSyllabusEditor();
+      const destName = currentSyllabus.navbar[targetSIdx].subheading || ('Chapter ' + (targetSIdx + 1));
+      showToast('Moved "' + (lesson.title || lesson.url) + '" to "' + destName + '". Click "Save Course Syllabus" to persist.');
+    }
+
+    let draggedSyllabusItem = null;
+
+    function handleSyllabusDragStart(e, sIdx, lIdx) {
+      draggedSyllabusItem = { sIdx, lIdx };
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', JSON.stringify({ sIdx, lIdx }));
+      e.currentTarget.classList.add('dragging');
+    }
+
+    function handleSyllabusDragOver(e, sIdx, lIdx) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.dataTransfer.dropEffect = 'move';
+      const targetEl = e.currentTarget;
+      if (!targetEl || targetEl.classList.contains('dragging')) return;
+      const rect = targetEl.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      if (e.clientY < midY) {
+        targetEl.classList.add('drag-over-top');
+        targetEl.classList.remove('drag-over-bottom');
+      } else {
+        targetEl.classList.add('drag-over-bottom');
+        targetEl.classList.remove('drag-over-top');
+      }
+    }
+
+    function handleSyllabusDragLeave(e) {
+      if (e.currentTarget) {
+        e.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
+      }
+    }
+
+    function handleSyllabusDrop(e, targetSIdx, targetLIdx) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.currentTarget) {
+        e.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
+      }
+      if (!draggedSyllabusItem) return;
+      syncSyllabusFromDOM();
+      const { sIdx: srcSIdx, lIdx: srcLIdx } = draggedSyllabusItem;
+
+      const rect = e.currentTarget.getBoundingClientRect();
+      const insertAfter = e.clientY >= (rect.top + rect.height / 2);
+
+      const srcList = currentSyllabus.navbar[srcSIdx].link;
+      const [item] = srcList.splice(srcLIdx, 1);
+      const destList = currentSyllabus.navbar[targetSIdx].link;
+
+      let finalTargetIdx = targetLIdx;
+      if (srcSIdx === targetSIdx && srcLIdx < targetLIdx) {
+        finalTargetIdx--;
+      }
+      if (insertAfter) {
+        finalTargetIdx++;
+      }
+      if (finalTargetIdx < 0) finalTargetIdx = 0;
+      if (finalTargetIdx > destList.length) finalTargetIdx = destList.length;
+
+      destList.splice(finalTargetIdx, 0, item);
+      draggedSyllabusItem = null;
+      renderSyllabusEditor();
+      showToast('Moved "' + (item.title || item.url) + '". Click "Save Course Syllabus" to persist.');
+    }
+
+    function handleSyllabusSectionDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    }
+
+    function handleSyllabusSectionDrop(e, targetSIdx) {
+      e.preventDefault();
+      if (!draggedSyllabusItem) return;
+      syncSyllabusFromDOM();
+      const { sIdx: srcSIdx, lIdx: srcLIdx } = draggedSyllabusItem;
+      if (srcSIdx === targetSIdx) return;
+
+      const srcList = currentSyllabus.navbar[srcSIdx].link;
+      const [item] = srcList.splice(srcLIdx, 1);
+      if (!Array.isArray(currentSyllabus.navbar[targetSIdx].link)) {
+        currentSyllabus.navbar[targetSIdx].link = [];
+      }
+      currentSyllabus.navbar[targetSIdx].link.push(item);
+      draggedSyllabusItem = null;
+      renderSyllabusEditor();
+      const destName = currentSyllabus.navbar[targetSIdx].subheading || ('Chapter ' + (targetSIdx + 1));
+      showToast('Moved "' + (item.title || item.url) + '" to "' + destName + '". Click "Save Course Syllabus" to persist.');
+    }
+
+    function handleSyllabusDragEnd(e) {
+      document.querySelectorAll('.reorder-item').forEach(el => {
+        el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
+      });
+      draggedSyllabusItem = null;
     }
 
     function removeSyllabusLesson(sIdx, lIdx) {
@@ -3960,8 +4254,14 @@ const HTML_DASHBOARD = `
       container.innerHTML = '';
 
       const filtered = allArticles.filter(a => {
-        if (typeFilter === 'lessons' && !a.series) return false;
-        if (typeFilter === 'projects' && !!a.series) return false;
+        const projectSeriesIds = new Set(allSeries.filter(s => s.type === 'project' || s.category === 'Project').map(s => s.id));
+        const isProjPart = a.series && projectSeriesIds.has(a.series);
+        const isCourseLesson = a.series && !projectSeriesIds.has(a.series);
+        const isStandalone = !a.series || a.project;
+        if (typeFilter === 'lessons' && !isCourseLesson) return false;
+        if (typeFilter === 'projects' && !isStandalone && !isProjPart) return false;
+        if (typeFilter === 'project-series' && !isProjPart) return false;
+        if (typeFilter === 'standalone' && !isStandalone) return false;
         if (typeFilter === 'drafts' && !a.draft) return false;
 
         if (catFilter !== 'all' && !a.categories.includes(catFilter)) return false;
@@ -4041,7 +4341,7 @@ const HTML_DASHBOARD = `
 
         currentArticleData = data;
         document.getElementById('ed-modal-title').textContent = data.frontmatter.title || data.slug;
-        document.getElementById('ed-modal-badge').textContent = data.isMdx ? 'MDX Component' : 'Markdown (.md)';
+        updateMdxBadgeUI(Boolean(data.isMdx));
 
         document.getElementById('ed-title').value = data.frontmatter.title || '';
         document.getElementById('ed-slug').value = data.slug;
@@ -4052,6 +4352,8 @@ const HTML_DASHBOARD = `
         document.getElementById('ed-draft').checked = Boolean(data.frontmatter.draft);
         document.getElementById('ed-featured').checked = Boolean(data.frontmatter.featured);
         document.getElementById('ed-content').value = data.content || '';
+
+        await updateEditorChapters(data.frontmatter.series, data.slug);
 
         setEditorMode('split');
         updateEditorPreview();
@@ -4074,6 +4376,12 @@ const HTML_DASHBOARD = `
     function updateEditorPreview() {
       const content = document.getElementById('ed-content').value;
       const preview = document.getElementById('editor-preview');
+
+      // Auto-detect MDX features and promote format if component added
+      const MDX_FEATURE_REGEX = /<(AlgoVisualizer|TryCode|Button|Accordion|Notice|Video|Youtube|Badge|Changelog|Tab|Tabs)\b/i;
+      if (MDX_FEATURE_REGEX.test(content) && currentArticleData && !currentArticleData.isMdx) {
+        ensureArticleIsMdx('embedded MDX component');
+      }
 
       // Update Word / Reading Time stats
       const words = (content.trim().match(/\\S+/g) || []).length;
@@ -4114,13 +4422,112 @@ const HTML_DASHBOARD = `
       updateEditorPreview();
     }
 
-    function handleEditorSeriesChange() {
+    function insertCodeBlock(lang = 'java') {
+      const textarea = document.getElementById('ed-content');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      const selected = text.substring(start, end);
+
+      const inner = selected || '// Write Java code here';
+      const prefix = '\\n\`\`\`' + lang + '\\n';
+      const suffix = '\\n\`\`\`\\n';
+      const replacement = prefix + inner + suffix;
+
+      textarea.value = text.substring(0, start) + replacement + text.substring(end);
+      textarea.selectionStart = start + prefix.length;
+      textarea.selectionEnd = textarea.selectionStart + inner.length;
+      textarea.focus();
+      updateEditorPreview();
+    }
+
+    function updateMdxBadgeUI(isMdx) {
+      const badge = document.getElementById('ed-modal-badge');
+      if (!badge) return;
+      if (isMdx) {
+        badge.textContent = '⚛️ MDX (.mdx)';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        badge.style.color = '#10b981';
+        badge.title = 'Format: MDX (.mdx) — supports interactive visualizers & components. Click to toggle.';
+      } else {
+        badge.textContent = '📝 Markdown (.md)';
+        badge.style.background = 'rgba(56, 189, 248, 0.1)';
+        badge.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+        badge.style.color = 'var(--accent)';
+        badge.title = 'Format: Standard Markdown (.md). Click to toggle to MDX.';
+      }
+    }
+
+    function toggleArticleFormat() {
+      if (!currentArticleData) currentArticleData = {};
+      currentArticleData.isMdx = !currentArticleData.isMdx;
+      updateMdxBadgeUI(currentArticleData.isMdx);
+      showToast(currentArticleData.isMdx ? 'Switched format to MDX (.mdx)' : 'Switched format to Markdown (.md)');
+    }
+
+    function ensureArticleIsMdx(reason) {
+      if (!currentArticleData) currentArticleData = {};
+      if (!currentArticleData.isMdx) {
+        currentArticleData.isMdx = true;
+        updateMdxBadgeUI(true);
+        showToast('⚡ Switched article format to MDX (.mdx) for ' + (reason || 'interactive component') + '.');
+      }
+    }
+
+    async function updateEditorChapters(seriesId, currentSlug) {
+      const group = document.getElementById('ed-chapter-group');
+      const select = document.getElementById('ed-chapter');
+      if (!select) return;
+      if (!seriesId) {
+        if (group) group.style.display = 'none';
+        select.innerHTML = '<option value="">None (Standalone)</option>';
+        return;
+      }
+      if (group) group.style.display = 'block';
+      select.innerHTML = '<option value="">Loading chapters...</option>';
+
+      try {
+        const res = await fetch('/api/series/' + encodeURIComponent(seriesId));
+        if (!res.ok) throw new Error('Failed to load series');
+        const seriesData = await res.json();
+        select.innerHTML = '';
+
+        let currentChapterIdx = 0;
+        if (Array.isArray(seriesData.navbar) && seriesData.navbar.length > 0) {
+          seriesData.navbar.forEach((sec, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            const name = (sec.subheading || ('Chapter ' + (idx + 1))).trim();
+            opt.textContent = \`Ch \${idx + 1}: \${name}\`;
+            select.appendChild(opt);
+
+            if (currentSlug && Array.isArray(sec.link)) {
+              if (sec.link.some(l => l.url === currentSlug)) {
+                currentChapterIdx = idx;
+              }
+            }
+          });
+          select.value = currentChapterIdx;
+        } else {
+          select.innerHTML = '<option value="0">1. Lessons</option>';
+        }
+      } catch (err) {
+        select.innerHTML = '<option value="0">1. Default Chapter</option>';
+      }
+    }
+
+    async function handleEditorSeriesChange() {
       const seriesVal = document.getElementById('ed-series').value;
+      const currentSlug = document.getElementById('ed-slug').value.trim();
       if (seriesVal) {
         const s = allSeries.find(item => item.id === seriesVal);
         if (s) {
           showToast('Synchronized category to course track: ' + s.category);
         }
+        await updateEditorChapters(seriesVal, currentSlug);
+      } else {
+        await updateEditorChapters(null, null);
       }
     }
 
@@ -4139,10 +4546,20 @@ const HTML_DASHBOARD = `
         categories = currentArticleData.frontmatter.categories;
       }
 
+      const content = document.getElementById('ed-content').value;
+      const MDX_FEATURE_REGEX = /<(AlgoVisualizer|TryCode|Button|Accordion|Notice|Video|Youtube|Badge|Changelog|Tab|Tabs)\b/i;
+      const isMdx = Boolean((currentArticleData && currentArticleData.isMdx) || MDX_FEATURE_REGEX.test(content));
+
+      const targetChapterVal = document.getElementById('ed-chapter')?.value;
+      const targetChapterIdx = (targetChapterVal !== '' && targetChapterVal !== null && targetChapterVal !== undefined)
+        ? Number(targetChapterVal)
+        : null;
+
       const payload = {
         slug,
         oldSlug,
-        isMdx: currentArticleData ? currentArticleData.isMdx : false,
+        isMdx,
+        targetChapterIdx,
         frontmatter: {
           title: document.getElementById('ed-title').value,
           subtitle: document.getElementById('ed-subtitle').value,
@@ -4152,8 +4569,9 @@ const HTML_DASHBOARD = `
           categories,
           draft: document.getElementById('ed-draft').checked,
           featured: document.getElementById('ed-featured').checked,
+          ...(currentArticleData?.frontmatter?.project ? { project: true } : {})
         },
-        content: document.getElementById('ed-content').value
+        content
       };
 
       try {
@@ -5082,16 +5500,48 @@ const HTML_DASHBOARD = `
         card.style.flexDirection = 'column';
         card.style.justifyContent = 'space-between';
 
+        const usages = algo.usages || [];
+        const usageCount = usages.length;
+        const usageBadge = usageCount > 0
+          ? '<span class="badge-local" style="font-size: 0.7rem; padding: 0.15rem 0.5rem; background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.4);">🟢 Used in ' + usageCount + ' article' + (usageCount > 1 ? 's' : '') + '</span>'
+          : '<span class="badge-local" style="font-size: 0.7rem; padding: 0.15rem 0.5rem; background: rgba(148, 163, 184, 0.1); color: #94a3b8; border-color: rgba(148, 163, 184, 0.25);">⚪ Unused</span>';
+
+        let usageHtml = '';
+        if (usageCount > 0) {
+          usageHtml = '<div style="display: flex; flex-direction: column; gap: 0.35rem;">' +
+            usages.map(u => {
+              const seriesBadge = u.series ? '<span style="font-size: 0.65rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 0.1rem 0.35rem; border-radius: 4px; white-space: nowrap;">[' + escapeHtml(u.series) + ']</span>' : '';
+              return '<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; padding: 0.2rem 0; border-bottom: 1px dashed rgba(255,255,255,0.06);">' +
+                '<button type="button" onclick="openArticleEditor(\\\'' + escapeHtml(u.slug) + '\\\')" style="background: none; border: none; padding: 0; color: var(--accent); text-align: left; cursor: pointer; font-weight: 600; font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;" title="Open article in CMS editor">' +
+                  '📝 ' + escapeHtml(u.title) +
+                '</button>' +
+                '<div style="display: flex; align-items: center; gap: 0.3rem; shrink: 0;">' +
+                  seriesBadge +
+                  '<a href="http://localhost:4321/articles/' + escapeHtml(u.slug) + '" target="_blank" style="color: #94a3b8; text-decoration: none; font-size: 0.7rem; padding: 0.1rem 0.35rem; background: rgba(255,255,255,0.06); border-radius: 4px;" title="View on live site (port 4321)">↗ Site</a>' +
+                '</div>' +
+              '</div>';
+            }).join('') +
+          '</div>';
+        } else {
+          usageHtml = '<div style="color: #64748b; font-style: italic; font-size: 0.75rem;">Not used in any article yet.</div>';
+        }
+
         card.innerHTML = \`
           <div>
-            <div style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem;">
               <h4 style="font-size: 1rem; font-weight: 800; color: #fff; margin: 0;">\${escapeHtml(algo.title)}</h4>
+              \${usageBadge}
             </div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent); margin-bottom: 0.5rem;">id: "\${escapeHtml(algo.id)}"</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent); margin-bottom: 0.6rem;">id: "\${escapeHtml(algo.id)}"</div>
+            <div style="margin-top: 0.5rem; font-size: 0.78rem; background: #080c16; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 0.75rem;">
+              <div style="font-weight: 700; color: #94a3b8; font-size: 0.72rem; margin-bottom: 0.3rem;">📄 Embedded in Lessons:</div>
+              \${usageHtml}
+            </div>
           </div>
-          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; align-items: center;">
             <button class="submit-btn" style="flex: 1; font-size: 0.8rem; padding: 0.45rem; margin: 0;" onclick="openEditProblemModal('\${algo.id}', 'algo')">✨ Visual Step Builder</button>
             <button class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.7rem;" title="Copy MDX Embed Tag" onclick="copyToClipboard('<AlgoVisualizer problemId=\\\\\\'\${algo.id}\\\\\\' />')">📋 Tag</button>
+            <button class="icon-btn" style="color: var(--error);" title="Delete Algorithm Visualizer" onclick="handleDeleteAlgorithm('\${algo.id}')">🗑️</button>
           </div>
         \`;
         container.appendChild(card);
@@ -5173,7 +5623,47 @@ const HTML_DASHBOARD = `
         const isAlgo = type === 'algo';
         document.getElementById('epm-mode-switcher').style.display = isAlgo ? 'inline-flex' : 'none';
 
+        const uBadge = document.getElementById('epm-usage-badge');
+        const delBtn = document.getElementById('epm-delete-btn');
+
         if (isAlgo) {
+          const algoObj = allAlgorithms.find(a => a.id === id);
+          const usages = algoObj?.usages || [];
+          if (uBadge) {
+            uBadge.style.display = 'inline-block';
+            if (usages.length > 0) {
+              uBadge.textContent = '🟢 Used in ' + usages.length + ' article' + (usages.length > 1 ? 's' : '');
+              uBadge.style.color = '#10b981';
+              uBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+              uBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+              uBadge.style.cursor = 'pointer';
+              uBadge.title = 'Click to open in article editor:\\n' + usages.map(u => '• ' + u.title).join('\\n');
+              uBadge.onclick = () => {
+                if (usages.length === 1) {
+                  closeEditProblemModal();
+                  openArticleEditor(usages[0].slug);
+                } else {
+                  const promptText = 'Select an article number to open in editor:\\n' + usages.map((u, i) => (i + 1) + '. ' + u.title + ' (' + u.slug + ')').join('\\n');
+                  const ans = prompt(promptText, '1');
+                  const idx = parseInt(ans, 10) - 1;
+                  if (usages[idx]) {
+                    closeEditProblemModal();
+                    openArticleEditor(usages[idx].slug);
+                  }
+                }
+              };
+            } else {
+              uBadge.textContent = '⚪ Unused in articles';
+              uBadge.style.color = '#94a3b8';
+              uBadge.style.background = 'rgba(148, 163, 184, 0.1)';
+              uBadge.style.borderColor = 'rgba(148, 163, 184, 0.3)';
+              uBadge.style.cursor = 'default';
+              uBadge.onclick = null;
+              uBadge.title = 'This visualizer is not currently embedded in any articles.';
+            }
+          }
+          if (delBtn) delBtn.style.display = 'inline-block';
+
           // Fetch structured algorithm data for visual no-code editing
           const structRes = await fetch('/api/problems/algorithms/get-structured?id=' + encodeURIComponent(id));
           const structData = await structRes.json();
@@ -5204,6 +5694,8 @@ const HTML_DASHBOARD = `
           renderVisualStepList();
           loadActiveStepIntoForm();
         } else {
+          if (uBadge) uBadge.style.display = 'none';
+          if (delBtn) delBtn.style.display = 'none';
           // TryCode mode
           const res = await fetch('/api/problems/trycode/get?id=' + encodeURIComponent(id));
           const data = await res.json();
@@ -5810,31 +6302,35 @@ const HTML_DASHBOARD = `
 
       // 4. Hash Map
       if (step.hashmap && step.hashmap.entries) {
-        const queryHtml = step.hashmap.searchKey !== undefined ? ('<div style="font-size: 0.76rem; background: #1e1b4b; border: 1px solid #6366f1; border-radius: 6px; padding: 0.3rem 0.6rem; margin-bottom: 0.5rem; color: #c7d2fe; display: flex; justify-content: space-between; align-items: center;"><span>🔍 map.get(<strong>&quot;' + escapeHtml(String(step.hashmap.searchKey)) + '&quot;</strong>)</span><span style="font-weight: 800; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.72rem; ' + (step.hashmap.searchResult === 'found' ? 'background: #064e3b; color: #34d399; border: 1px solid #059669;' : 'background: #450a0a; color: #f87171; border: 1px solid #dc2626;') + '">' + escapeHtml(step.hashmap.searchResult === 'found' ? 'MATCH FOUND' : (step.hashmap.searchResult || 'NOT FOUND')) + '</span></div>') : '';
+        const queryHtml = step.hashmap.searchKey !== undefined && step.hashmap.searchKey !== null ? ('<div style="font-size: 0.76rem; background: #1e1b4b; border: 1px solid #6366f1; border-radius: 6px; padding: 0.35rem 0.6rem; margin-bottom: 0.5rem; color: #c7d2fe; display: flex; justify-content: space-between; align-items: center;"><span>🔍 map.containsKey(<strong>&quot;' + escapeHtml(String(step.hashmap.searchKey)) + '&quot;</strong>)</span><span style="font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.72rem; ' + (step.hashmap.searchResult === 'found' ? 'background: #064e3b; color: #34d399; border: 1px solid #059669;' : 'background: #450a0a; color: #f87171; border: 1px solid #dc2626;') + '">' + escapeHtml(step.hashmap.searchResult === 'found' ? 'MATCH FOUND' : (step.hashmap.searchResult || 'NOT FOUND')) + '</span></div>') : '';
+
+        const overviewEntries = step.hashmap.entries.map(e => '<span style="color: #a78bfa; font-weight: 700;">' + escapeHtml(String(e.key)) + '</span>:<span style="color: #38bdf8; font-weight: 700;">' + escapeHtml(String(e.value)) + '</span>').join(', ');
 
         const entriesHtml = step.hashmap.entries.map(e => {
           const isMatch = e.state === 'match';
-          return '<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: ' + (isMatch ? 'rgba(5, 150, 105, 0.18)' : '#0f172a') + '; border: ' + (isMatch ? '2px solid #10b981' : '1px solid #334155') + '; border-radius: 8px; padding: 0.35rem 0.6rem; min-width: 130px;">' +
-            '<div style="display: flex; flex-direction: column;">' +
-              '<span style="font-size: 0.6rem; color: #94a3b8; font-family: monospace; text-transform: uppercase;">Key</span>' +
-              '<span style="font-family: monospace; color: #a78bfa; font-weight: 800; font-size: 0.9rem;">' + escapeHtml(String(e.key)) + '</span>' +
-            '</div>' +
-            '<span style="color: #64748b; font-size: 0.8rem;">──►</span>' +
-            '<div style="display: flex; flex-direction: column; align-items: flex-end;">' +
-              '<span style="font-size: 0.6rem; color: #94a3b8; font-family: monospace; text-transform: uppercase;">Val</span>' +
-              '<span style="font-family: monospace; color: #38bdf8; font-weight: 800; font-size: 0.9rem;">' + escapeHtml(String(e.value)) + '</span>' +
-            '</div>' +
-            (isMatch ? '<span style="font-size: 0.58rem; font-weight: 800; color: #10b981; background: #064e3b; padding: 0.1rem 0.3rem; border-radius: 4px; margin-left: 2px;">MATCH</span>' : '') +
+          const isAdded = e.state === 'added';
+          let borderCol = isMatch ? '#10b981' : isAdded ? '#38bdf8' : '#334155';
+          let bgCol = isMatch ? 'rgba(5, 150, 105, 0.25)' : isAdded ? 'rgba(2, 132, 199, 0.2)' : '#0f172a';
+          return '<div style="display: flex; align-items: center; gap: 0.4rem; background: ' + bgCol + '; border: 1px solid ' + borderCol + '; border-radius: 8px; padding: 0.35rem 0.6rem; font-family: monospace;">' +
+            '<span style="font-size: 0.65rem; color: #a78bfa; background: rgba(167, 139, 250, 0.15); padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 800;">K</span>' +
+            '<span style="font-weight: 800; color: #fff; font-size: 0.88rem;">' + escapeHtml(String(e.key)) + '</span>' +
+            '<span style="color: #64748b; font-weight: 700;">→</span>' +
+            '<span style="font-size: 0.65rem; color: #38bdf8; background: rgba(56, 189, 248, 0.15); padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 800;">V</span>' +
+            '<span style="font-weight: 800; color: #38bdf8; font-size: 0.88rem;">' + escapeHtml(String(e.value)) + '</span>' +
+            (isMatch ? '<span style="font-size: 0.58rem; font-weight: 800; color: #fff; background: #059669; padding: 0.1rem 0.35rem; border-radius: 4px; margin-left: 2px;">MATCH</span>' : (isAdded ? '<span style="font-size: 0.58rem; font-weight: 800; color: #38bdf8; background: #082f49; padding: 0.1rem 0.35rem; border-radius: 4px; margin-left: 2px;">+ ADDED</span>' : '')) +
           '</div>';
         }).join('');
 
         html += '<div style="background: #090d16; border: 1px solid #1e293b; border-radius: 8px; padding: 0.65rem;">' +
-          '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">' +
-            '<span style="font-size: 0.76rem; font-weight: 700; color: #a78bfa;">🗂️ Map&lt;Key, Value&gt; Table</span>' +
-            '<span style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; background: #1e1b4b; padding: 0.1rem 0.4rem; border-radius: 4px;">Size: ' + step.hashmap.entries.length + '</span>' +
+          '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">' +
+            '<span style="font-size: 0.76rem; font-weight: 700; color: #a78bfa;">🗂️ ' + escapeHtml(step.hashmap.label || 'HashMap<Key, Value>') + '</span>' +
+            '<div style="display: flex; align-items: center; gap: 6px;">' +
+              '<span style="font-size: 0.68rem; color: #cbd5e1; font-family: monospace; background: #1e1b4b; padding: 0.15rem 0.45rem; border-radius: 4px;">{ ' + (overviewEntries || '<span style="color:#64748b;">empty</span>') + ' }</span>' +
+              '<span style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; background: #1e293b; padding: 0.15rem 0.45rem; border-radius: 4px;">Size: ' + step.hashmap.entries.length + '</span>' +
+            '</div>' +
           '</div>' +
           queryHtml +
-          '<div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">' + (entriesHtml || '<span class="hint">Map is empty { }</span>') + '</div>' +
+          '<div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">' + (entriesHtml || '<span class="hint" style="font-size:0.75rem;">Map is empty { }</span>') + '</div>' +
         '</div>';
       }
 
@@ -6206,6 +6702,48 @@ const HTML_DASHBOARD = `
 
     let epmCurrentSteps = [];
 
+    async function handleDeleteAlgorithm(id) {
+      if (!id) return;
+      let algoObj = allAlgorithms.find(a => a.id === id);
+      let usages = algoObj?.usages || [];
+
+      if (!algoObj) {
+        try {
+          const res = await fetch('/api/problems/algorithms/usages?id=' + encodeURIComponent(id));
+          if (res.ok) usages = await res.json();
+        } catch {}
+      }
+
+      if (usages.length > 0) {
+        const articleList = usages.map(u => '  • ' + u.title + ' (' + u.url + ')').join('\\n');
+        const warning = '⚠️ WARNING: Visualizer "' + id + '" is currently used in ' + usages.length + ' article(s):\\n\\n' + articleList + '\\n\\nDeleting this visualizer will cause <AlgoVisualizer problemId="' + id + '" /> in those articles to fail to render.\\n\\nAre you sure you want to permanently delete it?';
+        if (!confirm(warning)) return;
+      } else {
+        if (!confirm('Are you sure you want to permanently delete Algorithm Visualizer "' + id + '"?\\n\\nThis will remove src/problems/algorithms/' + id + '.ts.')) return;
+      }
+
+      try {
+        const res = await fetch('/api/problems/algorithms/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to delete algorithm');
+
+        closeEditProblemModal();
+        showToast('🗑️ Permanently deleted algorithm visualizer "' + id + '".');
+        await loadProblemsStudio();
+      } catch (err) {
+        alert('Failed to delete visualizer: ' + err.message);
+      }
+    }
+
+    function handleDeleteAlgorithmFromModal() {
+      const id = document.getElementById('epm-prob-id')?.value;
+      if (id) handleDeleteAlgorithm(id);
+    }
+
     function openNewProblemModal() {
       document.getElementById('npm-title').value = '';
       document.getElementById('npm-id').value = '';
@@ -6224,13 +6762,31 @@ const HTML_DASHBOARD = `
       document.getElementById('npm-algo-options').style.display = isAlgo ? 'block' : 'none';
       document.getElementById('npm-trycode-options').style.display = isAlgo ? 'none' : 'block';
       document.getElementById('npm-id-hint').textContent = isAlgo
-        ? 'Creates src/problems/algorithms/[slug].ts'
-        : 'Creates src/problems/frontend/[slug].ts';
+        ? 'Creates src/problems/algorithms/[id].ts. Recommended: number-dash-minimal-title (e.g. 04-two-sum) or sample-[name]'
+        : 'Creates src/problems/frontend/[id].ts';
     }
 
     function autoSlugNewProb() {
+      const type = document.getElementById('npm-type').value;
       const title = document.getElementById('npm-title').value;
-      document.getElementById('npm-id').value = slugify(title);
+      const cleanSlug = slugify(title);
+      if (type === 'algo') {
+        if (/^\d+-/.test(cleanSlug)) {
+          document.getElementById('npm-id').value = cleanSlug;
+          return;
+        }
+        const existingNums = allAlgorithms
+          .map(a => {
+            const m = a.id.match(/^(\d+)-/);
+            return m ? parseInt(m[1], 10) : 0;
+          })
+          .filter(n => n > 0);
+        const nextNum = existingNums.length > 0 ? Math.max(...existingNums) + 1 : 1;
+        const prefix = String(nextNum).padStart(2, '0') + '-';
+        document.getElementById('npm-id').value = cleanSlug ? (prefix + cleanSlug) : '';
+      } else {
+        document.getElementById('npm-id').value = cleanSlug;
+      }
     }
 
     async function handleCreateProblemSubmit(e) {
@@ -6396,6 +6952,7 @@ const HTML_DASHBOARD = `
       const tag = '\\n\\n<TryCode problemId="' + id + '" />\\n\\n';
       insertFormat(tag, '');
       closeInsertTryCodeModal();
+      ensureArticleIsMdx('TryCode Exercise');
     }
 
     // Insert Algo Visualizer Modal in Article Editor
@@ -6438,6 +6995,7 @@ const HTML_DASHBOARD = `
       const tag = '\\n\\n<AlgoVisualizer problemId="' + id + '" />\\n\\n';
       insertFormat(tag, '');
       closeInsertAlgoModal();
+      ensureArticleIsMdx('Algorithm Visualizer');
     }
 
     // Global modal escape and backdrop click handlers
@@ -6595,6 +7153,16 @@ export async function handleRequest(req, res) {
       try {
         const item = previewAlgorithmSteps({ id });
         return sendJSON(res, 200, item);
+      } catch (err) {
+        return sendJSON(res, 400, { error: err.message });
+      }
+    }
+
+    if (url.pathname === '/api/problems/algorithms/usages') {
+      const id = url.searchParams.get('id');
+      try {
+        const usages = getAlgorithmUsages(id);
+        return sendJSON(res, 200, usages);
       } catch (err) {
         return sendJSON(res, 400, { error: err.message });
       }
@@ -6801,6 +7369,11 @@ export async function handleRequest(req, res) {
 
       if (url.pathname === '/api/problems/algorithms/preview') {
         const result = previewAlgorithmSteps(payload);
+        return sendJSON(res, 200, result);
+      }
+
+      if (url.pathname === '/api/problems/algorithms/delete') {
+        const result = deleteAlgorithmProblem(payload.id);
         return sendJSON(res, 200, result);
       }
     } catch (err) {

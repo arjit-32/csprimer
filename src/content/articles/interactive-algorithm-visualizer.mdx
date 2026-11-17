@@ -33,7 +33,7 @@ Singly linked lists display nodes containing their payload and a pointer node pa
 - **In-Place Reversal**: When a link is redirected backwards (`curr.next = prev`), the arrow flips to `← prev`.
 - **Head & Null Indicators**: A prominent `HEAD` badge marks the entry node, and `null` terminator boxes represent list boundaries:
 
-<AlgoVisualizer problemId="reverse-linked-list" />
+<AlgoVisualizer problemId="sample-linked-list" />
 
 ---
 
@@ -49,16 +49,22 @@ How does the visualizer know whether a **Stack**, a **Queue**, or a **Deque** is
 
 Below is a live **Stack (LIFO)** visualizer tracking open bracket characters:
 
-<AlgoVisualizer problemId="valid-parentheses" />
+<AlgoVisualizer problemId="sample-stack" />
 
 ---
 
 ### 4. Hash Maps & Sets
 
 - **Hash Map (`step.hashmap`)**: Key $\rightarrow$ Value pairs rendered with instant lookup query feedback banners (`map.get(key) → value`).
-- **HashSet (`step.set`)**: Collection of unique items rendered with an instantaneous membership verification banner (`set.contains(x) → true / false`):
+- **HashSet (`step.set`)**: Collection of unique items rendered with an instantaneous membership verification banner (`set.contains(x) → true / false`).
 
-<AlgoVisualizer problemId="contains-duplicate" />
+Below is a live **Hash Map** visualizer tracking key-value entries alongside instant query lookups:
+
+<AlgoVisualizer problemId="sample-hashmap" />
+
+And a live **HashSet** visualizer ensuring unique elements:
+
+<AlgoVisualizer problemId="sample-set" />
 
 ---
 
@@ -73,7 +79,7 @@ Below is a live **Stack (LIFO)** visualizer tracking open bracket characters:
 - **Recurrence Formula Banner**: Displays the exact mathematical transition currently executing (e.g. `dp[i] = dp[i-1] + dp[i-2]`).
 - **Active & Dependency Cells**: Highlights the cell currently being computed alongside the previous cells it depends on:
 
-<AlgoVisualizer problemId="climbing-stairs" />
+<AlgoVisualizer problemId="sample-dp" />
 
 ---
 
@@ -88,7 +94,7 @@ Any data structure above can be annotated with the following visual features:
 
 Below, three pointers (`low`, `mid`, `high`) dynamically converge on the target element:
 
-<AlgoVisualizer problemId="binary-search" />
+<AlgoVisualizer problemId="sample-binary-search" />
 
 ### 2. Subarray Windows
 - Outline an active subarray interval using `window: [start, end]`.
@@ -115,28 +121,28 @@ The real power of the engine is **combining multiple data structures in the same
 ### Combination 1: Binary Tree + Flat Array (Heaps & Memory Layout)
 Maps flat 0-indexed array memory directly to a binary tree hierarchy where for index `i`, left child is at `2*i + 1` and right child is at `2*i + 2`:
 
-<AlgoVisualizer problemId="tree-with-array" />
+<AlgoVisualizer problemId="sample-tree" />
 
 ---
 
 ### Combination 2: Array + Monotonic Deque (Sliding Window Maximum)
 Combines an array with an active sliding window and a double-ended queue to maintain extreme candidates in $O(N)$ time:
 
-<AlgoVisualizer problemId="sliding-window-maximum" />
+<AlgoVisualizer problemId="sample-deque" />
 
 ---
 
 ### Combination 3: Array + Hash Map (Two Sum)
 Scans an array with pointer `i` while maintaining and querying a complement hash map in $O(1)$:
 
-<AlgoVisualizer problemId="two-sum" />
+<AlgoVisualizer problemId="sample-hashmap" />
 
 ---
 
 ### Combination 4: Multi-Array Coordination (Merging Two Sorted Arrays)
 Renders two independent arrays (`nums1` and `nums2`) side-by-side with independent pointers (`p1`, `p2`, `p`) moving across arrays in lockstep:
 
-<AlgoVisualizer problemId="merge-sorted-arrays" />
+<AlgoVisualizer problemId="sample-multi-array" />
 
 ---
 

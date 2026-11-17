@@ -2,8 +2,8 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-const runningSum: AlgorithmDefinition = {
-  id: 'running-sum-of-1d-array',
+export const algo01RunningSum: AlgorithmDefinition = {
+  id: '01-running-sum',
   title: 'Running Sum of 1D Array',
   category: 'Arrays',
   description:
@@ -156,4 +156,4 @@ const runningSum: AlgorithmDefinition = {
   },
 };
 
-export default runningSum;
+export default algo01RunningSum;

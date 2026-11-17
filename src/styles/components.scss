@@ -218,8 +218,68 @@
   @apply prose-hr:border-border;
   @apply prose-p:text-base prose-p:text-text;
   @apply prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:text-dark;
-  @apply prose-code:px-1 prose-code:text-primary;
-  @apply prose-pre:rounded-md prose-pre:overflow-x-auto prose-pre:max-w-full;
+  @apply prose-code:before:content-none prose-code:after:content-none;
+  @apply prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:max-w-full;
+
+  // Inline code (e.g. backticks in markdown)
+  :not(pre) > code {
+    font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-size: 0.875em;
+    font-weight: 500;
+    color: #1e293b;
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    padding: 0.15rem 0.4rem;
+    word-break: break-word;
+    white-space: break-spaces;
+
+    &::before,
+    &::after {
+      content: none !important;
+    }
+  }
+
+  .dark & :not(pre) > code,
+  &:where(.dark *) :not(pre) > code {
+    color: #e2e8f0;
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+
+  // Code blocks (pre and pre code)
+  pre {
+    background-color: #282c34 !important;
+    color: #abb2bf !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+
+    code {
+      background-color: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: #abb2bf !important;
+      font-size: 0.875rem !important;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+      font-weight: 400 !important;
+      line-height: 1.65 !important;
+      white-space: pre !important;
+      word-break: normal !important;
+
+      &::before,
+      &::after {
+        content: none !important;
+      }
+
+      // Plaintext / text code blocks or untokenized spans: ensure clean soft silver text (#abb2bf), NEVER orange
+      .line {
+        color: #abb2bf;
+        > span:not([style*="color"]) {
+          color: #abb2bf !important;
+        }
+      }
+    }
+  }
   @apply prose-strong:text-dark;
   @apply prose-a:text-primary prose-a:no-underline hover:prose-a:underline;
   @apply prose-li:text-text;

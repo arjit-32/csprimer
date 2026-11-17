@@ -14,7 +14,8 @@
         {
           "type": "articles",
           "url": "dsa-for-interviews-running-sum-of-1d-array",
-          "title": "Running Sum of 1D Array"
+          "title": "Running Sum of 1D Array",
+          "status": "in-progress"
         },
         {
           "type": "articles",
@@ -108,6 +109,17 @@
           "type": "articles",
           "url": "dsa-for-interviews-3-sum-closest",
           "title": "3 Sum Closest",
+          "status": "in-progress"
+        }
+      ]
+    },
+    {
+      "subheading": "Sliding Window",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-max-sum-subarray-of-size-k",
+          "title": "Max Sum Subarray of Size K",
           "status": "in-progress"
         }
       ]

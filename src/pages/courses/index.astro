@@ -7,12 +7,14 @@ import { STATUS_CONFIG } from "@/lib/statusConfig";
 import { getCollection } from "astro:content";
 import { Image, getImage } from "astro:assets";
 
-const seriesCollection = (await getCollection("series")).sort((a, b) => {
-  const weightA = a.data.weight ?? 100;
-  const weightB = b.data.weight ?? 100;
-  if (weightA !== weightB) return weightA - weightB;
-  return a.data.title.localeCompare(b.data.title);
-});
+const seriesCollection = (await getCollection("series"))
+  .filter((entry) => entry.data.type !== 'project' && entry.data.category !== 'Project')
+  .sort((a, b) => {
+    const weightA = a.data.weight ?? 100;
+    const weightB = b.data.weight ?? 100;
+    if (weightA !== weightB) return weightA - weightB;
+    return a.data.title.localeCompare(b.data.title);
+  });
 const activeCourses = seriesCollection.filter((s) => s.data.status !== 'planned');
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/thumbnails/*.webp');

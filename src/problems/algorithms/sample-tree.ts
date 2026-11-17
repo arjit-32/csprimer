@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const treeWithArray: AlgorithmDefinition = {
-  id: 'tree-with-array',
-  title: "Binary Tree & Array Representation",
+export const sampleTree: AlgorithmDefinition = {
+  id: 'sample-tree',
+  title: 'Sample: Binary Tree & Array',
   category: "Trees & Arrays",
   description: "Visualize how a complete binary tree / binary heap maps directly to a 0-indexed array with parent-child formula: left = 2*i + 1, right = 2*i + 2.",
   visualizationTypes: ["array","tree"],
@@ -570,4 +570,4 @@ export const treeWithArray: AlgorithmDefinition = {
   },
 };
 
-export default treeWithArray;
+export default sampleTree;

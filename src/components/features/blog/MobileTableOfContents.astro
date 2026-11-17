@@ -1,0 +1,116 @@
+---
+interface Props {
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+
+const { headings = [] } = Astro.props;
+const tocHeadings = (headings || []).filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{tocHeadings.length > 0 && (
+  <div class="mobile-toc-container xl:hidden mb-8">
+    <details class="mobile-toc-details">
+      <summary class="mobile-toc-summary">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#FE6019]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="14" y2="12"></line>
+            <line x1="4" y1="18" x2="18" y2="18"></line>
+          </svg>
+          <span class="font-bold text-xs uppercase tracking-wider text-gray-800">
+            Table of Contents
+          </span>
+          <span class="text-[11px] font-mono font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+            {tocHeadings.length} sections
+          </span>
+        </div>
+        <svg class="chevron-icon w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
+
+      <div class="mobile-toc-content">
+        <ul class="space-y-1 pt-3 pb-1 border-t border-gray-100">
+          {tocHeadings.map((heading) => (
+            <li class={heading.depth === 3 ? "pl-4" : ""}>
+              <a
+                href={`#${heading.slug}`}
+                class="mobile-toc-link flex items-center gap-2 py-1.5 px-2 rounded-lg text-sm text-gray-700 hover:text-[#FE6019] hover:bg-orange-50/50 transition-colors"
+                data-mobile-toc-link={heading.slug}
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <span class="truncate">{heading.text}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  </div>
+)}
+
+<script>
+  function initMobileToc() {
+    const mobileLinks = document.querySelectorAll<HTMLAnchorElement>("[data-mobile-toc-link]");
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const slug = link.getAttribute("data-mobile-toc-link");
+        if (!slug) return;
+        const target = document.getElementById(slug);
+        if (target) {
+          const headerOffset = 90;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+
+          // Close details accordion after clicking a link
+          const details = link.closest("details");
+          if (details) details.removeAttribute("open");
+
+          if (history.pushState) {
+            history.pushState(null, "", `#${slug}`);
+          }
+        }
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initMobileToc);
+</script>
+
+<style lang="scss">
+  .mobile-toc-details {
+    background: #fdfdfd;
+    border: 1px solid #ededf2;
+    border-radius: 14px;
+    padding: 12px 14px;
+    transition: all 0.2s ease;
+
+    &[open] {
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+
+      .chevron-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .mobile-toc-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+</style>

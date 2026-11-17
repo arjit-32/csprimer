@@ -43,6 +43,11 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      theme: 'one-dark-pro',
+      wrap: true,
+    },
     remarkPlugins: [
       remarkToc,
       [

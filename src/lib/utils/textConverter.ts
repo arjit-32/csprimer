@@ -28,8 +28,8 @@ export const humanize = (content: string) => {
 };
 
 // plainify
-export const plainify = (content: string) => {
-  if (!content) return null;
+export const plainify = (content: string | undefined | null) => {
+  if (!content) return "";
 
   const filterBrackets = content.replace(/<\/?[^>]+(>|$)/gm, "");
   const filterSpaces = filterBrackets.replace(/[\r\n]\s*[\r\n]/gm, "");

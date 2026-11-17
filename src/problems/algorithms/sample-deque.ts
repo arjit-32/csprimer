@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const slidingWindowMaximum: AlgorithmDefinition = {
-  id: 'sliding-window-maximum',
-  title: 'Array + Double Queue (Monotonic Deque)',
+export const sampleDeque: AlgorithmDefinition = {
+  id: 'sample-deque',
+  title: 'Sample: Sliding Window & Deque',
   category: 'Deques & Sliding Window',
   description:
     'Couples an Array and a Double-Ended Queue (Deque) to maintain a monotonic window maximum in O(N) time.',
@@ -150,5 +150,5 @@ export const slidingWindowMaximum: AlgorithmDefinition = {
   },
 };
 
-export default slidingWindowMaximum;
+export default sampleDeque;
 

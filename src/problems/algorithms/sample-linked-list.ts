@@ -1,8 +1,8 @@
 import type { AlgorithmDefinition, ExecutionStep, LinkedListNode } from './types';
 
-export const reverseLinkedList: AlgorithmDefinition = {
-  id: 'reverse-linked-list',
-  title: 'Reverse Linked List',
+export const sampleLinkedList: AlgorithmDefinition = {
+  id: 'sample-linked-list',
+  title: 'Sample: Singly Linked List',
   category: 'Linked List',
   difficulty: 'Easy',
   description:
@@ -249,5 +249,5 @@ export const reverseLinkedList: AlgorithmDefinition = {
   },
 };
 
-export default reverseLinkedList;
+export default sampleLinkedList;
 

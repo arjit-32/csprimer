@@ -1,0 +1,45 @@
+---
+title: Max Sum Subarray of Size K
+author: Arjit Sharma
+categories:
+  - DSA
+draft: false
+featured: false
+series: dsa-for-interviews
+---
+## Problem Overview
+
+
+## Solution
+
+
+```java
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+		int[] nums = new int[]{1,4,3,10,23,3,1,0,20};
+		int k=4;
+		
+		int n=nums.length;
+		int windowStart=0, sum=0, maxSum=0;
+		
+		for(int windowEnd = 0; windowEnd<n; windowEnd++){
+		    sum+=nums[windowEnd];
+		    if((windowEnd-windowStart+1) == k ){
+		        maxSum = Math.max(maxSum, sum);
+		        sum-=nums[windowStart];
+		        windowStart+=1;
+		    }
+		}
+		
+		System.out.println(maxSum);
+	}
+}
+```
+
+---
+
+<AlgoVisualizer problemId="03-max-sum-subarray-of-size-k" />
+
+

@@ -1,9 +1,9 @@
 import type { AlgorithmDefinition, ExecutionStep } from './types';
 import { StepBuilder } from './builder';
 
-export const containsDuplicate: AlgorithmDefinition = {
-  id: 'contains-duplicate',
-  title: 'Array + Set (Unique Elements & O(1) Lookups)',
+export const sampleSet: AlgorithmDefinition = {
+  id: 'sample-set',
+  title: 'Sample: HashSet Unique Elements',
   category: 'Sets & Hashing',
   description:
     'Demonstrates coupling an Array with a Set to track seen elements and verify duplicates in O(1) average lookup time.',
@@ -112,5 +112,5 @@ export const containsDuplicate: AlgorithmDefinition = {
   },
 };
 
-export default containsDuplicate;
+export default sampleSet;
 
