@@ -1,0 +1,122 @@
+---
+title: Branching in Git
+meta_title: "Branching in Git | CS Primer"
+description: "Learn how to create, switch, and delete branches in Git, understand HEAD pointers, and master the concept of detached HEAD states."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Branching allows developers to work on new features or fixes **without affecting the main branch**.
+
+```bash
+# Setting up a demo project
+mkdir project
+cd project
+git init
+echo newfile > file
+git add file
+git commit -m "new file added"
+git log
+```
+
+## 1. Creating and Switching Branches
+
+In Git, a branch is simply a lightweight, movable pointer to a commit hash. Creating or switching branches is instantaneous in `O(1)` time.
+
+```bash
+git branch newfeature      # Create a new branch
+git status
+git branch                 # List all branches (* marks active branch)
+git checkout newfeature    # Switch to the new branch
+```
+
+Shortcut to create and switch in one command:
+```bash
+git checkout -b newfeature
+```
+
+## 2. Interactive Branching & Switching Explorer
+
+Step through the interactive timeline below to see how branch pointers advance and how `HEAD` tracks your active branch:
+
+<GitVisualizer scenario="branching" title="Branching and Switching Explorer" />
+
+## 3. Visualizing Branches & Commits
+
+To inspect branches and commit topology in your terminal:
+
+```bash
+git log --decorate --graph --oneline --all
+```
+
+> **Note**: `HEAD` is where Git is currently pointing in your repository, and a branch is a named pointer pointing to a commit snapshot.
+
+---
+
+## 4. Detached HEAD
+
+Normally, `HEAD` points to a branch name (e.g., `HEAD -> master`), but it can also point directly to a **specific commit hash**, putting Git into a "detached HEAD" state.
+
+For example, checking out an earlier commit:
+
+```bash
+git checkout d6afca4 # HEAD is now detached
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778037/Untitled_2_ble9ha.png)
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_1_eqbxou.png)
+
+Explore the detached HEAD lifecycle interactively:
+
+<GitVisualizer scenario="detached-head" title="Detached HEAD Lifecycle" />
+
+### What Happens When You Commit in Detached HEAD?
+
+If you make modifications and commit them while detached:
+
+```bash
+git add .
+git commit -m "Changes made on Detached Head"
+git log --graph --oneline --all
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_4_v2i2jm.png)
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778036/Untitled_3_ikyjza.png)
+
+If you switch back to `master` without creating a branch, this commit has no branch pointing to it and becomes an orphaned commit that may eventually be garbage collected:
+
+```bash
+git checkout master
+```
+
+To keep work created while detached, attach a branch before or after switching:
+
+```bash
+git branch my-saved-feature # Points a new branch at the detached commit
+```
+
+---
+
+## 5. Deleting a Branch
+
+```bash
+git branch -d newfeature  # Safe delete (only deletes if already merged)
+git branch -D newfeature  # Force delete (deletes even if unmerged changes exist)
+
+git push origin --delete newfeature # Delete remote branch on GitHub
+```
+
+## 6. Git Tags
+
+Tags point to specific commits and are used as permanent, fixed release labels (such as `v1.0.0` or `v2.1.0`):
+
+```bash
+git tag v1.0.0            # Lightweight tag on current commit
+git tag -a v1.0.0 -m "Release version 1.0.0" # Annotated tag
+git push origin --tags    # Push tags to remote
+```

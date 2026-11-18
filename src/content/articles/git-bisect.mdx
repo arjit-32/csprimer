@@ -1,0 +1,113 @@
+---
+title: Bisect in Git
+meta_title: "Using Git Bisect to Find Bugs | CS Primer"
+description: "Learn how to use Git bisect to pinpoint regressions and bug-introducing commits via binary search across your repository history."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Git bisect is a powerful tool for finding bugs. It performs a **binary search** on your commit history to find the exact commit where a bug was introduced.
+
+Instead of testing every commit linearly in $O(N)$ time, `git bisect` tests commits logarithmically in $O(\log N)$ steps.
+
+## 1. How Git Bisect Works
+
+Git bisect requires two reference boundaries:
+- A **bad** commit (where the bug is currently present)
+- A **good** commit (an older commit where the bug was not present)
+
+Git repeatedly checks out the midpoint between the good and bad commits in a binary search pattern until the exact offending commit is isolated.
+
+## 2. Interactive Bisect Debugging Explorer
+
+Step through the interactive visualizer below to see how Git bisects the commit range, tests the midpoint, and zeroes in on the broken revision:
+
+<GitVisualizer scenario="bisect" title="Git Bisect: Binary Search Debugging" />
+
+---
+
+## 3. Example Walkthrough: Finding a Regression
+
+Suppose we are writing a Java addition utility:
+
+```java
+import java.util.*;
+
+public class sum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the first number: ");
+        int a = sc.nextInt();
+        System.out.println("Enter the second number: ");
+        int b = sc.nextInt();
+        int sum = add(a, b);
+        System.out.println("The sum of the two numbers is: " + sum);
+    }
+
+    public static int add(int a, int b) {
+        a + b; // Missing return statement
+    }
+}
+```
+
+### Step 1: Got error at one point
+
+We have multiple commits, and one of them broke our build:
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782043/Untitled_13_lh4cbi.png)
+
+### Step 2: Start Git Bisect
+
+Specify your initial boundaries:
+
+```bash
+git bisect start
+git bisect bad 8c76244   # Broken commit
+git bisect good 11d3ee4  # Known working commit
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782043/Untitled_14_g809l3.png)
+
+### Step 3: Test the Midpoint Commit
+
+Git automatically checks out the midpoint commit. Run your compiler or test suite:
+
+```bash
+# If tests fail:
+git bisect bad
+
+# If tests pass:
+git bisect good
+```
+
+### Step 4: Repeat Until Culprit is Found
+
+Git halves the search window on each iteration until it pinpoints the first bad commit:
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782044/Untitled_15_qngb4x.png)
+
+Git highlights the exact commit that introduced the bug, saving hours of manual code inspection.
+
+### Step 5: Exit Git Bisect
+
+Once the bug is identified, exit bisect mode to return your working tree to your original branch:
+
+```bash
+git bisect reset
+```
+
+---
+
+## 4. Automating with `git bisect run`
+
+If you have an automated test command that returns exit code `0` on success and non-zero on failure:
+
+```bash
+git bisect start HEAD v1.0.0
+git bisect run npm test
+```
+
+Git will automatically run the tests on each midpoint until it isolates the broken commit without requiring manual input.

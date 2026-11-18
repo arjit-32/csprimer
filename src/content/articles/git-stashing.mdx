@@ -1,0 +1,107 @@
+---
+title: Stashing in Git
+meta_title: "Stashing Changes in Git | CS Primer"
+description: "Master Git stash to temporarily shelve uncommitted changes, maintain clean working trees during context switches, and restore work seamlessly."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Stashing allows you to **save uncommitted changes temporarily** and restore them later. This is useful when you are interrupted and need to switch tasks or branches without committing half-finished work.
+
+## 1. Basic Stashing Workflow
+
+```text
+[do some work]
+[get interrupted]
+git stash
+[deal with interruption]
+git stash pop
+```
+
+### Example Scenario
+
+Consider being in the following state with uncommitted modifications:
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781396/Untitled_6_xpt2ez.png)
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_8_c8o0ro.png)
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781396/Untitled_7_wm8vw1.png)
+
+When an urgent bug fix interrupts your feature work, shelve your uncommitted work with `git stash`:
+
+```bash
+git stash
+git status
+git log --graph --all --oneline
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_9_o6itoa.png)
+
+Git creates a special stash commit holding your working tree and staging state, resetting your working tree back to `HEAD`:
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781395/Untitled_10_ehj1qa.png)
+
+After handling the urgent task, pop your changes back:
+
+```bash
+git stash pop
+```
+
+---
+
+## 2. Interactive Stash Explorer
+
+Step through the interactive visualizer below to see how edits move into the stash stack and how the working tree is cleanly restored:
+
+<GitVisualizer scenario="stashing" title="Git Stash Lifecycle" />
+
+---
+
+## 3. Managing Multiple Stashes
+
+Git keeps multiple stashes in a LIFO (Last-In, First-Out) stack:
+
+```bash
+# List all saved stashes
+git stash list
+
+# Inspect what changes are inside a stash:
+git stash show --patch stash@{0}
+git stash show --patch stash@{1}
+```
+
+<GitVisualizer scenario="stash-stack" title="Managing Multiple Stashes (LIFO Stack)" />
+
+### Applying vs Popping
+- **`git stash pop`**: Reapplies the most recent stash (`stash@{0}`) and **removes it** from the stack.
+- **`git stash apply stash@{1}`**: Reapplies a specific stash but **keeps it on the stack**.
+
+---
+
+## 4. Deleting Stashes
+
+```bash
+# Drop a specific stash
+git stash drop stash@{0}
+
+# Remove all stashes completely
+git stash clear
+```
+
+---
+
+## 5. Stashing Untracked Files
+
+By default, `git stash` only stores tracked files. To include untracked new files, use `-u`:
+
+```bash
+# Include untracked files
+git stash -u
+
+# Include all files, including those in .gitignore
+git stash --all
+```

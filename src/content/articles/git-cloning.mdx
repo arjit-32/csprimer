@@ -1,0 +1,74 @@
+---
+title: Cloning in Git
+meta_title: "Cloning Repositories in Git | CS Primer"
+description: "Master the art of cloning Git repositories, copying remote repositories to your local machine, and configuring tracking branches."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+## 1. Cloning a Remote Repository
+
+Cloning copies an **existing Git repository** from a remote server (like GitHub, GitLab, or Bitbucket) to your local machine.
+
+When you clone, Git does not merely download the latest files. It replicates the **entire commit history**, all branches, tags, and internal objects, allowing you to work completely offline and push changes back when ready.
+
+```bash
+git clone https://github.com/arjit-32/highlight-hero.git
+```
+
+---
+
+## 2. Interactive Cloning Visualizer
+
+Observe how cloning sets up your local folder, downloads objects, maps remote tracking branches (`origin/main`), and checks out your local working branch:
+
+<GitVisualizer scenario="cloning" title="Git Clone Under the Hood" />
+
+---
+
+## 3. Cloning Local Repositories
+
+You can also clone repositories already present on your local file system:
+
+```bash
+# Clone local repo into a new directory
+git clone highlight-hero cloned-highlight-hero
+```
+
+---
+
+## 4. Useful Cloning Flags
+
+### Clone into a Custom Folder
+By default, Git creates a directory matching the repository name. You can supply a custom target folder:
+
+```bash
+git clone https://github.com/arjit-32/highlight-hero.git my-custom-folder
+```
+
+### Shallow Clone (`--depth 1`)
+For large repositories with thousands of past commits, fetch only the latest revision to save bandwidth and disk space:
+
+```bash
+git clone --depth 1 https://github.com/arjit-32/highlight-hero.git
+```
+
+### Clone a Specific Branch
+To clone only a particular feature or release branch:
+
+```bash
+git clone -b develop --single-branch https://github.com/arjit-32/highlight-hero.git
+```
+
+---
+
+## 5. What Happens During `git clone`?
+
+1. Git creates a directory matching the repository name.
+2. Initializes an internal `.git` database and adds a remote link named `origin` pointing to the source URL.
+3. Downloads all historical commit objects, trees, and refs.
+4. Sets up remote-tracking branch pointers (`remotes/origin/*`).
+5. Checks out the default branch (e.g. `main` or `master`) so you can begin editing immediately.

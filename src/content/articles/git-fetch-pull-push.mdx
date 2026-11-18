@@ -1,0 +1,134 @@
+---
+title: "Fetch, Pull & Push in Git"
+meta_title: "Fetch, Pull & Push in Git | CS Primer"
+description: "Master the essential Git commands - fetch, pull, and push - to keep your local and remote repositories synchronized and up to date."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+## Understanding Remote Repositories
+
+When working with Git, we often deal with **remote repositories** (repos hosted on GitHub, GitLab, etc.). The three key actions when working with remotes are:
+
+1. **Fetching** → Get the latest changes from the remote repo **without applying them** to your working directory.
+2. **Pulling** → Get the latest changes **and apply them** immediately (fetch + merge).
+3. **Pushing** → Send your local changes to the remote repo.
+
+## Interactive Remote Synchronization Explorer
+
+Step through the interactive timeline below to see how changes move between the remote server, local tracking branch, and local working branch:
+
+<GitVisualizer scenario="fetch-pull-push" title="Remote Synchronization: Fetch vs Pull vs Push" />
+
+---
+
+## Setting Up a Local and Cloned Repository
+
+```bash
+mkdir project
+cd project
+git init
+echo 'hello first time' > file
+git add file 
+git commit -am file
+cd ..
+git clone project cloned_project
+```
+
+Now we have two directories:
+- `project` (the original repository)
+- `cloned_project` (a clone of the original repository)
+
+If we compare the config of both, we see how Git tracks remotes:
+
+```bash
+cat cloned_project/.git/config
+cat project/.git/config
+```
+
+The cloned repo has a remote section configured called `origin`:
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782659/Untitled_16_fgffmz.png)
+
+## Checking Remote Repositories
+
+A cloned repository automatically sets up a remote connection:
+
+```bash
+cd cloned_project
+git remote -v
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782661/Untitled_17_hdojya.png)
+
+This shows `origin` pointing to the original repository for both fetch and push operations.
+
+---
+
+## 1. Fetching (Getting Changes Without Applying Them)
+
+`git fetch` downloads commits, files, and refs from the remote repo into your local repository, updating local tracking branches like `origin/master`. 
+
+Crucially, **fetch does not modify your working directory or alter your local branches**:
+
+```bash
+# Make some changes in the remote project:
+cd ../project
+echo 'Another line added' >> file
+git commit -am "remote update"
+
+# Fetch changes in the cloned repository:
+cd ../cloned_project
+git fetch origin master
+
+# Verify that changes have been fetched but not applied:
+git log --oneline --graph
+git branch --all
+```
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741782660/Untitled_18_kzee2f.png)
+
+Notice that the changes live on the remote-tracking branch `remotes/origin/master`. Your local `master` is untouched until you merge:
+
+```bash
+git merge origin/master
+```
+
+---
+
+## 2. Pulling (Fetching + Merging in One Step)
+
+Instead of running `fetch` and `merge` separately, `git pull` downloads and integrates incoming changes in a single command:
+
+```bash
+git pull origin master
+```
+
+### Pull with Rebase
+
+To avoid extra merge commits when both your local branch and remote branch have diverged, use `--rebase`:
+
+```bash
+git pull --rebase origin master
+```
+
+---
+
+## 3. Pushing Code
+
+When you create commits locally and want to publish them to the remote repository for collaborators to access:
+
+```bash
+cd cloned_project
+git checkout -b feature
+echo 'Added new feature' >> file
+git commit -am 'Feature added'
+
+# Push feature branch to origin:
+git push -u origin feature
+```
+
+Now the `feature` branch is available in the remote repository for team members and pull requests.

@@ -1,0 +1,101 @@
+---
+title: Merging in Git
+meta_title: "Merging Changes in Git | CS Primer"
+description: "Master branch merging in Git, understand Fast-Forward vs 3-Way recursive merges, handle merge conflicts, and selectively apply commits with cherry-pick."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778645/image_3_fdtyo7.png)
+
+## 1. What is Merging?
+
+Merging combines changes from one branch into another. Most commonly, developers merge completed feature branches into the `master` or `main` branch.
+
+```bash
+# Switch to the receiving branch
+git checkout master
+
+# Merge the feature branch into master
+git merge experimental
+```
+
+---
+
+## 2. Fast-Forward Merge
+
+A **Fast-Forward Merge** occurs when master has **no new commits** since the feature branch was created. 
+
+Because the feature branch directly contains master's commits, Git simply advances the master pointer forward to match the feature branch without creating an extra merge commit.
+
+<GitVisualizer scenario="merge-fast-forward" title="Fast-Forward Merge" />
+
+---
+
+## 3. 3-Way Recursive Merge
+
+A **3-Way (Recursive) Merge** occurs when both master and experimental have progressed independently with new commits.
+
+Git finds the common ancestor commit, combines the changes from both branches, and creates a new **Merge Commit** with two parent pointers:
+
+<GitVisualizer scenario="merge-3way" title="3-Way Recursive Merge" />
+
+---
+
+## 4. Handling Merge Conflicts
+
+When both branches edit the same lines in a file, Git pauses the merge and displays conflict markers:
+
+```bash
+git status # Show conflicted files
+cat file   # Inspect conflict markers
+```
+
+Conflict markers look like:
+```text
+<<<<<<< HEAD
+// Current branch version
+=======
+// Incoming branch version
+>>>>>>> experimental
+```
+
+To resolve:
+1. Edit the file to keep the desired code and remove the marker lines (`<<<<<<<`, `=======`, `>>>>>>>`).
+2. Stage the resolved file: `git add file`
+3. Finalize the merge: `git commit -m "merged experimental branch into master"`
+
+Step through the interactive merge conflict workflow below:
+
+<GitVisualizer scenario="merge-conflict" title="Resolving Merge Conflicts" />
+
+---
+
+## 5. Aborting a Merge
+
+```bash
+# If a conflict occurs and you want to cancel the merge:
+git merge --abort
+
+# If you already committed the merge locally and want to undo it:
+git reset --hard HEAD~1
+```
+
+---
+
+## 6. Cherry-Picking
+
+Cherry-picking allows you to **pick a specific commit** from one branch and apply it to another without merging everything else.
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778645/Untitled_5_brqziz.png)
+
+<GitVisualizer scenario="cherry-pick" title="Cherry-Picking Commits" />
+
+```bash
+# Switch to master and apply a specific commit from feature:
+git checkout master
+git cherry-pick 5892e85
+```

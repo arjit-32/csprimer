@@ -1,0 +1,77 @@
+---
+title: Pull Requests and GitHub Workflow
+meta_title: "Understanding Pull Requests and GitHub Workflow | CS Primer"
+description: "Learn how pull requests, code reviews, and remote branch collaboration work on GitHub, GitLab, and Bitbucket."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+In modern collaborative software engineering, direct pushes to the main production branch are typically restricted. Instead, teams use **Pull Requests (PRs)** (or **Merge Requests** on GitLab) to propose, review, discuss, and test code changes before integrating them.
+
+A Pull Request is not an internal Git command, but a workflow feature provided by code hosting platforms (GitHub, GitLab, Bitbucket) that builds upon Git's branch and merge mechanics.
+
+<GitVisualizer scenario="pull-requests" title="GitHub Collaboration Flow" />
+
+## The Standard GitHub Workflow
+
+The standard collaborative lifecycle follows six key steps:
+
+### 1. Fork or Clone the Repository
+
+- If you have direct write permissions, clone the repo:
+  ```bash
+  git clone https://github.com/organization/project.git
+  cd project
+  ```
+- If contributing to an open-source project without write access, first click **Fork** on GitHub to create your own copy, then clone your fork.
+
+### 2. Create an Isolated Feature Branch
+
+Never build features directly on `main`. Create and switch to a descriptive branch name:
+
+```bash
+git checkout -b feature/user-profile
+```
+
+### 3. Develop, Test, and Commit
+
+Make your modifications incrementally and commit them with descriptive messages:
+
+```bash
+git add src/components/UserProfile.tsx
+git commit -m "feat: add user profile avatar display"
+```
+
+### 4. Push Your Feature Branch to the Remote
+
+Publish your branch to your remote repository:
+
+```bash
+git push -u origin feature/user-profile
+```
+
+### 5. Open the Pull Request on GitHub
+
+Once pushed, visit GitHub. A prompt will appear inviting you to **Compare & pull request**:
+- Write a clear description of the feature or bug fix.
+- Link related issue tickets (e.g., `Fixes #42`).
+- Automated CI/CD checks (linting, tests, builds) run against the PR.
+- Teammates review the code, leave inline comments, and request changes if needed.
+
+### 6. Merge and Clean Up
+
+Once approved by reviewers and passing all automated checks, the pull request is merged into `main` using one of three strategies:
+- **Create a merge commit**: Preserves the complete branch history with a two-parent merge commit.
+- **Squash and merge**: Melds all feature commits into a single atomic commit on `main`.
+- **Rebase and merge**: Replays individual commits on top of `main` without a merge commit.
+
+After merging, delete the remote and local feature branches to keep the repository tidy:
+
+```bash
+git checkout main
+git pull origin main
+git branch -d feature/user-profile
+```

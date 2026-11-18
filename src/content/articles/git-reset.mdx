@@ -1,0 +1,91 @@
+---
+title: Reset in Git
+meta_title: "Understanding Git Reset: Soft, Mixed, Hard & Revert | CS Primer"
+description: Master the power of git reset and git revert. Understand the differences between --soft, --mixed, and --hard, and learn how to safely undo local and public commits.
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+## 1. Undoing Changes in Git
+
+Git provides a powerful `reset` command that allows you to undo changes at different levels.
+
+To master `git reset`, understand how it affects the three Git areas:
+1. **HEAD**: Your active commit pointer.
+2. **Staging Area (Index)**: Proposed next commit snapshot.
+3. **Working Directory**: The actual files on disk.
+
+---
+
+## 2. Interactive Reset Modes Comparison
+
+Toggle through the comparison below to see what happens under `--soft`, `--mixed`, and `--hard`:
+
+<GitVisualizer scenario="reset-modes" title="Git Reset Modes Comparison" />
+
+---
+
+## 3. The Three Modes of `git reset`
+
+### 1. Soft Reset (`git reset --soft HEAD~1`)
+- Moves HEAD back 1 commit.
+- **Keeps changes in the Staging Area**.
+- Ideal when you committed prematurely and want to add more files or adjust the commit message.
+
+```bash
+git reset --soft HEAD~1
+```
+
+### 2. Mixed Reset (`git reset --mixed HEAD~1` - Default)
+- Moves HEAD back 1 commit.
+- **Unstages the changes**, but keeps them in your working directory as modified files on disk.
+- Ideal when you want to review and re-stage changes incrementally.
+
+```bash
+git reset --mixed HEAD~1
+# (or simply: git reset HEAD~1)
+```
+
+### 3. Hard Reset (`git reset --hard HEAD~1`)
+- Moves HEAD back 1 commit.
+- **Clears both Staging Area and Working Directory**.
+- Destructive: all uncommitted changes are discarded!
+
+```bash
+git reset --hard HEAD~1
+```
+
+---
+
+## 4. Undoing Unstaged and Staged Changes
+
+```bash
+# Undo unstaged modifications in a file (revert to last committed state)
+git checkout -- filename
+
+# Unstage a staged file (remove from index)
+git reset filename
+
+# Unstage all staged files
+git reset
+```
+
+---
+
+## 5. Undoing Commits After Pushing: `git revert`
+
+If you already pushed a commit to a shared remote (like GitHub `main`), never use `git reset --hard` because it rewrites shared history.
+
+Instead, use **`git revert`**:
+
+<GitVisualizer scenario="reset-revert" title="Git Revert: Safe Public Undo" />
+
+```bash
+# Safely creates an inverse commit that undoes c2
+git revert c2
+```
+
+`git revert` leaves past commits untouched and appends a new commit that undoes the changes, keeping history safe for teamwork.

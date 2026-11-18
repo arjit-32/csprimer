@@ -1,0 +1,79 @@
+---
+title: Squashing Commits with Rebase
+meta_title: "Squashing Commits | CS Primer"
+description: "Discover how to squash multiple commits into a single atomic commit using Git interactive rebase to keep your repository history clean and concise."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+When developing a feature, you frequently produce several small, checkpoint-style commits (e.g., "typo fix", "wip auth", "linting"). Sharing this granular trail in production history can obscure the purpose of the overall change.
+
+Git allows you to **squash** multiple intermediate commits into one atomic, descriptive commit using **interactive rebase** (`git rebase -i`).
+
+## 1. Interactive Squash Explorer
+
+Step through the visualization below to see how Git transforms noisy incremental WIP commits into a single unified commit:
+
+<GitVisualizer scenario="squash" title="Squashing Commits with Interactive Rebase" />
+
+---
+
+## 2. Why Squash Commits?
+
+- **Atomic History**: Every commit on your main branch represents a fully tested, functional change.
+- **Simplified Rollbacks**: Reverting a feature requires undoing a single commit rather than navigating five fragments.
+- **Clear Code Reviews**: Pull requests are easier to inspect and bisect when changes are grouped logically.
+
+---
+
+## 3. How to Squash Commits
+
+### Step 1: Identify Your Target Range
+
+To squash the last $N$ commits, specify `HEAD~N`:
+
+```bash
+git rebase -i HEAD~3
+```
+
+Alternatively, to rebase from the oldest root commit:
+
+```bash
+git rebase -i $(git rev-list --max-parents=0 HEAD) HEAD
+```
+
+### Step 2: Configure the Interactive TODO Sheet
+
+Git launches an editable file listing your commits:
+
+```text
+pick f2b2b2 wip auth
+squash f3c3c3 fix typo in token
+squash f4d4d4 forgot semicolon
+```
+
+- **`pick`**: Keep the commit as is.
+- **`squash` (or `s`)**: Merge the commit with the previous one.
+- **`drop` (or `d`)**: Remove the commit from history.
+
+![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781865/Untitled_12_yqrqgf.png)
+
+### Step 3: Edit the Combined Commit Message
+
+After editing the file and saving it, Git prompts you to rewrite the commit message for the newly combined commit. Modify the message as needed, then continue:
+
+```bash
+git rebase --continue
+```
+
+### Step 4: Detached HEAD Notes
+
+- The **initial commit must be included** since every commit needs a base reference.
+- After rebasing, you may end up in a **detached HEAD** state because Git moves commits but doesn't update the branch pointer. To fix this:
+```bash
+git branch -f master
+git checkout master
+```

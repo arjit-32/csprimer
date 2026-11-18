@@ -1,0 +1,87 @@
+---
+title: Git Submodules
+author: Arjit Sharma
+meta_title: "Git Submodules | CS Primer"
+description: "Understand how Git submodules manage external repositories as subdirectories inside your parent project while preserving commit isolation."
+series: git
+categories: ["Development"]
+featured: false
+draft: false
+---
+
+A **Git submodule** allows you to keep one Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+
+Submodules are useful when your project depends on shared libraries, internal micro-packages, or third-party repositories that maintain their own release cycles.
+
+<GitVisualizer scenario="submodules" title="Git Submodules Architecture" />
+
+## How Submodules Work
+
+Unlike standard folders in your working tree, a submodule directory is not tracked as a collection of individual files by the parent repository.
+
+Instead, the parent repository records only:
+1. The **remote URL** and local path mapping in a `.gitmodules` configuration file.
+2. A **gitlink** pointing to one specific commit SHA in the child repository.
+
+This guarantees that every developer and CI runner checking out your repository uses the exact tested revision of the submodule dependency.
+
+---
+
+## Adding a Submodule
+
+To add an external repository as a submodule:
+
+```bash
+git submodule add https://github.com/example/shared-ui.git libs/shared-ui
+```
+
+This creates or updates the `.gitmodules` file:
+
+```ini
+[submodule "libs/shared-ui"]
+    path = libs/shared-ui
+    url = https://github.com/example/shared-ui.git
+```
+
+Stage and commit both `.gitmodules` and the new submodule pointer:
+
+```bash
+git add .gitmodules libs/shared-ui
+git commit -m "chore: add shared-ui submodule dependency"
+```
+
+---
+
+## Cloning a Project Containing Submodules
+
+When you clone a repository that contains submodules, the submodule directories are initially empty.
+
+To clone the repository and initialize all submodules in one step:
+
+```bash
+git clone --recurse-submodules https://github.com/example/main-app.git
+```
+
+If you already cloned the project without the `--recurse-submodules` flag:
+
+```bash
+# Initialize local configuration and clone submodule contents
+git submodule update --init --recursive
+```
+
+---
+
+## Updating Submodules
+
+To pull the latest commits from the upstream submodule remote:
+
+```bash
+git submodule update --remote libs/shared-ui
+```
+
+Because the submodule pointer in your parent repo moves to a new commit hash, record the update in your parent repository:
+
+```bash
+git add libs/shared-ui
+git commit -m "chore: update shared-ui submodule to latest release"
+```

@@ -1,0 +1,13 @@
+---
+import GitVisualizer from './git/GitVisualizer.astro';
+
+interface Props {
+  course?: 'git' | 'system-design' | 'os' | string;
+  scenario: string;
+  title?: string;
+}
+
+const { course = 'git', scenario, title } = Astro.props;
+---
+
+{course === 'git' && <GitVisualizer scenario={scenario} title={title} />}

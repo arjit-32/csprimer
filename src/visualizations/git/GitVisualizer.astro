@@ -1,0 +1,251 @@
+---
+import { getGitScenario } from './scenarios';
+import { renderCommitGraph, renderStages, renderSpecial } from './renderers';
+
+interface Props {
+  scenario: string;
+  title?: string;
+}
+
+const { scenario: scenarioId, title: customTitle } = Astro.props;
+const scenario = getGitScenario(scenarioId);
+
+if (!scenario) {
+  throw new Error(`Git scenario "${scenarioId}" not found in src/visualizations/git/scenarios.ts`);
+}
+
+const resolvedTitle = customTitle || scenario.title;
+const steps = scenario.steps || [];
+const firstStep = steps[0] || { title: '', description: '' };
+
+const initialView = firstStep.customView || scenario.defaultView || 'graph';
+let initialCanvasHtml = '';
+if (initialView === 'stages') {
+  initialCanvasHtml = renderStages(firstStep.stages);
+} else if (initialView === 'graph') {
+  initialCanvasHtml = renderCommitGraph(firstStep);
+} else {
+  initialCanvasHtml = renderSpecial(firstStep);
+  if (firstStep.commits && firstStep.commits.length > 0 && initialView !== 'bisect' && initialView !== 'squash') {
+    initialCanvasHtml += renderCommitGraph(firstStep);
+  }
+}
+---
+
+<div
+  class="git-viz my-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#181818] shadow-sm overflow-hidden transition-all focus:ring-2 focus:ring-[#FE6019]/40 outline-hidden"
+  data-scenario-id={scenarioId}
+  tabindex="0"
+  role="region"
+  aria-label={`Git Visualization: ${resolvedTitle}`}
+>
+  <!-- Embedded Scenario Payload -->
+  <script type="application/json" class="git-viz-data" set:html={JSON.stringify({ defaultView: scenario.defaultView, steps })} />
+
+  <!-- Visualizer Header: Title + Step Counter & Dot Track (No Number Buttons) -->
+  <div class="px-4 py-3 bg-gray-50/90 dark:bg-[#1f1f1f] border-b border-gray-200 dark:border-gray-800 flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-2.5">
+      <div class="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-950/60 flex items-center justify-center text-[#FE6019] shrink-0">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="18" r="3" />
+          <circle cx="6" cy="6" r="3" />
+          <path d="M18 15V9a9 9 0 0 0-9-9H6" />
+        </svg>
+      </div>
+      <div>
+        <h4 class="text-xs font-bold text-gray-900 dark:text-gray-100 m-0 leading-tight">
+          {resolvedTitle}
+        </h4>
+        <span class="git-step-indicator text-[11px] text-gray-500 dark:text-gray-400 font-mono">
+          Step 1 of {steps.length}: <span class="font-semibold text-gray-800 dark:text-gray-200">{firstStep.title}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Step Progress Dots (Visual Only, No Clickable Numbers) -->
+    <div class="flex items-center gap-2">
+      <div class="git-dots flex items-center gap-1.5" aria-hidden="true">
+        {steps.map((_, i) => (
+          <span
+            class={`git-dot h-1.5 rounded-full transition-all duration-300 ${
+              i === 0 ? 'w-5 bg-[#FE6019]' : 'w-2 bg-gray-300 dark:bg-gray-700'
+            }`}
+            data-dot-index={i}
+          />
+        ))}
+      </div>
+      <span class="git-step-count px-2 py-0.5 rounded-md bg-gray-100 dark:bg-[#252525] text-gray-600 dark:text-gray-300 font-mono text-[10px] font-semibold border border-gray-200 dark:border-gray-700">
+        1 / {steps.length}
+      </span>
+    </div>
+  </div>
+
+  <!-- Visual Canvas with technical grid background -->
+  <div
+    class="git-canvas p-4 min-h-[140px] bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:16px_16px]"
+    set:html={initialCanvasHtml}
+  />
+
+  <!-- Bottom Bar: Separate Command Row and Dedicated Multi-line Description (Never Cramped) -->
+  <div class="px-4 py-3 bg-gray-50/90 dark:bg-[#1d1d1d] border-t border-gray-200 dark:border-gray-800 flex flex-col gap-2.5">
+    <!-- Top Row: Command + Arrow Controls -->
+    <div class="flex items-center justify-between gap-3 flex-wrap">
+      <div class="git-cmd-wrap flex items-center gap-2">
+        {firstStep.command && (
+          <code class="git-cmd px-2.5 py-1 rounded-lg bg-gray-950 text-emerald-400 dark:text-emerald-300 font-mono text-[11px] font-bold border border-gray-800 shadow-2xs">
+            $ {firstStep.command}
+          </code>
+        )}
+      </div>
+
+      <!-- Arrow Navigation Controls with Keyboard Hint -->
+      <div class="flex items-center gap-2 ml-auto">
+        <span class="text-[10px] text-gray-400 dark:text-gray-500 font-mono hidden sm:inline select-none">
+          Use <kbd class="px-1 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-[9px] border border-gray-300 dark:border-gray-700">←</kbd> <kbd class="px-1 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-[9px] border border-gray-300 dark:border-gray-700">→</kbd> keys
+        </span>
+        <button
+          type="button"
+          class="git-prev px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#252525] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#303030] text-xs font-semibold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-colors flex items-center gap-1"
+          aria-label="Previous step"
+          disabled
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span>Prev</span>
+        </button>
+        <button
+          type="button"
+          class="git-next px-3 py-1.5 rounded-lg bg-[#FE6019] hover:bg-[#e05315] text-white text-xs font-bold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed shadow-xs transition-transform active:scale-95 flex items-center gap-1"
+          aria-label="Next step"
+          disabled={steps.length <= 1}
+        >
+          <span>Next</span>
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dedicated Full-Width Description: Multi-line, generous leading, never cramped -->
+    <div class="w-full">
+      <p class="git-desc text-xs text-gray-700 dark:text-gray-300 leading-relaxed m-0 font-normal">
+        {firstStep.description}
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { renderCommitGraph, renderStages, renderSpecial } from './renderers';
+  import type { GitStep } from './types';
+
+  function initGitVisualizers() {
+    document.querySelectorAll('.git-viz').forEach((container) => {
+      if ((container as any)._mounted) return;
+      (container as any)._mounted = true;
+
+      const dataEl = container.querySelector('.git-viz-data');
+      if (!dataEl?.textContent) return;
+
+      const { defaultView, steps }: { defaultView?: string; steps: GitStep[] } = JSON.parse(dataEl.textContent);
+      let current = 0;
+
+      const canvas = container.querySelector('.git-canvas');
+      const cmdEl = container.querySelector('.git-cmd');
+      const cmdWrap = container.querySelector('.git-cmd-wrap');
+      const descEl = container.querySelector('.git-desc');
+      const indicatorEl = container.querySelector('.git-step-indicator');
+      const countEl = container.querySelector('.git-step-count');
+      const dots = container.querySelectorAll('.git-dot');
+      const prevBtn = container.querySelector('.git-prev') as HTMLButtonElement;
+      const nextBtn = container.querySelector('.git-next') as HTMLButtonElement;
+
+      function update(stepIdx: number) {
+        if (stepIdx < 0 || stepIdx >= steps.length) return;
+        current = stepIdx;
+        const step = steps[current];
+
+        // Update progress dots
+        dots.forEach((dot, i) => {
+          if (i === current) {
+            dot.className = 'git-dot h-1.5 w-5 bg-[#FE6019] rounded-full transition-all duration-300';
+          } else {
+            dot.className = 'git-dot h-1.5 w-2 bg-gray-300 dark:bg-gray-700 rounded-full transition-all duration-300';
+          }
+        });
+
+        // Update step counter text
+        if (countEl) {
+          countEl.textContent = `${current + 1} / ${steps.length}`;
+        }
+
+        // Update step indicator
+        if (indicatorEl) {
+          indicatorEl.innerHTML = `Step ${current + 1} of ${steps.length}: <span class="font-semibold text-gray-800 dark:text-gray-200">${step.title}</span>`;
+        }
+
+        // Update command badge
+        if (cmdEl && cmdWrap) {
+          if (step.command) {
+            cmdEl.textContent = `$ ${step.command}`;
+            cmdWrap.classList.remove('hidden');
+          } else {
+            cmdWrap.classList.add('hidden');
+          }
+        }
+
+        // Update full description
+        if (descEl) {
+          descEl.textContent = step.description;
+        }
+
+        // Update buttons state
+        if (prevBtn) prevBtn.disabled = current === 0;
+        if (nextBtn) nextBtn.disabled = current === steps.length - 1;
+
+        // Render Canvas
+        if (canvas) {
+          const view = step.customView || defaultView || 'graph';
+          let html = '';
+          if (view === 'stages') {
+            html = renderStages(step.stages);
+          } else if (view === 'graph') {
+            html = renderCommitGraph(step);
+          } else {
+            html = renderSpecial(step);
+            if (step.commits && step.commits.length > 0 && view !== 'bisect' && view !== 'squash') {
+              html += renderCommitGraph(step);
+            }
+          }
+          canvas.innerHTML = html;
+        }
+      }
+
+      // Arrow navigation button clicks
+      prevBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        update(current - 1);
+      });
+      nextBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        update(current + 1);
+      });
+
+      // Keyboard arrow keys navigation when container has focus or mouse is over it
+      container.addEventListener('keydown', (e: any) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          update(current - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          update(current + 1);
+        }
+      });
+    });
+  }
+
+  initGitVisualizers();
+  document.addEventListener('astro:page-load', initGitVisualizers);
+</script>

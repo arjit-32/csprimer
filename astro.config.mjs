@@ -31,6 +31,8 @@ export default defineConfig({
         "@/components/mdx/Tabs.astro",
         "@/components/features/editor/TryCode.astro",
         "@/components/features/visualizer/AlgoVisualizer.astro",
+        "@/visualizations/Visualizer.astro",
+        "@/visualizations/git/GitVisualizer.astro",
       ],
     }),
     mdx({

@@ -1,0 +1,98 @@
+---
+title: Git Basic Workflow
+meta_title: Git Basic Workflow | CS Primer
+description: Learn the fundamental Git workflow, including repository initialization, staging files, diffing unstaged vs staged edits, and committing snapshots.
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+## 1. Initializing a Git Repository
+
+Before Git can track changes, you must initialize a repository inside your project directory. This creates a hidden `.git` folder, which acts as Git's database for tracking changes.
+
+```bash
+mkdir test_proj
+cd test_proj
+git init
+```
+
+---
+
+## 2. Interactive Basic Workflow Simulator
+
+Step through the pipeline below to see how files move from untracked modifications on disk to staged index entries and finally permanent commit snapshots:
+
+<GitVisualizer scenario="basic-workflow" title="Git Basic Workflow Pipeline" />
+
+---
+
+## 3. Adding Files to a Repository
+
+When you create or edit files in your working directory, use `git add` to prepare them for a commit:
+
+```bash
+# Create a new file
+touch index.txt
+
+# Tell Git to stage index.txt
+git add index.txt
+
+# To stage all modified and new files at once:
+git add .
+```
+
+This moves `index.txt` to the **staging area**, preparing it for the next commit snapshot.
+
+---
+
+## 4. Checking Repository State
+
+Before committing, check which files are being tracked and their current status:
+
+```bash
+# Check repository status
+git status
+
+# View commit history
+git log --oneline
+```
+
+---
+
+## 5. Committing Changes
+
+Once files are staged, commit them into Git's repository ledger. Each commit represents a permanent snapshot of the project. The `-m` flag specifies a descriptive commit message:
+
+```bash
+git commit -m "Initial Commit"
+
+# Alternatively, add and commit tracked files simultaneously:
+# git commit -am "Update app logic"
+```
+
+---
+
+## 6. Viewing Changes: `git diff` vs `git diff --staged`
+
+Before committing, review modifications made to your files:
+
+### Inspecting Unstaged Changes (`git diff`)
+Compares the working directory with the staging area (shows what you edited on disk but haven't staged yet):
+
+```bash
+git diff
+```
+
+### Inspecting Staged Changes (`git diff --staged`)
+Compares the staging area with the last commit (shows what will be included in your next commit):
+
+```bash
+git diff --staged
+```
+
+Step through the interactive stages below to see how Git diffs unstaged disk edits versus staged index snapshots:
+
+<GitVisualizer scenario="diff-stages" title="Inspecting Unstaged vs Staged Changes" />

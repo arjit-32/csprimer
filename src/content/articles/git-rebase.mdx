@@ -1,0 +1,67 @@
+---
+title: Rebase – Keeping History Clean in Git
+meta_title: "Git Rebase: Keep Your Commit History Linear and Clean | CS Primer"
+description: "Master git rebase to maintain a clean, linear commit history. Understand rebase vs merge, step-by-step replaying, and conflict resolution during rebasing."
+author: Arjit Sharma
+series: git
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Rebasing is the key to a **clean and linear commit history**.
+
+Instead of merging (which introduces an extra merge commit and diamond-shaped history), **rebasing applies your commits one by one on top of the new base**.
+
+When we have a feature branch and merge it with master, history can quickly become complicated with extra merge commits:
+
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781865/image_4_it86mf.png)
+
+What we really want our commit timeline to look like is a single clean line:
+
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781866/image_5_dgoquk.png)
+
+That's where Git rebase comes in!
+
+## 1. Interactive Git Rebase Explorer
+
+Step through the interactive timeline below to see how Git lifts feature commits, replays them on top of master's tip, and fast-forwards master:
+
+<GitVisualizer scenario="rebase" title="Git Rebase Lifecycle" />
+
+---
+
+## 2. Rebase in Action
+
+Suppose you have a `feature1` branch based on an older `master` commit. Before merging, you want to **update it with the latest `master` changes**:
+
+```bash
+git checkout feature1
+git rebase master  # Rebase feature1 onto the latest master
+
+# If conflicts occur, resolve them in files, then:
+git add .
+git rebase --continue
+```
+
+After rebasing, this is how your codebase appears:
+
+![image.png](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781866/image_6_o34pmp.png)
+
+Now the commits form a single straight line, and you can fast-forward merge `feature1` into `master`:
+
+```bash
+git checkout master
+git merge feature1
+git log --all --graph --oneline
+```
+
+> **Note**: In your terminal output, you will see `Fast-forward`. Because there are no diverging commits on master, the master branch pointer simply advances straight forward to HEAD.
+
+---
+
+## 3. The Golden Rule of Rebasing
+
+> **Never rebase commits that have been pushed to a public, shared branch!**
+
+Rebasing creates brand new commits with new SHA hashes. If teammates have already branched off or pulled those original commits, rebasing will cause duplicate commits and painful merge conflicts across your team. Only rebase local, private branches before merging them upstream.
