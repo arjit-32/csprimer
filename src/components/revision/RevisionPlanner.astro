@@ -1819,11 +1819,6 @@ const allSeriesData = seriesCollection.map((s) => {
 
     // Lifecycle listener
     document.addEventListener('astro:page-load', initRevisionPlanner);
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initRevisionPlanner, { once: true });
-    } else {
-      initRevisionPlanner();
-    }
   </script>
 
   <style>

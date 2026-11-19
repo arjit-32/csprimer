@@ -5,10 +5,23 @@ import AutoImport from "astro-auto-import";
 import { defineConfig, passthroughImageService } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
+import { visit } from "unist-util-visit";
+
+function rehypeLazyImages() {
+  return (tree) => {
+    visit(tree, "element", (node) => {
+      if (node.tagName === "img") {
+        node.properties = node.properties || {};
+        node.properties.loading = node.properties.loading || "lazy";
+        node.properties.decoding = node.properties.decoding || "async";
+      }
+    });
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.csprimer.in",
+  site: "https://csprimer.org",
   trailingSlash: "never",
   prefetch: {
     defaultStrategy: "hover",
@@ -31,7 +44,6 @@ export default defineConfig({
         "@/components/mdx/Tabs.astro",
         "@/components/features/editor/TryCode.astro",
         "@/components/features/visualizer/AlgoVisualizer.astro",
-        "@/visualizations/Visualizer.astro",
         "@/visualizations/git/GitVisualizer.astro",
       ],
     }),
@@ -41,6 +53,7 @@ export default defineConfig({
         theme: 'one-dark-pro',
         wrap: true,
       },
+      rehypePlugins: [rehypeLazyImages],
     }),
     sitemap(),
   ],
@@ -59,8 +72,16 @@ export default defineConfig({
         },
       ],
     ],
+    rehypePlugins: [rehypeLazyImages],
   },
   vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
     build: {
       cssCodeSplit: true,
       cssMinify: true,

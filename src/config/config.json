@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Master Full-Stack Development",
-    "base_url": "https://www.csprimer.in",
+    "base_url": "https://csprimer.org",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/favicon.png",

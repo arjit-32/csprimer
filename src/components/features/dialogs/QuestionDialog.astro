@@ -196,7 +196,7 @@
 
     randomizeBtn.addEventListener('click', shuffleQuestions);
 
-    document.addEventListener('keydown', (e) => {
+    function handleModalKeyDown(e: KeyboardEvent) {
       if (!modalOverlay.classList.contains('flex')) return;
 
       switch (e.key) {
@@ -217,7 +217,11 @@
           }
           break;
       }
-    });
+    }
+
+    document.removeEventListener('keydown', (document as any)['__questionModalKeyDown']);
+    (document as any)['__questionModalKeyDown'] = handleModalKeyDown;
+    document.addEventListener('keydown', handleModalKeyDown);
 
     modalInitialized = true;
   }
@@ -233,8 +237,6 @@
   document.addEventListener('astro:before-preparation', () => {
     modalInitialized = false;
   });
-
-  initializeModal();
 </script>
 
 <style>

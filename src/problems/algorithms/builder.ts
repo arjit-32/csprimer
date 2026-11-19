@@ -89,11 +89,23 @@ export interface StepConfig {
 export class StepBuilder {
   private steps: ExecutionStep[] = [];
   private colorPalette: string[] = ['blue', 'emerald', 'purple', 'amber', 'rose', 'cyan'];
+  private static readonly MAX_STEPS = 300;
 
   /**
    * Adds a new execution step with automatic step numbering and shorthand normalization.
    */
   addStep(config: StepConfig): this {
+    if (this.steps.length >= StepBuilder.MAX_STEPS) {
+      if (this.steps.length === StepBuilder.MAX_STEPS) {
+        this.steps.push({
+          stepNumber: StepBuilder.MAX_STEPS,
+          title: 'Execution Capped',
+          description: `Visualization capped at ${StepBuilder.MAX_STEPS} steps to maintain browser responsiveness. Please test with smaller inputs.`,
+        });
+      }
+      return this;
+    }
+
     const stepNumber = this.steps.length;
 
     const step: ExecutionStep = {

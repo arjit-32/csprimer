@@ -321,7 +321,16 @@ activeCourses.forEach((c: any) => {
 </style>
 
 <script>
+  let roadmapAbortController: AbortController | null = null;
+
   function setupNeetcodeRoadmap() {
+    if (roadmapAbortController) {
+      roadmapAbortController.abort();
+      roadmapAbortController = null;
+    }
+    roadmapAbortController = new AbortController();
+    const { signal } = roadmapAbortController;
+
     document.querySelectorAll('.neetcode-roadmap-wrapper').forEach((wrapper) => {
       const uid = (wrapper as HTMLElement).dataset.roadmapId;
       if (!uid) return;
@@ -408,14 +417,14 @@ activeCourses.forEach((c: any) => {
         panX = e.clientX - startX;
         panY = e.clientY - startY;
         applyTransform();
-      });
+      }, { signal });
 
       window.addEventListener('mouseup', () => {
         if (isDragging) {
           isDragging = false;
           viewport.classList.remove('cursor-grabbing');
         }
-      });
+      }, { signal });
 
       // Touch Drag Listeners (Mobile / Tablet)
       viewport.addEventListener('touchstart', (e) => {
@@ -432,11 +441,11 @@ activeCourses.forEach((c: any) => {
         panX = e.touches[0].clientX - startX;
         panY = e.touches[0].clientY - startY;
         applyTransform();
-      }, { passive: true });
+      }, { passive: true, signal });
 
       window.addEventListener('touchend', () => {
         isDragging = false;
-      });
+      }, { signal });
 
       // Mouse wheel zoom
       viewport.addEventListener(
@@ -470,7 +479,7 @@ activeCourses.forEach((c: any) => {
             drawConnections();
           }, 150);
         }
-      });
+      }, { signal });
 
       // Draw SVG Bezier Connections
       function drawConnections() {
@@ -674,8 +683,8 @@ activeCourses.forEach((c: any) => {
       updateRoadmapProgress();
 
       // Listen for window resize and progress updates
-      window.addEventListener('resize', drawConnections);
-      window.addEventListener('roadmapProgressUpdated', updateRoadmapProgress);
+      window.addEventListener('resize', drawConnections, { signal });
+      window.addEventListener('roadmapProgressUpdated', updateRoadmapProgress, { signal });
 
       // Expose redraw function on element for tab switches
       (wrapper as any).__redrawRoadmap = () => {
@@ -688,4 +697,10 @@ activeCourses.forEach((c: any) => {
   }
 
   document.addEventListener('astro:page-load', setupNeetcodeRoadmap);
+  document.addEventListener('astro:before-swap', () => {
+    if (roadmapAbortController) {
+      roadmapAbortController.abort();
+      roadmapAbortController = null;
+    }
+  });
 </script>

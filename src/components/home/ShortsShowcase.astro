@@ -438,7 +438,7 @@ const shortsData = sortedShorts.map((s) => {
       isDragging = true;
     });
 
-    window.addEventListener("mouseup", (e) => {
+    function handleWindowMouseUp(e: MouseEvent) {
       if (!isDragging) return;
       isDragging = false;
       const diffX = e.clientX - startX;
@@ -447,7 +447,11 @@ const shortsData = sortedShorts.map((s) => {
       } else if (diffX > 50) {
         swipePrev();
       }
-    });
+    }
+
+    window.removeEventListener("mouseup", (window as any)["__shortsMouseUpHandler"]);
+    (window as any)["__shortsMouseUpHandler"] = handleWindowMouseUp;
+    window.addEventListener("mouseup", handleWindowMouseUp);
 
     card0.addEventListener("touchstart", (e) => {
       startX = e.touches[0].clientX;

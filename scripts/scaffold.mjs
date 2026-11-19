@@ -2237,16 +2237,21 @@ export async function uploadToCloudinary({
     throw new Error(data.error?.message || `Cloudinary upload failed (HTTP ${response.status})`);
   }
 
+  const optimizedUrl = data.secure_url?.includes('/image/upload/')
+    ? data.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto,w_800/')
+    : data.secure_url;
+
   return {
     success: true,
     filename: safeName,
-    secure_url: data.secure_url,
+    secure_url: optimizedUrl,
+    raw_url: data.secure_url,
     public_id: data.public_id,
     bytes: data.bytes,
     format: data.format,
     width: data.width,
     height: data.height,
-    markdownTag: `![${safeName}](${data.secure_url})`
+    markdownTag: `![${safeName}](${optimizedUrl})`
   };
 }
 

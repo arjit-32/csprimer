@@ -58,7 +58,14 @@ const tocHeadings = (headings || []).filter((h) => h.depth === 2 || h.depth === 
 )}
 
 <script>
+  let tocAbortController: AbortController | null = null;
+
   function initTableOfContents() {
+    if (tocAbortController) {
+      tocAbortController.abort();
+      tocAbortController = null;
+    }
+
     const nav = document.getElementById("toc-nav");
     if (!nav) return;
 
@@ -67,6 +74,9 @@ const tocHeadings = (headings || []).filter((h) => h.depth === 2 || h.depth === 
     const progressText = document.getElementById("toc-progress-text");
 
     if (links.length === 0) return;
+
+    tocAbortController = new AbortController();
+    const { signal } = tocAbortController;
 
     // Collect all corresponding heading elements
     const headingElements: HTMLElement[] = [];
@@ -99,65 +109,77 @@ const tocHeadings = (headings || []).filter((h) => h.depth === 2 || h.depth === 
             history.pushState(null, "", `#${slug}`);
           }
         }
-      });
+      }, { signal });
     });
 
-    // 2. Scrollspy and reading progress calculation
+    // 2. Scrollspy and reading progress calculation with requestAnimationFrame
+    let ticking = false;
     function updateTocOnScroll() {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((scrollY / docHeight) * 100))) : 0;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          ticking = false;
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((scrollY / docHeight) * 100))) : 0;
 
-      if (progressBar) progressBar.style.width = `${progress}%`;
-      if (progressText) progressText.textContent = `${progress}% read`;
+          if (progressBar) progressBar.style.width = `${progress}%`;
+          if (progressText) progressText.textContent = `${progress}% read`;
 
-      // Determine active heading
-      let activeSlug = "";
-      const offsetMargin = 120;
+          // Determine active heading
+          let activeSlug = "";
+          const offsetMargin = 120;
 
-      for (let i = 0; i < headingElements.length; i++) {
-        const heading = headingElements[i];
-        const rect = heading.getBoundingClientRect();
-        if (rect.top <= offsetMargin) {
-          activeSlug = heading.id;
-        } else {
-          break;
-        }
-      }
+          for (let i = 0; i < headingElements.length; i++) {
+            const heading = headingElements[i];
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= offsetMargin) {
+              activeSlug = heading.id;
+            } else {
+              break;
+            }
+          }
 
-      // Default to first heading if none passed the threshold and we're at the top
-      if (!activeSlug && headingElements.length > 0 && scrollY < 300) {
-        activeSlug = headingElements[0].id;
-      }
+          // Default to first heading if none passed the threshold and we're at the top
+          if (!activeSlug && headingElements.length > 0 && scrollY < 300) {
+            activeSlug = headingElements[0].id;
+          }
 
-      // Highlight active link
-      links.forEach((link) => {
-        const slug = link.getAttribute("data-toc-link");
-        const item = link.closest(".toc-item");
-        if (slug === activeSlug) {
-          link.classList.add("is-active");
-          item?.classList.add("is-active");
-        } else {
-          link.classList.remove("is-active");
-          item?.classList.remove("is-active");
-        }
-      });
+          // Highlight active link
+          links.forEach((link) => {
+            const slug = link.getAttribute("data-toc-link");
+            const item = link.closest(".toc-item");
+            if (slug === activeSlug) {
+              link.classList.add("is-active");
+              item?.classList.add("is-active");
+            } else {
+              link.classList.remove("is-active");
+              item?.classList.remove("is-active");
+            }
+          });
 
-      // Keep active heading visible within TOC navigation
-      if (activeSlug) {
-        const activeItem = nav.querySelector(`.toc-item[data-target="${activeSlug}"]`) as HTMLElement;
-        if (activeItem) {
-          activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
-        }
+          // Keep active heading visible within TOC navigation
+          if (activeSlug && nav) {
+            const activeItem = nav.querySelector(`.toc-item[data-target="${activeSlug}"]`) as HTMLElement | null;
+            if (activeItem) {
+              activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            }
+          }
+        });
+        ticking = true;
       }
     }
 
-    window.removeEventListener("scroll", updateTocOnScroll);
-    window.addEventListener("scroll", updateTocOnScroll, { passive: true });
+    window.addEventListener("scroll", updateTocOnScroll, { passive: true, signal });
     updateTocOnScroll();
   }
 
   document.addEventListener("astro:page-load", initTableOfContents);
+  document.addEventListener("astro:before-swap", () => {
+    if (tocAbortController) {
+      tocAbortController.abort();
+      tocAbortController = null;
+    }
+  });
 </script>
 
 <style lang="scss">

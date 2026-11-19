@@ -40,7 +40,7 @@ if (initialView === 'stages') {
   aria-label={`Git Visualization: ${resolvedTitle}`}
 >
   <!-- Embedded Scenario Payload -->
-  <script type="application/json" class="git-viz-data" set:html={JSON.stringify({ defaultView: scenario.defaultView, steps })} />
+  <script is:inline type="application/json" class="git-viz-data" set:html={JSON.stringify({ defaultView: scenario.defaultView, steps })} />
 
   <!-- Visualizer Header: Title + Step Counter & Dot Track (No Number Buttons) -->
   <div class="px-4 py-3 bg-gray-50/90 dark:bg-[#1f1f1f] border-b border-gray-200 dark:border-gray-800 flex items-center justify-between gap-3 flex-wrap">

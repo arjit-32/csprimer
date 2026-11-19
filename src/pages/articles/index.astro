@@ -521,11 +521,6 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
   }
 
   document.addEventListener("astro:page-load", initProjectsPage);
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    initProjectsPage();
-  } else {
-    document.addEventListener("DOMContentLoaded", initProjectsPage);
-  }
 </script>
 
 <style lang="scss">

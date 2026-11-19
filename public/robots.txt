@@ -3,4 +3,4 @@ Allow: /
 Disallow: /404
 Disallow: /_astro/
 
-Sitemap: https://www.csprimer.in/sitemap-index.xml
+Sitemap: https://csprimer.org/sitemap-index.xml

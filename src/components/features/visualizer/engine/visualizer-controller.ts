@@ -6,8 +6,13 @@ import { renderStack, renderQueue, renderDeque } from '../renderers/stack-queue-
 import { renderTree, renderGraph } from '../renderers/tree-graph-renderer';
 import { renderHeap, renderDPTable } from '../renderers/heap-dptable-renderer';
 
-// Dynamic import map for algorithms when custom inputs are applied
-const algorithmModules = import.meta.glob('../../../../problems/algorithms/*.ts');
+// Dynamic import map for algorithms when custom inputs are applied (excluding index, types, and builder)
+const algorithmModules = import.meta.glob([
+  '../../../../problems/algorithms/*.ts',
+  '!../../../../problems/algorithms/index.ts',
+  '!../../../../problems/algorithms/builder.ts',
+  '!../../../../problems/algorithms/types.ts',
+]);
 
 export class VisualizerController {
   container: HTMLElement;
@@ -278,10 +283,28 @@ export class VisualizerController {
       }
 
       // Load problem module dynamically
-      const path = `../../../../problems/algorithms/${this.problemId}.ts`;
-      const moduleLoader = algorithmModules[path];
+      const targetId = this.meta?.id || this.problemId;
+      let path = `../../../../problems/algorithms/${targetId}.ts`;
+      let moduleLoader = algorithmModules[path];
+
       if (!moduleLoader) {
-        throw new Error(`Algorithm module for '${this.problemId}' not found.`);
+        // Fallback: search by ID or alias matching filename
+        const foundKey = Object.keys(algorithmModules).find((k) => {
+          const base = k.split('/').pop()?.replace('.ts', '');
+          return (
+            base === targetId ||
+            base === this.problemId ||
+            base?.endsWith(`-${targetId}`) ||
+            base?.endsWith(`-${this.problemId}`)
+          );
+        });
+        if (foundKey) {
+          moduleLoader = algorithmModules[foundKey];
+        }
+      }
+
+      if (!moduleLoader) {
+        throw new Error(`Algorithm module for '${targetId}' not found.`);
       }
 
       const mod = (await moduleLoader()) as any;

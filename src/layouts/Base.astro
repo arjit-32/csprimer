@@ -155,8 +155,19 @@ if (imgStr) {
       document.addEventListener("astro:before-preparation", () => {
         NProgress.start();
       });
+      let isFirstLoad = true;
       document.addEventListener("astro:page-load", () => {
         NProgress.done();
+        if (isFirstLoad) {
+          isFirstLoad = false;
+          return;
+        }
+        if (typeof (window as any).gtag === "function") {
+          (window as any).gtag("event", "page_view", {
+            page_location: window.location.href,
+            page_title: document.title,
+          });
+        }
       });
     </script>
   </head>
