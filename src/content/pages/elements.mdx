@@ -5,12 +5,14 @@ description: "Exact step-by-step guide for creating content, all collection sche
 
 # Contributor Playbook & MDX Elements
 
-This page is the living documentation for maintaining and expanding **CSPrimer**. It serves five key functions:
+This page is the living documentation for maintaining and expanding **CSPrimer**. It serves seven key functions:
 1. **Local Scaffolding Tools**: One-click visual dashboard and terminal CLI to generate courses, roadmaps, and articles.
 2. **Metadata Architecture**: Clear rules for how Categories, Series, and Roadmaps relate.
 3. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, and TypeScript types.
 4. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for custom MDX components.
 5. **Algorithm Visualizer Playbook & AI Prompt Template**: Copy-pasteable prompt and architecture guide to generate visualizers for any Java DSA problem using LLMs.
+6. **Infrastructure, Hosting & Deployment Architecture**: Production setup across Vercel, Cloudflare DNS, Cloudinary CDN, and domain canonicalization.
+7. **Performance & Scale Engineering**: Micro-chunking for 500+ visualizers, memory leak prevention under ViewTransitions, and build optimizations.
 
 ---
 
@@ -775,6 +777,110 @@ Responsive 16:9 media embeds with lazy loading.
 
 ---
 
+### 5.8 Algorithm Visualizer (`<AlgoVisualizer>`)
+
+Interactive step-by-step algorithm visualizer supporting arrays, hash maps, sets, queues, deques, stacks, trees, heaps, linked lists, and DP tables with variable tracking and execution timeline controls.
+
+<AlgoVisualizer problemId="sample-binary-search" />
+
+#### Props Reference
+
+| Prop | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `problemId` | `string` | **Yes** | — | Unique problem ID corresponding to a file in `src/problems/algorithms/<slug>.ts` |
+
+#### Usage Code
+
+```mdx
+<!-- Binary Search Visualization -->
+<AlgoVisualizer problemId="sample-binary-search" />
+
+<!-- Two Sum Array + Hash Map Visualization -->
+<AlgoVisualizer problemId="02-two-sum" />
+```
+
+> [!TIP]
+> For the complete specification, step builder API, and AI prompt template to generate new DSA visualizers, see [Section 7: Algorithm Visualizer Guide](#7-algorithm-visualizer-ai-prompt--generator-guide).
+
+---
+
+### 5.9 Interactive Git Visualizer (`<GitVisualizer>`)
+
+Interactive visualizer demonstrating Git internals, staging phases, commit graphs, branch pointers, merges, rebases, and conflict resolutions.
+
+<GitVisualizer scenario="basic-workflow" />
+
+#### Props Reference
+
+| Prop | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `scenario` | `string` | **Yes** | — | Scenario identifier from `src/visualizations/git/scenarios.ts` |
+| `title` | `string` | No | Scenario title | Custom display title override in header |
+
+#### Complete Supported Scenarios Catalog
+
+| Scenario ID | Topic | Default View |
+| :--- | :--- | :--- |
+| `intro-phases` | Three Phases of Git Content | `stages` |
+| `intro-branches` | Branches: Parallel Workflows | `graph` |
+| `basic-workflow` | Git Basic Workflow (Modify $\rightarrow$ Stage $\rightarrow$ Commit) | `stages` |
+| `diff-stages` | Inspecting Changes (`git diff` vs `git diff --staged`) | `stages` |
+| `cloning` | Repository Cloning | `graph` |
+| `branching` | Branch Creation & Switching | `graph` |
+| `detached-head` | Detached HEAD State | `graph` |
+| `merge-fast-forward`| Fast-Forward Merge | `graph` |
+| `merge-3way` | 3-Way Recursive Merge Snapshot | `graph` |
+| `cherry-pick` | Cherry-Picking Commits | `graph` |
+| `merge-conflict` | Resolving Merge Conflicts | `special` |
+| `stashing` | Git Stashing Workspace State | `stages` |
+| `stash-stack` | Managing Multiple Stashes (LIFO Stack) | `stages` |
+| `reset-modes` | Git Reset Comparison Matrix (Soft vs Mixed vs Hard) | `stages` |
+| `reset-revert` | Git Revert: Safe Public History Undo | `graph` |
+| `reflog` | Git Reflog Safety Net | `graph` |
+| `rebase` | Git Rebase: Linear History Reconstruction | `graph` |
+| `squash` | Squashing Commits with Interactive Rebase | `special` |
+| `bisect` | Git Bisect: Binary Search Bug Hunting | `special` |
+| `fetch-pull-push` | Remote Synchronization (Fetch vs Pull vs Push) | `graph` |
+| `pull-requests` | GitHub Collaboration & PR Workflow | `graph` |
+| `submodules` | Git Submodules: Pinned Dependencies | `graph` |
+
+#### Usage Code
+
+```mdx
+<GitVisualizer scenario="basic-workflow" />
+<GitVisualizer scenario="merge-3way" title="3-Way Merge in Action" />
+<GitVisualizer scenario="rebase" />
+```
+
+---
+
+### 5.10 Changelog Entries (`<Changelog>`)
+
+Timeline container for milestone releases, major curriculum additions, or platform changelog updates.
+
+<Changelog date="November 19, 2026">
+  - **Performance Optimization**: Configured dynamic algorithm micro-chunking for 500+ DSA visualizers.
+  - **Infrastructure**: Automated Vercel edge caching and Cloudflare DNS alignment.
+  - **Image Pipeline**: Auto-injected lazy-loading and WebP/AVIF transformations.
+</Changelog>
+
+#### Props Reference
+
+| Prop | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `date` | `string` | **Yes** | — | Date string displayed on the left column (e.g. `"November 19, 2026"`) |
+
+#### Usage Code
+
+```mdx
+<Changelog date="November 19, 2026">
+  - Added 50 new interactive DSA problem visualizers
+  - Released System Design deep dive on distributed consensus
+</Changelog>
+```
+
+---
+
 ## 6. Standard Typography & Layout Elements
 
 ### Headings Hierarchy
@@ -1165,4 +1271,263 @@ export const slidingWindowMax: AlgorithmDefinition = {
 
 export default slidingWindowMax;
 ```
+
+---
+
+## 8. Infrastructure, Hosting & Deployment Architecture
+
+This section documents the production hosting, CDN, domain canonicalization, and deployment setup powering **CSPrimer**.
+
+### 8.1 Canonical Production Domain & 308 Redirection
+
+The single authoritative canonical production domain is:
+
+> **`https://csprimer.org`**
+
+All domain routing and search authority are unified under this domain:
+
+| Domain | Status in Vercel | HTTP Behavior | Purpose |
+| :--- | :--- | :--- | :--- |
+| **`csprimer.org`** | **Production (Primary)** | `200 OK` | The canonical domain for all visitors, search engines, and social cards |
+| `www.csprimer.org` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Standard www subdomain redirect |
+| `csprimer.in` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Legacy domain alias redirect |
+| `www.csprimer.in` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Legacy www alias redirect |
+| `*.vercel.app` | Valid Configuration | Direct / Preview Deployments | Staging and internal deployment previews |
+
+#### Core Repository Configuration:
+- **`astro.config.mjs`**: `site: "https://csprimer.org"` (generates clean sitemaps and canonical tags).
+- **`src/config/config.json`**: `"base_url": "https://csprimer.org"`.
+- **`public/robots.txt`**: `Sitemap: https://csprimer.org/sitemap-index.xml`.
+- **`src/layouts/Base.astro`**: Canonical tags (`<link rel="canonical">`) and OpenGraph (`og:url`, `og:image`) automatically resolve to `https://csprimer.org`, preventing canonical redirect loops.
+
+---
+
+### 8.2 Vercel Edge Hosting Configuration (`vercel.json`)
+
+Edge caching, routing rules, and security headers are configured at the repository root via `vercel.json`:
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/_astro/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/pdfs/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
+```
+
+- **Hashed Assets (`/_astro/*`)**: Given 1-year immutable caching (`max-age=31536000, immutable`). Browsers and edge caches never re-fetch fingerprinted JS and CSS.
+- **Clean URLs**: `cleanUrls: true` with `trailingSlash: false` matches Astro SSG routing perfectly.
+- **Security Headers**: Standard `nosniff`, `SAMEORIGIN`, and strict referrer protection across all routes.
+
+---
+
+### 8.3 Node.js Runtime Version Requirement
+
+- **Requirement**: `Node.js >= 22.0.0` (Active LTS).
+- **In `package.json`**:
+  ```json
+  "engines": {
+    "node": ">=22.0.0"
+  }
+  ```
+- **In Vercel Project Settings**:
+  - Navigate to **Settings** $\rightarrow$ **General** $\rightarrow$ **Node.js Version**.
+  - Select **`22.x`** or **`24.x`** (never legacy `20.x` which is discontinued).
+
+---
+
+### 8.4 Cloudflare DNS & Proxy Guidelines
+
+DNS for `csprimer.org` is managed in Cloudflare with the following configuration:
+
+```text
+csprimer.org        CNAME  b3e9b5f5fbc27da1.vercel-dns-017.com  DNS only (Grey Cloud)
+www.csprimer.org    CNAME  b3e9b5f5fbc27da1.vercel-dns-017.com  DNS only (Grey Cloud)
+_vercel             TXT    vc-domain-verify=...                  DNS only
+```
+
+#### Recommended: "DNS only" (Grey Cloud)
+- **Why**: Cloudflare operates purely as a lightning-fast authoritative DNS provider. Requests resolve directly to Vercel's global Anycast Edge Network.
+- **Advantages**:
+  1. Zero risk of proxy interference with client module hydration or ViewTransitions.
+  2. Eliminates double-proxy latency (Browser $\rightarrow$ Cloudflare $\rightarrow$ Vercel).
+  3. Vercel automatically manages TLS certificates, HTTP/2, HTTP/3, and edge routing.
+
+#### If Switching to "Proxied" (Orange Cloud):
+If you ever enable Cloudflare's HTTP proxy for WAF or custom page rules, you **must** configure these settings:
+1. **SSL/TLS Encryption Mode**: Set to **Full (Strict)**. (Flexible mode causes an infinite 301/308 redirect loop).
+2. **Rocket Loader**: **OFF**. (Rocket Loader intercepts module scripts and breaks Astro ViewTransitions lifecycle events).
+3. **Auto Minify (HTML/JS/CSS)**: **OFF**. (Vite already minifies; Cloudflare's HTML minifier strips inline visualizer JSON payloads).
+4. **Polish / Mirage**: **OFF**. (Images are hosted on Cloudinary and should not be re-compressed).
+
+---
+
+### 8.5 Cloudinary Image Pipeline & Automatic Lazy-Loading
+
+All article screenshots, architectural diagrams, and illustrations are hosted on Cloudinary:
+
+#### URL Transformation Pattern:
+```text
+https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/<public-id>
+```
+- **`f_auto`**: Delivers modern **AVIF** to Chrome, Firefox, and Safari 16+ (saving ~30–50% bandwidth compared to WebP), with automatic WebP/PNG fallbacks.
+- **`q_auto`**: AI-driven perceptual compression balancing visual clarity and payload size.
+- **`w_800`**: Responsive width constraint preventing desktop-resolution downloads on mobile devices.
+- **CMS Automation**: Tab 9 of `npm run admin` and `scripts/scaffold.mjs` automatically inject `/f_auto,q_auto,w_800/` into generated Markdown image tags.
+
+#### AST Lazy Loading Plugin (`rehypeLazyImages`):
+Configured in `astro.config.mjs` across both MDX and Markdown AST pipelines:
+- Every `<img>` tag rendered from markdown automatically receives `loading="lazy"` and `decoding="async"`.
+- Prevents off-screen article images from competing with critical CSS/JS during page load.
+- Preconnect hints (`<link rel="preconnect" href="https://res.cloudinary.com" />`) are embedded in `Base.astro` for instant TLS handshakes.
+
+---
+
+## 9. Performance & Scale Engineering Guide
+
+This section explains how the platform achieves sub-second builds and fluid client transitions while scaling from 300 to 800+ articles and 200–500 DSA problem visualizers.
+
+### 9.1 Dynamic Micro-Chunking for 200–500 DSA Visualizers
+
+#### The Problem:
+If an Astro site statically imports hundreds of algorithm definitions, Vite bundles them into a single monolithic JavaScript file (`index.*.js`). Every page visitor would download the code for all 500 algorithms, causing massive bundle bloat and sluggish first-contentful paint.
+
+#### The Architectural Solution:
+In `src/components/features/visualizer/engine/visualizer-controller.ts`:
+- Negative globs exclude internal builder utilities from the loader:
+  ```typescript
+  const modules = import.meta.glob([
+    '../../../../problems/algorithms/*.ts',
+    '!**/index.ts',
+    '!**/builder.ts',
+    '!**/types.ts'
+  ]);
+  ```
+- Each algorithm compiles into its own independent micro-chunk (`~2–3 KB` each, e.g. `02-two-sum.*.js`).
+- When a user navigates to an article containing `<AlgoVisualizer problemId="two-sum" />`, only that single micro-chunk is fetched asynchronously on demand.
+- Adding 500 new DSA articles has **zero impact** on the base client bundle size.
+
+---
+
+### 9.2 Main-Thread Infinite Loop & Memory Guardrails
+
+To protect against browser lockups during user testing or complex recursions:
+- **`MAX_STEPS = 300`**: Enforced in `StepBuilder.addStep()` (`src/problems/algorithms/builder.ts`).
+- If an algorithm enters a runaway loop or excessive state transitions on custom user inputs, step generation halts safely with a console warning rather than crashing the visitor's browser tab.
+
+---
+
+### 9.3 Client-Side SPA Lifecycle & ViewTransitions Safety
+
+Astro's `<ViewTransitions />` turns navigation into a client-side Single Page Application (SPA). The HTML `<body>` is swapped while JavaScript globals (`window`, `document`) persist.
+
+#### Contributor Rules for Client Scripts:
+
+1. **Always Listen to `astro:page-load`**:
+   - ❌ Never use `document.addEventListener("DOMContentLoaded", init)` alone (it will not fire when navigating between pages).
+   - ❌ Never run `init()` at module top-level AND in `astro:page-load` (causes double-initialization).
+   - ✅ Always use:
+     ```javascript
+     document.addEventListener("astro:page-load", () => {
+       initComponent();
+     });
+     ```
+
+2. **Always Clean Up Global Window & Document Listeners**:
+   - Attaching anonymous listeners to `window` or `document` inside an `astro:page-load` hook creates memory leaks and duplicate triggers on every page visit.
+   - **Pattern A: AbortController (Recommended)**
+     ```javascript
+     let abortController = new AbortController();
+
+     document.addEventListener("astro:before-swap", () => {
+       abortController.abort();
+       abortController = new AbortController();
+     });
+
+     window.addEventListener("resize", handleResize, { signal: abortController.signal });
+     ```
+   - **Pattern B: Named Handler Unmounting**
+     ```javascript
+     window.removeEventListener("keydown", window.__myHandlerRef);
+     window.__myHandlerRef = handleKeyDown;
+     window.addEventListener("keydown", handleKeyDown);
+     ```
+
+3. **Debounce Scroll & Resize with `requestAnimationFrame`**:
+   - In components like `TableOfContents.astro`, scroll calculations are wrapped in `requestAnimationFrame` to eliminate layout thrashing and maintain 60 FPS scrolling.
+
+---
+
+### 9.4 Google Analytics 4 (GA4) Virtual Pageview Tracking
+
+Because Astro swaps page content without a full document reload:
+- Standard GA4 tracking tags only fire on the initial hard page load.
+- In `src/layouts/Base.astro`, an `astro:page-load` listener dispatches virtual `page_view` events:
+  ```javascript
+  let isFirstLoad = true;
+  document.addEventListener("astro:page-load", () => {
+    NProgress.done();
+    if (isFirstLoad) {
+      isFirstLoad = false;
+      return;
+    }
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "page_view", {
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  });
+  ```
+- This ensures 100% accurate traffic analytics across all 500+ articles without double-counting the initial visit.
+
+---
+
+## 10. Client State & LocalStorage Schema
+
+The platform persists user progress and interactive states directly in browser `localStorage`. Below is the complete specification:
+
+| Storage Key | Data Type | Purpose | Where Used |
+| :--- | :--- | :--- | :--- |
+| **`roadmap_progress`** | `Record<string, boolean>` | Map of completed article slugs (e.g. `{"arrays-intro": true}`) | Roadmaps, Course Drawer, and Article completion buttons |
+| **`ib_starred`** | `string[]` | Array of starred interview question IDs (e.g. `["101", "102"]`) | Interview Bytes, Filter pills, and Anki Revision Modal |
+| **`anki_history`** | `Record<string, any>` | Spaced repetition flashcard session scores, intervals, and dates | Anki Revision Modal (`/revision`) |
+| **`revision_planner_data`** | `Record<string, any>` | User's custom revision schedule, checkboxes, and notes | Revision Planner (`/revision`) |
+
 

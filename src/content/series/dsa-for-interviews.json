@@ -21,25 +21,25 @@
           "type": "articles",
           "url": "dsa-for-interviews-range-sum-query",
           "title": "Range Sum Query",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-equilibrium-point",
           "title": "Equilibrium Point",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-find-the-highest-altitude",
           "title": "Find the Highest Altitde",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-flipping-game",
           "title": "Flipping Game",
-          "status": "in-progress"
+          "status": "planned"
         }
       ]
     },
@@ -50,19 +50,19 @@
           "type": "articles",
           "url": "dsa-for-interviews-two-sum",
           "title": "Two Sum",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-count-elements-with-maximum-frequency",
           "title": "Count Elements With Maximum Frequency",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-find-players-with-zero-or-one-losses",
           "title": "Find Players With Zero or One Losses",
-          "status": "in-progress"
+          "status": "planned"
         }
       ]
     },
@@ -73,43 +73,43 @@
           "type": "articles",
           "url": "dsa-for-interviews-valid-pallindrome",
           "title": "Valid Pallindrome",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-two-sum-2",
           "title": "Two Sum (2)",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-square-of-sorted-array",
           "title": "Square of Sorted Array",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-sort-colors",
           "title": "Sort Colors",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-partition-labels",
           "title": "Partition Labels",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-merge-sorted-array",
           "title": "Merge Sorted Array",
-          "status": "in-progress"
+          "status": "planned"
         },
         {
           "type": "articles",
           "url": "dsa-for-interviews-3-sum-closest",
           "title": "3 Sum Closest",
-          "status": "in-progress"
+          "status": "planned"
         }
       ]
     },
@@ -120,7 +120,42 @@
           "type": "articles",
           "url": "dsa-for-interviews-max-sum-subarray-of-size-k",
           "title": "Max Sum Subarray of Size K",
-          "status": "in-progress"
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-maximum-average-subarray",
+          "title": "Maximum Average Subarray",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-substring-of-size-3-with-different-characters",
+          "title": "Substring of size 3 with different characters",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-find-k-beauty-of-number",
+          "title": "Find K beauty of number",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "subheading": "Variable Sized Sliding Window",
+      "link": [
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-minimum-size-subarray-sum",
+          "title": "Minimum Size Subarray Sum",
+          "status": "planned"
+        },
+        {
+          "type": "articles",
+          "url": "dsa-for-interviews-maximum-length-substring-with-2-occurrences",
+          "title": "Maximum Length Substring With 2 Occurrences",
+          "status": "planned"
         }
       ]
     }

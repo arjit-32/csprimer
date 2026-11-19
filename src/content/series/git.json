@@ -117,15 +117,21 @@
   "resources": [
     {
       "title": "Learn Git the Hard Way",
-      "url": "https://leanpub.com/learngitthehardway"
+      "url": "https://leanpub.com/learngitthehardway",
+      "description": ""
     },
     {
       "title": "Git Visualization",
-      "url": "https://git-school.github.io/visualizing-git/#free"
+      "url": "https://git-school.github.io/visualizing-git/#free",
+      "description": ""
     },
     {
       "title": "Oh Shit, Git",
-      "url": "https://ohshitgit.com/"
+      "url": "https://ohshitgit.com/",
+      "description": ""
     }
-  ]
+  ],
+  "type": "course",
+  "status": "re-visiting",
+  "featured": false
 }
