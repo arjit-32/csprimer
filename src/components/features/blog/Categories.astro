@@ -493,4 +493,11 @@ const categories = [
   }
 
   document.addEventListener("astro:page-load", initStructuredTree);
+
+  document.addEventListener("astro:before-swap", () => {
+    if (rotateTimer) {
+      clearInterval(rotateTimer);
+      rotateTimer = null;
+    }
+  });
 </script>

@@ -24,7 +24,7 @@ export default defineConfig({
   site: "https://csprimer.org",
   trailingSlash: "never",
   prefetch: {
-    defaultStrategy: "hover",
+    defaultStrategy: "tap",
   },
   image: process.env.NODE_ENV === "development" ? { service: passthroughImageService() } : {},
   integrations: [

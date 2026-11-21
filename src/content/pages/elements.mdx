@@ -1353,15 +1353,6 @@ Edge caching, routing rules, and security headers are configured at the reposito
       ]
     },
     {
-      "source": "/pdfs/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },

@@ -9,35 +9,45 @@ draft: false
 year: 2025
 ---
 
-<div className="hidden sm:block border rounded-xl shadow-md overflow-hidden my-8">
+<div className="hidden sm:block border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm overflow-hidden my-8">
   <iframe
-    src="/pdfs/compilers.pdf#zoom=85"
+    src="https://drive.google.com/file/d/1s7GJ0ZTAVy-mKvYvWYIgN3meorwmzfhj/preview"
     width="100%"
-    height="500px"
-    className="w-full h-[500px] border-none"
-    title="Embedded PDF Document"
+    height="550px"
+    loading="lazy"
+    allow="autoplay"
+    className="w-full h-[550px] border-none"
+    title="Compiler Design Notes PDF Preview"
   />
+  <div className="p-3 bg-gray-50 dark:bg-zinc-800/50 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center text-sm">
+    <span className="text-gray-600 dark:text-gray-400">Viewing via Google Drive</span>
+    <a
+      href="https://drive.google.com/file/d/1s7GJ0ZTAVy-mKvYvWYIgN3meorwmzfhj/view?usp=sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:underline font-medium"
+    >
+      Open Full PDF in Google Drive ↗
+    </a>
+  </div>
 </div>
 
-<div className="block sm:hidden bg-white border rounded-xl shadow-md p-5 my-8 text-center">
-  <div className="text-3xl mb-3">📚</div>
-  <p className="text-base text-gray-800 font-medium mb-2">
-    Oops! PDF viewing isn't supported well on mobile. 📱
+<div className="block sm:hidden bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm p-6 my-8 text-center">
+  <div className="text-4xl mb-3">📚</div>
+  <p className="text-base text-gray-800 dark:text-gray-200 font-semibold mb-2">
+    Compiler Design Handwritten Notes
   </p>
-  <p className="text-sm text-gray-600 mb-4">
-    Tap below to open or download the full notes as a PDF.
+  <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">
+    Hosted on Google Drive for mobile-optimized reading, zooming, and downloading.
   </p>
- <div className="not-prose text-center my-6">
-  <a
-    href="/pdfs/compilers.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-block bg-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full shadow hover:bg-blue-700 transition-colors duration-200"
-  >
-    🔗 Open PDF Notes
-  </a>
-</div>
-
-
-
+  <div className="not-prose">
+    <a
+      href="https://drive.google.com/file/d/1s7GJ0ZTAVy-mKvYvWYIgN3meorwmzfhj/view?usp=sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow transition-colors"
+    >
+      🔗 Open in Google Drive
+    </a>
+  </div>
 </div>
