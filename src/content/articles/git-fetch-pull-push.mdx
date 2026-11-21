@@ -109,7 +109,7 @@ git pull origin master
 
 ### Pull with Rebase
 
-To avoid extra merge commits when both your local branch and remote branch have diverged, use `--rebase`:
+By default, running `git pull` performs a merge commit if remote and local have diverged. To maintain a clean linear history without cluttering merge commits, use `--rebase`:
 
 ```bash
 git pull --rebase origin master
@@ -127,8 +127,67 @@ git checkout -b feature
 echo 'Added new feature' >> file
 git commit -am 'Feature added'
 
-# Push feature branch to origin:
+# Push feature branch to origin and configure upstream tracking:
 git push -u origin feature
 ```
 
-Now the `feature` branch is available in the remote repository for team members and pull requests.
+### What Does `-u` (`--set-upstream`) Do?
+
+The `-u` (or `--set-upstream`) flag links your local `feature` branch to `origin/feature` on the remote server. Git records this tracking relationship in `.git/config`:
+
+- Once set, you no longer need to type `git push origin feature` or `git pull origin feature`.
+- You can simply type `git push` or `git pull`.
+- `git status` will accurately inform you: `Your branch is ahead of 'origin/feature' by 1 commit`.
+
+---
+
+## 4. Handling Rejected Pushes (`[rejected - non-fast-forward]`)
+
+A common scenario in team environments: you run `git push origin main` and Git refuses:
+
+```text
+! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/organization/project.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref.
+```
+
+### How to Resolve Safely:
+
+1. **Fetch incoming remote changes**:
+   ```bash
+   git fetch origin
+   ```
+2. **Inspect what changed on remote**:
+   ```bash
+   git log HEAD..origin/main --oneline
+   ```
+3. **Rebase your local commits on top of the remote tip**:
+   ```bash
+   git pull --rebase origin main
+   ```
+4. **Push cleanly**:
+   ```bash
+   git push origin main
+   ```
+
+---
+
+## 5. Summary: Fetch vs Pull vs Push
+
+| Command | Action | Working Directory | Remote Server |
+| :--- | :--- | :--- | :--- |
+| **`git fetch`** | Downloads remote commits into local tracking cache (`origin/*`). | **Untouched** (safe to run anytime) | Unchanged (read-only) |
+| **`git pull`** | Downloads remote commits **and integrates them** into active branch. | **Updated** (may produce merge commits or conflicts) | Unchanged (read-only) |
+| **`git push`** | Uploads local branch commits to the remote repository. | Untouched | **Updated** with new commits |
+
+---
+
+## 6. Housekeeping: Pruning Stale Remote Branches
+
+When teammates delete merged branches on GitHub, your local repository still retains their remote-tracking pointers (`origin/feature-xyz`). Clean up stale tracking branches with:
+
+```bash
+git remote prune origin
+```

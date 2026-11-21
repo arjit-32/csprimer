@@ -74,3 +74,18 @@ While Git is the command-line version control tool running locally on your compu
 - **Fast Branching**: Branching in Git takes constant `O(1)` time, whereas CVS and SVN require duplicating files in `O(N)` time.
 - **Project Snapshots**: Git stores changes as complete snapshots of the entire project, rather than tracking file-by-file diffs like older systems.
 - **Cryptographic Integrity**: Changes are identified by cryptographic hash numbers (e.g. `a1b2c3d4`) instead of arbitrary version numbers, ensuring tamper-proof security.
+
+---
+
+## 7. Inside the `.git` Directory: How Git Stores Everything
+
+When you initialize a repository with `git init`, Git creates a hidden `.git` folder. This is Git's complete database:
+
+| Component | Description |
+| :--- | :--- |
+| **`HEAD`** | Text file pointing to your active branch (e.g. `ref: refs/heads/main`). |
+| **`refs/heads/`** | Small 41-byte text files holding the exact commit SHA for each branch pointer. |
+| **`index`** | Binary cache file representing the Staging Area between disk and repository. |
+| **`objects/`** | Content-addressable object store holding **Blobs** (files), **Trees** (directories), and **Commits** (snapshots). |
+
+Because branches and tags are just tiny text files holding a 40-character hash, branching, tagging, and switching operations are virtually instant!

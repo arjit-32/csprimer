@@ -1,0 +1,138 @@
+---
+title: Typography for Engineers
+meta_title: "Typography for Engineers: Hierarchy, Scales & Alignment | CS Primer"
+description: "Master typography in software interfaces: modular type scales, inverse line-height formulas, optimal line lengths (measure), and tabular number alignment."
+author: Arjit Sharma
+series: ui
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Over 90% of information in modern web and mobile software is communicated through written text.
+
+You can design an elegant backend architecture, but if your typography has poor contrast, suffocating line heights, or chaotic sizing, users will experience subtle eye fatigue and cognitive friction. Typography is not merely picking a stylish font—it is the engineering of text for **rapid scanning, legibility, and visual hierarchy**.
+
+---
+
+## 1. Interactive Type Scale & Tabular Explorer
+
+A modular type scale multiplies a base font size (typically `16px`) by a fixed mathematical ratio (such as `1.25` — a Major Third scale). This creates natural, harmonious hierarchy between headers and body copy.
+
+Step through the interactive visualizer below to see how a modular scale creates natural hierarchy, and witness how tabular numbers solve column jitter in data tables:
+
+<UIUXVisualizer scenario="type-scale" title="Modular Type Scale & Typography" />
+
+---
+
+## 2. Typeface Classifications for Software
+
+Digital applications rely on three primary typeface categories:
+
+| Classification | Visual Characteristics | Recommended Engineering Use |
+| :--- | :--- | :--- |
+| **Sans-Serif** | Clean, geometric, neutral (`Inter`, `SF Pro`, `Roboto`) | Default UI screens, buttons, navigation, dashboards |
+| **Monospace** | Every character has identical width (`JetBrains Mono`, `Fira`) | Code blocks, timestamps, financial tables, counters |
+| **Serif** | Classical decorative brackets (`Merriweather`, `Georgia`) | Editorial long-form reading, documentation essays |
+
+> **Developer Rule**: Stick to **one solid Sans-Serif font** (or modern system font stacks) for your UI, and **one Monospace font** for technical data. Avoid mixing more than two typefaces in a single product.
+
+---
+
+## 3. The Inverse Line-Height Rule
+
+Line height (leading) governs the vertical distance between lines of text.
+
+A frequent developer mistake is applying a uniform `line-height: 1.5` everywhere.
+
+### The Golden Formula:
+- **Headings need TIGHT line height ($1.1 - 1.25$)**: Because headline fonts are large, a $1.5$ line height leaves enormous, awkward gaps between wrapped lines.
+- **Body text needs RELAXED line height ($1.5 - 1.6$)**: Small text squeezed together causes eye fatigue as the reader's eye jumps between lines.
+
+```css
+/* Headline: Tight line height */
+h1 {
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.15;  /* ~41px (Tailwind: leading-tight) */
+  letter-spacing: -0.02em; /* tracking-tight */
+}
+
+/* Body: Comfortable reading line height */
+p {
+  font-size: 1rem;    /* 16px */
+  line-height: 1.6;   /* 25.6px (Tailwind: leading-relaxed) */
+}
+```
+
+---
+
+## 4. Line Length: The 45–75 Character Measure
+
+If a line of text spans the full width of an ultrawide desktop monitor (e.g. 1920px), reading becomes exhausting because the user's eye struggles to find the start of the next line.
+
+- **Optimal Reading Width**: **45 to 75 characters per line** (including spaces).
+- **The CSS Solution**: Use the `ch` unit, which corresponds to the width of the `0` character:
+
+```css
+.article-body {
+  max-width: 65ch; /* Perfectly constrains line length for comfortable reading */
+}
+```
+
+In Tailwind CSS:
+```html
+<article class="max-w-prose leading-relaxed">
+  <p>Long form content constrained to optimal reading width...</p>
+</article>
+```
+
+---
+
+## 5. Tabular Numbers: The Secret for Data Alignment
+
+By default, fonts use **proportional numbers**, meaning the digit `1` is much narrower than the digit `8`. In financial tables, timers, or live counters, this causes jagged vertical alignment and layout jitter:
+
+<div class="my-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+  
+  <div class="p-4 rounded-xl border border-rose-200 dark:border-rose-900/40 bg-rose-50/30 dark:bg-rose-950/20">
+    <div class="text-[10px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 mb-2">
+      Proportional Numbers (Columns Jitter)
+    </div>
+    <div class="space-y-1.5 text-xs text-rose-900 dark:text-rose-200 font-sans">
+      <div class="flex justify-between border-b border-rose-200/60 pb-1"><span>Request A:</span><span>11.1 ms</span></div>
+      <div class="flex justify-between border-b border-rose-200/60 pb-1"><span>Request B:</span><span>88.8 ms</span></div>
+      <div class="flex justify-between"><span>Request C:</span><span>18.1 ms</span></div>
+    </div>
+  </div>
+
+  
+  <div class="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/30 dark:bg-emerald-950/20">
+    <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 mb-2">
+      Tabular Numbers (Pixel Aligned)
+    </div>
+    <div class="space-y-1.5 text-xs text-emerald-900 dark:text-emerald-200 font-mono tabular-nums">
+      <div class="flex justify-between border-b border-emerald-200/60 pb-1"><span>Request A:</span><span>11.1 ms</span></div>
+      <div class="flex justify-between border-b border-emerald-200/60 pb-1"><span>Request B:</span><span>88.8 ms</span></div>
+      <div class="flex justify-between"><span>Request C:</span><span>18.1 ms</span></div>
+    </div>
+  </div>
+</div>
+
+```css
+/* Enable fixed-width numerals for all digits 0-9 */
+.financial-table td {
+  font-variant-numeric: tabular-nums;
+}
+```
+
+In Tailwind CSS:
+```html
+<span class="tabular-nums font-mono">1,429.50 USD</span>
+```
+
+---
+
+## 6. Letter Spacing (Tracking) Guidelines
+
+- **Large Bold Headings**: Apply subtle negative tracking (`letter-spacing: -0.02em` / `tracking-tight`). Large glyphs naturally feel too spaced out.
+- **All-Caps Badges & Labels**: Apply generous positive tracking (`letter-spacing: 0.05em` to `0.1em` / `tracking-wider`). All-caps text is naturally dense and needs extra breathing room to remain legible.

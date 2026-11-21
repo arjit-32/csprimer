@@ -3,79 +3,89 @@
   "weight": 12,
   "title": "UI/UX for Developers",
   "image": "../../assets/images/thumbnails/ui-ux-for-developers.webp",
-  "subtitle": "UI/UX principles and design tools to create user-centered products.",
-  "description": "This series is short, sweet and enough to bridge the gap between development and design (for developers). Together, we'll cover core UI/UX principles and apply them to real project, like a phone specification website.",
+  "subtitle": "Develop product design taste and master UI/UX principles, design systems, and AI-native interfaces.",
+  "description": "A developer-first curriculum on UI/UX in the AI era. Learn how to develop sharp design taste, apply foundational UX laws, master visual hierarchy and color, build accessible components, and craft AI-powered interfaces.",
   "category": "Development",
   "navbar": [
     {
-      "subheading": "Foundations of UI/UX Design",
+      "subheading": "Foundations & Cognitive Design",
       "link": [
         {
           "type": "articles",
           "url": "ui-introduction-design",
-          "title": "Introduction to UI/UX Design"
+          "title": "Developer Design Sense & UI vs UX"
         },
         {
           "type": "articles",
           "url": "ui-design-philosophy-laws",
-          "title": "Design Philosophy & Laws"
+          "title": "Core Laws of UX & Mental Models"
         }
       ]
     },
     {
-      "subheading": "Design Tools & Techniques",
+      "subheading": "Visual Craft & Systems",
       "link": [
         {
           "type": "articles",
           "url": "ui-core-principles",
-          "title": "Mastering Core Design Principles"
+          "title": "Visual Hierarchy & The 8pt Grid"
         },
         {
           "type": "articles",
-          "url": "ui-figma-intro",
-          "title": "Introduction to Figma"
+          "url": "ui-typography-and-spacing",
+          "title": "Typography for Engineers"
+        },
+        {
+          "type": "articles",
+          "url": "ui-color-and-contrast",
+          "title": "Color Systems & Accessibility"
         }
       ]
     },
     {
-      "subheading": "UI/UX Workflow for Developers",
+      "subheading": "Components & Interaction",
       "link": [
         {
           "type": "articles",
-          "url": "ui-sketching",
-          "title": "Sketching"
+          "url": "ui-components-and-forms",
+          "title": "Component States & Form UX"
+        }
+      ]
+    },
+    {
+      "subheading": "Workflow & The AI Era",
+      "link": [
+        {
+          "type": "articles",
+          "url": "ui-design-workflow",
+          "title": "From Sketch to Production: A Case Study"
         },
         {
           "type": "articles",
-          "url": "ui-userflows-sitemaps",
-          "title": "Userflows and Sitemaps"
-        },
-        {
-          "type": "articles",
-          "url": "ui-wireframes",
-          "title": "Wireframes"
-        },
-        {
-          "type": "articles",
-          "url": "ui-final-design",
-          "title": "Final UI Design"
+          "url": "ui-ai-design-engineering",
+          "title": "UI/UX in the AI Era: Generative UI & Patterns"
         }
       ]
     }
   ],
   "resources": [
     {
-      "title": "Udemy Course",
-      "url": "https://www.udemy.com/course/complete-web-designer-mobile-designer-zero-to-mastery/"
+      "title": "Refactoring UI",
+      "url": "https://www.refactoringui.com/"
     },
     {
-      "title": "100 Daily UI challenges",
-      "url": "https://www.dailyui.co/"
+      "title": "Laws of UX",
+      "url": "https://lawsofux.com/"
     },
     {
-      "title": "Practical-UI book",
+      "title": "Practical UI",
       "url": "https://www.practical-ui.com/"
+    },
+    {
+      "title": "Web Content Accessibility Guidelines (WCAG)",
+      "url": "https://www.w3.org/WAI/standards-guidelines/wcag/"
     }
   ],
-  "time": ""
+  "time": "",
+  "status": "re-visiting"
 }

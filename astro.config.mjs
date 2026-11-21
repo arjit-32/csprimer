@@ -45,6 +45,7 @@ export default defineConfig({
         "@/components/features/editor/TryCode.astro",
         "@/components/features/visualizer/AlgoVisualizer.astro",
         "@/visualizations/git/GitVisualizer.astro",
+        "@/visualizations/ui-ux/UIUXVisualizer.astro",
       ],
     }),
     mdx({

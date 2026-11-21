@@ -31,17 +31,24 @@ Step through the interactive timeline below to see how Git lifts feature commits
 
 ---
 
-## 2. Rebase in Action
+## 2. How Git Rebase Works Under the Hood
+
+When you execute `git rebase master` while on `feature1`:
+
+1. **Find Common Ancestor**: Git determines the common base commit (merge-base) where `feature1` originally diverged from `master`.
+2. **Generate Patches**: Git saves each unique commit on `feature1` as a temporary patch file in `.git/rebase-apply/` (or `.git/rebase-merge/`).
+3. **Reset Branch**: Git resets the current branch (`feature1`) to point directly to the tip of `master`.
+4. **Replay Commits**: Git applies each saved patch one by one onto the new base. Each replayed commit receives a **new SHA hash** because its parent commit has changed.
+
+---
+
+## 3. Rebase in Action
 
 Suppose you have a `feature1` branch based on an older `master` commit. Before merging, you want to **update it with the latest `master` changes**:
 
 ```bash
 git checkout feature1
 git rebase master  # Rebase feature1 onto the latest master
-
-# If conflicts occur, resolve them in files, then:
-git add .
-git rebase --continue
 ```
 
 After rebasing, this is how your codebase appears:
@@ -60,7 +67,64 @@ git log --all --graph --oneline
 
 ---
 
-## 3. The Golden Rule of Rebasing
+## 4. Resolving Conflicts During a Rebase
+
+If a replayed commit modifies code that was also changed in upstream `master`, Git temporarily pauses the rebase and informs you of the conflict:
+
+```bash
+# 1. Inspect the conflicted files
+git status
+
+# 2. Open the file, resolve conflict markers (<<<<<<<, =======, >>>>>>>), and save
+
+# 3. Stage the resolved files (do NOT run git commit!)
+git add <resolved-file>
+
+# 4. Continue replaying remaining commits
+git rebase --continue
+```
+
+### Useful Rebase Control Commands
+
+- **`git rebase --continue`**: Resumes the rebase after resolving conflicts and staging files.
+- **`git rebase --skip`**: Skips the current patch entirely (useful if the upstream branch already incorporated the exact change).
+- **`git rebase --abort`**: Aborts the entire rebase process and restores your branch to its exact state before the rebase started.
+
+---
+
+## 5. Pushing Rebased Branches: Safe Force-Pushing
+
+Because rebasing rewrites commit hashes, attempting a normal `git push` to your remote feature branch will be rejected with a `[rejected - non-fast-forward]` error.
+
+### Never Use Blind `--force`
+
+```bash
+# DANGEROUS: Overwrites remote branch blindly, destroying teammates' work!
+git push --force origin feature1
+```
+
+### Always Use `--force-with-lease`
+
+```bash
+# SAFE: Checks that no one else pushed new commits to the remote branch before overwriting
+git push --force-with-lease origin feature1
+```
+
+`--force-with-lease` verifies that the remote ref matches what you last fetched. If a colleague pushed a new commit to your feature branch in the meantime, Git will refuse to overwrite it, protecting your team against accidental data loss.
+
+---
+
+## 6. Decision Matrix: Merge vs Rebase vs Squash
+
+| Strategy | Commit History Topology | SHA Hashes | Best Used When... |
+| :--- | :--- | :--- | :--- |
+| **`git merge`** | Preserves branching topology; adds an extra merge commit with two parents. | Preserves all original commit hashes untouched. | Merging major release branches or preserving the exact chronological sequence of a collaborative feature. |
+| **`git rebase`** | Linear, single-line commit history with zero clutter. | Rewrites commit hashes for all replayed commits. | Updating a local feature branch with the latest changes from `main` before opening a pull request. |
+| **`git squash`** | Compresses multiple small WIP commits into one single atomic commit. | Creates a brand new unified commit hash. | Preparing a clean, self-contained feature or bugfix commit for production review. |
+
+---
+
+## 7. The Golden Rule of Rebasing
 
 > **Never rebase commits that have been pushed to a public, shared branch!**
 

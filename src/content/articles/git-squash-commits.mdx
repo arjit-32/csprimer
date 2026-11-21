@@ -47,7 +47,7 @@ git rebase -i $(git rev-list --max-parents=0 HEAD) HEAD
 
 ### Step 2: Configure the Interactive TODO Sheet
 
-Git launches an editable file listing your commits:
+Git launches an editable file listing your commits in chronological order (oldest at the top):
 
 ```text
 pick f2b2b2 wip auth
@@ -55,25 +55,62 @@ squash f3c3c3 fix typo in token
 squash f4d4d4 forgot semicolon
 ```
 
-- **`pick`**: Keep the commit as is.
-- **`squash` (or `s`)**: Merge the commit with the previous one.
-- **`drop` (or `d`)**: Remove the commit from history.
+- **`pick` (or `p`)**: Keep the commit as is.
+- **`squash` (or `s`)**: Melds the commit into the previous one and prompts you to combine the commit messages.
+- **`fixup` (or `f`)**: Melds the commit into the previous one but **automatically discards its commit message** (ideal for typo and linting fixes).
+- **`drop` (or `d`)**: Deletes the commit from history entirely.
 
 ![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741781865/Untitled_12_yqrqgf.png)
 
 ### Step 3: Edit the Combined Commit Message
 
-After editing the file and saving it, Git prompts you to rewrite the commit message for the newly combined commit. Modify the message as needed, then continue:
+After editing and saving the TODO sheet, Git combines the diffs. If you used `squash`, Git opens your editor to write a clean, unified commit message:
 
-```bash
-git rebase --continue
+```text
+# This is a combination of 3 commits.
+# The first commit's message is:
+feat(auth): implement JWT authentication tokens
 ```
 
-### Step 4: Detached HEAD Notes
+Save and close the editor, and Git finalizes the rebase.
 
-- The **initial commit must be included** since every commit needs a base reference.
-- After rebasing, you may end up in a **detached HEAD** state because Git moves commits but doesn't update the branch pointer. To fix this:
+---
+
+## 4. Pro Tip: The Automated `--autosquash` Workflow
+
+Instead of manually editing commit hashes and changing `pick` to `fixup`, Git provides a streamlined automation workflow:
+
 ```bash
-git branch -f master
-git checkout master
+# 1. You discover a bug or typo related to a previous commit (e.g., e4f5a6b)
+# 2. Stage your fix
+git add src/auth/token.js
+
+# 3. Create an automated fixup commit linked directly to that target commit:
+git commit --fixup e4f5a6b
+# Git creates a commit with message "fixup! feat(auth): implement JWT"
+
+# 4. Run interactive rebase with --autosquash enabled:
+git rebase -i --autosquash origin/main
 ```
+
+Git automatically positions the fixup commit directly underneath `e4f5a6b` in the TODO list and marks it with `fixup` without requiring manual reordering!
+
+---
+
+## 5. Pushing Squashed Commits to Remote
+
+Because squashing combines commits and alters the historical SHA hashes of your branch, use `--force-with-lease` when updating your remote feature branch:
+
+```bash
+git push --force-with-lease origin feature-auth
+```
+
+---
+
+## 6. Local Squash vs GitHub "Squash and Merge"
+
+| Feature | Local Interactive Rebase (`git rebase -i`) | GitHub PR "Squash and Merge" |
+| :--- | :--- | :--- |
+| **Where it occurs** | Locally on your development branch before opening or updating a PR. | On GitHub's web interface when closing a pull request into `main`. |
+| **Granularity** | Highly flexible: you can squash 10 commits down to 2 or 3 atomic sub-features. | All commits in the PR are compressed into exactly 1 commit on `main`. |
+| **Local branch state** | Your local branch history is clean before pushing. | Your local feature branch remains unchanged; only `main` receives the squashed commit. |

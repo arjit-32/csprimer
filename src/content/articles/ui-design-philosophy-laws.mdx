@@ -1,0 +1,143 @@
+---
+title: Core Laws of UX & Mental Models
+meta_title: "Core Laws of UX & Cognitive Psychology for Developers | CS Primer"
+description: "Master the foundational psychological laws of UX: Jakob's Law, Fitts's Law, Hick's Law, Miller's Law, Postel's Law, Peak-End Rule, and the Doherty Threshold."
+author: Arjit Sharma
+series: ui
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Great software doesn't just execute correctly under the hood—it aligns seamlessly with human cognitive architecture.
+
+Decades of psychology and human-computer interaction (HCI) research have established fundamental laws that govern how people perceive, process, and act upon digital interfaces. Understanding these laws equips developers to build intuitive, low-friction applications.
+
+## Interactive Laws of UX Playground
+
+Explore the interactive playground below. Click through the cognitive principles (or use your keyboard arrow keys `←` and `→`) to see live component behavior and developer implementation code:
+
+<UIUXVisualizer scenario="ux-laws" title="Interactive Laws of UX Playground" />
+
+---
+
+## 1. Jakob’s Law (Mental Models & Familiarity)
+
+> *"Users spend most of their time on other sites and expect your site to work the same way."*
+
+When someone visits your application, they bring deeply ingrained mental models formed on Google, Amazon, YouTube, and GitHub. Placing navigation in unconventional places (such as a floating menu in the center of the viewport) disorients the user.
+
+![Jakobs-law-image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869226/zm333gszfssxwzypiviq.png)
+
+### Developer Heuristics:
+- **Navigation Placement**: Logo on top-left, primary navigation horizontal in the header or vertical in a left sidebar, user profile on top-right.
+- **Icon Semantics**: A magnifying glass means *Search*, a gear means *Settings*, a bell means *Notifications*. Never repurpose conventional icons.
+- **Keyboard Shortcuts**: `Cmd/Ctrl + K` opens the command palette; `Escape` closes modals and dropdowns.
+
+---
+
+## 2. Fitts’s Law (Ease of Interaction & Target Size)
+
+> *"The time required to rapidly move to a target area depends on the target's distance and its size."*
+
+```text
+T = a + b · log₂(1 + D / W)
+```
+
+Where `D` is the distance to the target and `W` is the target's width.
+
+![Fitts-law-image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869226/cark7qlddq492wez1bue.png)
+
+### Developer Heuristics:
+- **Minimum 48px Touch Targets**: On mobile screens, touch targets must be at least **44 × 44 pt** (Apple) or **48 × 48 dp** (Google). Even if the visual icon is 20px, use padding to expand the clickable hitbox.
+- **Isolate Destructive Actions**: Place high-frequency buttons in easy-to-reach thumb zones, while separating destructive actions (like "Delete Database") to prevent accidental taps.
+- **Desktop Viewport Edges**: Screen corners on desktop have infinite virtual width because the cursor stops at the display edge, making them ideal for menus and sidebars.
+
+---
+
+## 3. Hick’s Law (Simplifying Decision Making)
+
+> *"The time it takes to make a decision increases with the number and complexity of choices available."*
+
+```text
+T = b · log₂(n + 1)
+```
+
+When users face twenty competing options on a screen, cognitive paralysis sets in and completion rates collapse.
+
+![Hicks-law-image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869226/piftdf3kod3rrjpnczjv.png)
+
+### Developer Heuristics:
+- **Progressive Disclosure**: Show the critical 20% of options upfront. Place advanced parameters inside collapsible accordions or an "Advanced Settings" toggle.
+- **Smart Defaults**: Pre-select the most common configuration option (e.g., standard billing cycle, default cloud region).
+- **Stepped Flows**: Break complex forms into clean multi-step wizards rather than overwhelming the user with a single massive 30-field form.
+
+---
+
+## 4. Miller’s Law (Cognitive Load & Chunking)
+
+> *"The average person can hold only 7 (± 2) items in their working memory."*
+
+When people encounter dense walls of unformatted characters, working memory overloads. Chunking breaks large amounts of information into small, scannable units.
+
+![Millers-law-image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869227/cbkkbsj48yarajdhxeek.png)
+
+### Developer Heuristics:
+- **Chunked Inputs**: Auto-format phone numbers (`+1 (555) 123-4567`) and credit cards (`4242 4242 4242 4242`) as the user types.
+- **Categorization**: Group settings and dashboard metrics into distinct thematic cards (e.g. "Security", "Billing", "Notifications").
+
+---
+
+## 5. Postel’s Law (The Robustness Principle)
+
+> *"Be conservative in what you do, be liberal in what you accept from others."*
+
+In software interfaces, never demand rigid, unforgiving user inputs. Be liberal in accepting user input formats and sanitize them programmatically on the backend.
+
+![Postels-law-image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869226/k7aj5vo7woifmzrktko0.png)
+
+### Developer Heuristics:
+- **Forgiving Form Inputs**: If an input requests a phone number or date, accept spaces, hyphens, and slashes gracefully. Sanitize and store clean values behind the scenes.
+- **Fuzzy Search**: When a user makes a typo in a search query, show "Did you mean..." suggestions rather than a dead-end 0-results screen.
+
+---
+
+## 6. The Peak-End Rule
+
+> *"People judge an experience largely based on how they felt at its peak (the most intense point) and at its end."*
+
+Users do not calculate the mathematical average of an entire software session. They remember the high point (celebration, task success) and the final touchpoint (checkout confirmation, export completion).
+
+![Peak-End-Rule-Image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869227/dxvynmccysyux9crawxd.png)
+
+### Developer Heuristics:
+- **Turn Errors into Opportunities**: If a user searches for an unavailable item, don't show a generic 404 page—show intelligent recommendations or a friendly illustration.
+- **Celebrate Milestones**: Use delightful micro-interactions (subtle confetti, clean checkmark animations) when a user completes onboarding or deploys their first build.
+
+---
+
+## 7. The von Restorff Effect (Isolation Principle)
+
+> *"When multiple similar objects are present, the one that differs from the rest is most likely to be remembered."*
+
+Making an important action visually distinctive draws immediate focus. Conversely, making every button bright and colorful creates visual competition where nothing stands out.
+
+![von-Restorff-Effect-Image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869228/psloozwsgvymjsott58r.png)
+
+### Developer Heuristics:
+- **Pricing Tables**: Highlight the "Most Popular" or "Recommended" tier with an elevated border, subtle badge, and distinct accent color.
+- **Primary vs Secondary CTAs**: Have exactly **one** primary high-contrast button per screen. Render all secondary actions as outlined or ghost buttons.
+
+---
+
+## 8. The Doherty Threshold (Sub-400ms Responsiveness)
+
+> *"Productivity soars when computer and users interact at a pace (< 400ms) that ensures neither has to wait on the other."*
+
+When an interface delays response beyond 400ms without feedback, users perceive the system as frozen and repeatedly trigger actions.
+
+![Doherty-Threshold-Image](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1738869228/qr3ck2tkevmdjmitly57.png)
+
+### Developer Heuristics:
+- **Skeleton Screens**: Use animated pulse skeletons that mimic content shape rather than blank freezing screens.
+- **Optimistic UI**: Update state immediately on user action (e.g. toggling a star or like) and revert in the background if the network request fails.

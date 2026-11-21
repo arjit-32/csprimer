@@ -1,0 +1,246 @@
+---
+import { getUIUXScenario } from './scenarios';
+
+interface Props {
+  scenario: string;
+  title?: string;
+}
+
+const { scenario: scenarioId, title: customTitle } = Astro.props;
+const scenario = getUIUXScenario(scenarioId);
+
+if (!scenario) {
+  throw new Error(`UI/UX scenario "${scenarioId}" not found in src/visualizations/ui-ux/scenarios.ts`);
+}
+
+const resolvedTitle = customTitle || scenario.title;
+const steps = scenario.steps || [];
+const firstStep = steps[0] || { title: '', description: '', previewHtml: '' };
+---
+
+<div
+  class="uiux-viz my-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#181818] shadow-sm overflow-hidden transition-all focus:ring-2 focus:ring-indigo-500/40 outline-hidden"
+  data-scenario-id={scenarioId}
+  tabindex="0"
+  role="region"
+  aria-label={`UI/UX Visualization: ${resolvedTitle}`}
+>
+  <!-- Embedded Scenario Payload -->
+  <script is:inline type="application/json" class="uiux-viz-data" set:html={JSON.stringify({ steps })} />
+
+  <!-- Visualizer Header: Scenario Title + Interactive Tab Pills & Arrow Controls -->
+  <div class="px-4 py-3 bg-gray-50/90 dark:bg-[#1f1f1f] border-b border-gray-200 dark:border-gray-800 flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-2.5">
+      <div class="w-6 h-6 rounded-lg bg-indigo-100 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        </svg>
+      </div>
+      <div>
+        <h4 class="text-xs font-bold text-gray-900 dark:text-gray-100 m-0 leading-tight">
+          {resolvedTitle}
+        </h4>
+        <span class="uiux-step-title text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+          {firstStep.title}
+        </span>
+      </div>
+    </div>
+
+    <!-- Step / Tab Pills -->
+    <div class="flex items-center gap-2">
+      <div class="uiux-pills flex items-center gap-1.5 flex-wrap">
+        {steps.map((step, i) => (
+          <button
+            type="button"
+            class={`uiux-pill-btn px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
+              i === 0
+                ? 'bg-indigo-600 text-white shadow-2xs'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+            data-step-index={i}
+          >
+            {step.badge || `State ${i + 1}`}
+          </button>
+        ))}
+      </div>
+      <span class="uiux-step-count px-2 py-0.5 rounded-md bg-gray-100 dark:bg-[#252525] text-gray-600 dark:text-gray-300 font-mono text-[10px] font-semibold border border-gray-200 dark:border-gray-700">
+        1 / {steps.length}
+      </span>
+    </div>
+  </div>
+
+  <!-- Live Visual Stage -->
+  <div class="uiux-canvas p-6 min-h-[140px] bg-slate-50/70 dark:bg-[#141414] border-b border-gray-100 dark:border-gray-800/80 flex items-center justify-center">
+    <div class="uiux-preview-content w-full" set:html={firstStep.previewHtml} />
+  </div>
+
+  <!-- Bottom Panel: Code + Description + Arrow Buttons -->
+  <div class="px-4 py-3 bg-gray-50/90 dark:bg-[#1d1d1d] flex flex-col gap-2.5">
+    <!-- Top Row: Badge + Code / Arrow Controls -->
+    <div class="flex items-center justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-2">
+        <span class="uiux-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+          {firstStep.badge || 'Demo'}
+        </span>
+      </div>
+
+      <!-- Arrow Navigation -->
+      <div class="flex items-center gap-2 ml-auto">
+        <span class="text-[10px] text-gray-400 dark:text-gray-500 font-mono hidden sm:inline select-none">
+          Use <kbd class="px-1 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-[9px] border border-gray-300 dark:border-gray-700">←</kbd> <kbd class="px-1 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-mono text-[9px] border border-gray-300 dark:border-gray-700">→</kbd> keys
+        </span>
+        <button
+          type="button"
+          class="uiux-prev px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#252525] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#303030] text-xs font-semibold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-colors flex items-center gap-1"
+          aria-label="Previous state"
+          disabled
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span>Prev</span>
+        </button>
+        <button
+          type="button"
+          class="uiux-next px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed shadow-xs transition-transform active:scale-95 flex items-center gap-1"
+          aria-label="Next state"
+          disabled={steps.length <= 1}
+        >
+          <span>Next</span>
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Code Block Display -->
+    <div class="uiux-code-container w-full">
+      <pre class="uiux-code m-0 p-2.5 bg-gray-950 text-emerald-400 dark:text-emerald-300 font-mono text-[11px] rounded-lg overflow-x-auto border border-gray-800 leading-normal">{firstStep.code || ''}</pre>
+    </div>
+
+    <!-- Dedicated Full-Width Description (Never Cramped) -->
+    <div class="w-full">
+      <p class="uiux-desc text-xs text-gray-700 dark:text-gray-300 leading-relaxed m-0 font-normal">
+        {firstStep.description}
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import type { UIUXStep } from './types';
+
+  function initUIUXVisualizers() {
+    document.querySelectorAll('.uiux-viz').forEach((container) => {
+      if ((container as any)._mounted) return;
+      (container as any)._mounted = true;
+
+      const dataEl = container.querySelector('.uiux-viz-data');
+      if (!dataEl?.textContent) return;
+
+      const { steps }: { steps: UIUXStep[] } = JSON.parse(dataEl.textContent);
+      let current = 0;
+
+      const previewContent = container.querySelector('.uiux-preview-content');
+      const titleEl = container.querySelector('.uiux-step-title');
+      const badgeEl = container.querySelector('.uiux-badge');
+      const codeEl = container.querySelector('.uiux-code');
+      const descEl = container.querySelector('.uiux-desc');
+      const countEl = container.querySelector('.uiux-step-count');
+      const pills = container.querySelectorAll('.uiux-pill-btn');
+      const prevBtn = container.querySelector('.uiux-prev') as HTMLButtonElement;
+      const nextBtn = container.querySelector('.uiux-next') as HTMLButtonElement;
+
+      function update(stepIdx: number) {
+        if (stepIdx < 0 || stepIdx >= steps.length) return;
+        current = stepIdx;
+        const step = steps[current];
+
+        // Update pills
+        pills.forEach((pill, i) => {
+          if (i === current) {
+            pill.className = 'uiux-pill-btn px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer bg-indigo-600 text-white shadow-2xs';
+          } else {
+            pill.className = 'uiux-pill-btn px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700';
+          }
+        });
+
+        // Update counter & title
+        if (countEl) countEl.textContent = `${current + 1} / ${steps.length}`;
+        if (titleEl) titleEl.textContent = step.title;
+        if (descEl) descEl.textContent = step.description;
+
+        // Update badge
+        if (badgeEl) {
+          badgeEl.textContent = step.badge || `State ${current + 1}`;
+          if (step.badgeType === 'error') {
+            badgeEl.className = 'uiux-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800';
+          } else if (step.badgeType === 'success') {
+            badgeEl.className = 'uiux-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800';
+          } else if (step.badgeType === 'warning') {
+            badgeEl.className = 'uiux-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800';
+          } else {
+            badgeEl.className = 'uiux-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800';
+          }
+        }
+
+        // Update code
+        if (codeEl) {
+          codeEl.textContent = step.code || '';
+        }
+
+        // Update preview content
+        if (previewContent) {
+          previewContent.innerHTML = step.previewHtml;
+        }
+
+        // Update button states
+        if (prevBtn) prevBtn.disabled = current === 0;
+        if (nextBtn) nextBtn.disabled = current === steps.length - 1;
+      }
+
+      // Interactive mouse feedback on preview elements
+      previewContent?.addEventListener('click', (e) => {
+        const target = (e.target as HTMLElement).closest('button, [role="button"]') as HTMLElement | null;
+        if (target && !target.hasAttribute('disabled')) {
+          target.classList.add('scale-95');
+          setTimeout(() => target.classList.remove('scale-95'), 120);
+        }
+      });
+
+      // Pill button clicks
+      pills.forEach((pill) => {
+        pill.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = parseInt(pill.getAttribute('data-step-index') || '0', 10);
+          update(idx);
+        });
+      });
+
+      // Arrow navigation
+      prevBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        update(current - 1);
+      });
+      nextBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        update(current + 1);
+      });
+
+      // Keyboard arrow keys
+      container.addEventListener('keydown', (e: any) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          update(current - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          update(current + 1);
+        }
+      });
+    });
+  }
+
+  initUIUXVisualizers();
+  document.addEventListener('astro:page-load', initUIUXVisualizers);
+</script>

@@ -64,3 +64,23 @@ Alternatively, you can create a new branch at that commit to safely inspect it w
 ```bash
 git branch recovered-branch HEAD@{1}
 ```
+
+---
+
+## 3. How Reflog Differs from `git log`
+
+| Feature | `git log` | `git reflog` |
+| :--- | :--- | :--- |
+| **What it tracks** | The graph of commits starting from HEAD backwards through parent commits. | The chronological journal of everywhere HEAD or branch pointers have pointed locally. |
+| **Scope** | Shared across clones and pushes to remotes. | **Strictly local** (never pushed to GitHub or shared). |
+| **After `reset --hard`** | Abandoned commits disappear from the log. | Abandoned commits remain visible and recoverable. |
+
+---
+
+## 4. Reflog Lifecycle and Garbage Collection
+
+Reflogs are saved on your local machine inside `.git/logs/HEAD` and `.git/logs/refs/heads/`.
+
+- **Retention Window**: By default, unreachable commits tracked in the reflog are kept for **30 days**, while reachable entries are kept for **90 days**.
+- **Garbage Collection (`git gc`)**: When the retention period expires, Git's garbage collection process purges expired loose objects to save disk space.
+- As long as you notice a mistake within this window, `git reflog` can recover virtually any committed state!

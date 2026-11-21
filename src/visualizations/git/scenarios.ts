@@ -214,6 +214,53 @@ export const gitScenarios: Record<string, GitScenario> = {
     ],
   },
 
+  'gitignore': {
+    id: 'gitignore',
+    title: 'Ignoring Files with .gitignore',
+    defaultView: 'stages',
+    steps: [
+      {
+        title: 'Sensitive or Temporary Files on Disk',
+        command: 'echo "API_KEY=xyz" > .env && touch app.js',
+        description: 'Working tree contains private secrets (.env) and source files (app.js). Unignored secrets could leak to public remotes!',
+        stages: {
+          workingTree: [
+            { name: '.env', status: 'untracked' },
+            { name: 'app.js', status: 'untracked' },
+          ],
+          stagingArea: [],
+          repository: [],
+        },
+      },
+      {
+        title: 'Define Ignored Patterns in .gitignore',
+        command: 'echo ".env" > .gitignore',
+        description: 'Git reads .gitignore and automatically excludes matching files from git status and git add.',
+        stages: {
+          workingTree: [
+            { name: '.gitignore', status: 'untracked' },
+            { name: 'app.js', status: 'untracked' },
+          ],
+          stagingArea: [],
+          repository: [],
+        },
+      },
+      {
+        title: 'Stage and Commit Safe Files Only',
+        command: 'git add . && git commit -m "chore: setup repo and .gitignore"',
+        description: 'Only .gitignore and app.js are committed. Sensitive .env remains safely uncommitted on disk.',
+        stages: {
+          workingTree: [],
+          stagingArea: [],
+          repository: ['c1a2b3 (chore: setup repo with .gitignore)'],
+        },
+        commits: [{ id: 'c1a2b3', label: 'C1', message: 'Setup repo with .gitignore', parents: [], branch: 'main', status: 'created' }],
+        branches: [{ name: 'main', targetCommitId: 'c1a2b3' }],
+        head: { target: 'main', isDetached: false },
+      },
+    ],
+  },
+
   // 3. Cloning
   'cloning': {
     id: 'cloning',
@@ -356,6 +403,43 @@ export const gitScenarios: Record<string, GitScenario> = {
           { id: 'c4', label: 'C4', message: 'Experimental test (orphaned)', parents: ['c2'], branch: 'detached', status: 'orphaned' },
         ],
         branches: [{ name: 'master', targetCommitId: 'c3' }],
+        head: { target: 'master', isDetached: false },
+      },
+    ],
+  },
+
+  'branch-delete': {
+    id: 'branch-delete',
+    title: 'Deleting a Merged Branch',
+    defaultView: 'graph',
+    steps: [
+      {
+        title: 'Feature Merged into Master',
+        command: 'git branch --merged',
+        description: 'Feature work has been merged into master. Both master and feature point to commit C3.',
+        commits: [
+          { id: 'c1', label: 'C1', message: 'Base setup', parents: [], branch: 'master' },
+          { id: 'c2', label: 'C2', message: 'Feature work', parents: ['c1'], branch: 'master' },
+          { id: 'c3', label: 'C3', message: 'Merge feature into master', parents: ['c2'], branch: 'master' },
+        ],
+        branches: [
+          { name: 'master', targetCommitId: 'c3' },
+          { name: 'feature', targetCommitId: 'c3' },
+        ],
+        head: { target: 'master', isDetached: false },
+      },
+      {
+        title: 'Delete Pointer with git branch -d',
+        command: 'git branch -d feature',
+        description: 'Git deletes only the lightweight "feature" pointer file. All commits remain safely preserved in master!',
+        commits: [
+          { id: 'c1', label: 'C1', message: 'Base setup', parents: [], branch: 'master' },
+          { id: 'c2', label: 'C2', message: 'Feature work', parents: ['c1'], branch: 'master' },
+          { id: 'c3', label: 'C3', message: 'Merge feature into master', parents: ['c2'], branch: 'master', status: 'created' },
+        ],
+        branches: [
+          { name: 'master', targetCommitId: 'c3' },
+        ],
         head: { target: 'master', isDetached: false },
       },
     ],
@@ -1027,6 +1111,75 @@ export const gitScenarios: Record<string, GitScenario> = {
         description: 'Maintainers review code, automated tests pass, and your PR is merged into main!',
         customView: 'flow',
         metadata: { activeStage: 5 },
+      },
+    ],
+  },
+
+  'pr-merge-strategies': {
+    id: 'pr-merge-strategies',
+    title: 'Pull Request Merge Strategies',
+    defaultView: 'graph',
+    steps: [
+      {
+        title: 'Feature Branch PR Diverged from Main',
+        command: 'git log --graph --oneline',
+        description: 'The feature branch has commits F1 and F2, while main has progressed with M2.',
+        commits: [
+          { id: 'm1', label: 'M1', message: 'Initial base', parents: [], branch: 'main' },
+          { id: 'm2', label: 'M2', message: 'Production updates', parents: ['m1'], branch: 'main' },
+          { id: 'f1', label: 'F1', message: 'Feature step 1', parents: ['m1'], branch: 'feature' },
+          { id: 'f2', label: 'F2', message: 'Feature step 2', parents: ['f1'], branch: 'feature' },
+        ],
+        branches: [
+          { name: 'main', targetCommitId: 'm2' },
+          { name: 'feature', targetCommitId: 'f2' },
+        ],
+        head: { target: 'main', isDetached: false },
+      },
+      {
+        title: 'Strategy 1: Create a Merge Commit',
+        command: '# GitHub: "Create a merge commit"',
+        description: 'Preserves complete branch history with a two-parent merge commit joining both branches.',
+        commits: [
+          { id: 'm1', label: 'M1', message: 'Initial base', parents: [], branch: 'main' },
+          { id: 'm2', label: 'M2', message: 'Production updates', parents: ['m1'], branch: 'main' },
+          { id: 'f1', label: 'F1', message: 'Feature step 1', parents: ['m1'], branch: 'feature' },
+          { id: 'f2', label: 'F2', message: 'Feature step 2', parents: ['f1'], branch: 'feature' },
+          { id: 'mc', label: 'Merge', message: 'Merge pull request #42', parents: ['m2', 'f2'], branch: 'main', isMerge: true, status: 'created' },
+        ],
+        branches: [
+          { name: 'main', targetCommitId: 'mc' },
+        ],
+        head: { target: 'main', isDetached: false },
+      },
+      {
+        title: 'Strategy 2: Squash and Merge',
+        command: '# GitHub: "Squash and merge"',
+        description: 'Condenses F1 and F2 into a single atomic commit on main, discarding noisy intermediate commits.',
+        commits: [
+          { id: 'm1', label: 'M1', message: 'Initial base', parents: [], branch: 'main' },
+          { id: 'm2', label: 'M2', message: 'Production updates', parents: ['m1'], branch: 'main' },
+          { id: 'sq', label: 'PR #42', message: 'feat: add user profile (#42)', parents: ['m2'], branch: 'main', status: 'created' },
+        ],
+        branches: [
+          { name: 'main', targetCommitId: 'sq' },
+        ],
+        head: { target: 'main', isDetached: false },
+      },
+      {
+        title: 'Strategy 3: Rebase and Merge',
+        command: '# GitHub: "Rebase and merge"',
+        description: 'Replays individual feature commits F1 and F2 directly onto main without creating a merge commit.',
+        commits: [
+          { id: 'm1', label: 'M1', message: 'Initial base', parents: [], branch: 'main' },
+          { id: 'm2', label: 'M2', message: 'Production updates', parents: ['m1'], branch: 'main' },
+          { id: 'f1r', label: "F1'", message: 'Feature step 1', parents: ['m2'], branch: 'main' },
+          { id: 'f2r', label: "F2'", message: 'Feature step 2', parents: ['f1r'], branch: 'main', status: 'created' },
+        ],
+        branches: [
+          { name: 'main', targetCommitId: 'f2r' },
+        ],
+        head: { target: 'main', isDetached: false },
       },
     ],
   },

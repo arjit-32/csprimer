@@ -1,0 +1,89 @@
+---
+title: Component States & Form UX
+meta_title: "Component Architecture, States & Form UX | CS Primer"
+description: "Master component state machines, accessible focus indicators, forgiving form validation timing, and 48px touch targets for web and mobile interfaces."
+author: Arjit Sharma
+series: ui
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+In software engineering, UI components are fundamentally **state machines**.
+
+A button is never just a rectangular colored box with text; it transitions between resting, hovering, keyboard focusing, mouse pressing, loading, and disabled states. If any state is omitted or poorly designed, the interface feels unresponsive, broken, or inaccessible.
+
+---
+
+## 1. Interactive Component State Machine
+
+Every interactive element in your design system must handle distinct visual states.
+
+Step through the interactive state machine below to inspect the visual behavior, CSS pseudo-classes, and accessibility attributes for each component state. Move your mouse and click to experience live interactive feedback:
+
+<UIUXVisualizer scenario="component-states" title="Interactive Component State Machine" />
+
+---
+
+## 2. Keyboard Focus Rings: Never Use `outline: none`
+
+A notorious anti-pattern is writing `outline: none` to silence browser focus rings without providing a custom replacement. This completely blinds users navigating via keyboard Tab keys.
+
+### Modern Accessible Focus Pattern
+Use modern `:focus-visible` so focus rings appear for keyboard users, but stay hidden during mouse clicks:
+
+```css
+/* Accessible modern focus indicator */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+```
+
+In Tailwind CSS:
+```html
+<button class="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+  Submit
+</button>
+```
+
+---
+
+## 3. Form UX: "Reward Early, Punish Late"
+
+Forms are where users complete registrations, transactions, and core conversions. Poor form validation causes immediate drop-offs.
+
+<UIUXVisualizer scenario="form-ux" title="Form UX: Aggressive vs Forgiving Validation" />
+
+### Form UX Guidelines:
+- **Punish Late**: Never validate format errors while the user is actively typing. Validate only when the user finishes and leaves the input (`onBlur`) or submits.
+- **Reward Early**: Once an error has been shown, clear the error immediately as soon as the user corrects the input into a valid format.
+- **Explicit Labels**: Never use `placeholder` as a replacement for `<label>`. As soon as typing begins, placeholders vanish, forcing users to delete text just to remember what the field requested.
+
+---
+
+## 4. Touch Targets: Fitts's Law on Mobile
+
+Mobile fingers are much larger and less precise than desktop mouse pointers:
+
+<UIUXVisualizer scenario="touch-targets" title="Touch Targets & Mobile Thumb Zones" />
+
+If your visual icon is small (e.g. a 16px close `✕` icon), expand its interactive touch target without making the icon itself look huge:
+
+```css
+/* Expand clickable hitbox using pseudo-elements */
+.icon-button {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.icon-button::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+  left: -14px;
+  right: -14px; /* Hitbox expands to 48px x 48px */
+}
+```

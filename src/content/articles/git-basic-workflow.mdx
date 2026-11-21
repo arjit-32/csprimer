@@ -96,3 +96,38 @@ git diff --staged
 Step through the interactive stages below to see how Git diffs unstaged disk edits versus staged index snapshots:
 
 <GitVisualizer scenario="diff-stages" title="Inspecting Unstaged vs Staged Changes" />
+
+---
+
+## 7. Ignoring Files with `.gitignore`
+
+Not every file in your project should be tracked. Sensitive secrets (such as `.env`), massive dependency trees (`node_modules/`), build outputs (`dist/`, `target/`), and OS files (`.DS_Store`) should be ignored.
+
+Creating a `.gitignore` file in your repository root instructs Git to ignore these files completely:
+
+```text
+# Node dependencies
+node_modules/
+
+# Environment secrets
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+*.log
+```
+
+<GitVisualizer scenario="gitignore" title="Ignoring Files with .gitignore" />
+
+### How to Untrack an Already Committed File
+If a file was accidentally committed before being added to `.gitignore`, removing it from disk isn't necessary. You can remove it from Git tracking while keeping it safely on disk using `git rm --cached`:
+
+```bash
+# Untrack file from repository while keeping local copy on disk:
+git rm --cached .env
+
+# Commit the removal
+git commit -m "chore: stop tracking .env secret"
+```

@@ -1,0 +1,129 @@
+---
+title: Color Systems & Accessibility
+meta_title: "Color Systems, Dark Mode & WCAG Accessibility | CS Primer"
+description: "Master color theory for developers: the 60-30-10 rule, functional palettes, dark mode surface elevation, and WCAG AA/AAA contrast compliance."
+author: Arjit Sharma
+series: ui
+categories: ["Development"]
+draft: false
+year: 2025
+---
+
+Color is one of the most powerful emotional and cognitive tools in user interface design.
+
+However, many developers treat color as an afterthought—plucking random hex codes from color pickers, generating unreadable low-contrast text, or breaking accessibility standards. A production-ready color architecture requires a **systematic functional palette** that guarantees legibility, optical balance, and legal compliance.
+
+---
+
+## 1. The 60-30-10 Color Balance Rule
+
+Originating in interior architecture, the **60-30-10 Rule** provides an infallible mathematical ratio for balancing color in digital software:
+
+1. **60% Dominant Neutral**: Your page background canvas (`slate-50` / `#121212`). Calms the eye and establishes the ambient tone.
+2. **30% Secondary Surface**: Cards, navigation bars, headers, and borders.
+3. **10% High-Intent Accent**: Reserved strictly for primary call-to-action buttons, active navigation indicators, and notification badges.
+
+Step through the interactive visualizer below to see the 60-30-10 rule and dark mode elevation principles in action:
+
+<UIUXVisualizer scenario="color-palette-60-30-10" title="The 60-30-10 Color Balance Rule" />
+
+---
+
+## 2. Functional Color Architecture
+
+A robust application color system organizes colors into three distinct categories:
+
+### 1. Brand & Accent Palette
+Your brand color (e.g. Indigo, Blue, or Violet) establishes identity. Always define a full 10-shade scale (50 through 900) to support hover, active, and light-tint states:
+
+```css
+:root {
+  --primary-50:  #eef2ff;
+  --primary-100: #e0e7ff;
+  --primary-500: #6366f1; /* Main Brand CTA */
+  --primary-600: #4f46e5; /* Hover state */
+  --primary-700: #4338ca; /* Active/Pressed state */
+}
+```
+
+### 2. Neutral Palette (Grays & Slates)
+You will use grays far more than any other color! You need at least 8 shades of gray for:
+- Page backgrounds (`slate-50` / `neutral-900`)
+- Card surfaces (`white` / `neutral-800`)
+- Borders and dividers (`slate-200` / `neutral-700`)
+- Placeholder text (`slate-400` / `neutral-500`)
+- Secondary copy (`slate-600` / `neutral-400`)
+- Primary headings (`slate-900` / `white`)
+
+### 3. Semantic Status Colors
+Semantic colors communicate system state unambiguously:
+- **Success (Green/Emerald)**: Completed builds, saved changes, active status.
+- **Warning (Amber/Yellow)**: Expiring sessions, deprecation warnings, high memory usage.
+- **Danger (Red/Rose)**: Deletion confirmation, API 500 errors, form validation failures.
+- **Info (Blue/Sky)**: Informational banners, documentation tips, version update notes.
+
+---
+
+## 3. WCAG Accessibility & Contrast Standards
+
+The Web Content Accessibility Guidelines (WCAG 2.1) establish strict contrast ratios between text and its background:
+
+```text
+Contrast Ratio = (L1 + 0.05) / (L2 + 0.05)
+```
+
+Where `L1` is the relative luminance of the lighter color and `L2` is the relative luminance of the darker color.
+
+Step through the interactive contrast visualizer below to see failing vs passing WCAG contrast states live:
+
+<UIUXVisualizer scenario="contrast-checker" title="WCAG Accessibility & Color Contrast Standards" />
+
+### Contrast Benchmarks Every Developer Must Know:
+- **WCAG Level AA (Legal Requirement)**:
+  - **4.5:1** for regular body text (under 18pt / 24px).
+  - **3.0:1** for large text (18pt+ or 14pt bold) and interactive UI borders.
+- **WCAG Level AAA (High Compliance)**:
+  - **7.0:1** for regular body text.
+  - **4.5:1** for large text.
+
+---
+
+## 4. The Golden Rule of Accessible Feedback
+
+> **Never rely on color alone to convey state or information!**
+
+Roughly 8% of men and 0.5% of women have color vision deficiency (such as red-green deuteranopia). If an input error is indicated solely by turning the border red, color-blind users cannot detect that an error occurred.
+
+### The Multi-Signal Pattern:
+Always pair color with a **secondary visual cue**:
+1. Color + Text label (`"Error: Password too short"`)
+2. Color + Icon (`⚠ Warning`, `✓ Saved`)
+3. Color + Underline or Shape change
+
+```html
+<!-- Inaccessible: Color only -->
+<span class="text-rose-600">Failed</span>
+
+<!-- Accessible: Color + SVG Icon + Clear Text -->
+<span class="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-semibold text-xs">
+  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+  </svg>
+  <span>Build Failed: Syntax Error</span>
+</span>
+```
+
+---
+
+## 5. Dark Mode Engineering Principles
+
+Building high-quality dark mode involves more than inverting colors:
+
+1. **Avoid Pure Black (`#000000`)**: Pure black causes harsh optical contrast with white text, triggering eye strain and OLED scrolling smearing. Use deep charcoal or slate (`#121212` or `#0f172a`).
+2. **Express Elevation with Lightness, Not Shadows**: In light mode, elevated modals cast drop shadows. In dark mode, shadows are invisible against dark backgrounds. Instead, make higher elevation surfaces progressively lighter:
+   - Base canvas: `#121212`
+   - Level 1 card: `#1e1e1e`
+   - Level 2 modal dialog: `#282828`
+3. **Desaturate Vibrant Accents**: High-saturation colors (like electric blue or hot pink) vibrate against dark surfaces. Desaturate accent colors by 10–20% in dark mode for comfortable reading.

@@ -111,3 +111,25 @@ git bisect run npm test
 ```
 
 Git will automatically run the tests on each midpoint until it isolates the broken commit without requiring manual input.
+
+---
+
+## 5. Helpful Tips for Real-World Bisecting
+
+### Skipping Broken or Untestable Commits
+If Git lands on an intermediate commit that cannot be tested (e.g., due to an unrelated compile error or syntax typo):
+
+```bash
+git bisect skip
+```
+
+Git marks that commit as untestable and tests an adjacent commit instead.
+
+### Bisecting Non-Bug Changes (Custom Terms)
+You can also use bisect to find when a performance boost or feature was added using custom terminology:
+
+```bash
+git bisect start --term-new fast --term-old slow
+git bisect slow v1.0.0
+git bisect fast HEAD
+```

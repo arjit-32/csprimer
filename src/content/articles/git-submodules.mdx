@@ -85,3 +85,36 @@ Because the submodule pointer in your parent repo moves to a new commit hash, re
 git add libs/shared-ui
 git commit -m "chore: update shared-ui submodule to latest release"
 ```
+
+---
+
+## Removing a Submodule Cleanly
+
+Removing a submodule requires cleaning up both `.gitmodules` and Git's internal modules cache:
+
+```bash
+# 1. De-initialize submodule from local Git config
+git submodule deinit -f libs/shared-ui
+
+# 2. Remove submodule directory from Git index and disk
+git rm -f libs/shared-ui
+
+# 3. Remove cached submodule git metadata
+rm -rf .git/modules/libs/shared-ui
+
+# 4. Commit the deletion
+git commit -m "chore: remove shared-ui submodule"
+```
+
+---
+
+## The Submodule Detached HEAD Trap
+
+When you update or initialize a submodule, Git checks out the exact recorded commit SHA in a **detached HEAD** state.
+
+If you need to make changes inside the submodule itself:
+1. Enter the submodule directory: `cd libs/shared-ui`
+2. Switch to an active branch: `git checkout main`
+3. Edit, test, and commit inside the submodule: `git commit -am "fix: update button styles"`
+4. Push changes to the submodule remote: `git push origin main`
+5. Return to the parent repository and record the new submodule pointer: `cd ../.. && git commit -am "chore: advance shared-ui pointer"`

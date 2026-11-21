@@ -58,19 +58,42 @@ git reset --mixed HEAD~1
 git reset --hard HEAD~1
 ```
 
+### Summary Comparison of Reset Modes
+
+| Reset Mode | Moves `HEAD`? | Updates Index (Staging)? | Alters Working Tree (Disk)? | Data Loss Risk? |
+| :--- | :--- | :--- | :--- | :--- |
+| **`--soft`** | Yes (moves back) | **No** (files remain staged) | **No** (files unchanged) | Zero risk (fully reversible) |
+| **`--mixed`** (default) | Yes (moves back) | **Yes** (unstages files) | **No** (files remain on disk) | Zero risk (files still present) |
+| **`--hard`** | Yes (moves back) | **Yes** (clears staged files) | **Yes** (overwrites disk files!) | **High risk** (uncommitted edits erased) |
+
+> **Pro Tip**: If you accidentally perform `git reset --hard` and lose uncommitted changes that were previously committed, you can rescue them using `git reflog`!
+
 ---
 
 ## 4. Undoing Unstaged and Staged Changes
 
+In addition to whole commits, Git provides precise commands to discard edits or unstage files:
+
+### Discard Unstaged Changes in Working Directory
+Reverts a modified file back to the last committed state:
+
 ```bash
-# Undo unstaged modifications in a file (revert to last committed state)
+# Modern syntax (Git 2.23+):
+git restore filename
+
+# Classic syntax:
 git checkout -- filename
+```
 
-# Unstage a staged file (remove from index)
+### Unstage Files from the Staging Area
+Removes a file from the index without altering your code on disk:
+
+```bash
+# Modern syntax (Git 2.23+):
+git restore --staged filename
+
+# Classic syntax:
 git reset filename
-
-# Unstage all staged files
-git reset
 ```
 
 ---

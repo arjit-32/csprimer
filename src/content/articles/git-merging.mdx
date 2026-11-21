@@ -86,16 +86,44 @@ git reset --hard HEAD~1
 
 ---
 
-## 6. Cherry-Picking
+## 6. Cherry-Picking: Selective Commit Merging
 
-Cherry-picking allows you to **pick a specific commit** from one branch and apply it to another without merging everything else.
+Cherry-picking allows you to **pick a specific commit** from one branch and apply its changes onto your current active branch without merging the entire branch.
+
+This is especially helpful for porting urgent hotfixes to a production release branch without pulling in unready experimental features.
 
 ![Untitled](https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/v1741778645/Untitled_5_brqziz.png)
 
 <GitVisualizer scenario="cherry-pick" title="Cherry-Picking Commits" />
 
 ```bash
-# Switch to master and apply a specific commit from feature:
+# Switch to the target branch (e.g., master)
 git checkout master
+
+# Apply a specific commit from experimental:
 git cherry-pick 5892e85
 ```
+
+### Advanced Cherry-Pick Operations
+
+- **Cherry-pick multiple commits**:
+  ```bash
+  git cherry-pick a1b2c3 d4e5f6
+  ```
+- **Cherry-pick a range of commits** (applies all commits between A and B, excluding A):
+  ```bash
+  git cherry-pick A..B
+  ```
+- **Track original commit provenance** (appends `(cherry picked from commit ...)` to the commit message):
+  ```bash
+  git cherry-pick -x 5892e85
+  ```
+- **Resolve conflicts during cherry-pick**:
+  ```bash
+  # After resolving conflicts in files:
+  git add <file>
+  git cherry-pick --continue
+
+  # Or cancel the cherry-pick cleanly:
+  git cherry-pick --abort
+  ```

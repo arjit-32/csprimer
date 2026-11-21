@@ -104,12 +104,16 @@ git branch my-saved-feature # Points a new branch at the detached commit
 
 ## 5. Deleting a Branch
 
+Once a feature is merged into `master`, the branch pointer is no longer needed. Because branches are merely small pointer files, deleting a branch does not destroy any merged commits:
+
 ```bash
 git branch -d newfeature  # Safe delete (only deletes if already merged)
 git branch -D newfeature  # Force delete (deletes even if unmerged changes exist)
 
 git push origin --delete newfeature # Delete remote branch on GitHub
 ```
+
+<GitVisualizer scenario="branch-delete" title="Deleting a Merged Branch" />
 
 ## 6. Git Tags
 
