@@ -3,9 +3,31 @@ title: "Elements & Contributor Playbook"
 description: "Exact step-by-step guide for creating content, all collection schemas and types, local scaffolding tooling, and interactive showcase of reusable MDX components."
 ---
 
-# Contributor Playbook & MDX Elements
+# Contributor Playbook & Platform Reference
 
-This page is the living documentation for maintaining and expanding **CSPrimer**. It serves seven key functions:
+**CSPrimer** is an open-source, interactive curriculum and knowledge base built to help engineers master foundational computer science, real-world full-stack development, and AI engineering from the ground up.
+
+### About CSPrimer & Site Architecture
+
+The curriculum is organized into **5 major learning tracks**:
+
+- **Core-CS**: Operating systems, computer networks, computer architecture, databases, compilers, and foundational mechanics.
+- **DSA**: Data structures, algorithms, complexity analysis, and interactive step-by-step problem visualizers.
+- **Development**: Modern frontend, backend, fullstack frameworks, APIs, databases, and engineering workflows.
+- **System-Design**: Distributed systems, microservices, cloud architectures, scaling patterns, and resilience.
+- **AI-Engineering**: Machine learning foundations, LLM integrations, embeddings, and AI agents.
+
+### Content Types on the Platform
+
+1. **Course Series (`/courses`)**: Structured syllabi broken into logical chapters with progress tracking and sequential navigation.
+2. **Hands-on Projects & Deep Dives (`/articles`)**: Standalone engineering tutorials, system blueprints, and practical implementations.
+3. **Interview Bytes & Spaced Repetition (`/interview-bytes`, `/revision`)**: Flashcard-style interview questions with code solutions and Anki-style spaced review.
+4. **Interactive Explorers**: Built-in algorithm visualizers (`<AlgoVisualizer>`), Git workflow simulators (`<GitVisualizer>`), and in-browser coding drills (`<TryCode>`).
+5. **Shorts (`/shorts`)**: Bite-sized video explainers for rapid concept review.
+
+---
+
+This documentation provides the design system, schemas, and contributor reference for maintaining and expanding **CSPrimer**:
 1. **Local Scaffolding Tools**: One-click visual dashboard and terminal CLI to generate courses, roadmaps, and articles.
 2. **Metadata Architecture**: Clear rules for how Categories, Series, and Roadmaps relate.
 3. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, and TypeScript types.
@@ -346,7 +368,7 @@ When introducing a new major learning track (e.g., `AI-Engineering`), synchroniz
 2. **`src/content/series/<id>.json`**: Set `"category": "AI-Engineering"`.
 3. **`src/pages/roadmaps.astro`**: Add category tab and filter badge.
 4. **`src/pages/courses/index.astro`**: Add category filter button.
-5. Update the supported categories list in this document and optionally in `src/content/articles/-index.md`.
+5. Update the supported categories list in this document.
 
 </Tab>
 

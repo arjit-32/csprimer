@@ -16,13 +16,13 @@
     "blog_folder": "articles"
   },
   "call_to_action": {
-    "title": "Found Something Missing?",
-    "description": "Have an idea for a course, spotted an issue, or want a topic covered? I'd love to hear from you.",
+    "title": "Stay Ahead in Systems & Engineering",
+    "description": "Subscribe to the monthly newsletter for deep-dive architecture breakdowns, curated engineering reads, and early course releases. 100% free, zero spam.",
     "button": {
-      "label1": "Connect on LinkedIn",
-      "link1": "https://www.linkedin.com/in/arjit32/",
-      "label2": "Open a GitHub Issue",
-      "link2": "https://github.com/arjit-32/csprimer"
+      "label1": "Subscribe on Substack",
+      "link1": "https://csprimer.substack.com",
+      "label2": "Request a Topic on GitHub",
+      "link2": "https://github.com/arjit-32/csprimer/issues/new?title=%5BTopic+Request%5D%3A+&labels=enhancement"
     }
   },
   "params": {
@@ -50,6 +50,10 @@
       {
         "name": "About",
         "url": "/about"
+      },
+      {
+        "name": "Newsletter",
+        "url": "https://csprimer.substack.com"
       },
       {
         "name": "AI Disclaimer",

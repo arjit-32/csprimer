@@ -72,8 +72,8 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
 
 
 <section class="section blog-single py-4 bg-white border-b pb-20">
-  <div class="container max-w-[1360px] mx-auto px-4 sm:px-6">
-    <div class="flex flex-col lg:flex-row gap-8">
+  <div class={`container ${courseData ? 'max-w-[1360px]' : 'max-w-[1180px]'} mx-auto px-4 sm:px-6`}>
+    <div class={`flex flex-col lg:flex-row gap-8 ${!courseData ? 'justify-center' : ''}`}>
       
       <!-- Navigation Sidebar - Hidden on mobile, visible on lg screens -->
       {courseData && courseData.navbar.length > 0 && (
@@ -185,7 +185,7 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
       )}
       
       <!-- Main Content -->
-      <div class="flex-1 min-w-0">
+      <div class={`flex-1 min-w-0 ${!courseData ? 'max-w-3xl lg:max-w-4xl w-full mx-auto px-1 sm:px-4 md:px-6' : ''}`}>
         <div class="w-full">
           <div>
             {projectSeriesData && (
@@ -269,8 +269,8 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
               <div class="flex items-center mb-2">
                 <ActionButtons 
                   id={`article-${post.slug}`} 
-                  shareTitle={post.data.title}
-                  shareUrl={`${siteBaseUrl}/articles/${post.slug}`}
+                  issueTitle={post.data.title}
+                  issueUrl={`${siteBaseUrl}/articles/${post.slug}`}
                 />
               </div>
             </div>
@@ -452,21 +452,64 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
               );
             })()}
 
+            <!-- Post-Article Community & Newsletter Prompt -->
+            <div class="mt-12 p-5 rounded-2xl border border-zinc-200/80 bg-gradient-to-r from-orange-50/40 via-zinc-50 to-pink-50/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-center sm:text-left">
+                <div class="text-sm font-bold text-zinc-900">Enjoyed this lesson?</div>
+                <div class="text-xs text-zinc-600 mt-0.5">Subscribe on Substack for monthly deep dives, or request what we cover next.</div>
+              </div>
+              <div class="flex items-center gap-2.5 shrink-0">
+                <a
+                  href="https://csprimer.substack.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-4 py-2 text-xs font-semibold rounded-xl bg-[#FE6019] text-white hover:bg-orange-600 transition-colors shadow-2xs"
+                >
+                  Subscribe &nearr;
+                </a>
+                <a
+                  href="https://github.com/arjit-32/csprimer/issues/new?title=%5BTopic+Request%5D%3A+&labels=enhancement"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-4 py-2 text-xs font-medium rounded-xl border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 transition-colors"
+                >
+                  Request Topic
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
       <!-- Table of Contents Sidebar (sticky on side, travels down page with reader) -->
       {headings && headings.length > 0 && (
-        <div class="hidden xl:block w-72 shrink-0 self-stretch">
+        <aside id="toc-sidebar-wrapper" class="toc-sidebar-container hidden xl:block w-72 shrink-0 self-stretch transition-all duration-300">
           <TableOfContents
             headings={headings}
             title={isProjectSeries ? "Article Blueprint" : (isCourseSeries ? "On This Page" : "Table of Contents")}
           />
-        </div>
+        </aside>
       )}
     </div>
   </div>
+
+  <!-- Floating Burger Button to Restore TOC -->
+  {headings && headings.length > 0 && (
+    <button
+      id="floating-toc-burger"
+      class="fixed right-0 top-32 sm:top-36 z-40 hidden items-center gap-2 px-3.5 py-2.5 bg-white/95 backdrop-blur-xs border border-gray-200 border-r-0 rounded-l-xl shadow-lg text-gray-700 hover:text-primary hover:border-primary/40 hover:bg-orange-50 transition-all cursor-pointer group"
+      title="Show Table of Contents (Outline)"
+      aria-label="Show Table of Contents"
+    >
+      <svg class="w-4 h-4 text-primary group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </svg>
+      <span class="text-xs font-bold text-gray-700 group-hover:text-primary">Outline</span>
+    </button>
+  )}
 </section>
 
 
@@ -540,6 +583,38 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
   function initAllFeatures() {
     initNavHandlers();
     initCompletionButton();
+    initTocBurger();
+  }
+
+  function initTocBurger() {
+    const toc = document.getElementById('toc-sidebar-wrapper');
+    const collapseBtn = document.getElementById('collapse-toc-btn');
+    const floatingBurger = document.getElementById('floating-toc-burger');
+
+    if (!toc) return;
+
+    const isTocCollapsed = localStorage.getItem('csprimer_toc_collapsed') === 'true';
+
+    function setTocState(collapsed: boolean) {
+      if (!toc) return;
+      if (collapsed) {
+        toc.classList.add('is-collapsed');
+        floatingBurger?.classList.remove('hidden');
+        floatingBurger?.classList.add('flex');
+      } else {
+        toc.classList.remove('is-collapsed');
+        floatingBurger?.classList.add('hidden');
+        floatingBurger?.classList.remove('flex');
+      }
+      localStorage.setItem('csprimer_toc_collapsed', String(collapsed));
+    }
+
+    if (window.innerWidth >= 1280) {
+      setTocState(isTocCollapsed);
+    }
+
+    collapseBtn?.addEventListener('click', () => setTocState(true));
+    floatingBurger?.addEventListener('click', () => setTocState(false));
   }
 
   // Attach handlers on Astro events
@@ -608,5 +683,12 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
   }
   .sidebar-status-pill.status-pill--draft {
     background: #ffedd5; color: #c2410c; border-color: #fdba74;
+  }
+
+  /* ── Collapsible TOC ── */
+  @media (min-width: 1280px) {
+    .toc-sidebar-container.is-collapsed {
+      display: none !important;
+    }
   }
 </style>

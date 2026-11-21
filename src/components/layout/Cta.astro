@@ -1,34 +1,59 @@
 ---
-import config from "@/config/config.json";
+interface Props {
+  className?: string;
+}
 
-const {
-  call_to_action: {
-    title,
-    description,
-    button: { label1, link1, label2, link2 },
-  },
-} = config;
+const { className = "" } = Astro.props;
+
+const topicRequestUrl = "https://github.com/arjit-32/csprimer/issues/new?title=%5BTopic+Request%5D%3A+&labels=enhancement&body=%23%23%23+Topic+Request%0A%0A**What+topic+would+you+like+to+see+covered%3F**%0A%0A**Why+is+this+topic+valuable%3F**";
 ---
 
-<section class="px-5 py-8 xl:py-[80px]">
-  <div class="container">
-    <div
-      class="rounded-t-[20px] rounded-b-[80px] bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-300 px-6 py-14 shadow-lg"
-    >
-      <div class="max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
+<section class={`px-4 sm:px-6 py-12 md:py-16 ${className}`}>
+  <div class="container max-w-5xl mx-auto">
+    <div class="rounded-3xl border border-gray-200/90 bg-white p-7 sm:p-10 lg:p-12 shadow-sm">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         
-        <!-- Text Section -->
-        <div class="text-center lg:text-left">
-          <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">{title}</h2>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a class="btn btn-white" href={link1} target="_blank">{label1}</a>
-            <a class="btn btn-white" href={link2} target="_blank">{label2}</a>
+        <!-- Left: Broad Information & Topic Request -->
+        <div class="flex-1 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#FE6019] text-xs font-bold tracking-wider mb-4">
+            <span class="w-2 h-2 rounded-full bg-[#FE6019] animate-pulse"></span>
+            Newsletter & Community
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-zinc-900 tracking-tight leading-tight mb-3">
+            Stay in the Loop
+          </h2>
+
+          <p class="text-zinc-600 text-sm sm:text-base leading-relaxed mb-6 max-w-xl">
+            Get the monthly newsletter with real-world architecture breakdowns, curated engineering reads, and new curriculum releases. 100% free, zero spam.
+          </p>
+
+          <div class="flex items-center justify-center lg:justify-start gap-1.5 text-xs sm:text-sm text-zinc-500">
+            <span>Want a specific topic or interview breakdown?</span>
+            <a
+              href={topicRequestUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-[#FE6019] hover:underline inline-flex items-center gap-0.5 cursor-pointer"
+            >
+              <span>Request on GitHub</span>
+              <span>&rarr;</span>
+            </a>
           </div>
         </div>
 
-        <!-- Description -->
-        <div class="text-white/90 text-base leading-relaxed text-center lg:text-left max-w-md">
-          {description}
+        <!-- Right: Substack Embed (Direct without nested border box) -->
+        <div class="w-full lg:w-[480px] shrink-0">
+          <iframe
+            src="https://csprimer.substack.com/embed"
+            width="100%"
+            height="320"
+            style="border: none; background: transparent; width: 100%; display: block;"
+            frameborder="0"
+            scrolling="no"
+            loading="lazy"
+            title="CSPrimer Substack Newsletter"
+          ></iframe>
         </div>
 
       </div>
