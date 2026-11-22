@@ -1,5 +1,5 @@
 name: "💬 General Discussion & Content Requests"
-description: "Suggest restructuring an existing series, request a new topic/article, or share general feedback."
+description: "Request a new article, course, project series, or share a general idea."
 title: "[Discussion]: "
 labels: ["discussion"]
 body:
@@ -8,31 +8,31 @@ body:
     attributes:
       label: What is this discussion about?
       options:
-        - "Suggest Restructuring an Existing Series"
-        - "Request a New Article / Topic"
-        - "Request a New Course / Project Series"
-        - "General Feedback or Idea"
+        - "Request new article"
+        - "Request new course"
+        - "Request new Project / Project Series"
+        - "General Idea"
     validations:
       required: true
   - type: input
     id: title
     attributes:
-      label: Subject or Series Name
-      placeholder: "e.g., Reorganizing the System Design Series, or Proposal for Raft Consensus Deep Dive"
+      label: Subject or Title
+      placeholder: "e.g., Raft Consensus Algorithm, Distributed Tracing, or Go Project Series"
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Details & Discussion Points
-      description: "Explain your proposed structure, what should be reordered or added, and why it benefits learners."
-      placeholder: "Share your thoughts or proposed sequence of lessons..."
+      description: "Explain what should be covered or your proposed ideas, and why it benefits learners."
+      placeholder: "Share your thoughts or proposal..."
     validations:
       required: true
   - type: textarea
     id: outline
     attributes:
-      label: Proposed Outline or Hierarchy (Optional)
-      placeholder: "- Step 1: ...\n- Step 2: ...\n- Step 3: ..."
+      label: Suggested Outline or Subtopics (Optional)
+      placeholder: "- Part 1: ...\n- Part 2: ...\n- Part 3: ..."
     validations:
       required: false

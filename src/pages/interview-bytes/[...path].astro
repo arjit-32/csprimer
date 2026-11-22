@@ -131,25 +131,11 @@ const siteBaseUrl = config.site.base_url;
       </div>
     </div>
 
-    <!-- Count & Community Question Submission -->
-    <div class="listing-info mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <!-- Count -->
+    <div class="listing-info mb-8 flex items-center justify-between">
       <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">
         Showing <span class="text-primary">{page.start + 1}–{page.end}</span> of {page.total} questions
       </p>
-
-      <a
-        href="https://github.com/arjit-32/csprimer/issues/new?template=question_submission.yml"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-bold transition-all shadow-2xs hover:shadow-xs group cursor-pointer"
-        title="Contribute a question asked in interviews"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-90 transition-transform">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Submit a Question</span>
-      </a>
     </div>
 
     <!-- Question List -->

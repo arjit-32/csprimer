@@ -38,6 +38,5 @@ Embedded directly inside lessons and exercises, you will find two interactive to
 CSPrimer is built in public, and we actively welcome community participation:
 
 * **Spot a Typo or Bug?** Click the **Report Issue** button on any lesson or question to report a fix.
-* **Want to Request a Topic or Discuss Curriculum?** Open a **General Discussion / Request** or join the conversation on GitHub.
-* **Share an Interview Question:** Help fellow engineers prepare by submitting questions from recent interviews to Interview Bytes.
+* **Want to Request a Topic or Discuss Curriculum?** Open a **General Discussion / Request** on GitHub to suggest an article, course, or project series.
 * **Want to Contribute Code or Lessons?** Check out our [Contributing Guide](https://github.com/arjit-32/csprimer/blob/main/CONTRIBUTING.md) to run the site locally with `npm run dev`.

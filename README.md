@@ -88,8 +88,7 @@ The output will be generated in the `dist/` directory, ready to be deployed to a
 We actively welcome community contributions! Whether fixing a typo, requesting a topic, submitting an interview challenge, or writing a tutorial:
 
 - 📝 [Content Typo or Inaccuracy](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml)
-- 💬 [General Discussion / Series Restructuring / Topic Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml)
-- 🎯 [Submit an Interview Question](https://github.com/arjit-32/csprimer/issues/new?template=question_submission.yml)
+- 💬 [General Discussion & Content Requests](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml)
 - 🐛 [Report a Bug (Site or CMS)](https://github.com/arjit-32/csprimer/issues/new?template=bug_report.yml)
 
 For local setup instructions, MDX guidelines, and PR procedures, please see our **[Contributing Guide](CONTRIBUTING.md)** and review the **[Code of Conduct](CODE_OF_CONDUCT.md)**.

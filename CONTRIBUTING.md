@@ -10,8 +10,7 @@ Thank you for contributing to **CSPrimer**! We keep contributions simple and acc
 | :--- | :--- |
 | **Fix a Typo or Grammar** | Click "Report Issue" on any lesson or open a [Content Issue](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml) (`content: typo`). |
 | **Fix an Inaccurate Explanation** | Open a [Content Issue](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml) with your suggested correction (`content: inaccurate`). |
-| **Request an Article or Series** | Open a [General Discussion / Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml) (`request: article` / `request: series`). |
-| **Suggest Changes in the Site** | Open a [General Discussion / Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml) (`discussion`) to propose a new chapter sequence or reorganization. |
+| **Request Article, Course, or Project** | Open a [General Discussion / Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml) (`discussion`). |
 | **Report a Site or CMS Bug** | Open a [Bug Report](https://github.com/arjit-32/csprimer/issues/new?template=bug_report.yml) (`bug: site` or `bug: cms`). |
 
 ---
