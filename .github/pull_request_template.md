@@ -6,12 +6,11 @@ Brief summary of the changes made:
 
 ### 🏷️ Category
 
-- [ ] `content: typo` (Typo, spelling, broken link)
-- [ ] `content: inaccurate` (Technical inaccuracy or outdated explanation)
-- [ ] `bug: site` (Fix for website UI, reader, or in-browser editor)
-- [ ] `bug: cms` (Fix for CMS / dev server tooling)
-- [ ] `request: article` / `request: series` (New article or series addition)
-- [ ] Other / Enhancement
+- [ ] `content` (Typo, inaccurate explanation, or content fix)
+- [ ] `bug` (Fix for site UI, in-browser editor, or CMS dev server)
+- [ ] `request` (New article, course, or project series contribution)
+- [ ] `discussion` (Curriculum structure or idea implementation)
+- [ ] `others` (Chore, maintenance, or miscellaneous improvement)
 
 ---
 

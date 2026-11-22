@@ -1,7 +1,7 @@
 name: "💬 General Discussion & Content Requests"
 description: "Request a new article, course, project series, or share a general idea."
 title: "[Discussion]: "
-labels: ["discussion"]
+labels: ["request", "discussion"]
 body:
   - type: dropdown
     id: discussion_type

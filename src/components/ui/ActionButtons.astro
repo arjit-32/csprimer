@@ -12,6 +12,7 @@ const issueParams = new URLSearchParams({
   template: "content_issue.yml",
   title: `[Content Issue]: ${issueTitle || ""}`,
   page_url: issueUrl || "",
+  labels: "content",
 });
 const reportIssueHref = `${GITHUB_REPO}/issues/new?${issueParams.toString()}`;
 ---

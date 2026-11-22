@@ -8,10 +8,10 @@ Thank you for contributing to **CSPrimer**! We keep contributions simple and acc
 
 | What you want to do | How to do it |
 | :--- | :--- |
-| **Fix a Typo or Grammar** | Click "Report Issue" on any lesson or open a [Content Issue](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml) (`content: typo`). |
-| **Fix an Inaccurate Explanation** | Open a [Content Issue](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml) with your suggested correction (`content: inaccurate`). |
-| **Request Article, Course, or Project** | Open a [General Discussion / Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml) (`discussion`). |
-| **Report a Site or CMS Bug** | Open a [Bug Report](https://github.com/arjit-32/csprimer/issues/new?template=bug_report.yml) (`bug: site` or `bug: cms`). |
+| **Fix a Typo or Inaccuracy** | Click "Report Issue" on any lesson or open a [Content Issue](https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml) (`content`). |
+| **Request Article, Course, or Discuss Ideas** | Open a [General Discussion / Request](https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml) (`request` / `discussion`). |
+| **Report a Bug** | Open a [Bug Report](https://github.com/arjit-32/csprimer/issues/new?template=bug_report.yml) (`bug`). |
+| **Other Questions or Tasks** | Open an issue or discussion tagged with `others`. |
 
 ---
 
@@ -35,15 +35,11 @@ Open [http://localhost:4321](http://localhost:4321) to see changes live.
 
 ## 🏷️ Simple Label System
 
-- `bug: site` — Bug on the public website, reader, or in-browser editor.
-- `bug: cms` — Bug in the CMS dev server (`npm run admin`) or authoring tools.
-- `content: typo` — Spelling, grammar, or broken link fix.
-- `content: inaccurate` — Technical inaccuracy, faulty code example, or outdated concept.
-- `discussion` — General discussion, series restructuring ideas, or community feedback.
-- `request: article` — Community request for a new standalone article.
-- `request: series` — Community request for a new course/series.
-- `good first issue` — Beginner-friendly tasks for new contributors.
-- `enhancement` — General feature or UI improvement.
+- `content` — Content typo, technical inaccuracy, or lesson feedback.
+- `bug` — Bug on the public website, reader, or in-browser editor.
+- `discussion` — General discussion, feedback, or curriculum restructuring ideas.
+- `request` — Request or proposal for a new article, course, or project series.
+- `others` — Other topics, questions, or miscellaneous tasks.
 
 ---
 
