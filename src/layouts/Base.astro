@@ -22,12 +22,35 @@ export interface Props {
 const { title, meta_title, description, image, noindex, canonical } =
   Astro.props;
 
-const GA_TRACKING_ID = 'G-6M575HQ2TZ';
+const GA_TRACKING_ID = import.meta.env.PUBLIC_GA_TRACKING_ID;
+const isProd = import.meta.env.PROD && Boolean(GA_TRACKING_ID);
+
 const scriptContent = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${GA_TRACKING_ID}');
+  (function() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'disable_ga') {
+        localStorage.setItem('admin_disable_ga', 'true');
+        alert('Google Analytics tracking disabled for this browser.');
+      } else if (params.get('admin') === 'enable_ga') {
+        localStorage.removeItem('admin_disable_ga');
+        alert('Google Analytics tracking re-enabled for this browser.');
+      }
+    } catch (e) {}
+
+    var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    var isDisabled = isLocal || localStorage.getItem('admin_disable_ga') === 'true';
+
+    if (isDisabled) {
+      window['ga-disable-${GA_TRACKING_ID}'] = true;
+      return;
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_TRACKING_ID}');
+  })();
 `;
 
 const imgStr = image || config.metadata.meta_image;
@@ -54,12 +77,16 @@ if (imgStr) {
     <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="dns-prefetch" href="https://drive.google.com" />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-    <!-- Google Analytics -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-    <script is:inline set:html={scriptContent}></script>
+    <!-- Google Analytics (Production Only) -->
+    {isProd && (
+      <>
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+        <script is:inline set:html={scriptContent}></script>
+      </>
+    )}
 
     <meta
       name="theme-color"
@@ -163,7 +190,9 @@ if (imgStr) {
           isFirstLoad = false;
           return;
         }
-        if (typeof (window as any).gtag === "function") {
+        const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        const isAdminDisabled = localStorage.getItem("admin_disable_ga") === "true";
+        if (typeof (window as any).gtag === "function" && !isLocalHost && !isAdminDisabled) {
           (window as any).gtag("event", "page_view", {
             page_location: window.location.href,
             page_title: document.title,
