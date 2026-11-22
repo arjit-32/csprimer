@@ -15,7 +15,7 @@ const id = Math.random().toString(36).substring(7);
 ---
 
 <div class="tab astro-tab" data-tab-id={id}>
-  <ul class="tab-nav">
+  <ul class="tab-nav flex overflow-x-auto border-b border-border bg-theme-light">
     {tabData.map((item, index) => (
       <li
         class={`tab-nav-item ${index === 0 ? "active" : ""}`}
@@ -29,7 +29,7 @@ const id = Math.random().toString(36).substring(7);
   </ul>
   {tabData.map((item, index) => (
     <div
-      class={`tab-content ${index === 0 ? "block px-5" : "hidden"}`}
+      class={`tab-content ${index === 0 ? "block p-5 sm:p-8" : "hidden p-5 sm:p-8"}`}
       data-index={index}
       set:html={item.html}
     />
@@ -51,13 +51,15 @@ const id = Math.random().toString(36).substring(7);
             n.setAttribute('tabindex', '-1');
           });
           contentItems.forEach(c => {
-            c.classList.remove('block', 'px-5');
+            c.classList.remove('block');
             c.classList.add('hidden');
           });
           
           navItem.classList.add('active');
           navItem.setAttribute('tabindex', '0');
           contentItems[index].classList.remove('hidden');
+          contentItems[index].classList.add('block');
+        });
           contentItems[index].classList.add('block', 'px-5');
         });
         

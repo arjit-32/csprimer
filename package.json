@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "A curriculum to master foundational subjects along with real-world development skills",
   "author": "Arjit Sharma",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

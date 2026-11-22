@@ -9,9 +9,9 @@ const { id, issueTitle, issueUrl } = Astro.props;
 
 const GITHUB_REPO = "https://github.com/arjit-32/csprimer";
 const issueParams = new URLSearchParams({
-  title: `Issue: ${issueTitle || ""}`,
-  body: `**Page:** ${issueUrl || ""}\n\n**Describe the issue:**\n\n`,
-  labels: "content",
+  template: "content_issue.yml",
+  title: `[Content Issue]: ${issueTitle || ""}`,
+  page_url: issueUrl || "",
 });
 const reportIssueHref = `${GITHUB_REPO}/issues/new?${issueParams.toString()}`;
 ---

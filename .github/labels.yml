@@ -1,0 +1,41 @@
+# Simple Labels for CSPrimer
+
+# --- Bugs ---
+- name: "bug: site"
+  color: "d73a4a"
+  description: "Bug on the public website, reader UI, or in-browser editor"
+
+- name: "bug: cms"
+  color: "b60205"
+  description: "Bug in the CMS dev server (scripts/dev-server.mjs) or authoring tooling"
+
+# --- Content ---
+- name: "content: typo"
+  color: "0e8a16"
+  description: "Typo, spelling mistake, grammar, or broken link in an article or question"
+
+- name: "content: inaccurate"
+  color: "e11d48"
+  description: "Technical inaccuracy, flawed code snippet, or outdated explanation"
+
+# --- Requests & Discussions ---
+- name: "discussion"
+  color: "7057ff"
+  description: "General discussion, series restructuring ideas, or community feedback"
+
+- name: "request: article"
+  color: "fbca04"
+  description: "Request for a new standalone article or topic deep-dive"
+
+- name: "request: series"
+  color: "0075ca"
+  description: "Proposal for a new complete course or project series"
+
+# --- General ---
+- name: "enhancement"
+  color: "a2eeef"
+  description: "New feature or improvement for the platform"
+
+- name: "good first issue"
+  color: "c5def5"
+  description: "Simple task suitable for first-time contributors"

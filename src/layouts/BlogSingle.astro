@@ -468,7 +468,7 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
                   Subscribe &nearr;
                 </a>
                 <a
-                  href="https://github.com/arjit-32/csprimer/issues/new?title=%5BTopic+Request%5D%3A+&labels=enhancement"
+                  href="https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="px-4 py-2 text-xs font-medium rounded-xl border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 transition-colors"
@@ -476,6 +476,38 @@ const showInProgressNotice = !showRevisitingNotice && (isCourseInProgress || isA
                   Request Topic
                 </a>
               </div>
+            </div>
+
+            <!-- Community & Open-Source Contribution Footer -->
+            <div class="mt-6 pt-4 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-500 border-t border-gray-100">
+              <a
+                href={`https://github.com/arjit-32/csprimer/edit/main/src/content/articles/${post.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-gray-500 hover:text-primary transition-colors font-medium cursor-pointer"
+                title="Edit this article directly on GitHub"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <span>Edit this page on GitHub</span>
+              </a>
+
+              <a
+                href={`https://github.com/arjit-32/csprimer/issues/new?template=content_issue.yml&title=${encodeURIComponent(`[Content Issue]: ${post.data.title}`)}&page_url=${encodeURIComponent(`${siteBaseUrl}/articles/${post.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-gray-500 hover:text-[#FE6019] transition-colors font-medium cursor-pointer"
+                title="Report a typo or technical inaccuracy"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Report an issue with this lesson</span>
+              </a>
             </div>
 
           </div>

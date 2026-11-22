@@ -22,7 +22,7 @@
       "label1": "Subscribe on Substack",
       "link1": "https://csprimer.substack.com",
       "label2": "Request a Topic on GitHub",
-      "link2": "https://github.com/arjit-32/csprimer/issues/new?title=%5BTopic+Request%5D%3A+&labels=enhancement"
+      "link2": "https://github.com/arjit-32/csprimer/issues/new?template=topic_request.yml"
     }
   },
   "params": {
@@ -50,6 +50,10 @@
       {
         "name": "About",
         "url": "/about"
+      },
+      {
+        "name": "Onboarding",
+        "url": "/onboarding"
       },
       {
         "name": "Newsletter",

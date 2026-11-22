@@ -1,0 +1,35 @@
+name: "📝 Content Typo or Inaccuracy"
+description: "Report a typo, incorrect explanation, broken snippet, or inaccuracy in an article or question."
+title: "[Content]: "
+labels: ["content: typo"]
+body:
+  - type: input
+    id: page_url
+    attributes:
+      label: Page or Article URL
+      placeholder: "https://csprimer.org/articles/..."
+    validations:
+      required: false
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - "Typo / Grammar / Broken Link"
+        - "Technical Inaccuracy / Erroneous Code / Outdated Info"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe what is wrong
+      placeholder: "In section X, it currently says ... but it should say ..."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested Fix (Optional)
+      placeholder: "Replacement text or corrected code snippet"
+    validations:
+      required: false

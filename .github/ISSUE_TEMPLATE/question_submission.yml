@@ -1,0 +1,80 @@
+name: "🎯 Submit an Interview Question"
+description: "Submit a real-world interview question or challenge with answers and company tags for Interview Bytes."
+title: "[Question]: "
+labels: ["question-submission", "content: interview-question", "status: triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Share an Interview Question
+        Help fellow engineers prepare by submitting a question asked during real-world interviews!
+  - type: input
+    id: question
+    attributes:
+      label: Interview Question
+      description: The concise, clear problem or conceptual question statement.
+      placeholder: "e.g., Explain event loop starvation in Node.js and how to prevent it."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Primary Category / Tag
+      description: Which topic tag does this question belong under?
+      options:
+        - javascript
+        - typescript
+        - node
+        - react
+        - nextjs
+        - system-design
+        - dsa
+        - databases
+        - security
+        - devops
+        - general-cs
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Estimated Difficulty
+      options:
+        - Beginner
+        - Intermediate
+        - Advanced
+    validations:
+      required: true
+  - type: input
+    id: companies
+    attributes:
+      label: Companies / Roles (Optional)
+      description: Where is this question commonly asked?
+      placeholder: "e.g., Google (L4/L5), Stripe, Amazon, Meta, High-growth Startups"
+    validations:
+      required: false
+  - type: textarea
+    id: answer
+    attributes:
+      label: Answer & Explanation
+      description: Provide an accurate, comprehensive, and clear explanation of the answer.
+      placeholder: "Explain the core intuition first, then break down the details..."
+    validations:
+      required: true
+  - type: textarea
+    id: code_example
+    attributes:
+      label: Code Snippet / Demonstration (Optional)
+      description: Code example demonstrating the concept or solution.
+      placeholder: "```typescript\n// Example code\n```"
+    validations:
+      required: false
+  - type: input
+    id: source_credit
+    attributes:
+      label: Credit / Reference (Optional)
+      description: Credit to yourself, an author, or an official doc.
+      placeholder: "Your GitHub username, personal website, or reference link"
+    validations:
+      required: false

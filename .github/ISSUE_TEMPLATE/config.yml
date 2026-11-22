@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "CSPrimer Newsletter & Substack"
+    url: "https://csprimer.substack.com"
+    about: "Subscribe to our monthly newsletter for engineering deep dives, architectural breakdowns, and curriculum releases."
+  - name: "GitHub Discussions"
+    url: "https://github.com/arjit-32/csprimer/discussions"
+    about: "Ask questions, discuss topics, or share your learning journey with fellow engineers."

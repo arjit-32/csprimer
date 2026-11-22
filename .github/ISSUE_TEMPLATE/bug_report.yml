@@ -1,0 +1,38 @@
+name: "🐛 Bug Report (Site or CMS)"
+description: "Report a bug in the public site or in the CMS / admin dev server."
+title: "[Bug]: "
+labels: ["bug: site"]
+body:
+  - type: dropdown
+    id: bug_area
+    attributes:
+      label: Where did you find the bug?
+      options:
+        - "Public Site (UI, Navigation, Mobile, Monaco Editor)"
+        - "CMS / Dev Tools (scripts/dev-server.mjs, admin panel, scripter)"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      placeholder: "Clear description of what went wrong..."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      placeholder: "What should have happened instead..."
+    validations:
+      required: false
