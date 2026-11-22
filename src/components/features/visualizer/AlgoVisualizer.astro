@@ -26,9 +26,16 @@ const resolvedTitle = customTitle || problem.title;
 const initialSteps = problem.generateSteps(problem.defaultInputs);
 const firstStep = initialSteps[0] || {
   stepNumber: 0,
-  title: 'Initial State',
-  description: problem.description,
 };
+
+const isCodeLinePlaceholder = firstStep.codeLine && firstStep.codeLine.trim().toLowerCase().startsWith('// java statement');
+const showCodeLine = Boolean(firstStep.codeLine && firstStep.codeLine.trim() && !isCodeLinePlaceholder);
+const hasVariables = Boolean(firstStep.variables && Object.keys(firstStep.variables).length > 0);
+const hasDescription = Boolean(firstStep.description && firstStep.description.trim());
+const rawTitle = firstStep.title && firstStep.title.trim();
+const hasTitle = Boolean(rawTitle && rawTitle.toLowerCase() !== 'step 0' && rawTitle.toLowerCase() !== 'initial state');
+const hasHeaderContent = Boolean(hasTitle || hasVariables);
+const showStepPanel = Boolean(hasHeaderContent || hasDescription || showCodeLine);
 
 let initialCanvasHtml = "";
 if (firstStep.arrays) initialCanvasHtml += renderArray(firstStep.arrays);
@@ -63,7 +70,7 @@ const clientPayload = {
 ---
 
 <div
-  class="algo-visualizer-container my-8 border border-gray-300 dark:border-gray-800 rounded-2xl overflow-hidden bg-white dark:bg-[#1a1a1a] shadow-md transition-colors"
+  class="algo-visualizer-container not-prose my-8 border border-gray-300 dark:border-gray-800 rounded-2xl overflow-hidden bg-white dark:bg-[#1a1a1a] shadow-md transition-colors"
   data-problem-id={problem.id || problemId}
 >
   <!-- Embedded Data Payload for Client Hydration -->
@@ -149,16 +156,16 @@ const clientPayload = {
   <!-- Main Visualization Stage -->
   <div class="p-5 flex flex-col gap-4">
     <!-- Active Step Commentary & Code Panel -->
-    <div class="p-4 rounded-xl bg-gray-50/80 dark:bg-[#202020] border border-gray-200 dark:border-gray-800 flex flex-col gap-2.5">
-      <div class="flex items-center justify-between flex-wrap gap-2">
-        <h4 class="viz-step-title text-sm font-bold text-gray-800 dark:text-gray-100 m-0 flex items-center gap-2">
-          {firstStep.title || 'Step 1'}
-        </h4>
+    <div class={`viz-step-panel px-4 py-2.5 rounded-xl bg-gray-50/90 dark:bg-[#202020] border border-gray-200 dark:border-gray-800 flex flex-col gap-1.5 ${showStepPanel ? '' : 'hidden'}`}>
+      <div class={`viz-step-header flex items-center justify-between flex-wrap gap-2 ${hasHeaderContent ? '' : 'hidden'}`}>
+        <div class={`viz-step-title text-xs font-semibold text-gray-800 dark:text-gray-200 m-0 flex items-center gap-1.5 ${hasTitle ? '' : 'hidden'}`}>
+          {hasTitle ? rawTitle : ''}
+        </div>
         <!-- Variables Pill List -->
-        <div class="viz-variables flex items-center gap-1.5 flex-wrap">
-          {firstStep.variables &&
-            Object.entries(firstStep.variables).map(([k, v]) => (
-              <div class="px-2.5 py-1 rounded-lg bg-white dark:bg-[#282828] border border-gray-200 dark:border-gray-700 text-xs font-mono flex items-center gap-1.5 shadow-xs">
+        <div class={`viz-variables flex items-center gap-1.5 flex-wrap ${hasVariables ? '' : 'hidden'}`}>
+          {hasVariables &&
+            Object.entries(firstStep.variables!).map(([k, v]) => (
+              <div class="px-2 py-0.5 rounded-md bg-white dark:bg-[#282828] border border-gray-200 dark:border-gray-700 text-[11px] font-mono flex items-center gap-1 shadow-2xs">
                 <span class="text-gray-500 dark:text-gray-400 font-semibold">{k}:</span>
                 <span class="text-gray-800 dark:text-gray-100 font-bold">{Array.isArray(v) ? JSON.stringify(v) : v}</span>
               </div>
@@ -166,14 +173,14 @@ const clientPayload = {
         </div>
       </div>
 
-      <p class="viz-step-desc text-xs text-gray-600 dark:text-gray-300 m-0 leading-relaxed font-sans">
-        {firstStep.description}
-      </p>
+      <div class={`viz-step-desc text-[11.5px] text-gray-500 dark:text-gray-400 leading-normal font-sans m-0 ${hasDescription ? '' : 'hidden'}`}>
+        {hasDescription ? firstStep.description : ''}
+      </div>
 
       <!-- Code Line -->
-      <div class={`viz-code-line-wrapper ${firstStep.codeLine ? '' : 'hidden'} px-3 py-2 rounded-lg bg-gray-900 text-emerald-400 text-xs font-mono border border-gray-800 flex items-center gap-2 overflow-x-auto`}>
-        <span class="text-gray-500 select-none">$</span>
-        <code class="viz-code-line text-emerald-400">{firstStep.codeLine || ''}</code>
+      <div class={`viz-code-line-wrapper ${showCodeLine ? '' : 'hidden'} px-3 py-1.5 rounded-lg bg-gray-900 text-emerald-400 text-xs font-mono border border-gray-800 flex items-center gap-2 overflow-x-auto`}>
+        <span class="text-gray-500 select-none font-bold">$</span>
+        <code class="viz-code-line text-emerald-400">{showCodeLine ? firstStep.codeLine : ''}</code>
       </div>
     </div>
 
@@ -291,6 +298,24 @@ const clientPayload = {
   }
   .algo-visualizer-container .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Insulate step panel typography from parent article prose */
+  .algo-visualizer-container .viz-step-title {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+  .algo-visualizer-container .viz-step-desc {
+    font-size: 0.72rem !important;
+    line-height: 1.2rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 400 !important;
   }
 
   /* Scrubber Range Thumb */

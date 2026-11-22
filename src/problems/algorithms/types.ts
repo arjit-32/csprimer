@@ -158,7 +158,7 @@ export interface DPTableState {
 export interface ExecutionStep {
   stepNumber: number;
   title?: string;
-  description: string;
+  description?: string;
   codeLine?: string; // Idiomatic Java code line
   variables?: Record<string, any>;
   array?: ArrayState | ArrayState[];

@@ -62,7 +62,7 @@ export interface DPTableInputShorthand {
 
 export interface StepConfig {
   title?: string;
-  description: string;
+  description?: string;
   codeLine?: string; // Standard Java code
   variables?: Record<string, any>;
   array?: ArrayInputShorthand | SimpleArrayConfig[];
@@ -110,10 +110,14 @@ export class StepBuilder {
 
     const step: ExecutionStep = {
       stepNumber,
-      title: config.title || `Step ${stepNumber}`,
-      description: config.description,
-      codeLine: config.codeLine,
-      variables: config.variables ? { ...config.variables } : undefined,
+      title: config.title && config.title.trim() ? config.title.trim() : undefined,
+      description: config.description && config.description.trim() ? config.description.trim() : undefined,
+      codeLine:
+        config.codeLine && !config.codeLine.trim().toLowerCase().startsWith('// java statement')
+          ? config.codeLine.trim()
+          : undefined,
+      variables:
+        config.variables && Object.keys(config.variables).length > 0 ? { ...config.variables } : undefined,
     };
 
     if (config.arrays) {

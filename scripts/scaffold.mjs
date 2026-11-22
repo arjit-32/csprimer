@@ -1739,8 +1739,7 @@ export const ${varName}: AlgorithmDefinition = {
   id: '${safeId}',
   title: '${title || 'Algorithm'}',
   category: '${category || 'General DSA'}',
-  description: '${description || 'Interactive algorithm visualization in Java.'}',
-  visualizationTypes: ${JSON.stringify(visualizationTypes)},
+  ${description && description.trim() ? `description: ${JSON.stringify(description.trim())},\n  ` : ''}visualizationTypes: ${JSON.stringify(visualizationTypes)},
   defaultInputs: {
     nums: ${JSON.stringify(nums)},
   },
@@ -1864,7 +1863,7 @@ export function saveStructuredAlgorithmProblem({
   id,
   title,
   category = 'General DSA',
-  description = 'Interactive algorithm visualization in Java.',
+  description = '',
   visualizationTypes = ['array'],
   defaultInputs,
   inputSchema,
@@ -1888,11 +1887,15 @@ export function saveStructuredAlgorithmProblem({
   ];
 
   const stepsCode = steps.map((s, idx) => {
-    const stepConfig = {
-      title: s.title || `Step ${idx}`,
-      description: s.description || '',
-      codeLine: s.codeLine || '// Java statement',
-    };
+    const stepConfig = {};
+    const rawTitle = s.title && s.title.trim();
+    if (rawTitle && rawTitle.toLowerCase() !== 'step 0' && !/^Step \d+$/i.test(rawTitle)) {
+      stepConfig.title = rawTitle;
+    }
+    if (s.description && s.description.trim()) stepConfig.description = s.description.trim();
+    if (s.codeLine && s.codeLine.trim() && !s.codeLine.trim().toLowerCase().startsWith('// java statement')) {
+      stepConfig.codeLine = s.codeLine.trim();
+    }
     if (s.variables && Object.keys(s.variables).length > 0) stepConfig.variables = s.variables;
     if (s.array) stepConfig.array = s.array;
     if (s.arrays) stepConfig.arrays = s.arrays;
@@ -1918,14 +1921,13 @@ export const ${varName}: AlgorithmDefinition = {
   id: '${safeId}',
   title: ${JSON.stringify(title || safeId)},
   category: ${JSON.stringify(category)},
-  description: ${JSON.stringify(description)},
-  visualizationTypes: ${JSON.stringify(visualizationTypes)},
+  ${description && description.trim() ? `description: ${JSON.stringify(description.trim())},\n  ` : ''}visualizationTypes: ${JSON.stringify(visualizationTypes)},
   defaultInputs: ${JSON.stringify(resolvedInputs, null, 2)},
   inputSchema: ${JSON.stringify(resolvedSchema, null, 2)},
   generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
     const builder = new StepBuilder();
 
-${stepsCode || '    builder.step({ title: "Start", description: "Algorithm initialized." });'}
+${stepsCode || '    builder.step({ title: "Start" });'}
 
     return builder.build();
   },

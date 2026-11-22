@@ -1935,6 +1935,26 @@ const HTML_DASHBOARD = `
 
         <!-- Right: Active Step Form & Live Preview -->
         <div style="flex: 1; display: flex; flex-direction: column; gap: 0.8rem; min-height: 0; overflow-y: auto; padding-right: 0.4rem;">
+          <!-- Algorithm Top-Level Details -->
+          <div style="background: #080c16; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 0.9rem;">
+            <div style="font-size: 0.78rem; font-weight: 700; color: #38bdf8; margin-bottom: 0.5rem;">📋 Algorithm Overview</div>
+            <div class="grid-3" style="gap: 0.6rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-size: 0.74rem;">Algorithm Title</label>
+                <input type="text" id="vsb-algo-title" placeholder="Algorithm Title" oninput="handleAlgoMetaChange()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-size: 0.74rem;">Category (Optional — for filtering & organizing in CMS)</label>
+                <input type="text" id="vsb-algo-category" placeholder="e.g. Arrays, Prefix Sum, Two Pointers" oninput="handleAlgoMetaChange()">
+                <div class="hint" style="font-size: 0.68rem; color: #64748b; margin-top: 2px;">Filters algorithms in the CMS catalog and tags problem cards (does not affect visual steps).</div>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-size: 0.74rem;">Description (Optional)</label>
+                <input type="text" id="vsb-algo-desc" placeholder="Brief summary (or leave empty)" oninput="handleAlgoMetaChange()">
+              </div>
+            </div>
+          </div>
+
           <!-- Step Metadata & Java Code -->
           <div style="background: #080c16; border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
@@ -1946,21 +1966,21 @@ const HTML_DASHBOARD = `
             </div>
             <div class="grid-2">
               <div class="form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.76rem;">Step Title *</label>
-                <input type="text" id="vsb-title" placeholder="e.g. Inspect nums[mid] == target" oninput="handleVisualFieldChange()">
+                <label style="font-size: 0.76rem;">Step Title (Optional — leave blank to completely hide step commentary box)</label>
+                <input type="text" id="vsb-title" placeholder="e.g. Inspect nums[mid] == target (or leave blank)" oninput="handleVisualFieldChange()">
               </div>
               <div class="form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.76rem;">Java Code Line (Standard Java syntax)</label>
-                <input type="text" id="vsb-codeline" placeholder="e.g. int mid = low + (high - low) / 2;" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                <label style="font-size: 0.76rem;">Java Code Line (Optional — leave blank for visual-only)</label>
+                <input type="text" id="vsb-codeline" placeholder="e.g. nums[i] = nums[i] + nums[i-1]; (or leave blank)" style="font-family: monospace;" oninput="handleVisualFieldChange()">
               </div>
             </div>
             <div class="form-group" style="margin-bottom: 0.5rem;">
-              <label style="font-size: 0.76rem;">Step Description (Plain English)</label>
-              <input type="text" id="vsb-desc" placeholder="e.g. Compare middle element at index 4 with target 23." oninput="handleVisualFieldChange()">
+              <label style="font-size: 0.76rem;">Step Description (Optional — leave blank if not needed)</label>
+              <input type="text" id="vsb-desc" placeholder="e.g. Add previous running sum to current element (or leave blank)" oninput="handleVisualFieldChange()">
             </div>
             <div class="form-group" style="margin-bottom: 0;">
-              <label style="font-size: 0.76rem;">Variables Bar (comma-separated key=value)</label>
-              <input type="text" id="vsb-vars" placeholder="e.g. low=0, high=9, mid=4, target=23" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+              <label style="font-size: 0.76rem;">Variables Bar (Optional — comma-separated key=value, leave blank for pure visual feel)</label>
+              <input type="text" id="vsb-vars" placeholder="e.g. low=0, high=9 (or leave blank for pure visual feel)" style="font-family: monospace;" oninput="handleVisualFieldChange()">
             </div>
           </div>
 
@@ -1970,25 +1990,56 @@ const HTML_DASHBOARD = `
             
             <!-- Array Controls -->
             <div id="vsb-array-group" style="margin-bottom: 0.7rem; padding-bottom: 0.7rem; border-bottom: 1px solid #1e293b;">
-              <div style="font-size: 0.78rem; font-weight: 700; color: #38bdf8; margin-bottom: 0.4rem;">📊 Array & Pointers</div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #38bdf8; margin-bottom: 0.4rem;">📊 Array, Pointers & Highlights</div>
               <div class="grid-2">
                 <div class="form-group" style="margin-bottom: 0.4rem;">
                   <label style="font-size: 0.74rem;">Array Elements (comma-separated)</label>
-                  <input type="text" id="vsb-array-vals" placeholder="e.g. 2, 5, 8, 12, 16, 23, 38" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <input type="text" id="vsb-array-vals" placeholder="e.g. 1, 2, 3, 4" style="font-family: monospace;" oninput="handleVisualFieldChange()">
                 </div>
                 <div class="form-group" style="margin-bottom: 0.4rem;">
-                  <label style="font-size: 0.74rem;">Pointers (e.g. low=0, mid=4, high=9)</label>
-                  <input type="text" id="vsb-array-pointers" placeholder="e.g. low=0, mid=4, high=9" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <label style="font-size: 0.74rem;">Pointers (Arrow over cell: <code>name=index</code> or <code>name=index:color</code>)</label>
+                  <input type="text" id="vsb-array-pointers" placeholder="e.g. i=1:blue, previous=0:purple" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+                    <span style="font-size: 0.68rem; color: #64748b; align-self: center;">Quick insert:</span>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('i=0')">+ i=0</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('i=1:blue')">+ i=1:blue</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('j=2')">+ j=2</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('previous=0:purple')">+ prev=0:purple</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('left=0')">+ left=0</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddPointer('mid=2:amber')">+ mid=2:amber</button>
+                  </div>
+                  <div class="hint" style="font-size: 0.68rem; color: #94a3b8; margin-top: 3px; line-height: 1.4;">
+                    <strong>Colors:</strong> <span style="color:#38bdf8;">blue</span>, <span style="color:#a855f7;">purple</span>, <span style="color:#10b981;">emerald</span>, <span style="color:#f59e0b;">amber</span>, <span style="color:#f43f5e;">rose</span>, <span style="color:#06b6d4;">cyan</span>.
+                  </div>
                 </div>
               </div>
               <div class="grid-2">
                 <div class="form-group" style="margin-bottom: 0;">
-                  <label style="font-size: 0.74rem;">Highlights (cell indices, e.g. 4 or 4:match, 0:current)</label>
-                  <input type="text" id="vsb-array-highlights" placeholder="e.g. 4 or 4:match" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <label style="font-size: 0.74rem;">Cell Highlights (Color cell: <code>index:state</code>)</label>
+                  <input type="text" id="vsb-array-highlights" placeholder="e.g. 1:current, 0:compare, 1:found" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+                    <span style="font-size: 0.68rem; color: #64748b; align-self: center;">States:</span>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px; color: #38bdf8; border-color: #0284c7;" onclick="quickAddHighlight('0:current')">🔵 0:current</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px; color: #f59e0b; border-color: #d97706;" onclick="quickAddHighlight('0:compare')">🟡 0:compare</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px; color: #10b981; border-color: #059669;" onclick="quickAddHighlight('0:found')">🟢 0:found (match)</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px; color: #94a3b8; border-color: #475569;" onclick="quickAddHighlight('0:visited')">⚪ 0:visited</button>
+                  </div>
+                  <div class="hint" style="font-size: 0.68rem; color: #94a3b8; margin-top: 3px; line-height: 1.4;">
+                    <strong>Meaning:</strong> <code>current</code> = active cell under cursor, <code>compare</code> = reference element, <code>found</code>/<code>match</code> = updated result / target found, <code>visited</code> = done.
+                  </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                  <label style="font-size: 0.74rem;">Active Subarray Window (start..end, e.g. 0..4)</label>
-                  <input type="text" id="vsb-array-window" placeholder="e.g. 0..4" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <label style="font-size: 0.74rem;">Active Subarray Window (Range: <code>start..end</code>)</label>
+                  <input type="text" id="vsb-array-window" placeholder="e.g. 0..3" style="font-family: monospace;" oninput="handleVisualFieldChange()">
+                  <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+                    <span style="font-size: 0.68rem; color: #64748b; align-self: center;">Examples:</span>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddWindow('0..2')">0..2</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddWindow('0..3')">0..3</button>
+                    <button type="button" class="btn-secondary" style="font-size: 0.65rem; padding: 1px 6px;" onclick="quickAddWindow('')">Clear</button>
+                  </div>
+                  <div class="hint" style="font-size: 0.68rem; color: #94a3b8; margin-top: 3px; line-height: 1.4;">
+                    <strong>Purpose:</strong> Encloses a sliding window range with a connected border (e.g. <code>0..3</code>).
+                  </div>
                 </div>
               </div>
             </div>
@@ -2276,7 +2327,13 @@ const HTML_DASHBOARD = `
               <option value="Greedy & Backtracking" />
               <option value="General DSA" />
             </datalist>
-            <div class="hint">Freeform category: pick from suggestions, enter any custom category, or leave blank.</div>
+            <div class="hint">Organizes, filters, and groups algorithms in the CMS studio cards and tags algorithm metadata. Leave blank if not needed.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Description (Optional)</label>
+            <input type="text" id="npm-algo-desc" placeholder="Brief algorithm description (or leave empty)">
+            <div class="hint">Not required — leave blank if not needed.</div>
           </div>
 
           <div class="form-group">
@@ -5532,7 +5589,10 @@ const HTML_DASHBOARD = `
               <h4 style="font-size: 1rem; font-weight: 800; color: #fff; margin: 0;">\${escapeHtml(algo.title)}</h4>
               \${usageBadge}
             </div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent); margin-bottom: 0.6rem;">id: "\${escapeHtml(algo.id)}"</div>
+            <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.6rem; flex-wrap: wrap;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent);">id: "\${escapeHtml(algo.id)}"</span>
+              \${algo.category ? \`<span style="font-size: 0.7rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 0.1rem 0.45rem; border-radius: 9999px; font-weight: 600;">🏷️ \${escapeHtml(algo.category)}</span>\` : ''}
+            </div>
             <div style="margin-top: 0.5rem; font-size: 0.78rem; background: #080c16; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 0.75rem;">
               <div style="font-weight: 700; color: #94a3b8; font-size: 0.72rem; margin-bottom: 0.3rem;">📄 Embedded in Lessons:</div>
               \${usageHtml}
@@ -5670,14 +5730,20 @@ const HTML_DASHBOARD = `
           if (!structRes.ok) throw new Error(structData.error || 'Failed to fetch algorithm steps');
 
           currentVisualAlgo = structData;
+          if (document.getElementById('vsb-algo-title')) {
+            document.getElementById('vsb-algo-title').value = currentVisualAlgo.title || '';
+          }
+          if (document.getElementById('vsb-algo-category')) {
+            document.getElementById('vsb-algo-category').value = currentVisualAlgo.category || '';
+          }
+          if (document.getElementById('vsb-algo-desc')) {
+            document.getElementById('vsb-algo-desc').value = currentVisualAlgo.description || '';
+          }
+
           if (!currentVisualAlgo.steps || currentVisualAlgo.steps.length === 0) {
             currentVisualAlgo.steps = [{
               stepNumber: 0,
-              title: 'Initialize Algorithm',
-              description: 'Initial state of data structures.',
-              codeLine: '// Initial state in Java',
-              variables: {},
-              array: { values: [1, 2, 3, 4, 5], pointers: { i: 0 }, highlights: [0] }
+              array: { values: [1, 2, 3, 4, 5], pointers: [], highlights: [] }
             }];
           }
           activeVisualStepIdx = 0;
@@ -5727,10 +5793,44 @@ const HTML_DASHBOARD = `
           selectVisualStep(idx);
         };
 
-        item.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 0.72rem; font-weight: 800; color: ' + (isActive ? 'var(--accent)' : '#94a3b8') + ';">Step ' + idx + '</span><div style="display: flex; gap: 0.2rem;"><button type="button" class="icon-btn" style="padding: 0.1rem 0.3rem; font-size: 0.68rem;" title="Move Up" onclick="moveVisualStep(' + idx + ', -1)">▲</button><button type="button" class="icon-btn" style="padding: 0.1rem 0.3rem; font-size: 0.68rem;" title="Move Down" onclick="moveVisualStep(' + idx + ', 1)">▼</button></div></div><div style="font-size: 0.78rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(step.title || 'Step ' + idx) + '</div>';
+        const titleText = step.title ? escapeHtml(step.title) : '<span style="color: #64748b; font-style: italic;">(No title)</span>';
+        item.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 0.72rem; font-weight: 800; color: ' + (isActive ? 'var(--accent)' : '#94a3b8') + ';">Step ' + idx + '</span><div style="display: flex; gap: 0.2rem;"><button type="button" class="icon-btn" style="padding: 0.1rem 0.3rem; font-size: 0.68rem;" title="Move Up" onclick="moveVisualStep(' + idx + ', -1)">▲</button><button type="button" class="icon-btn" style="padding: 0.1rem 0.3rem; font-size: 0.68rem;" title="Move Down" onclick="moveVisualStep(' + idx + ', 1)">▼</button></div></div><div style="font-size: 0.78rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + titleText + '</div>';
         container.appendChild(item);
       });
     }
+
+    function handleAlgoMetaChange() {
+      if (!currentVisualAlgo) return;
+      currentVisualAlgo.title = document.getElementById('vsb-algo-title')?.value.trim() || '';
+      currentVisualAlgo.category = document.getElementById('vsb-algo-category')?.value.trim() || '';
+      currentVisualAlgo.description = document.getElementById('vsb-algo-desc')?.value.trim() || '';
+    }
+
+    function quickAddPointer(token) {
+      const el = document.getElementById('vsb-array-pointers');
+      if (!el) return;
+      const cur = el.value.trim();
+      el.value = cur ? cur + ', ' + token : token;
+      handleVisualFieldChange();
+    }
+    window.quickAddPointer = quickAddPointer;
+
+    function quickAddHighlight(token) {
+      const el = document.getElementById('vsb-array-highlights');
+      if (!el) return;
+      const cur = el.value.trim();
+      el.value = cur ? cur + ', ' + token : token;
+      handleVisualFieldChange();
+    }
+    window.quickAddHighlight = quickAddHighlight;
+
+    function quickAddWindow(val) {
+      const el = document.getElementById('vsb-array-window');
+      if (!el) return;
+      el.value = val;
+      handleVisualFieldChange();
+    }
+    window.quickAddWindow = quickAddWindow;
 
     function selectVisualStep(idx) {
       if (!currentVisualAlgo || !currentVisualAlgo.steps[idx]) return;
@@ -5744,9 +5844,9 @@ const HTML_DASHBOARD = `
       const prevStep = currentVisualAlgo.steps[activeVisualStepIdx] || currentVisualAlgo.steps[currentVisualAlgo.steps.length - 1];
       const newStep = JSON.parse(JSON.stringify(prevStep || {}));
       newStep.stepNumber = currentVisualAlgo.steps.length;
-      newStep.title = 'Step ' + newStep.stepNumber + ': Next Action';
-      newStep.description = 'Describe this execution step.';
-      newStep.codeLine = '// Java line executed here';
+      delete newStep.title;
+      delete newStep.description;
+      delete newStep.codeLine;
 
       currentVisualAlgo.steps.push(newStep);
       activeVisualStepIdx = currentVisualAlgo.steps.length - 1;
@@ -5800,8 +5900,10 @@ const HTML_DASHBOARD = `
       if (!step) return;
 
       document.getElementById('vsb-active-step-badge').textContent = 'Step ' + activeVisualStepIdx + ' / ' + (currentVisualAlgo.steps.length - 1);
-      document.getElementById('vsb-title').value = step.title || '';
-      document.getElementById('vsb-codeline').value = step.codeLine || '';
+      const isAutoStepTitle = step.title && (/^Step \d+$/i.test(step.title.trim()) || step.title.toLowerCase() === 'initial state');
+      document.getElementById('vsb-title').value = (step.title && !isAutoStepTitle) ? step.title : '';
+      const isPlaceholder = step.codeLine && step.codeLine.trim().toLowerCase().startsWith('// java statement');
+      document.getElementById('vsb-codeline').value = (!isPlaceholder && step.codeLine) ? step.codeLine : '';
       document.getElementById('vsb-desc').value = step.description || '';
 
       // Variables
@@ -5815,7 +5917,12 @@ const HTML_DASHBOARD = `
 
       const ptrs = arr.pointers || [];
       if (Array.isArray(ptrs)) {
-        document.getElementById('vsb-array-pointers').value = ptrs.map(p => (typeof p === 'object' ? p.name + '=' + p.index : p)).join(', ');
+        document.getElementById('vsb-array-pointers').value = ptrs.map(p => {
+          if (typeof p === 'object') {
+            return p.name + '=' + p.index + (p.color ? ':' + p.color : '');
+          }
+          return p;
+        }).join(', ');
       } else if (typeof ptrs === 'object') {
         document.getElementById('vsb-array-pointers').value = Object.entries(ptrs).map(([k, v]) => k + '=' + v).join(', ');
       } else {
@@ -5945,9 +6052,26 @@ const HTML_DASHBOARD = `
       const step = currentVisualAlgo.steps[activeVisualStepIdx];
       if (!step) return;
 
-      step.title = document.getElementById('vsb-title').value.trim();
-      step.codeLine = document.getElementById('vsb-codeline').value.trim();
-      step.description = document.getElementById('vsb-desc').value.trim();
+      const titleVal = document.getElementById('vsb-title').value.trim();
+      if (titleVal) {
+        step.title = titleVal;
+      } else {
+        delete step.title;
+      }
+
+      const codeVal = document.getElementById('vsb-codeline').value.trim();
+      if (codeVal && !codeVal.toLowerCase().startsWith('// java statement')) {
+        step.codeLine = codeVal;
+      } else {
+        delete step.codeLine;
+      }
+
+      const descVal = document.getElementById('vsb-desc').value.trim();
+      if (descVal) {
+        step.description = descVal;
+      } else {
+        delete step.description;
+      }
 
       // Variables
       const varRaw = document.getElementById('vsb-vars').value.trim();
@@ -5981,9 +6105,13 @@ const HTML_DASHBOARD = `
             const parts = p.split('=');
             if (parts.length === 2) {
               const name = parts[0].trim();
-              const idx = parts[1].trim();
+              const rest = parts[1].trim().split(':');
+              const idx = rest[0].trim();
+              const color = rest[1] ? rest[1].trim() : undefined;
               if (name && idx !== '') {
-                ptrs.push({ name: name, index: Number(idx) || 0 });
+                const ptrObj = { name: name, index: Number(idx) || 0 };
+                if (color) ptrObj.color = color;
+                ptrs.push(ptrObj);
               }
             }
           });
@@ -6245,7 +6373,7 @@ const HTML_DASHBOARD = `
       const stepsContainer = document.getElementById('vsb-steps-list');
       if (stepsContainer && stepsContainer.children[activeVisualStepIdx]) {
         const titleEl = stepsContainer.children[activeVisualStepIdx].querySelector('div:last-child');
-        if (titleEl) titleEl.textContent = step.title || ('Step ' + activeVisualStepIdx);
+        if (titleEl) titleEl.innerHTML = step.title ? escapeHtml(step.title) : '<span style="color: #64748b; font-style: italic;">(No title)</span>';
       }
 
       renderLiveVisualCanvas();
@@ -6269,7 +6397,8 @@ const HTML_DASHBOARD = `
       }
 
       // 2. Code Line Banner
-      if (step.codeLine) {
+      const isPlaceholder = step.codeLine && step.codeLine.trim().toLowerCase().startsWith('// java statement');
+      if (step.codeLine && !isPlaceholder) {
         html += '<div style="background: #020617; border-left: 3px solid var(--accent); padding: 0.35rem 0.75rem; border-radius: 4px; font-family: monospace; font-size: 0.8rem; color: #38bdf8;"><code>' + escapeHtml(step.codeLine) + '</code></div>';
       }
 
@@ -6280,21 +6409,41 @@ const HTML_DASHBOARD = `
         const winEnd = arr.window?.end !== undefined ? arr.window.end : arr.window?.endIndex;
         const hasWindow = winStart !== undefined && winEnd !== undefined;
 
+        const ptrColorStyleMap = {
+          blue: { bg: '#0b1329', border: '#38bdf8', text: '#38bdf8' },
+          purple: { bg: '#1f132e', border: '#a855f7', text: '#a855f7' },
+          amber: { bg: '#241a06', border: '#f59e0b', text: '#f59e0b' },
+          emerald: { bg: '#06281e', border: '#10b981', text: '#10b981' },
+          rose: { bg: '#2b0b14', border: '#f43f5e', text: '#f43f5e' },
+          red: { bg: '#2b0b14', border: '#f43f5e', text: '#f43f5e' },
+          cyan: { bg: '#08252d', border: '#06b6d4', text: '#06b6d4' }
+        };
+
         const cells = arr.values.map((val, idx) => {
           const isHl = (arr.highlights || []).some(h => (typeof h === 'number' ? h === idx : h.index === idx));
-          const hlObj = (arr.highlights || []).find(h => (typeof h === 'object' && h.index === idx));
-          const isMatch = hlObj?.state === 'match';
+          const hlObj = (arr.highlights || []).find(h => (typeof h === 'object' ? h.index === idx : h === idx));
+          const hlState = typeof hlObj === 'object' ? hlObj.state : (hlObj !== undefined ? 'current' : undefined);
+          const isMatch = hlState === 'match' || hlState === 'found';
+          const isCompare = hlState === 'compare';
+          const isVisited = hlState === 'visited';
+          const isCurrent = hlState === 'current' || (!isMatch && !isCompare && !isVisited && isHl);
           const inWin = hasWindow && idx >= winStart && idx <= winEnd;
 
           const cellPtrs = (arr.pointers || []).filter(p => (typeof p === 'object' ? p.index === idx : false));
-          const ptrHtml = cellPtrs.map(p => '<div style="font-size: 0.7rem; font-weight: 800; color: #38bdf8; background: #0b1329; border: 1px solid #38bdf8; padding: 0.1rem 0.35rem; border-radius: 4px; margin-bottom: 2px;">' + escapeHtml(p.name) + ' ↓</div>').join('');
+          const ptrHtml = cellPtrs.map(p => {
+            const style = ptrColorStyleMap[p.color || 'blue'] || ptrColorStyleMap.blue;
+            return '<div style="font-size: 0.7rem; font-weight: 800; color: ' + style.text + '; background: ' + style.bg + '; border: 1px solid ' + style.border + '; padding: 0.1rem 0.35rem; border-radius: 4px; margin-bottom: 2px;">' + escapeHtml(p.name) + ' ↓</div>';
+          }).join('');
 
           let cellBg = '#0f172a';
-          let cellBorder = inWin ? '2px solid #38bdf8' : '1px solid #334155';
-          if (isMatch) { cellBg = '#065f46'; cellBorder = '2px solid #10b981'; }
-          else if (isHl) { cellBg = '#0369a1'; cellBorder = '2px solid #38bdf8'; }
+          let cellBorder = inWin ? '2px solid #6366f1' : '1px solid #334155';
+          let textCol = '#fff';
+          if (isMatch) { cellBg = '#065f46'; cellBorder = '2px solid #10b981'; textCol = '#a7f3d0'; }
+          else if (isCompare) { cellBg = '#451a03'; cellBorder = '2px solid #f59e0b'; textCol = '#fde68a'; }
+          else if (isCurrent) { cellBg = '#0369a1'; cellBorder = '2px solid #38bdf8'; textCol = '#e0f2fe'; }
+          else if (isVisited) { cellBg = '#1e293b'; cellBorder = '1px solid #475569'; textCol = '#94a3b8'; }
 
-          return '<div style="display: flex; flex-direction: column; align-items: center; min-width: 42px;">' + ptrHtml + '<div style="width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: ' + cellBg + '; border: ' + cellBorder + '; border-radius: 6px; font-weight: 800; font-family: monospace; font-size: 0.95rem; color: #fff;">' + escapeHtml(String(val)) + '</div><span style="font-size: 0.68rem; color: #64748b; font-family: monospace; margin-top: 2px;">' + idx + '</span></div>';
+          return '<div style="display: flex; flex-direction: column; align-items: center; min-width: 42px;">' + ptrHtml + '<div style="width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: ' + cellBg + '; border: ' + cellBorder + '; border-radius: 6px; font-weight: 800; font-family: monospace; font-size: 0.95rem; color: ' + textCol + ';">' + escapeHtml(String(val)) + '</div><span style="font-size: 0.68rem; color: #64748b; font-family: monospace; margin-top: 2px;">' + idx + '</span></div>';
         }).join('');
 
         html += '<div><div style="font-size: 0.74rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">' + (arr.label || 'nums[]') + '</div><div style="display: flex; flex-wrap: wrap; gap: 4px; align-items: flex-end; padding: 4px 0;">' + cells + '</div></div>';
@@ -6625,11 +6774,15 @@ const HTML_DASHBOARD = `
       if (!currentVisualAlgo) return;
       hideToast();
       try {
+        const titleVal = document.getElementById('vsb-algo-title')?.value.trim() || currentVisualAlgo.title || currentVisualAlgo.id;
+        const catVal = document.getElementById('vsb-algo-category')?.value.trim() || currentVisualAlgo.category || 'General DSA';
+        const descVal = document.getElementById('vsb-algo-desc')?.value.trim() || '';
+
         const payload = {
           id: currentVisualAlgo.id,
-          title: currentVisualAlgo.title,
-          category: currentVisualAlgo.category || 'General DSA',
-          description: currentVisualAlgo.description || '',
+          title: titleVal,
+          category: catVal,
+          description: descVal,
           visualizationTypes: currentVisualAlgo.visualizationTypes || ['array'],
           defaultInputs: currentVisualAlgo.defaultInputs || {},
           inputSchema: currentVisualAlgo.inputSchema || [],
@@ -6748,6 +6901,9 @@ const HTML_DASHBOARD = `
       document.getElementById('npm-title').value = '';
       document.getElementById('npm-id').value = '';
       document.getElementById('npm-type').value = 'algo';
+      if (document.getElementById('npm-algo-desc')) {
+        document.getElementById('npm-algo-desc').value = '';
+      }
       handleNewProbTypeChange();
       document.getElementById('new-problem-modal').style.display = 'flex';
     }
@@ -6801,6 +6957,7 @@ const HTML_DASHBOARD = `
 
       if (type === 'algo') {
         payload.category = document.getElementById('npm-algo-category')?.value.trim() || 'General DSA';
+        payload.description = document.getElementById('npm-algo-desc')?.value.trim() || '';
         const visType = document.getElementById('npm-algo-vis')?.value || 'array';
         payload.visualizationTypes = [visType];
 
@@ -6904,11 +7061,11 @@ const HTML_DASHBOARD = `
       }
 
       details.innerHTML = \`
-        <div style="margin-bottom:0.4rem; font-weight:700; color:#f8fafc; font-size:0.9rem;">\${step.title || 'Step ' + idx}</div>
-        <div style="color:#94a3b8; font-size:0.8rem; margin-bottom:0.5rem;">\${step.description || ''}</div>
-        \${step.codeLine ? \`<div style="background:#090d16; border-left:3px solid #38bdf8; padding:4px 8px; font-family:monospace; font-size:0.8rem; color:#e2e8f0; margin-bottom:0.6rem;"><code>\${step.codeLine}</code></div>\` : ''}
+        \${step.title ? \`<div style="margin-bottom:0.4rem; font-weight:700; color:#f8fafc; font-size:0.9rem;">\${escapeHtml(step.title)}</div>\` : ''}
+        \${step.description ? \`<div style="color:#94a3b8; font-size:0.8rem; margin-bottom:0.5rem;">\${escapeHtml(step.description)}</div>\` : ''}
+        \${step.codeLine ? \`<div style="background:#090d16; border-left:3px solid #38bdf8; padding:4px 8px; font-family:monospace; font-size:0.8rem; color:#e2e8f0; margin-bottom:0.6rem;"><code>\${escapeHtml(step.codeLine)}</code></div>\` : ''}
         \${arrHtml}
-        \${step.variables ? \`<div style="font-size:0.75rem; color:#64748b; margin-top:0.4rem; font-family:monospace;">Vars: \${JSON.stringify(step.variables)}</div>\` : ''}
+        \${step.variables ? \`<div style="font-size:0.75rem; color:#64748b; margin-top:0.4rem; font-family:monospace;">Vars: \${escapeHtml(JSON.stringify(step.variables))}</div>\` : ''}
       \`;
     }
 

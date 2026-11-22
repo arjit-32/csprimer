@@ -363,24 +363,39 @@ export class VisualizerController {
     }
 
     // Step Title & Description
+    const rawTitle = step.title && step.title.trim();
+    const hasTitle = Boolean(rawTitle && rawTitle.toLowerCase() !== 'step 0' && rawTitle.toLowerCase() !== 'initial state');
     if (this.stepTitleEl) {
-      this.stepTitleEl.textContent = step.title || `Step ${this.currentStepIndex + 1}`;
+      if (hasTitle) {
+        this.stepTitleEl.textContent = rawTitle!;
+        this.stepTitleEl.classList.remove('hidden');
+      } else {
+        this.stepTitleEl.textContent = '';
+        this.stepTitleEl.classList.add('hidden');
+      }
     }
     if (this.stepDescEl) {
-      this.stepDescEl.textContent = step.description;
+      if (step.description && step.description.trim()) {
+        this.stepDescEl.textContent = step.description;
+        this.stepDescEl.classList.remove('hidden');
+      } else {
+        this.stepDescEl.textContent = '';
+        this.stepDescEl.classList.add('hidden');
+      }
     }
 
-    // Code line
+    // Code line (ignore placeholder "// Java statement")
     if (this.codeLineWrapperEl && this.codeLineEl) {
-      if (step.codeLine) {
+      const isPlaceholder = step.codeLine && step.codeLine.trim().toLowerCase().startsWith('// java statement');
+      if (step.codeLine && step.codeLine.trim() && !isPlaceholder) {
         this.codeLineWrapperEl.classList.remove('hidden');
-        this.codeLineEl.textContent = step.codeLine;
+        this.codeLineEl.textContent = step.codeLine.trim();
       } else {
         this.codeLineWrapperEl.classList.add('hidden');
       }
     }
 
-    // Variables
+    // Variables (Optional for pure visual feel)
     if (this.variablesContainerEl) {
       if (step.variables && Object.keys(step.variables).length > 0) {
         this.variablesContainerEl.innerHTML = Object.entries(step.variables)
@@ -397,6 +412,23 @@ export class VisualizerController {
       } else {
         this.variablesContainerEl.innerHTML = '';
         this.variablesContainerEl.classList.add('hidden');
+      }
+    }
+
+    // Toggle step panel visibility
+    const stepPanel = this.container.querySelector('.viz-step-panel');
+    if (stepPanel) {
+      const hasDesc = Boolean(step.description && step.description.trim());
+      const isPlaceholder = step.codeLine && step.codeLine.trim().toLowerCase().startsWith('// java statement');
+      const hasCode = Boolean(step.codeLine && step.codeLine.trim() && !isPlaceholder);
+      const hasVars = Boolean(step.variables && Object.keys(step.variables).length > 0);
+      const hasHeader = hasTitle || hasVars;
+      const showPanel = hasHeader || hasDesc || hasCode;
+      stepPanel.classList.toggle('hidden', !showPanel);
+
+      const stepHeaderEl = this.container.querySelector('.viz-step-header');
+      if (stepHeaderEl) {
+        stepHeaderEl.classList.toggle('hidden', !hasHeader);
       }
     }
 
