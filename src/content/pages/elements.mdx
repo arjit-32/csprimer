@@ -1,52 +1,608 @@
 ---
-title: "Elements & Contributor Playbook"
-description: "Exact step-by-step guide for creating content, all collection schemas and types, local scaffolding tooling, and interactive showcase of reusable MDX components."
+title: "Contributor Playbook & Architecture Reference"
+description: "Comprehensive contributor guide for CSPrimer: visual MDX elements, algorithm visualizers, TryCode drills, schemas, and the local CMS Studio."
 ---
 
 # Contributor Playbook & Platform Reference
 
-**CSPrimer** is an open-source, interactive curriculum and knowledge base built to help engineers master foundational computer science, real-world full-stack development, and AI engineering from the ground up.
+**CSPrimer** is an open-source, interactive curriculum and knowledge base built to help engineers master foundational computer science, real-world full-stack systems, and AI engineering from the ground up.
 
-### About CSPrimer & Site Architecture
-
-The curriculum is organized into **5 major learning tracks**:
-
-- **Core-CS**: Operating systems, computer networks, computer architecture, databases, compilers, and foundational mechanics.
-- **DSA**: Data structures, algorithms, complexity analysis, and interactive step-by-step problem visualizers.
-- **Development**: Modern frontend, backend, fullstack frameworks, APIs, databases, and engineering workflows.
-- **System-Design**: Distributed systems, microservices, cloud architectures, scaling patterns, and resilience.
-- **AI-Engineering**: Machine learning foundations, LLM integrations, embeddings, and AI agents.
-
-### Content Types on the Platform
-
-1. **Course Series (`/courses`)**: Structured syllabi broken into logical chapters with progress tracking and sequential navigation.
-2. **Hands-on Projects & Deep Dives (`/articles`)**: Standalone engineering tutorials, system blueprints, and practical implementations.
-3. **Interview Bytes & Spaced Repetition (`/interview-bytes`, `/revision`)**: Flashcard-style interview questions with code solutions and Anki-style spaced review.
-4. **Interactive Explorers**: Built-in algorithm visualizers (`<AlgoVisualizer>`), Git workflow simulators (`<GitVisualizer>`), and in-browser coding drills (`<TryCode>`).
-5. **Shorts (`/shorts`)**: Bite-sized video explainers for rapid concept review.
+Use the tabs below to explore our design system, visual components, data schemas, and content authoring tooling:
 
 ---
-
-This documentation provides the design system, schemas, and contributor reference for maintaining and expanding **CSPrimer**:
-1. **Local Scaffolding Tools**: One-click visual dashboard and terminal CLI to generate courses, roadmaps, and articles.
-2. **Metadata Architecture**: Clear rules for how Categories, Series, and Roadmaps relate.
-3. **Complete Schemas & Type Reference**: Exhaustive specifications of all collection schemas, allowed values, and TypeScript types.
-4. **Interactive Component Showcase**: Live preview, props reference, and copy-pasteable snippets for custom MDX components.
-5. **Algorithm Visualizer Playbook & AI Prompt Template**: Copy-pasteable prompt and architecture guide to generate visualizers for any Java DSA problem using LLMs.
-6. **Infrastructure, Hosting & Deployment Architecture**: Production setup across Vercel, Cloudflare DNS, Cloudinary CDN, and domain canonicalization.
-7. **Performance & Scale Engineering**: Micro-chunking for 500+ visualizers, memory leak prevention under ViewTransitions, and build optimizations.
-
----
-
-## 1. Automated Local Scaffolding
-
-To eliminate tedious manual JSON updates and frontmatter mistakes, use our local scaffolding tools:
 
 <Tabs>
 
-<Tab name="Web Dashboard (Visual)">
+<Tab name="🎨 Visual Elements">
 
-### Visual Content Studio (`npm run admin`)
+## Reusable MDX Components
+
+All visual elements below are auto-imported in every `.mdx` article—no explicit `import` statements are required!
+
+---
+
+### 1. Notice Callouts (`<Notice>`)
+
+Use Notice blocks to highlight critical takeaways, warnings, tips, or supplementary context.
+
+#### Live Examples
+
+<Notice type="info">
+  **Information**: CSPrimer organizes content into 5 major tracks: Core-CS, DSA, Development, System-Design, and AI-Engineering.
+</Notice>
+
+<Notice type="note">
+  **Note**: Course lessons inherit their learning category directly from their parent course series.
+</Notice>
+
+<Notice type="tip">
+  **Pro Tip**: You can preview and edit all visual elements and courses locally using `npm run admin`.
+</Notice>
+
+<Notice type="warning">
+  **Warning**: Standalone articles must omit the `series` property in their frontmatter.
+</Notice>
+
+<Notice type="danger">
+  **Danger**: Never commit unverified data mutations, broken links, or secret API credentials.
+</Notice>
+
+#### Copy-Paste Syntax
+
+```html
+<Notice type="info">
+  **Information**: Informational text or context.
+</Notice>
+
+<Notice type="note">
+  **Note**: General notes or helpful clarifications.
+</Notice>
+
+<Notice type="tip">
+  **Pro Tip**: Helpful optimizations or shortcuts.
+</Notice>
+
+<Notice type="warning">
+  **Warning**: Important gotchas or edge cases.
+</Notice>
+
+<Notice type="danger">
+  **Danger**: Critical warnings or breaking actions.
+</Notice>
+```
+
+---
+
+### 2. Badges (`<Badge>`)
+
+Inline badge chips to highlight statuses, categories, or difficulties:
+
+#### Live Examples
+
+<div class="flex flex-wrap gap-2 items-center my-4">
+  <Badge variant="primary" size="md">Core-CS</Badge>
+  <Badge variant="success" size="md">Easy</Badge>
+  <Badge variant="warning" size="md">Medium</Badge>
+  <Badge variant="danger" size="md">Hard</Badge>
+  <Badge variant="info" size="md">Interactive</Badge>
+</div>
+
+#### Copy-Paste Syntax
+
+```html
+<Badge variant="primary" size="md">Core-CS</Badge>
+<Badge variant="success" size="md">Easy</Badge>
+<Badge variant="warning" size="md">Medium</Badge>
+<Badge variant="danger" size="md">Hard</Badge>
+<Badge variant="info" size="md">Interactive</Badge>
+```
+
+---
+
+### 3. Action Buttons (`<Button>`)
+
+Call-to-action buttons for internal routes, external repositories, or interactive sandboxes:
+
+#### Live Examples
+
+<div class="flex flex-wrap gap-3 items-center my-4">
+  <Button link="/courses" style="primary" size="md">Explore Courses</Button>
+  <Button link="/articles" style="outline" size="md">Browse Projects</Button>
+  <Button link="/roadmaps" style="secondary" size="md">Learning Paths</Button>
+</div>
+
+#### Copy-Paste Syntax
+
+```html
+<Button link="/courses" style="primary" size="md">Explore Courses</Button>
+<Button link="/articles" style="outline" size="md">Browse Projects</Button>
+<Button link="/roadmaps" style="secondary" size="md">Learning Paths</Button>
+```
+
+---
+
+### 4. Accordions (`<Accordion>`)
+
+Collapsible disclosure panels for interview hints, deep dives, solution walkthroughs, and FAQs:
+
+#### Live Examples
+
+<Accordion title="💡 Click here to view the Hint">
+  When traversing contiguous subarrays of fixed size $K$, you do not need to recalculate the sum of all $K$ elements from scratch at every step. Instead, add the incoming element and subtract the outgoing element in $O(1)$ time.
+</Accordion>
+
+<Accordion title="🔍 Reveal Complexity Analysis">
+  - **Time Complexity**: $O(N)$ because each array element is visited at most twice.
+  - **Space Complexity**: $O(1)$ auxiliary space since we only maintain tracking pointers and accumulators.
+</Accordion>
+
+#### Copy-Paste Syntax
+
+```html
+<Accordion title="💡 Click here to view the Hint">
+  Your expandable content goes here. You can include **markdown**, lists, or code blocks.
+</Accordion>
+```
+
+---
+
+### 5. Multi-Language Tabs (`<Tabs>` & `<Tab>`)
+
+Organize multi-language code snippets or alternative explanations:
+
+#### Copy-Paste Syntax
+
+````markdown
+<Tabs>
+
+<Tab name="Java">
+
+```java
+class Solution {
+    public int[] runningSum(int[] nums) {
+        for (int i = 1; i < nums.length; i++) nums[i] += nums[i - 1];
+        return nums;
+    }
+}
+```
+
+</Tab>
+
+<Tab name="TypeScript">
+
+```typescript
+function runningSum(nums: number[]): number[] {
+  for (let i = 1; i < nums.length; i++) nums[i] += nums[i - 1];
+  return nums;
+}
+```
+
+</Tab>
+
+</Tabs>
+````
+
+---
+
+### 6. Video & YouTube Embeds (`<Youtube>` & `<Video>`)
+
+```html
+<!-- YouTube Video -->
+<Youtube id="dQw4w9WgXcQ" title="Concept Explainer Video" />
+
+<!-- Hosted MP4 Video -->
+<Video src="https://example.com/demo.mp4" />
+```
+
+---
+
+### 7. Formatted Tables & Typography
+
+| Technique | Common Data Structure | Time Complexity | Space Complexity |
+| :--- | :--- | :--- | :--- |
+| **Two Pointers** | Sorted Array | $O(N)$ | $O(1)$ |
+| **Sliding Window** | Array / Substring | $O(N)$ | $O(1)$ |
+| **Hash Map** | Key-Value Table | $O(N)$ | $O(N)$ |
+| **Binary Search** | Sorted Array | $O(\log N)$ | $O(1)$ |
+
+</Tab>
+
+<Tab name="🚀 Algo Visualizer">
+
+## Algorithm Visualizer (`<AlgoVisualizer>`)
+
+The **CSPrimer Algorithm Visualizer** renders step-by-step interactive animations for DSA problems, displaying executed code lines, tracking variables, highlighting cells, and animating pointers.
+
+> [!TIP] Build with CMS Studio
+> Rather than manually writing complex step arrays by hand, use the **CMS Visual Studio (`npm run admin`)**!
+> 1. Open `http://localhost:4322` and go to **Tab 10: Problems Studio**.
+> 2. Select **📊 Algorithm Visualizers** and click **➕ Create Problem** or click **✨ Visual Step Builder**.
+> 3. Visually configure your steps, test live previews, and click **📋 Tag** to copy `<AlgoVisualizer problemId="..." />` directly into your article!
+
+---
+
+### 1. How to Embed in MDX
+
+```html
+<AlgoVisualizer problemId="sample-binary-search" />
+```
+
+---
+
+### 2. Complete TypeScript Schema Reference
+
+All algorithm definition files reside in `src/problems/algorithms/<problem-slug>.ts` and export an object adhering to the schema below:
+
+```typescript
+// 1. Interactive Custom Input Field Schema
+export interface InputSchema {
+  name: string;        // Property key matching inputs[name] (e.g. "nums", "target")
+  label: string;       // Form field label in the Customize drawer
+  type: 'number' | 'string' | 'number-array' | 'string-array';
+  defaultValue: any;   // Initial default value
+  placeholder?: string;
+  description?: string;
+}
+
+// 2. Array Element Highlight States
+export interface ArrayHighlight {
+  index: number;
+  state: 'current' | 'match' | 'compare' | 'visited' | 'window' | 'found';
+  label?: string;
+}
+
+// 3. Array State Structure
+export interface ArrayState {
+  values: (number | string)[];
+  pointers?: Record<string, number> | { name: string; index: number; color?: string }[];
+  highlights?: ArrayHighlight[];
+  window?: [number, number]; // [startIndex, endIndex]
+  label?: string;
+}
+
+// 4. Single Execution Step
+export interface ExecutionStep {
+  stepNumber?: number;
+  title?: string;                  // Step header (e.g. "Calculate Midpoint")
+  description?: string;            // Plain-English explanation of the action
+  codeLine?: string;               // Idiomatic Java statement executed at this step
+  variables?: Record<string, any>; // Key-value variable tracking bar
+  array?: ArrayState;              // Single array state
+  arrays?: ArrayState[];           // Multi-array state (e.g. Merge Sort)
+  hashmap?: {
+    entries: { key: any; value: any; state?: string }[];
+    searchKey?: any;
+    searchResult?: 'found' | 'not-found' | 'searching' | null;
+  };
+  set?: {
+    elements: any[];
+    searchElement?: any;
+    searchResult?: 'found' | 'not-found' | 'searching' | null;
+  };
+  stack?: {
+    items: any[];
+    action?: 'push' | 'pop';
+    label?: string;
+  };
+  queue?: {
+    items: any[];
+    action?: 'enqueue' | 'dequeue';
+    label?: string;
+  };
+  deque?: {
+    items: any[];
+    action?: 'addFirst' | 'removeLast';
+    label?: string;
+  };
+  tree?: {
+    nodes: { id: string; value: any; left?: string; right?: string }[];
+    rootId: string;
+  };
+  dpTable?: {
+    grid: (number | string | null)[][];
+    activeCell?: { row: number; col: number };
+    formula?: string;
+  };
+}
+
+// 5. Root Algorithm Definition
+export interface AlgorithmDefinition {
+  id: string;                       // Unique slug (e.g. "01-running-sum")
+  title: string;                    // Problem title
+  category?: string;                // Topic name (e.g. "Arrays", "Binary Search")
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
+  description?: string;
+  timeComplexity?: string;          // e.g. "O(N)"
+  spaceComplexity?: string;         // e.g. "O(1)"
+  visualizationTypes: ('array' | 'hashmap' | 'set' | 'stack' | 'queue' | 'deque' | 'tree' | 'dptable')[];
+  defaultInputs: Record<string, any>;
+  inputSchema: InputSchema[];
+  generateSteps: (inputs: Record<string, any>) => ExecutionStep[];
+}
+```
+
+---
+
+### 3. File Code Boilerplate (`src/problems/algorithms/<slug>.ts`)
+
+If you write or edit an algorithm manually, adhere to this clean structure:
+
+```typescript
+import type { AlgorithmDefinition, ExecutionStep } from './types';
+import { StepBuilder } from './builder';
+
+export const algoBinarySearch: AlgorithmDefinition = {
+  id: 'sample-binary-search',
+  title: 'Binary Search',
+  category: 'Searching',
+  difficulty: 'Easy',
+  description: 'Halve the search space using low, mid, and high pointers along with an active subarray window.',
+  visualizationTypes: ['array'],
+
+  defaultInputs: {
+    nums: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
+    target: 23,
+  },
+
+  inputSchema: [
+    {
+      name: 'nums',
+      label: 'Sorted Array',
+      type: 'number-array',
+      defaultValue: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
+      description: 'Ascending sorted array',
+    },
+    {
+      name: 'target',
+      label: 'Target Value',
+      type: 'number',
+      defaultValue: 23,
+      description: 'Number to search for',
+    },
+  ],
+
+  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    // 1. Sanitize inputs safely to support custom inputs
+    const rawNums = inputs.nums;
+    const nums: number[] = Array.isArray(rawNums)
+      ? rawNums.map(Number).filter((n) => !isNaN(n))
+      : [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+    const target = Number(inputs.target ?? 23);
+
+    const builder = new StepBuilder();
+
+    if (nums.length === 0) {
+      builder.step({ title: 'Empty Array', description: 'Search space is empty.', array: { values: [] } });
+      return builder.build();
+    }
+
+    let low = 0;
+    let high = nums.length - 1;
+
+    // Step 0: Initial State
+    builder.step({
+      title: 'Initialize Search Space',
+      description: `Target is ${target}. Candidate interval is [0..${high}].`,
+      codeLine: 'int low = 0, high = nums.length - 1;',
+      variables: { low, high, target },
+      array: { values: [...nums], pointers: { low, high }, window: [low, high], label: 'nums[]' },
+    });
+
+    // Execution loop
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const midVal = nums[mid];
+
+      builder.step({
+        title: `Calculate Midpoint: mid = ${mid}`,
+        description: `Inspect element at index ${mid} (${midVal}) vs target (${target}).`,
+        codeLine: 'int mid = low + (high - low) / 2;',
+        variables: { low, mid, high, 'nums[mid]': midVal, target },
+        array: {
+          values: [...nums],
+          pointers: { low, mid, high },
+          highlights: [{ index: mid, state: 'current' }],
+          window: [low, high],
+          label: 'nums[]',
+        },
+      });
+
+      if (midVal === target) {
+        builder.step({
+          title: `Target Found at Index ${mid}!`,
+          description: `nums[${mid}] == ${target}. Search succeeds.`,
+          codeLine: 'if (nums[mid] == target) return mid;',
+          variables: { mid, target, status: 'FOUND' },
+          array: { values: [...nums], pointers: { mid }, highlights: [{ index: mid, state: 'match' }], label: 'nums[]' },
+        });
+        return builder.build();
+      } else if (midVal < target) {
+        low = mid + 1;
+        builder.step({
+          title: `nums[mid] < target: Narrow to Right Half`,
+          description: `Advance low to ${low}.`,
+          codeLine: 'low = mid + 1;',
+          variables: { low, mid, high, target },
+          array: { values: [...nums], pointers: { low, high }, window: [low, high], label: 'nums[]' },
+        });
+      } else {
+        high = mid - 1;
+        builder.step({
+          title: `nums[mid] > target: Narrow to Left Half`,
+          description: `Decrement high to ${high}.`,
+          codeLine: 'high = mid - 1;',
+          variables: { low, mid, high, target },
+          array: { values: [...nums], pointers: { low, high }, window: [low, high], label: 'nums[]' },
+        });
+      }
+    }
+
+    builder.step({
+      title: 'Target Not Found',
+      description: `Search space exhausted without finding target.`,
+      codeLine: 'return -1;',
+      variables: { target, status: 'NOT FOUND' },
+      array: { values: [...nums], label: 'nums[]' },
+    });
+
+    return builder.build();
+  },
+};
+
+// Always provide default export for automatic dynamic imports
+export default algoBinarySearch;
+```
+
+---
+
+### 4. Registration Command
+
+After creating or modifying any file in `src/problems/algorithms/`:
+
+```bash
+node -e "import('./scripts/scaffold.mjs').then(m => m.syncAlgorithmIndex())"
+```
+
+*(Note: If you use the CMS Studio via `npm run admin`, it auto-syncs on every save!)*
+
+</Tab>
+
+<Tab name="⚡ TryCode (Frontend)">
+
+## TryCode: In-Browser JavaScript Drills
+
+**TryCode** is CSPrimer's in-browser interactive code editor, powered by **Monaco Editor** and client-side execution sandboxes.
+
+> [!NOTE] Scope
+> - **TryCode is reserved strictly for frontend & JavaScript interview problems** (utility functions, DOM manipulation, asynchronous tasks, data transformations).
+> - DSA / Java problems use the **Algorithm Visualizer (`<AlgoVisualizer>`)** on the previous tab.
+
+---
+
+### 1. How to Embed in MDX
+
+```html
+<TryCode problemId="array-unique" />
+```
+
+Or for DOM mode:
+
+```html
+<TryCode problemId="dom-counter" mode="dom" />
+```
+
+---
+
+### 2. File Location & TypeScript Schema
+
+All TryCode problem definitions reside in `src/problems/frontend/<problem-slug>.ts`:
+
+```typescript
+export interface TestCase {
+  input: any[];      // Array of arguments passed to solution(...)
+  expected: any;     // Expected return value (deep equality comparison)
+}
+
+export interface Problem {
+  id: string;                    // Unique slug matching the filename (e.g. "array-unique")
+  title: string;                 // User-facing problem title
+  mode: "function" | "dom";      // Execution mode
+  starterCode: string;           // Initial code shown in the Monaco editor
+  tests: TestCase[];             // Automated test suite
+  html?: string;                 // Required if mode === "dom": Initial HTML layout
+}
+```
+
+---
+
+### 3. Execution Modes & Blueprints
+
+#### Function Mode (`mode: "function"`)
+
+Used for algorithmic JS functions and utility implementations. The test runner passes `test.input` as arguments to `solution(...)` and validates the return value against `test.expected`:
+
+```typescript
+import type { Problem } from "../../types/problem";
+
+const arrayUnique: Problem = {
+  id: "array-unique",
+  title: "Deduplicate Cart Items While Preserving Order",
+  mode: "function",
+
+  starterCode: `function solution(cartItems) {
+  // Return only the first-seen product IDs in order.
+  return Array.from(new Set(cartItems));
+}`,
+
+  tests: [
+    {
+      input: [["sku-1", "sku-2", "sku-1", "sku-3", "sku-2", "sku-4"]],
+      expected: ["sku-1", "sku-2", "sku-3", "sku-4"],
+    },
+    {
+      input: [["sku-9", "sku-9", "sku-9"]],
+      expected: ["sku-9"],
+    },
+  ],
+};
+
+export default arrayUnique;
+```
+
+#### DOM Mode (`mode: "dom"`)
+
+Used for interactive UI problems (search filters, counters, modal widgets). Provides an `html` template and executes starter code that attaches listeners to the DOM:
+
+```typescript
+import type { Problem } from "../../types/problem";
+
+const domCounter: Problem = {
+  id: "dom-counter",
+  title: "Filter Product Results by Search Term",
+  mode: "dom",
+
+  starterCode: `const searchInput = document.getElementById('search');
+const cards = [...document.querySelectorAll('[data-name]')];
+
+searchInput.addEventListener('input', (event) => {
+  const query = event.target.value.trim().toLowerCase();
+  cards.forEach((card) => {
+    const name = card.dataset.name.toLowerCase();
+    card.style.display = name.includes(query) ? 'flex' : 'none';
+  });
+});`,
+
+  html: `
+    <div id="app" style="font-family: system-ui, sans-serif; max-width: 620px; margin: 0 auto; padding: 20px;">
+      <div style="margin-bottom:16px;">
+        <label for="search" style="display:block; margin-bottom:8px; font-weight:600;">Search products</label>
+        <input id="search" type="text" placeholder="Search by product name" style="width:100%; padding:12px; border:1px solid #d1d5db; border-radius:8px;" />
+      </div>
+      <div style="display:grid; gap:12px;">
+        <div data-name="Apple iPhone 15 Pro" style="display:flex; justify-content:space-between; padding:12px; border:1px solid #e5e7eb; border-radius:8px;">
+          <span>Apple iPhone 15 Pro</span><strong>$999</strong>
+        </div>
+      </div>
+    </div>
+  `,
+
+  tests: [{ input: [], expected: null }],
+};
+
+export default domCounter;
+```
+
+</Tab>
+
+<Tab name="🛠️ CMS & Platform Setup">
+
+## Local Tooling, CMS Studio & Architecture
+
+To avoid manual JSON edits and frontmatter mistakes, use the CSPrimer local development tools:
+
+---
+
+### 1. The Visual Content Studio (`npm run admin`)
 
 Run the local Dev Studio dashboard alongside your Astro dev server:
 
@@ -56,22 +612,15 @@ npm run admin
 
 Open **`http://localhost:4322`** in your browser.
 
-- **Tab 1: Course Series Cards**: Interactive card grid of all 45 courses to set status (`🟢 Live`, `⏳ In Progress`, `🔒 Planned`, `🔁 Revisiting`), and edit details (title, description, time, weight).
-- **Tab 2: Syllabus & Lessons**: Organize chapters and lessons with `▲`/`▼` reordering, accurate status toggles, and detection of unassigned files on disk.
-- **Tab 3: Create Lesson / Project**: Smart switcher between **Course Lesson** (category strictly locked to course track), **Hands-on Project** (surfaced on `/articles`), and **Standalone Deep Dive**.
-- **Tab 4: Reorder Roadmaps**: Visual track manager with `▲ Up` and `▼ Down` buttons to reorder courses along learning paths, plus a 1-click **Sync Weights to Courses** button.
-- **Tab 5: New Series**: Form to scaffold a new course series and register it into `roadmapOrder.json`.
-- **Tab 6: All Articles Explorer**: Instant real-time search across all 300+ articles with track filtering and 1-click draft toggling.
-- **Tab 7: Interview Bytes**: Manage flashcard-style interview questions with syntax-highlighted code and topic filters.
-- **Tab 8: Shorts Studio**: Manage YouTube Shorts and micro-learning video explainers.
-- **Tab 9: Images & WebP**: Convert local source images to WebP and upload to Cloudinary.
-- **Tab 10: Problems Studio**: Full code editors, registries, and 1-click article tag inserters for interactive code exercises.
+- **Tab 1: Course Series Cards**: Interactive card grid of all courses to set status (`🟢 Live`, `⏳ In Progress`, `🔒 Planned`), edit metadata, and reorder.
+- **Tab 2: Syllabus & Lessons**: Drag-and-drop chapter and lesson reordering, status toggles, and detection of unassigned lesson files.
+- **Tab 3: Create Lesson / Project**: Smart switcher between **Course Lesson**, **Hands-on Project** (surfaced on `/articles`), and **Standalone Deep Dive**.
+- **Tab 4: Reorder Roadmaps**: Visual track manager to reorder courses along learning paths with 1-click weight synchronization.
+- **Tab 10: Problems Studio**: Manage **Algorithm Visualizers** with the **Visual Step Builder** and **TryCode exercises** with 1-click article tag insertion.
 
-</Tab>
+---
 
-<Tab name="Terminal CLI">
-
-### Interactive CLI (`npm run scaffold`)
+### 2. Terminal CLI (`npm run scaffold`)
 
 Run the zero-dependency terminal assistant:
 
@@ -82,19 +631,13 @@ npm run create
 ```
 
 Follow the prompts to:
-1. Create a new Course Series and register it directly into `roadmapOrder.json`.
+1. Create a new Course Series and register it into `roadmapOrder.json`.
 2. Create a new Article (standalone or attached to a course syllabus).
 3. Add an existing Series to a Roadmap category.
 
-</Tab>
-
-</Tabs>
-
 ---
 
-## 2. Architecture & Metadata Rules
-
-### The Core Hierarchy
+### 3. Platform Hierarchy & Metadata Rules
 
 The platform organizes content in a 3-tier hierarchy:
 
@@ -104,1443 +647,20 @@ The platform organizes content in a 3-tier hierarchy:
 | :--- | :--- | :--- |
 | **1. Category / Track** | `src/config/roadmapOrder.json` | Top-level learning domain (`Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering`). |
 | **2. Series / Course** | `src/content/series/<id>.json` | Structured course with a syllabus (`navbar`). Defines `"category": "<Track>"`. |
-| **3. Lessons** | `src/content/articles/<slug>.md` | The actual educational lessons. Linked via `series: "<id>"`. |
+| **3. Lessons** | `src/content/articles/<slug>.md` | The actual lessons. Linked via `series: "<id>"`. |
 | **Standalone Articles** | `src/content/articles/<slug>.md` | Independent tutorials or build projects. **Omit `series`**; categorized via `categories: [...]`. |
 
-### Important Metadata Rules
-
-1. **Course Lessons (`series` is set)**:
-   - When an article has `series: "docker"`, its learning category is **inherited directly from the parent course**.
-   - Lessons are grouped in the course syllabus and do not clutter the general `/articles` project listing.
-2. **Standalone Articles (`series` is omitted)**:
-   - Must specify `categories` using one or more of the 5 canonical categories below.
-   - These are surfaced on `/articles` (Projects & Deep Dives).
-3. **The 5 Canonical Categories**:
-   - `"Core-CS"`: Operating systems, computer networks, computer architecture, databases, compilers.
-   - `"DSA"`: Data structures, algorithms, complexity analysis, interview problem sets.
-   - `"Development"`: Frontend, backend, fullstack frameworks, APIs, databases, tooling.
-   - `"System-Design"`: Distributed systems, microservices, cloud architectures, scalability.
-   - `"AI-Engineering"`: Machine learning, LLM integrations, embeddings, AI agents.
-
 ---
 
-## 3. Step-by-Step Creation Playbooks
+### 4. Pre-Publish Checklist
 
-<Tabs>
+Before submitting a pull request:
 
-<Tab name="1. Standalone Article">
-
-### Adding a Standalone Article or Project
-
-Use this for single-topic deep dives, project write-ups, or tutorials that do not belong to a sequential course syllabus.
-
-#### Step 1: Create the markdown or MDX file
-Create `src/content/articles/<your-article-slug>.md` (or `.mdx` if using custom components).
-
-#### Step 2: Add Frontmatter
-> **Important**: Do not add the `series` key for standalone articles.
-
-```yaml
----
-title: "Building an LRU Cache from Scratch in TypeScript"
-description: "Learn cache eviction policies by implementing a doubly linked list + hash map cache."
-categories: ["Development"]
-author: "Arjit Sharma"
-draft: false
-featured: false
----
-```
-
-#### Step 3: Write Content
-Write in standard Markdown or import MDX components (e.g. `<Notice>`, `<Badge>`, `<Accordion>`).
-
-</Tab>
-
-<Tab name="2. Course / Series">
-
-### Adding a Multi-Lesson Series
-
-A course requires connecting series metadata with lesson articles and roadmap ordering.
-
-#### Step 1: Create the Series JSON
-Create `src/content/series/<course-id>.json`.
-
-```json
-{
-  "title": "System Design Essentials",
-  "subtitle": "Architecting Scalable and Resilient Web Services",
-  "description": "Learn load balancing, horizontal scaling, caching strategies, and data consistency models.",
-  "category": "System-Design",
-  "image": "../../assets/images/thumbnails/system-design.png",
-  "weight": 10,
-  "navbar": [
-    {
-      "subheading": "1. Foundations",
-      "link": [
-        { "type": "articles", "url": "intro-system-design", "title": "Introduction to System Design", "status": "in-progress" },
-        { "type": "articles", "url": "load-balancing-basics", "title": "Load Balancing Patterns", "status": "planned" }
-      ]
-    }
-  ]
-}
-```
-
-*Status options*: `"planned"` (locked), `"in-progress"`, or `"re-visiting"`.
-
-#### Step 2: Create the Lesson Articles
-For each item in `navbar.link`, create the corresponding file in `src/content/articles/<url>.md`.
-Ensure the `series` frontmatter value exactly matches `<course-id>`:
-
-```yaml
----
-title: "Introduction to System Design"
-author: "Arjit Sharma"
-series: "system-design-essentials"
-categories: ["System-Design"]
-draft: false
----
-```
-
-#### Step 3: Register in Roadmap Ordering
-Open `src/config/roadmapOrder.json` and append `<course-id>` under the corresponding category array:
-
-```json
-{
-  "System-Design": [
-    "aws",
-    "distributed",
-    "system-design-essentials"
-  ]
-}
-```
-
-*(Or simply run `npm run admin` to perform all 3 steps automatically).*
-
-</Tab>
-
-<Tab name="3. Short">
-
-### Adding a Short Concept Video
-
-Shorts are bite-sized concept explainers linked to a YouTube short or micro-video.
-
-#### Step 1: Create the Short File
-Create `src/content/shorts/<series-name>/<slug>.md`.
-
-#### Step 2: Set Frontmatter
-
-```yaml
----
-title: "What is Database Sharding?"
-youtubeId: "dQw4w9WgXcQ"
-series: "dbms-shorts"
-seriesName: "Database Systems"
-order: 1
----
-```
-
-#### Step 3: Body Text
-Optionally include a 2-3 paragraph summary or quick reference bullets below the frontmatter.
-
-</Tab>
-
-<Tab name="4. Interview Byte">
-
-### Adding an Interview Question
-
-Interview questions power the **Interview Bytes** explorer and the **Anki Revision Modal**.
-
-#### Step 1: Open or Create the Category YAML
-Locate or create `src/content/interview-questions/<topic>.yaml` (e.g. `javascript.yaml`, `nodejs.yaml`).
-
-#### Step 2: Append Question Entry
-
-```yaml
-questions:
-  - id: 101
-    tags: [javascript, closures, async]
-    question: "Explain the Event Loop microtask vs macrotask execution order."
-    answer:
-      - "Synchronous code executes first on the call stack."
-      - "Microtask queue (Promise callbacks, queueMicrotask) is completely drained before rendering."
-      - "Macrotask queue (setTimeout, setInterval, I/O) executes one task per tick followed by microtasks again."
-    code: |
-      console.log('1');
-      setTimeout(() => console.log('2'), 0);
-      Promise.resolve().then(() => console.log('3'));
-      console.log('4');
-      // Output: 1, 4, 3, 2
-```
-
-</Tab>
-
-<Tab name="5. TryCode Exercise">
-
-### Adding an Interactive TryCode Coding Problem
-
-TryCode embeds an in-browser code editor and automated test runner for frontend engineering drills.
-> <Notice type="warning">TryCode is strictly reserved for frontend JavaScript/TypeScript and DOM interview challenges.</Notice>
-
-#### Step 1: Choose Execution Mode
-
-TryCode supports two distinct problem modes:
-1. **`mode: "function"` (Default)**: Tests pure functions by invoking the user's exported function with test case arguments and asserting on returned values.
-2. **`mode: "dom"`**: Provides initial HTML markup in an isolated sandbox. The user writes DOM manipulation code (event listeners, state updates), and test cases assert against live DOM state via `document.getElementById` or `document.querySelector`.
-
-#### Step 2: Create Problem Definition File
-
-Create `src/problems/frontend/<problem-id>.ts`:
-
-##### Option A: Function Mode Example (`array-unique.ts`)
-
-```typescript
-import type { Problem } from "../../types/problem";
-
-const problem: Problem = {
-  id: "array-unique",
-  title: "Remove Duplicates Preserving Order",
-  mode: "function",
-  starterCode: `function solution(nums) {
-  // Return array with duplicates removed
-  return [];
-}`,
-  tests: [
-    { input: [[1, 2, 2, 3, 1, 4]], expected: [1, 2, 3, 4] },
-    { input: [[5, 5, 5]], expected: [5] },
-    { input: [[]], expected: [] },
-  ],
-};
-
-export default problem;
-```
-
-##### Option B: DOM Mode Example (`counter-dom.ts`)
-
-```typescript
-import type { Problem } from "../../types/problem";
-
-const problem: Problem = {
-  id: "counter-dom",
-  title: "Interactive Click Counter",
-  mode: "dom",
-  html: `<div id="counter-app">
-  <span id="count">0</span>
-  <button id="increment-btn">+1</button>
-</div>`,
-  starterCode: `// Attach click listener to increment counter
-const btn = document.getElementById('increment-btn');
-const countSpan = document.getElementById('count');
-
-btn.addEventListener('click', () => {
-  countSpan.textContent = String(Number(countSpan.textContent) + 1);
-});`,
-  tests: [
-    {
-      input: [],
-      expected: 1,
-      customCheck: `() => {
-        const btn = document.getElementById('increment-btn');
-        btn.click();
-        return Number(document.getElementById('count').textContent);
-      }`,
-    },
-  ],
-};
-
-export default problem;
-```
-
-#### Step 3: Embed in any MDX Article
-
-```mdx
-<TryCode problemId="array-unique" />
-```
-
-</Tab>
-
-<Tab name="6. Roadmap Track">
-
-### Adding or Updating a Roadmap Category
-
-When introducing a new major learning track (e.g., `AI-Engineering`), synchronize these files:
-
-1. **`src/config/roadmapOrder.json`**: Add the new key with its list of series IDs.
-2. **`src/content/series/<id>.json`**: Set `"category": "AI-Engineering"`.
-3. **`src/pages/roadmaps.astro`**: Add category tab and filter badge.
-4. **`src/pages/courses/index.astro`**: Add category filter button.
-5. Update the supported categories list in this document.
+- [ ] **Frontmatter Validation**: Ensure `title` and `description` are non-empty strings.
+- [ ] **Metadata Consistency**: If `series` is set, ensure it exists in `src/content/series/<id>.json`. If standalone, ensure `categories` contains valid tracks.
+- [ ] **Visual Elements**: Verify that components use valid props (`<Notice type="...">`, `<Badge variant="...">`).
+- [ ] **Local Build Check**: Run `npm run build` locally to verify that all pages compile without errors.
 
 </Tab>
 
 </Tabs>
-
----
-
-## 4. Complete Schemas & Type Reference
-
-This section provides the static field definitions, types, defaults, and allowed values for every content collection defined in `src/content/config.ts`.
-
-### 4.1 Articles Collection Schema
-**Location:** `src/content/articles/*.md` or `*.mdx`  
-**Purpose:** Standalone articles, project tutorials, and course lessons.
-
-| Field | Type | Required | Default | Allowed Values / Constraints | Description |
-| :--- | :--- | :---: | :--- | :--- | :--- |
-| `title` | `string` | **Yes** | — | Non-empty string | Article title shown in headings and cards |
-| `subtitle` | `string` | No | `undefined` | Any string | Secondary subhead for lessons or deep dives |
-| `meta_title` | `string` | No | `undefined` | String (≤ 60 chars recommended) | SEO `<title>` tag override |
-| `description` | `string` | No | `undefined` | String (≤ 160 chars recommended) | Meta and OpenGraph description |
-| `image` | `string` | No | `undefined` | Relative path (e.g. `/images/og-image.jpg`) | Card thumbnail and social share preview |
-| `author` | `string` | No | `undefined` | e.g. `"Arjit Sharma"` | Content author |
-| `series` | `string` | No | `undefined` | Filename of series in `src/content/series/` | Links lesson to a course. **Omit for standalone articles** |
-| `categories` | `string[]` | No | `["others"]` | `Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering` | Subject classification tag |
-| `draft` | `boolean` | No | `false` | `true`, `false` | Excludes article from production builds when `true` |
-| `year` | `number` | No | `undefined` | 4-digit year (e.g. `2025`) | Publishing / revision year |
-| `featured` | `boolean` | No | `false` | `true`, `false` | Highlighted in hero card carousel |
-
-#### TypeScript Interface
-```typescript
-export interface ArticleFrontmatter {
-  title: string;
-  subtitle?: string;
-  meta_title?: string;
-  description?: string;
-  image?: string;
-  author?: string;
-  series?: string;
-  categories: ("Core-CS" | "DSA" | "Development" | "System-Design" | "AI-Engineering" | "others")[];
-  draft?: boolean;
-  year?: number;
-  featured?: boolean;
-}
-```
-
----
-
-### 4.2 Series / Course Collection Schema
-**Location:** `src/content/series/<course-id>.json`  
-**Purpose:** Course metadata, syllabus chapters, and sidebar navigation hierarchy.
-
-| Field | Type | Required | Default | Allowed Values / Constraints | Description |
-| :--- | :--- | :---: | :--- | :--- | :--- |
-| `title` | `string` | **Yes** | — | Non-empty string | Course display title |
-| `subtitle` | `string` | No | `undefined` | Any string | Course tagline |
-| `description` | `string` | **Yes** | — | Any string | Course summary on course overview cards |
-| `image` | `string` | No | `undefined` | Path to thumbnail | Cover banner image |
-| `category` | `string` | No | `"Course"` | `"Core-CS"`, `"DSA"`, `"Development"`, `"System-Design"`, `"AI-Engineering"` | Learning track bucket |
-| `status` | `string` | No | `undefined` | `'planned'`, `'in-progress'`, `'re-visiting'` | Global course progress status (replaces legacy `ongoing`) |
-| `ongoing` | `boolean \| string` | No | `false` | `true`, `false` | *(Deprecated)* Replaced by `status: "re-visiting"` / `"in-progress"` |
-| `time` | `string` | No | `undefined` | e.g. `"4 hours"`, `"12 lessons"` | Estimated completion time |
-| `weight` | `number` | No | `100` | Integer | Sort weight (lower appears first) |
-| `navbar` | `Array<Section>` | **Yes** | — | Array of syllabus sections | Ordered chapters and lesson links (see below) |
-| `resources` | `Array<Resource>` | No | `[]` | Array of supplementary references | Special "Further Learnings & Resources" section shown exclusively on individual course pages; excluded from roadmaps |
-
-#### Navbar Structure (`navbar`)
-Each section inside `navbar` contains:
-- `subheading`: `string` (e.g. `"1. Foundations"`)
-- `link`: Array of lesson links:
-  - `type`: `"articles"` | `"external"`
-  - `url`: `string` (article slug in `src/content/articles/` without `.md`, or external URL)
-  - `title`: `string` (lesson title)
-  - `status`: `'planned'` | `'in-progress'` | `'re-visiting'` (optional; `'planned'` displays a lock icon)
-
-#### Resources Structure (`resources`)
-Special section for supplementary external courses, official docs, books, or handwritten notes.
-- **Where it appears**: Exclusively on `/courses/[course]`.
-- **Roadmap exclusion**: Excluded from roadmaps, drawer checklists, and completion percentages.
-- **Editable in Studio**: Tab 2 of `npm run admin` allows 1-click adding, editing, reordering, and saving.
-- Each entry contains:
-  - `title`: `string` (e.g. `"Alex Aiken - Stanford lectures"`)
-  - `url`: `string` (External URL `https://...` or internal article path `/articles/<slug>`)
-  - `description`: `string` (optional note or caption)
-
-#### TypeScript Interface
-```typescript
-export type CourseStatus = 'planned' | 'in-progress' | 're-visiting';
-
-export interface SeriesNavbarLink {
-  type: 'articles' | 'external';
-  url: string;
-  title: string;
-  status?: CourseStatus;
-}
-
-export interface SeriesNavbarSection {
-  subheading: string;
-  link: SeriesNavbarLink[];
-}
-
-export interface CourseResource {
-  title: string;
-  url: string;
-  description?: string;
-}
-
-export interface SeriesData {
-  title: string;
-  subtitle?: string;
-  description: string;
-  image?: string;
-  category: string;
-  ongoing?: boolean | string;
-  status?: CourseStatus;
-  time?: string;
-  weight: number;
-  navbar: SeriesNavbarSection[];
-  resources?: CourseResource[];
-}
-```
-
----
-
-### 4.3 Shorts Collection Schema
-**Location:** `src/content/shorts/<series>/<slug>.md`  
-**Purpose:** Bite-sized video explainers and quick reference concepts.
-
-| Field | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `title` | `string` | **Yes** | — | Title of the short |
-| `youtubeId` | `string` | **Yes** | — | 11-character YouTube video ID (e.g. `LbeV3TwK48s`) |
-| `series` | `string` | **Yes** | — | Series slug folder identifier (e.g. `"oci-shorts"`) |
-| `seriesName` | `string` | **Yes** | — | Human-readable series title (e.g. `"Oracle Cloud"`) |
-| `order` | `number` | No | `0` | Progression sequence number within the shorts series |
-
----
-
-### 4.4 Interview Questions Schema
-**Location:** `src/content/interview-questions/<topic>.yaml`  
-**Purpose:** Structured questions and answers powering Interview Bytes and Anki flashcard modal.
-
-Root YAML property: `questions: Array<InterviewQuestion>`
-
-| Field | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `id` | `string \| number` | **Yes** | — | Unique numeric or string question ID |
-| `question` | `string` | **Yes** | — | The interview question text |
-| `answer` | `string[]` | **Yes** | — | Array of strings (rendered as bullet points or paragraphs) |
-| `code` | `string` | No | `undefined` | Optional code snippet or execution example |
-| `tags` | `string[]` | No | `[]` | Category & topic filter tags (e.g. `[javascript, async]`) |
-| `date` | `date` | No | `undefined` | Date added / updated |
-| `related_images` | `string[]` | No | `[]` | Asset paths relative to `/src/assets/` |
-
----
-
-### 4.5 TryCode Problem Schema
-**Location:** `src/problems/frontend/<problem-id>.ts`  
-**Purpose:** Browser-based interactive JavaScript/TypeScript coding exercises.
-
-| Field | Type | Required | Default | Allowed Values / Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `id` | `string` | **Yes** | — | Unique problem ID (must match filename) |
-| `title` | `string` | **Yes** | — | Problem title shown in the editor header |
-| `starterCode` | `string` | **Yes** | — | Initial code stub provided to the student |
-| `tests` | `TestCase[]` | **Yes** | — | Array of `{ input: any[], expected: any, customCheck?: string }` test cases |
-| `mode` | `string` | No | `"function"` | `"function"` (pure JS algorithm) or `"dom"` (interactive DOM manipulation) |
-| `html` | `string` | No | `""` | Initial DOM markup for `"dom"` mode problems |
-
-#### TypeScript Interface
-```typescript
-export interface TestCase {
-  input: any[];
-  expected: any;
-  customCheck?: string; // JavaScript function string returning boolean or value
-}
-
-export interface Problem {
-  id: string;
-  title: string;
-  mode?: "function" | "dom";
-  starterCode: string;
-  tests: TestCase[];
-  html?: string;
-}
-```
-
----
-
-### 4.6 Pages Collection Schema
-**Location:** `src/content/pages/*.md` or `*.mdx`  
-**Purpose:** Standalone regular site pages (e.g. `/about`, `/elements`, `/changelog`).
-
-| Field | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `title` | `string` | **Yes** | — | Page title |
-| `description` | `string` | No | `undefined` | Page SEO description |
-
----
-
-## 5. Interactive MDX Component Catalog
-
-All components below are auto-imported and immediately available in any `.mdx` file without manual `import` statements.
-
-### 5.1 Notice Callouts (`<Notice>`)
-
-Use callout boxes to draw attention to notes, best practices, tips, or critical warnings.
-
-<Notice type="note">
-**Note Callout**: Use for contextual details, background information, or general notes.
-</Notice>
-
-<Notice type="tip">
-**Tip Callout**: Use for performance optimizations, helpful hints, or time-saving shortcuts.
-</Notice>
-
-<Notice type="info">
-**Info Callout**: Use for important informational updates or reference links.
-</Notice>
-
-<Notice type="warning">
-**Warning Callout**: Use for caveats, breaking changes, or restrictions (e.g., frontend-only constraints).
-</Notice>
-
-#### Usage Code
-
-```mdx
-<Notice type="note">This is a note callout.</Notice>
-<Notice type="tip">This is a helpful tip.</Notice>
-<Notice type="info">This is an informational announcement.</Notice>
-<Notice type="warning">This is a critical warning.</Notice>
-```
-
----
-
-### 5.2 Badges (`<Badge>`)
-
-Inline status indicators for feature updates, changelogs, or requirements.
-
-<p class="flex items-center gap-3">
-  <Badge type="added">added</Badge>
-  <Badge type="changed">changed</Badge>
-  <Badge type="removed">removed</Badge>
-  <Badge type="security">security</Badge>
-</p>
-
-#### Usage Code
-
-```mdx
-<Badge type="added">added</Badge>
-<Badge type="changed">changed</Badge>
-<Badge type="removed">removed</Badge>
-<Badge type="security">security</Badge>
-```
-
----
-
-### 5.3 Buttons (`<Button>`)
-
-Styled call-to-action buttons for links, documentation, or resource downloads.
-
-<div class="my-4 flex items-center gap-4">
-  <Button href="/roadmaps" style="solid">Explore Roadmaps</Button>
-  <Button href="/courses" style="outline">Browse Courses</Button>
-</div>
-
-#### Usage Code
-
-```mdx
-<Button href="/roadmaps" style="solid">Explore Roadmaps</Button>
-<Button href="/courses" style="outline">Browse Courses</Button>
-```
-
----
-
-### 5.4 Accordions (`<Accordion>`)
-
-Expandable accordion container for FAQs, solutions, or deep-dive collapsible explanations.
-
-<Accordion title="When should I use a Series instead of a Standalone Article?">
-
-Create a **Series** when:
-- The content consists of multiple sequential lessons or chapters.
-- You need a persistent sidebar navigation and previous/next chapter progression.
-- The course belongs to a categorized learning path on `/roadmaps`.
-
-Create a **Standalone Article** when:
-- It is a single project, quick tutorial, or independent deep dive.
-- It does not require a sidebar syllabus.
-
-</Accordion>
-
-<Accordion title="How do I mark a lesson as planned/locked in a course?">
-
-In `src/content/series/<id>.json`, set `"status": "planned"` on the link object:
-
-```json
-{
-  "type": "articles",
-  "url": "distributed-consensus",
-  "title": "Distributed Consensus (Raft & Paxos)",
-  "status": "planned"
-}
-```
-
-This displays the lesson with a lock icon and disables navigation until it is published.
-
-</Accordion>
-
-#### Usage Code
-
-```mdx
-<Accordion title="Your Accordion Title Here">
-  Your collapsible explanation, code snippets, or list items go here.
-</Accordion>
-```
-
----
-
-### 5.5 Tabs (`<Tabs>` & `<Tab>`)
-
-Clean multi-panel switcher for tabbed content (e.g. comparing languages, alternatives, or multi-step flows).
-
-<Tabs>
-
-<Tab name="TypeScript">
-
-```typescript
-interface User {
-  id: string;
-  name: string;
-  role: "admin" | "engineer";
-}
-
-const user: User = { id: "1", name: "Arjit", role: "engineer" };
-```
-
-</Tab>
-
-<Tab name="Python">
-
-```python
-from dataclasses import dataclass
-from typing import Literal
-
-@dataclass
-class User:
-    id: str
-    name: str
-    role: Literal["admin", "engineer"]
-
-user = User(id="1", name="Arjit", role="engineer")
-```
-
-</Tab>
-
-<Tab name="Go">
-
-```go
-type User struct {
-    ID   string `json:"id"`
-    Name string `json:"name"`
-    Role string `json:"role"`
-}
-```
-
-</Tab>
-
-</Tabs>
-
-#### Usage Code
-
-````mdx
-<Tabs>
-
-<Tab name="Tab 1">
-Content for tab 1...
-</Tab>
-
-<Tab name="Tab 2">
-Content for tab 2...
-</Tab>
-
-</Tabs>
-````
-
----
-
-### 5.6 Interactive TryCode Runner (`<TryCode>`)
-
-Live, in-browser Monaco-based code editor and test runner for frontend JavaScript and DOM interview drills.
-
-<TryCode problemId="array-unique" />
-
-#### Props Reference
-
-| Prop | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `problemId` | `string` | **Yes** | — | Unique problem ID corresponding to a file in `src/problems/frontend/<id>.ts` |
-
-#### Usage Code
-
-```mdx
-<!-- Function Mode (Pure JavaScript algorithms) -->
-<TryCode problemId="array-unique" />
-
-<!-- DOM Mode (Interactive UI & DOM manipulation) -->
-<TryCode problemId="counter-dom" />
-```
-
----
-
-### 5.7 Video & YouTube Embeds (`<Youtube>` & `<Video>`)
-
-Responsive 16:9 media embeds with lazy loading.
-
-<Youtube id="uzR3VB1kfMw" title="Demo Video" />
-
-#### Usage Code
-
-```mdx
-<!-- YouTube Embed (Responsive 16:9) -->
-<Youtube id="uzR3VB1kfMw" title="Introduction to Distributed Systems" />
-
-<!-- Local or Remote HTML5 Video -->
-<Video src="https://joy1.videvo.net/videvo_files/video/free/video0467/large_watermarked/_import_61516692993d77.04238324_preview.mp4" title="System Demo" />
-```
-
----
-
-### 5.8 Algorithm Visualizer (`<AlgoVisualizer>`)
-
-Interactive step-by-step algorithm visualizer supporting arrays, hash maps, sets, queues, deques, stacks, trees, heaps, linked lists, and DP tables with variable tracking and execution timeline controls.
-
-<AlgoVisualizer problemId="sample-binary-search" />
-
-#### Props Reference
-
-| Prop | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `problemId` | `string` | **Yes** | — | Unique problem ID corresponding to a file in `src/problems/algorithms/<slug>.ts` |
-
-#### Usage Code
-
-```mdx
-<!-- Binary Search Visualization -->
-<AlgoVisualizer problemId="sample-binary-search" />
-
-<!-- Two Sum Array + Hash Map Visualization -->
-<AlgoVisualizer problemId="02-two-sum" />
-```
-
-> [!TIP]
-> For the complete specification, step builder API, and AI prompt template to generate new DSA visualizers, see [Section 7: Algorithm Visualizer Guide](#7-algorithm-visualizer-ai-prompt--generator-guide).
-
----
-
-### 5.9 Interactive Git Visualizer (`<GitVisualizer>`)
-
-Interactive visualizer demonstrating Git internals, staging phases, commit graphs, branch pointers, merges, rebases, and conflict resolutions.
-
-<GitVisualizer scenario="basic-workflow" />
-
-#### Props Reference
-
-| Prop | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `scenario` | `string` | **Yes** | — | Scenario identifier from `src/visualizations/git/scenarios.ts` |
-| `title` | `string` | No | Scenario title | Custom display title override in header |
-
-#### Complete Supported Scenarios Catalog
-
-| Scenario ID | Topic | Default View |
-| :--- | :--- | :--- |
-| `intro-phases` | Three Phases of Git Content | `stages` |
-| `intro-branches` | Branches: Parallel Workflows | `graph` |
-| `basic-workflow` | Git Basic Workflow (Modify $\rightarrow$ Stage $\rightarrow$ Commit) | `stages` |
-| `diff-stages` | Inspecting Changes (`git diff` vs `git diff --staged`) | `stages` |
-| `cloning` | Repository Cloning | `graph` |
-| `branching` | Branch Creation & Switching | `graph` |
-| `detached-head` | Detached HEAD State | `graph` |
-| `merge-fast-forward`| Fast-Forward Merge | `graph` |
-| `merge-3way` | 3-Way Recursive Merge Snapshot | `graph` |
-| `cherry-pick` | Cherry-Picking Commits | `graph` |
-| `merge-conflict` | Resolving Merge Conflicts | `special` |
-| `stashing` | Git Stashing Workspace State | `stages` |
-| `stash-stack` | Managing Multiple Stashes (LIFO Stack) | `stages` |
-| `reset-modes` | Git Reset Comparison Matrix (Soft vs Mixed vs Hard) | `stages` |
-| `reset-revert` | Git Revert: Safe Public History Undo | `graph` |
-| `reflog` | Git Reflog Safety Net | `graph` |
-| `rebase` | Git Rebase: Linear History Reconstruction | `graph` |
-| `squash` | Squashing Commits with Interactive Rebase | `special` |
-| `bisect` | Git Bisect: Binary Search Bug Hunting | `special` |
-| `fetch-pull-push` | Remote Synchronization (Fetch vs Pull vs Push) | `graph` |
-| `pull-requests` | GitHub Collaboration & PR Workflow | `graph` |
-| `submodules` | Git Submodules: Pinned Dependencies | `graph` |
-
-#### Usage Code
-
-```mdx
-<GitVisualizer scenario="basic-workflow" />
-<GitVisualizer scenario="merge-3way" title="3-Way Merge in Action" />
-<GitVisualizer scenario="rebase" />
-```
-
----
-
-### 5.10 Changelog Entries (`<Changelog>`)
-
-Timeline container for milestone releases, major curriculum additions, or platform changelog updates.
-
-<Changelog date="November 19, 2026">
-  - **Performance Optimization**: Configured dynamic algorithm micro-chunking for 500+ DSA visualizers.
-  - **Infrastructure**: Automated Vercel edge caching and Cloudflare DNS alignment.
-  - **Image Pipeline**: Auto-injected lazy-loading and WebP/AVIF transformations.
-</Changelog>
-
-#### Props Reference
-
-| Prop | Type | Required | Default | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `date` | `string` | **Yes** | — | Date string displayed on the left column (e.g. `"November 19, 2026"`) |
-
-#### Usage Code
-
-```mdx
-<Changelog date="November 19, 2026">
-  - Added 50 new interactive DSA problem visualizers
-  - Released System Design deep dive on distributed consensus
-</Changelog>
-```
-
----
-
-## 6. Standard Typography & Layout Elements
-
-### Headings Hierarchy
-
-# Heading 1 (`# Heading 1`)
-## Heading 2 (`## Heading 2`)
-### Heading 3 (`### Heading 3`)
-#### Heading 4 (`#### Heading 4`)
-
----
-
-### Formatted Tables
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :---: |
-| `GET` | `/api/questions.json` | Returns all interview questions with optimized images | No |
-| `POST` | `http://localhost:4322/api/create-series` | Scaffolds new series and updates roadmaps | Local Dev Only |
-| `POST` | `http://localhost:4322/api/create-article` | Scaffolds article and updates syllabus navbar | Local Dev Only |
-
----
-
-### Pre-Publish Checklist
-
-Before committing or pushing new content:
-
-- [ ] File created in the designated folder (`articles/`, `series/`, `shorts/`, etc.).
-- [ ] Frontmatter strictly validated against the schemas in [Section 4](#4-complete-schemas--type-reference).
-- [ ] Category chosen from the 5 canonical values (`Core-CS`, `DSA`, `Development`, `System-Design`, `AI-Engineering`).
-- [ ] `series` field matches the exact JSON course ID (if part of a course).
-- [ ] `roadmapOrder.json` updated with new series ID (handled automatically by `npm run admin` / `npm run scaffold`).
-- [ ] `draft: false` set for all live content.
-
----
-
-## 7. Algorithm Visualizer: AI Prompt & Generator Guide
-
-This section provides the complete reference specification and copy-paste prompt template to generate interactive algorithm visualizers for any DSA problem (Sorting, Searching, HashMaps, Sets, Queues, Deques, Trees, Heaps, Stacks, Linked Lists, DP) using any AI assistant (ChatGPT, Claude, Gemini, Cursor, Antigravity).
-
-### 7.1 Visualizer Architecture Overview
-
-The visualizer system is composed of:
-- **Engine Component**: `<AlgoVisualizer problemId="slug" />` in `src/components/features/visualizer/AlgoVisualizer.astro`.
-- **Step Builder**: `StepBuilder` class in `src/problems/algorithms/builder.ts` with a fluent `.step({ ... })` API.
-- **Type Definitions**: `src/problems/algorithms/types.ts` defining all state models and render options.
-- **Algorithm Directory**: All algorithm definition files live in `src/problems/algorithms/<slug>.ts`.
-- **Registry**: `src/problems/algorithms/index.ts` (automatically updated via `syncAlgorithmIndex()`).
-
-### 7.2 Representation of All DSA Problem Types
-
-The visualization engine supports representing any DSA problem type through flexible combinations of data structures:
-
-| DSA Problem Type | How to Represent with `StepBuilder` | Key Properties Used |
-| :--- | :--- | :--- |
-| **Merge Sort** | Subarrays via `arrays: [left, right, merged]` or single array with `window: [low, high]` and merge pointers `i, j, k` | `arrays` or `array.window`, `pointers` |
-| **Quick Sort** | Single array with partition pointers (`low`, `pivot`, `high`, `i`, `j`), swap highlights, and sub-range windows | `pointers`, `highlights`, `window` |
-| **Binary Search** | Single array with `low`, `mid`, `high` pointers, active search interval `window: [low, high]`, and match highlights | `pointers: { low, mid, high }`, `window: [low, high]` |
-| **Linear Search** | Scanning pointer `i` checking each element with match/visited state highlights | `pointers: { i }`, `highlights` |
-| **Hash Map** | Key-Value dictionary with `searchKey` and status banner (`found`, `not-found`, `searching`) | `hashmap: Map or Record`, `searchKey`, `searchResult` |
-| **Set / HashSet** | Unique element collection with `searchElement` and membership verification banner (`contains(x)`) | `set: Set or string[] or number[]`, `searchElement`, `searchResult` |
-| **Queue (FIFO)** | First-In-First-Out queue with FRONT and REAR markers, showing enqueue at rear and dequeue at front (BFS) | `queue: { items: [...], action: 'enqueue' \| 'dequeue', label: 'Queue (FIFO)' }` |
-| **Deque (Double Queue)** | Double-ended queue with front (`addFirst`/`removeFirst`) and back (`addLast`/`removeLast`) markers (e.g. Monotonic Deque, Sliding Window Max) | `deque: { items: [...], action: 'addFirst' \| 'removeFirst' \| 'addLast' \| 'removeLast', label: 'Double-Ended Queue (Deque)' }` |
-| **Stack (LIFO)** | Last-In-First-Out container with vertical layout, TOP marker, depth count, and push/pop animations (brackets, monotonic stack) | `stack: { items: [...], action: 'push' \| 'pop', label: 'Stack (LIFO)' }` |
-| **Binary Tree & BST** | Node hierarchy with parent-child links, traversal highlights, and search targets | `tree: { nodes: [...], rootId }` |
-| **Tree + Array (Heaps)** | Both `array` and `tree` in the exact same step, mapping array index `i` to tree nodes with children at `2i + 1` and `2i + 2` | `array: { ... }`, `tree: { ... }` |
-| **Linked List** | Node chains with `next` pointers, head/curr/prev markers, and node reversal indicators | `linkedList: { nodes: [...], headId }` |
-| **Dynamic Programming** | 1D or 2D state matrix with active computation cell, dependency cell highlights, and transition formula banner | `dpTable: { grid, activeCell, highlightCells, formula }` |
-
-> [!TIP] Stack vs. Queue vs. Deque Selection
-> - **Stack (LIFO)**: Use `step.stack`. Renders as a vertical container with a `TOP` marker and `push`/`pop` operations.
-> - **Queue (FIFO)**: Use `step.queue`. Renders as a horizontal pipeline with `← FRONT (Out)` on the left and `REAR (In) ←` on the right with `enqueue`/`dequeue` operations.
-> - **Deque (Double-Ended)**: Use `step.deque`. Renders with both `FRONT` and `BACK` markers, supporting `addFirst`, `removeFirst`, `addLast`, and `removeLast`.
-> In the CMS Visual Step Builder, simply pick your desired data structure from the **Container Type** dropdown.
-
-### 7.3 Core Authoring Rules
-
-1. **Idiomatic Java in `codeLine`**: Always display the actual, readable Java statement executed at that step.
-2. **Pointers Only (No Window Text Badges)**: Arrays show labeled pointer arrows (`i`, `j`, `low`, `mid`, `high`, `left`, `right`). Windows outline the active subarray boundary (`window: [start, end]`). **Never put text labels or badge strings on or inside windows.**
-3. **Variable Tracking in Header**: Keep all numeric metrics, accumulators, sums, and status flags in `variables: { ... }`. They render in a clean, dedicated bar above the visualization.
-4. **Freeform Categories**: Category is an open string (e.g. `'Sorting'`, `'Sliding Window'`, `'Two Pointers'`, `'Trees & Heaps'`, or `'General DSA'`).
-5. **No Forced Complexity / Difficulty Tags**: The visualizer player stays clean, focused entirely on the execution flow and intuitive mental model.
-
----
-
-### 7.4 Copy-Paste AI Prompt Template
-
-Copy the prompt below and paste it into any LLM or AI coding agent alongside your Java solution:
-
-````markdown
-You are an expert DSA educator and TypeScript engineer building algorithm visualizers for CSPrimer.
-
-Given the Java solution and problem below, create a fully working TypeScript algorithm definition file for the CSPrimer Algorithm Visualizer Engine.
-
-### Output Destination
-File path: `src/problems/algorithms/<problem-slug>.ts`
-
-### Requirements
-1. Import `AlgorithmDefinition`, `ExecutionStep` from `./types` and `StepBuilder` from `./builder`.
-2. Export an object adhering to `AlgorithmDefinition`:
-   - `id`: `<problem-slug>`
-   - `title`: Clean Problem Title
-   - `category`: Freeform topic name (e.g. 'Sorting', 'Binary Search', 'Sliding Window', 'Hash Map', 'Set', 'Trees', 'Deques', or 'General DSA')
-   - `description`: 1-2 sentence high-level explanation
-   - `visualizationTypes`: Array of data structure renderers used: `['array']`, `['array', 'hashmap']`, `['set']`, `['deque']`, `['array', 'tree']`, etc.
-   - `defaultInputs`: Object containing default parameters (e.g. `{ nums: [4, 2, 7, 1, 3] }`)
-   - `inputSchema`: Array of input field schemas for the interactive "Customize" drawer
-   - `generateSteps(inputs)`: Returns `ExecutionStep[]` using `StepBuilder`.
-
-3. Visualizer Step Rules:
-   - Use `const builder = new StepBuilder();`
-   - Call `builder.step({ title, description, codeLine, variables, ...structures })` for each step.
-   - `codeLine`: Exact line of standard Java code executed at this step.
-   - `variables`: Key-value map of current variables (e.g. `{ low: 0, high: 5, mid: 2 }`).
-   - `pointers`: Named indices pointing to array elements (e.g. `pointers: { low: 0, mid: 2, high: 5 }`).
-   - `window`: Active subarray window `window: [start, end]`. Never place text labels or badge strings in the window.
-   - `highlights`: Array of cell indices to highlight with visual states: `[0, 1]`.
-   - Data Structure Renderers Supported:
-     - **Array / Sorting / Searching**: `array: { values: [...], pointers: { ... }, highlights: [...], window: [start, end] }`
-     - **Multiple Arrays**: `arrays: [ { values: [...], label: 'A' }, { values: [...], label: 'B' } ]`
-     - **Hash Map**: `hashmap: map, searchKey: key, searchResult: 'found' | 'not-found'`
-     - **Set / HashSet**: `set: Array.from(set), searchElement: val, searchResult: 'found' | 'not-found'`
-     - **Queue**: `queue: [...queueItems]`
-     - **Deque (Double Queue)**: `deque: [...dequeItems]`
-     - **Stack**: `stack: [...stackItems]`
-     - **Binary Tree**: `tree: { nodes: [...], rootId: 'root' }`
-     - **Tree + Array (Heap)**: combine `array` and `tree` in the same step
-     - **Linked List**: `linkedList: { nodes: [...], headId: '0' }`
-     - **Dynamic Programming**: `dpTable: { grid: [...], activeCell: { row, col }, formula: '...' }`
-
-4. Registration & MDX Embed:
-   - Provide the 1-line command to register the problem:
-     `node -e "import('./scripts/scaffold.mjs').then(m => m.syncAlgorithmIndex())"`
-   - Provide the MDX embed snippet:
-     `<AlgoVisualizer problemId="<problem-slug>" />`
-
----
-
-### Java Code & Problem Details:
-[PASTE YOUR JAVA SOLUTION AND PROBLEM DESCRIPTION HERE]
-````
-
----
-
-### 7.5 Reference Implementation Blueprints
-
-#### Blueprint 1: Binary Search (Array + Pointers + Search Window)
-
-```typescript
-import type { AlgorithmDefinition, ExecutionStep } from './types';
-import { StepBuilder } from './builder';
-
-export const binarySearch: AlgorithmDefinition = {
-  id: 'binary-search',
-  title: 'Binary Search',
-  category: 'Searching',
-  description: 'Searches for a target value within a sorted array by halving the search space each step.',
-  visualizationTypes: ['array'],
-  defaultInputs: {
-    nums: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
-    target: 23,
-  },
-  inputSchema: [
-    {
-      name: 'nums',
-      label: 'Sorted Array (comma-separated)',
-      type: 'number-array',
-      defaultValue: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91],
-      placeholder: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91',
-      description: 'Ascending sorted array',
-    },
-    {
-      name: 'target',
-      label: 'Target Value',
-      type: 'number',
-      defaultValue: 23,
-      placeholder: '23',
-      description: 'Number to search for',
-    },
-  ],
-  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
-    const rawNums = inputs.nums;
-    const nums: number[] = Array.isArray(rawNums)
-      ? rawNums.map(Number).filter((n) => !isNaN(n))
-      : [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
-    const target = Number(inputs.target ?? 23);
-
-    const builder = new StepBuilder();
-    let low = 0;
-    let high = nums.length - 1;
-
-    builder.step({
-      title: 'Initialize Binary Search',
-      description: `Target is ${target}. Set low = 0 and high = ${high}.`,
-      codeLine: 'int low = 0, high = nums.length - 1;',
-      variables: { low, high, target },
-      array: {
-        values: [...nums],
-        pointers: { low, high },
-        window: [low, high],
-        label: 'nums[]',
-      },
-    });
-
-    while (low <= high) {
-      const mid = Math.floor((low + high) / 2);
-      const midVal = nums[mid];
-
-      builder.step({
-        title: `Calculate Midpoint: mid = ${mid} (nums[mid] = ${midVal})`,
-        description: `Inspect middle element at index ${mid}.`,
-        codeLine: 'int mid = low + (high - low) / 2;',
-        variables: { low, mid, high, 'nums[mid]': midVal, target },
-        array: {
-          values: [...nums],
-          pointers: { low, mid, high },
-          highlights: [mid],
-          window: [low, high],
-          label: 'nums[]',
-        },
-      });
-
-      if (midVal === target) {
-        builder.step({
-          title: `Target Found at Index ${mid}!`,
-          description: `nums[${mid}] == ${target}. Return index ${mid}.`,
-          codeLine: 'if (nums[mid] == target) return mid;',
-          variables: { low, mid, high, resultIndex: mid, status: 'FOUND' },
-          array: {
-            values: [...nums],
-            pointers: { mid },
-            highlights: [{ index: mid, state: 'match' }],
-            label: 'nums[]',
-          },
-        });
-        return builder.build();
-      } else if (midVal < target) {
-        builder.step({
-          title: `nums[mid] = ${midVal} < ${target}: Discard Left Half`,
-          description: `Target must lie in the right half. Move low to mid + 1.`,
-          codeLine: 'low = mid + 1;',
-          variables: { low: mid + 1, mid, high, target },
-          array: {
-            values: [...nums],
-            pointers: { low: mid + 1, high },
-            window: [mid + 1, high],
-            label: 'nums[]',
-          },
-        });
-        low = mid + 1;
-      } else {
-        builder.step({
-          title: `nums[mid] = ${midVal} > ${target}: Discard Right Half`,
-          description: `Target must lie in the left half. Move high to mid - 1.`,
-          codeLine: 'high = mid - 1;',
-          variables: { low, mid, high: mid - 1, target },
-          array: {
-            values: [...nums],
-            pointers: { low, high: mid - 1 },
-            window: [low, Math.max(low, mid - 1)],
-            label: 'nums[]',
-          },
-        });
-        high = mid - 1;
-      }
-    }
-
-    builder.step({
-      title: 'Target Not Found',
-      description: `Search space exhausted (low > high). Target ${target} is not in the array.`,
-      codeLine: 'return -1;',
-      variables: { low, high, target, status: 'NOT FOUND' },
-      array: { values: [...nums], label: 'nums[]' },
-    });
-
-    return builder.build();
-  },
-};
-
-export default binarySearch;
-```
-
-#### Blueprint 2: Sliding Window Maximum (Array + Double Queue / Deque)
-
-```typescript
-import type { AlgorithmDefinition, ExecutionStep } from './types';
-import { StepBuilder } from './builder';
-
-export const slidingWindowMax: AlgorithmDefinition = {
-  id: 'sliding-window-maximum',
-  title: 'Sliding Window Maximum',
-  category: 'Deques & Sliding Window',
-  description: 'Maintains a monotonic decreasing deque storing indices to find the maximum in each sliding window in O(N) time.',
-  visualizationTypes: ['array', 'deque'],
-  defaultInputs: {
-    nums: [1, 3, -1, -3, 5, 3, 6, 7],
-    k: 3,
-  },
-  inputSchema: [
-    {
-      name: 'nums',
-      label: 'Array',
-      type: 'number-array',
-      defaultValue: [1, 3, -1, -3, 5, 3, 6, 7],
-      placeholder: '1, 3, -1, -3, 5, 3, 6, 7',
-      description: 'Input numbers array',
-    },
-    {
-      name: 'k',
-      label: 'Window Size (k)',
-      type: 'number',
-      defaultValue: 3,
-      placeholder: '3',
-      description: 'Sliding window width',
-    },
-  ],
-  generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
-    const rawNums = inputs.nums;
-    const nums: number[] = Array.isArray(rawNums)
-      ? rawNums.map(Number).filter((n) => !isNaN(n))
-      : [1, 3, -1, -3, 5, 3, 6, 7];
-    const k = Math.max(1, Number(inputs.k ?? 3));
-
-    const builder = new StepBuilder();
-    const deque: number[] = []; // Stores indices
-    const result: number[] = [];
-
-    builder.step({
-      title: 'Initialize Monotonic Deque',
-      description: `Create an ArrayDeque to store indices of potential maximum elements in decreasing value order.`,
-      codeLine: 'Deque<Integer> deque = new ArrayDeque<>();',
-      variables: { k, dequeSize: 0 },
-      array: { values: [...nums], pointers: { i: 0 }, label: 'nums[]' },
-      deque: [],
-    });
-
-    for (let i = 0; i < nums.length; i++) {
-      // Remove elements outside current window
-      while (deque.length > 0 && deque[0] < i - k + 1) {
-        const removed = deque.shift()!;
-        builder.step({
-          title: `deque.removeFirst(): Out of Window`,
-          description: `Index ${removed} falls outside window [${i - k + 1}, ${i}]. Remove from front.`,
-          codeLine: 'if (!deque.isEmpty() && deque.peekFirst() < i - k + 1) deque.pollFirst();',
-          variables: { i, removedIndex: removed, 'deque.size()': deque.length },
-          array: { values: [...nums], pointers: { i }, window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
-          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
-        });
-      }
-
-      // Remove smaller elements from back
-      while (deque.length > 0 && nums[deque[deque.length - 1]] < nums[i]) {
-        const removed = deque.pop()!;
-        builder.step({
-          title: `deque.removeLast(): Monotonic Violation`,
-          description: `nums[${removed}] (${nums[removed]}) < nums[${i}] (${nums[i]}). Pop from back.`,
-          codeLine: 'while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) deque.pollLast();',
-          variables: { i, poppedIndex: removed, currentVal: nums[i] },
-          array: { values: [...nums], pointers: { i }, highlights: [i, removed], window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
-          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
-        });
-      }
-
-      deque.push(i);
-      builder.step({
-        title: `deque.addLast(${i}): Added Current Index`,
-        description: `Pushed index ${i} (value ${nums[i]}) to back of deque.`,
-        codeLine: 'deque.offerLast(i);',
-        variables: { i, currentVal: nums[i], windowMax: nums[deque[0]] },
-        array: { values: [...nums], pointers: { i }, window: [Math.max(0, i - k + 1), i], label: 'nums[]' },
-        deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
-      });
-
-      if (i >= k - 1) {
-        result.push(nums[deque[0]]);
-        builder.step({
-          title: `Record Window Maximum: ${nums[deque[0]]}`,
-          description: `Window [${i - k + 1}, ${i}] maximum is at front of deque: nums[${deque[0]}] = ${nums[deque[0]]}.`,
-          codeLine: 'result[i - k + 1] = nums[deque.peekFirst()];',
-          variables: { windowStart: i - k + 1, windowEnd: i, max: nums[deque[0]], resultSoFar: [...result] },
-          array: { values: [...nums], pointers: { max: deque[0] }, window: [i - k + 1, i], highlights: [deque[0]], label: 'nums[]' },
-          deque: deque.map((idx) => `idx ${idx} (${nums[idx]})`),
-        });
-      }
-    }
-
-    return builder.build();
-  },
-};
-
-export default slidingWindowMax;
-```
-
----
-
-## 8. Infrastructure, Hosting & Deployment Architecture
-
-This section documents the production hosting, CDN, domain canonicalization, and deployment setup powering **CSPrimer**.
-
-### 8.1 Canonical Production Domain & 308 Redirection
-
-The single authoritative canonical production domain is:
-
-> **`https://csprimer.org`**
-
-All domain routing and search authority are unified under this domain:
-
-| Domain | Status in Vercel | HTTP Behavior | Purpose |
-| :--- | :--- | :--- | :--- |
-| **`csprimer.org`** | **Production (Primary)** | `200 OK` | The canonical domain for all visitors, search engines, and social cards |
-| `www.csprimer.org` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Standard www subdomain redirect |
-| `csprimer.in` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Legacy domain alias redirect |
-| `www.csprimer.in` | Valid Configuration | `308 Permanent Redirect` $\rightarrow$ `csprimer.org` | Legacy www alias redirect |
-| `*.vercel.app` | Valid Configuration | Direct / Preview Deployments | Staging and internal deployment previews |
-
-#### Core Repository Configuration:
-- **`astro.config.mjs`**: `site: "https://csprimer.org"` (generates clean sitemaps and canonical tags).
-- **`src/config/config.json`**: `"base_url": "https://csprimer.org"`.
-- **`public/robots.txt`**: `Sitemap: https://csprimer.org/sitemap-index.xml`.
-- **`src/layouts/Base.astro`**: Canonical tags (`<link rel="canonical">`) and OpenGraph (`og:url`, `og:image`) automatically resolve to `https://csprimer.org`, preventing canonical redirect loops.
-
----
-
-### 8.2 Vercel Edge Hosting Configuration (`vercel.json`)
-
-Edge caching, routing rules, and security headers are configured at the repository root via `vercel.json`:
-
-```json
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "headers": [
-    {
-      "source": "/_astro/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, stale-while-revalidate=604800"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ]
-    }
-  ]
-}
-```
-
-- **Hashed Assets (`/_astro/*`)**: Given 1-year immutable caching (`max-age=31536000, immutable`). Browsers and edge caches never re-fetch fingerprinted JS and CSS.
-- **Clean URLs**: `cleanUrls: true` with `trailingSlash: false` matches Astro SSG routing perfectly.
-- **Security Headers**: Standard `nosniff`, `SAMEORIGIN`, and strict referrer protection across all routes.
-
----
-
-### 8.3 Node.js Runtime Version Requirement
-
-- **Requirement**: `Node.js >= 22.0.0` (Active LTS).
-- **In `package.json`**:
-  ```json
-  "engines": {
-    "node": ">=22.0.0"
-  }
-  ```
-- **In Vercel Project Settings**:
-  - Navigate to **Settings** $\rightarrow$ **General** $\rightarrow$ **Node.js Version**.
-  - Select **`22.x`** or **`24.x`** (never legacy `20.x` which is discontinued).
-
----
-
-### 8.4 Cloudflare DNS & Proxy Guidelines
-
-DNS for `csprimer.org` is managed in Cloudflare with the following configuration:
-
-```text
-csprimer.org        CNAME  b3e9b5f5fbc27da1.vercel-dns-017.com  DNS only (Grey Cloud)
-www.csprimer.org    CNAME  b3e9b5f5fbc27da1.vercel-dns-017.com  DNS only (Grey Cloud)
-_vercel             TXT    vc-domain-verify=...                  DNS only
-```
-
-#### Recommended: "DNS only" (Grey Cloud)
-- **Why**: Cloudflare operates purely as a lightning-fast authoritative DNS provider. Requests resolve directly to Vercel's global Anycast Edge Network.
-- **Advantages**:
-  1. Zero risk of proxy interference with client module hydration or ViewTransitions.
-  2. Eliminates double-proxy latency (Browser $\rightarrow$ Cloudflare $\rightarrow$ Vercel).
-  3. Vercel automatically manages TLS certificates, HTTP/2, HTTP/3, and edge routing.
-
-#### If Switching to "Proxied" (Orange Cloud):
-If you ever enable Cloudflare's HTTP proxy for WAF or custom page rules, you **must** configure these settings:
-1. **SSL/TLS Encryption Mode**: Set to **Full (Strict)**. (Flexible mode causes an infinite 301/308 redirect loop).
-2. **Rocket Loader**: **OFF**. (Rocket Loader intercepts module scripts and breaks Astro ViewTransitions lifecycle events).
-3. **Auto Minify (HTML/JS/CSS)**: **OFF**. (Vite already minifies; Cloudflare's HTML minifier strips inline visualizer JSON payloads).
-4. **Polish / Mirage**: **OFF**. (Images are hosted on Cloudinary and should not be re-compressed).
-
----
-
-### 8.5 Cloudinary Image Pipeline & Automatic Lazy-Loading
-
-All article screenshots, architectural diagrams, and illustrations are hosted on Cloudinary:
-
-#### URL Transformation Pattern:
-```text
-https://res.cloudinary.com/dwa6rcttw/image/upload/f_auto,q_auto,w_800/<public-id>
-```
-- **`f_auto`**: Delivers modern **AVIF** to Chrome, Firefox, and Safari 16+ (saving ~30–50% bandwidth compared to WebP), with automatic WebP/PNG fallbacks.
-- **`q_auto`**: AI-driven perceptual compression balancing visual clarity and payload size.
-- **`w_800`**: Responsive width constraint preventing desktop-resolution downloads on mobile devices.
-- **CMS Automation**: Tab 9 of `npm run admin` and `scripts/scaffold.mjs` automatically inject `/f_auto,q_auto,w_800/` into generated Markdown image tags.
-
-#### AST Lazy Loading Plugin (`rehypeLazyImages`):
-Configured in `astro.config.mjs` across both MDX and Markdown AST pipelines:
-- Every `<img>` tag rendered from markdown automatically receives `loading="lazy"` and `decoding="async"`.
-- Prevents off-screen article images from competing with critical CSS/JS during page load.
-- Preconnect hints (`<link rel="preconnect" href="https://res.cloudinary.com" />`) are embedded in `Base.astro` for instant TLS handshakes.
-
----
-
-## 9. Performance & Scale Engineering Guide
-
-This section explains how the platform achieves sub-second builds and fluid client transitions while scaling from 300 to 800+ articles and 200–500 DSA problem visualizers.
-
-### 9.1 Dynamic Micro-Chunking for 200–500 DSA Visualizers
-
-#### The Problem:
-If an Astro site statically imports hundreds of algorithm definitions, Vite bundles them into a single monolithic JavaScript file (`index.*.js`). Every page visitor would download the code for all 500 algorithms, causing massive bundle bloat and sluggish first-contentful paint.
-
-#### The Architectural Solution:
-In `src/components/features/visualizer/engine/visualizer-controller.ts`:
-- Negative globs exclude internal builder utilities from the loader:
-  ```typescript
-  const modules = import.meta.glob([
-    '../../../../problems/algorithms/*.ts',
-    '!**/index.ts',
-    '!**/builder.ts',
-    '!**/types.ts'
-  ]);
-  ```
-- Each algorithm compiles into its own independent micro-chunk (`~2–3 KB` each, e.g. `02-two-sum.*.js`).
-- When a user navigates to an article containing `<AlgoVisualizer problemId="two-sum" />`, only that single micro-chunk is fetched asynchronously on demand.
-- Adding 500 new DSA articles has **zero impact** on the base client bundle size.
-
----
-
-### 9.2 Main-Thread Infinite Loop & Memory Guardrails
-
-To protect against browser lockups during user testing or complex recursions:
-- **`MAX_STEPS = 300`**: Enforced in `StepBuilder.addStep()` (`src/problems/algorithms/builder.ts`).
-- If an algorithm enters a runaway loop or excessive state transitions on custom user inputs, step generation halts safely with a console warning rather than crashing the visitor's browser tab.
-
----
-
-### 9.3 Client-Side SPA Lifecycle & ViewTransitions Safety
-
-Astro's `<ViewTransitions />` turns navigation into a client-side Single Page Application (SPA). The HTML `<body>` is swapped while JavaScript globals (`window`, `document`) persist.
-
-#### Contributor Rules for Client Scripts:
-
-1. **Always Listen to `astro:page-load`**:
-   - ❌ Never use `document.addEventListener("DOMContentLoaded", init)` alone (it will not fire when navigating between pages).
-   - ❌ Never run `init()` at module top-level AND in `astro:page-load` (causes double-initialization).
-   - ✅ Always use:
-     ```javascript
-     document.addEventListener("astro:page-load", () => {
-       initComponent();
-     });
-     ```
-
-2. **Always Clean Up Global Window & Document Listeners**:
-   - Attaching anonymous listeners to `window` or `document` inside an `astro:page-load` hook creates memory leaks and duplicate triggers on every page visit.
-   - **Pattern A: AbortController (Recommended)**
-     ```javascript
-     let abortController = new AbortController();
-
-     document.addEventListener("astro:before-swap", () => {
-       abortController.abort();
-       abortController = new AbortController();
-     });
-
-     window.addEventListener("resize", handleResize, { signal: abortController.signal });
-     ```
-   - **Pattern B: Named Handler Unmounting**
-     ```javascript
-     window.removeEventListener("keydown", window.__myHandlerRef);
-     window.__myHandlerRef = handleKeyDown;
-     window.addEventListener("keydown", handleKeyDown);
-     ```
-
-3. **Debounce Scroll & Resize with `requestAnimationFrame`**:
-   - In components like `TableOfContents.astro`, scroll calculations are wrapped in `requestAnimationFrame` to eliminate layout thrashing and maintain 60 FPS scrolling.
-
----
-
-### 9.4 Google Analytics 4 (GA4) Virtual Pageview Tracking
-
-Because Astro swaps page content without a full document reload:
-- Standard GA4 tracking tags only fire on the initial hard page load.
-- In `src/layouts/Base.astro`, an `astro:page-load` listener dispatches virtual `page_view` events:
-  ```javascript
-  let isFirstLoad = true;
-  document.addEventListener("astro:page-load", () => {
-    NProgress.done();
-    if (isFirstLoad) {
-      isFirstLoad = false;
-      return;
-    }
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "page_view", {
-        page_location: window.location.href,
-        page_title: document.title,
-      });
-    }
-  });
-  ```
-- This ensures 100% accurate traffic analytics across all 500+ articles without double-counting the initial visit.
-
----
-
-## 10. Client State & LocalStorage Schema
-
-The platform persists user progress and interactive states directly in browser `localStorage`. Below is the complete specification:
-
-| Storage Key | Data Type | Purpose | Where Used |
-| :--- | :--- | :--- | :--- |
-| **`roadmap_progress`** | `Record<string, boolean>` | Map of completed article slugs (e.g. `{"arrays-intro": true}`) | Roadmaps, Course Drawer, and Article completion buttons |
-| **`ib_starred`** | `string[]` | Array of starred interview question IDs (e.g. `["101", "102"]`) | Interview Bytes, Filter pills, and Anki Revision Modal |
-| **`anki_history`** | `Record<string, any>` | Spaced repetition flashcard session scores, intervals, and dates | Anki Revision Modal (`/revision`) |
-| **`revision_planner_data`** | `Record<string, any>` | User's custom revision schedule, checkboxes, and notes | Revision Planner (`/revision`) |
-
-

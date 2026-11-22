@@ -37,15 +37,27 @@ export const algo03MaxSumSubarrayOfSizeK: AlgorithmDefinition = {
   ],
 
   generateSteps(inputs) {
-    const nums = inputs.nums as number[];
-    const k = Number(inputs.k);
+    const rawNums = inputs.nums;
+    const nums: number[] = Array.isArray(rawNums)
+      ? rawNums.map(Number).filter((n) => !isNaN(n))
+      : [1, 4, 3, 10, 23, 3, 1, 0, 20];
 
     const builder = new StepBuilder();
 
+    if (nums.length === 0) {
+      builder.step({
+        title: 'Empty Array',
+        description: 'Input array is empty.',
+        array: { values: [] },
+      });
+      return builder.build();
+    }
+
+    const k = Math.max(1, Math.min(nums.length, Number(inputs.k || 4)));
     const n = nums.length;
     let windowStart = 0;
     let sum = 0;
-    let maxSum = 0;
+    let maxSum = -Infinity;
 
     const code = {
       initialize: 'int windowStart = 0, sum = 0, maxSum = 0;',

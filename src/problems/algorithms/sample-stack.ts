@@ -4,363 +4,151 @@ import { StepBuilder } from './builder';
 export const sampleStack: AlgorithmDefinition = {
   id: 'sample-stack',
   title: 'Sample: Stack (LIFO)',
-  category: "Stack",
-  description: "Given a string containing characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid using a LIFO Stack.",
-  visualizationTypes: ["array","stack"],
+  category: 'Stack',
+  description:
+    'Given a string containing characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid using a LIFO Stack.',
+  visualizationTypes: ['array', 'stack'],
   defaultInputs: {
-  "s": "()[]{}"
-},
+    s: '()[]{}',
+  },
   inputSchema: [
-  {
-    "name": "s",
-    "label": "Bracket String",
-    "type": "string",
-    "defaultValue": "()[]{}",
-    "placeholder": "()[]{} or {[()]}",
-    "description": "The string of brackets to validate"
-  }
-],
+    {
+      name: 's',
+      label: 'Bracket String',
+      type: 'string',
+      defaultValue: '()[]{}',
+      placeholder: '()[]{} or {[()]}',
+      description: 'The string of brackets to validate',
+    },
+  ],
   generateSteps: (inputs: Record<string, any>): ExecutionStep[] => {
+    const rawS = inputs.s ?? '()[]{}';
+    const s = String(rawS).trim() || '()[]{}';
     const builder = new StepBuilder();
+    const chars = s.split('');
+    const stack: string[] = [];
+
+    const matching: Record<string, string> = {
+      ')': '(',
+      ']': '[',
+      '}': '{',
+    };
 
     builder.step({
-      "title": "Initialize Stack",
-      "description": "Validate bracket sequence \"()[]{}\". Initialize an empty stack.",
-      "codeLine": "Deque<Character> stack = new ArrayDeque<>();",
-      "variables": {
-            "inputLength": 6,
-            "stackSize": 0
+      title: 'Initialize Stack',
+      description: `Validate bracket sequence "${s}". Initialize an empty LIFO stack.`,
+      codeLine: 'Deque<Character> stack = new ArrayDeque<>();',
+      variables: { input: s, stackSize: 0 },
+      array: {
+        values: [...chars],
+        label: 'brackets[]',
       },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [],
-            "highlights": [],
-            "label": "nums[]"
-      }
-});
+      stack: {
+        items: [],
+        label: 'Stack (LIFO)',
+      },
+    });
 
-    builder.step({
-      "title": "Push Opening Bracket '('",
-      "description": "Character at index 0 is opening bracket '('. Push it onto the stack.",
-      "codeLine": "stack.push(c);",
-      "variables": {
-            "index": 0,
-            "char": "(",
-            "top": "(",
-            "stackSize": 1
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 0,
-                        "color": "blue"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 0,
-                        "state": "current"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [
-                  "("
-            ],
-            "topIndex": 0,
-            "action": "push",
-            "activeItem": "(",
-            "label": "Bracket Stack (LIFO)"
+    let isValid = true;
+    for (let i = 0; i < chars.length; i++) {
+      const c = chars[i];
+      if (c === '(' || c === '[' || c === '{') {
+        stack.push(c);
+        builder.step({
+          title: `Push Opening Bracket '${c}'`,
+          description: `Character at index ${i} is opening bracket '${c}'. Push onto stack.`,
+          codeLine: 'stack.push(c);',
+          variables: { index: i, char: c, top: c, stackSize: stack.length },
+          array: {
+            values: [...chars],
+            pointers: { i },
+            highlights: [{ index: i, state: 'current' }],
+            label: 'brackets[]',
+          },
+          stack: {
+            items: [...stack],
+            action: 'push',
+            activeItem: c,
+            label: 'Stack (LIFO)',
+          },
+        });
+      } else if (c === ')' || c === ']' || c === '}') {
+        const expected = matching[c];
+        if (stack.length === 0 || stack[stack.length - 1] !== expected) {
+          isValid = false;
+          builder.step({
+            title: `Mismatch at Index ${i}: '${c}'`,
+            description: `Closing bracket '${c}' does not match top of stack. Invalid sequence!`,
+            codeLine: 'if (stack.isEmpty() || stack.pop() != c) return false;',
+            variables: { index: i, char: c, valid: false },
+            array: {
+              values: [...chars],
+              pointers: { i },
+              highlights: [{ index: i, state: 'compare' }],
+              label: 'brackets[]',
+            },
+            stack: {
+              items: [...stack],
+              label: 'Stack (LIFO)',
+            },
+          });
+          break;
+        } else {
+          const popped = stack.pop();
+          builder.step({
+            title: `Match Found: Pop '${popped}' for '${c}'`,
+            description: `Closing bracket '${c}' matches top '${popped}'. Pop from stack.`,
+            codeLine: 'stack.pop();',
+            variables: { index: i, char: c, popped, stackSize: stack.length },
+            array: {
+              values: [...chars],
+              pointers: { i },
+              highlights: [{ index: i, state: 'match' }],
+              label: 'brackets[]',
+            },
+            stack: {
+              items: [...stack],
+              action: 'pop',
+              activeItem: popped,
+              label: 'Stack (LIFO)',
+            },
+          });
+        }
       }
-});
+    }
 
-    builder.step({
-      "title": "Match Found: Pop '('",
-      "description": "Closing bracket ')' matches top of stack '('. Pop '(' from stack.",
-      "codeLine": "stack.pop();",
-      "variables": {
-            "index": 1,
-            "char": ")",
-            "matched": "( <-> )",
-            "remainingStack": 0
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 1,
-                        "color": "emerald"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 1,
-                        "state": "match"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [],
-            "topIndex": -1,
-            "action": "pop",
-            "activeItem": "(",
-            "label": "Bracket Stack (LIFO)"
-      }
-});
-
-    builder.step({
-      "title": "Push Opening Bracket '['",
-      "description": "Character at index 2 is opening bracket '['. Push it onto the stack.",
-      "codeLine": "stack.push(c);",
-      "variables": {
-            "index": 2,
-            "char": "[",
-            "top": "[",
-            "stackSize": 1
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 2,
-                        "color": "blue"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 2,
-                        "state": "current"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [
-                  "["
-            ],
-            "topIndex": 0,
-            "action": "push",
-            "activeItem": "[",
-            "label": "Bracket Stack (LIFO)"
-      }
-});
-
-    builder.step({
-      "title": "Match Found: Pop '['",
-      "description": "Closing bracket ']' matches top of stack '['. Pop '[' from stack.",
-      "codeLine": "stack.pop();",
-      "variables": {
-            "index": 3,
-            "char": "]",
-            "matched": "[ <-> ]",
-            "remainingStack": 0
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 3,
-                        "color": "emerald"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 3,
-                        "state": "match"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [],
-            "topIndex": -1,
-            "action": "pop",
-            "activeItem": "[",
-            "label": "Bracket Stack (LIFO)"
-      }
-});
-
-    builder.step({
-      "title": "Push Opening Bracket '{'",
-      "description": "Character at index 4 is opening bracket '{'. Push it onto the stack.",
-      "codeLine": "stack.push(c);",
-      "variables": {
-            "index": 4,
-            "char": "{",
-            "top": "{",
-            "stackSize": 1
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 4,
-                        "color": "blue"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 4,
-                        "state": "current"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [
-                  "{"
-            ],
-            "topIndex": 0,
-            "action": "push",
-            "activeItem": "{",
-            "label": "Bracket Stack (LIFO)"
-      }
-});
-
-    builder.step({
-      "title": "Match Found: Pop '{'",
-      "description": "Closing bracket '}' matches top of stack '{'. Pop '{' from stack.",
-      "codeLine": "stack.pop();",
-      "variables": {
-            "index": 5,
-            "char": "}",
-            "matched": "{ <-> }",
-            "remainingStack": 0
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [
-                  {
-                        "name": "i",
-                        "index": 5,
-                        "color": "emerald"
-                  }
-            ],
-            "highlights": [
-                  {
-                        "index": 5,
-                        "state": "match"
-                  }
-            ],
-            "label": "Input String"
-      },
-      "stack": {
-            "items": [],
-            "topIndex": -1,
-            "action": "pop",
-            "activeItem": "{",
-            "label": "Bracket Stack (LIFO)"
-      }
-});
-
-    builder.step({
-      "title": "Validation Successful: Valid Parentheses!",
-      "description": "All opening brackets were matched and popped in proper order. Stack is completely empty!",
-      "codeLine": "return stack.isEmpty(); // true",
-      "variables": {
-            "result": "Valid (true)",
-            "stackSize": 0
-      },
-      "array": {
-            "values": [
-                  "(",
-                  ")",
-                  "[",
-                  "]",
-                  "{",
-                  "}"
-            ],
-            "pointers": [],
-            "highlights": [
-                  {
-                        "index": 0,
-                        "state": "found"
-                  },
-                  {
-                        "index": 1,
-                        "state": "found"
-                  },
-                  {
-                        "index": 2,
-                        "state": "found"
-                  },
-                  {
-                        "index": 3,
-                        "state": "found"
-                  },
-                  {
-                        "index": 4,
-                        "state": "found"
-                  },
-                  {
-                        "index": 5,
-                        "state": "found"
-                  }
-            ],
-            "label": "Input String (Valid)"
-      },
-      "stack": {
-            "items": [],
-            "label": "Bracket Stack (Empty)"
-      }
-});
+    if (isValid && stack.length > 0) {
+      builder.step({
+        title: 'Unmatched Opening Brackets Remaining',
+        description: `Stack still contains ${stack.length} unmatched bracket(s). Sequence is invalid.`,
+        codeLine: 'return stack.isEmpty();',
+        variables: { valid: false, remaining: stack.length },
+        array: {
+          values: [...chars],
+          label: 'brackets[]',
+        },
+        stack: {
+          items: [...stack],
+          label: 'Stack (LIFO)',
+        },
+      });
+    } else if (isValid) {
+      builder.step({
+        title: 'Validation Successful: Valid Brackets!',
+        description: `All brackets properly opened and closed. Stack is empty. Valid sequence!`,
+        codeLine: 'return stack.isEmpty();',
+        variables: { valid: true },
+        array: {
+          values: [...chars],
+          highlights: chars.map((_, idx) => ({ index: idx, state: 'match' })),
+          label: 'brackets[] (Valid)',
+        },
+        stack: {
+          items: [],
+          label: 'Stack (LIFO)',
+        },
+      });
+    }
 
     return builder.build();
   },

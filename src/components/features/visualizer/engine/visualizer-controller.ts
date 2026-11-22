@@ -308,8 +308,27 @@ export class VisualizerController {
       }
 
       const mod = (await moduleLoader()) as any;
-      const algoDef = mod.default || mod[Object.keys(mod)[0]];
-      const newSteps: ExecutionStep[] = algoDef.generateSteps(parsedInputs);
+      let algoDef = mod.default;
+      if (!algoDef || typeof algoDef.generateSteps !== 'function') {
+        algoDef =
+          Object.values(mod).find((val: any) => val && typeof val.generateSteps === 'function') ||
+          algoDef ||
+          mod[Object.keys(mod)[0]];
+      }
+
+      if (!algoDef || typeof algoDef.generateSteps !== 'function') {
+        throw new Error(
+          `Algorithm definition in '${targetId}.ts' does not export a valid generateSteps function.`
+        );
+      }
+
+      const mergedInputs = {
+        ...(this.meta?.defaultInputs || {}),
+        ...(algoDef.defaultInputs || {}),
+        ...parsedInputs,
+      };
+
+      const newSteps: ExecutionStep[] = algoDef.generateSteps(mergedInputs);
 
       if (!newSteps || newSteps.length === 0) {
         throw new Error('Algorithm generated no steps for the given inputs.');
